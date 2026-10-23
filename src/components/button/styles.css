@@ -1,0 +1,201 @@
+/* 所有样式值只消费 Button 的局部 tokens。 */
+.bk-button {
+  display: var(--button-display);
+  position: var(--button-position);
+  box-sizing: var(--button-box-sizing);
+  align-items: var(--button-align);
+  justify-content: var(--button-align);
+  vertical-align: var(--button-vertical-align);
+  margin: var(--button-margin);
+  width: var(--button-width);
+  min-height: var(--button-height);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  font-weight: var(--button-font-weight);
+  line-height: var(--button-line-height);
+  color: var(--button-color);
+  background-color: var(--button-bg);
+  border: var(--button-border-width) var(--button-border-style) var(--button-border-color);
+  border-radius: var(--button-border-radius);
+  text-decoration: var(--button-text-decoration);
+  white-space: var(--button-white-space);
+  user-select: var(--button-user-select);
+  appearance: var(--button-appearance);
+  cursor: var(--button-cursor);
+  transition: var(--button-transition);
+}
+
+@media (hover: hover) {
+  .bk-button:where(:not([data-disabled])):hover {
+    color: var(--button-hover-color);
+    background-color: var(--button-hover-bg);
+    border-color: var(--button-hover-border-color);
+  }
+}
+
+.bk-button:where(:not([data-disabled])):active {
+  color: var(--button-active-color);
+  background-color: var(--button-active-bg);
+  border-color: var(--button-active-border-color);
+}
+
+.bk-button:focus-visible {
+  outline: var(--button-focus-ring-width) var(--button-focus-ring-style) var(--button-focus-ring-color);
+  outline-offset: var(--button-focus-ring-offset);
+}
+
+.bk-button[data-disabled] {
+  color: var(--button-disabled-color);
+  background-color: var(--button-disabled-bg);
+  border-color: var(--button-disabled-border-color);
+  opacity: var(--button-disabled-opacity);
+  cursor: var(--button-disabled-cursor);
+}
+
+.bk-button[data-loading] {
+  opacity: var(--button-loading-opacity);
+}
+
+.bk-button[data-block] {
+  width: var(--button-block-width);
+}
+
+.bk-button[data-round] {
+  border-radius: var(--button-round-border-radius);
+}
+
+.bk-button__content,
+.bk-button__icon {
+  display: var(--button-display);
+  align-items: var(--button-align);
+  justify-content: var(--button-align);
+}
+
+.bk-button__sr-only {
+  position: var(--button-sr-position);
+  width: var(--button-sr-size);
+  height: var(--button-sr-size);
+  padding: var(--button-sr-padding);
+  margin: var(--button-sr-margin);
+  overflow: var(--button-sr-overflow);
+  clip-path: var(--button-sr-clip-path);
+  white-space: var(--button-sr-white-space);
+  border: var(--button-sr-border);
+}
+
+.bk-button__content {
+  gap: var(--button-content-gap);
+}
+
+/* 保留前置槽位，以已知的图标宽度过渡，避免 auto 宽度测量和异步卸载。 */
+.bk-button__leading {
+  display: var(--button-leading-display);
+  flex-shrink: var(--button-flex-shrink);
+  width: var(--button-leading-closed-width);
+  margin-inline-end: var(--button-leading-closed-gap);
+  opacity: var(--button-leading-closed-opacity);
+  overflow: var(--button-leading-overflow);
+  transition: var(--button-leading-transition);
+}
+
+.bk-button__leading[data-visible] {
+  width: var(--button-icon-size);
+  opacity: var(--button-leading-open-opacity);
+}
+
+.bk-button__leading[data-visible][data-spacing] {
+  margin-inline-end: var(--button-gap);
+}
+
+.bk-button__leading-inner {
+  display: var(--button-leading-display);
+  align-items: var(--button-align);
+  flex-shrink: var(--button-flex-shrink);
+  width: var(--button-icon-size);
+}
+
+.bk-button__suffix[data-spacing] {
+  margin-inline-start: var(--button-gap);
+}
+
+.bk-button__icon,
+.bk-button__loading {
+  flex-shrink: var(--button-flex-shrink);
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+}
+
+.bk-button__icon > svg {
+  display: var(--button-icon-display);
+  width: var(--button-icon-fill-size);
+  height: var(--button-icon-fill-size);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bk-button,
+  .bk-button__leading {
+    transition: var(--button-reduced-motion-transition);
+  }
+}
+
+/* 断点回退在 tokens.css 中逐级定义，此处只切换当前尺寸。 */
+@media (min-width: 40rem) {
+  .bk-button {
+    --button-height: var(--button-sm-height);
+    --button-padding-x: var(--button-sm-padding-x);
+    --button-padding-y: var(--button-sm-padding-y);
+    --button-font-size: var(--button-sm-font-size);
+    --button-line-height: var(--button-sm-line-height);
+    --button-gap: var(--button-sm-gap);
+    --button-icon-size: var(--button-sm-icon-size);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bk-button {
+    --button-height: var(--button-md-height);
+    --button-padding-x: var(--button-md-padding-x);
+    --button-padding-y: var(--button-md-padding-y);
+    --button-font-size: var(--button-md-font-size);
+    --button-line-height: var(--button-md-line-height);
+    --button-gap: var(--button-md-gap);
+    --button-icon-size: var(--button-md-icon-size);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bk-button {
+    --button-height: var(--button-lg-height);
+    --button-padding-x: var(--button-lg-padding-x);
+    --button-padding-y: var(--button-lg-padding-y);
+    --button-font-size: var(--button-lg-font-size);
+    --button-line-height: var(--button-lg-line-height);
+    --button-gap: var(--button-lg-gap);
+    --button-icon-size: var(--button-lg-icon-size);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bk-button {
+    --button-height: var(--button-xl-height);
+    --button-padding-x: var(--button-xl-padding-x);
+    --button-padding-y: var(--button-xl-padding-y);
+    --button-font-size: var(--button-xl-font-size);
+    --button-line-height: var(--button-xl-line-height);
+    --button-gap: var(--button-xl-gap);
+    --button-icon-size: var(--button-xl-icon-size);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bk-button {
+    --button-height: var(--button-2xl-height);
+    --button-padding-x: var(--button-2xl-padding-x);
+    --button-padding-y: var(--button-2xl-padding-y);
+    --button-font-size: var(--button-2xl-font-size);
+    --button-line-height: var(--button-2xl-line-height);
+    --button-gap: var(--button-2xl-gap);
+    --button-icon-size: var(--button-2xl-icon-size);
+  }
+}

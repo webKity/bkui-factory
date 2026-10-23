@@ -1,0 +1,23 @@
+<style>
+  /* 侧栏内容容器默认有 16px 顶部内边距，使用结构选择器避免依赖生成类名。 */
+  .sidebar-container div:has(> div > .sidebar-header) {
+    padding-top: 0;
+  }
+
+  /* 隐藏侧栏分组的批量展开 / 折叠按钮。 */
+  .sidebar-subheading-action[data-action='expand-all'] {
+    display: none;
+  }
+
+  /* 文档站点不展示创建 story 的入口。 */
+  button[aria-label='Create a new story'] {
+    display: none;
+  }
+
+  /* 同时覆盖未选择和已选择标签时的筛选按钮。 */
+  button[aria-label='Tag filters'],
+  button[aria-label$=' active tag filter'],
+  button[aria-label$=' active tag filters'] {
+    display: none;
+  }
+</style>

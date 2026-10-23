@@ -1,0 +1,935 @@
+{
+  "surface": {
+    "page": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#FFFFFF"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-50；Dark: Primitives / 基础色板 · neutral-900",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:3",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2f571d844d9b9e17adac081b7b6ca6e399de8f11/4:233",
+          "targetVariableName": "neutral-50",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "container": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#FFFFFF"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-50；Dark: Primitives / 基础色板 · neutral-800",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:4",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2f571d844d9b9e17adac081b7b6ca6e399de8f11/4:233",
+          "targetVariableName": "neutral-50",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "elevated": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#FFFFFF"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-50；Dark: Primitives / 基础色板 · neutral-700",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:5",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2f571d844d9b9e17adac081b7b6ca6e399de8f11/4:233",
+          "targetVariableName": "neutral-50",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    }
+  },
+  "fill": {
+    "subtle": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9725490212440491,
+          0.9803921580314636,
+          0.9882352948188782
+        ],
+        "alpha": 1,
+        "hex": "#F8FAFC"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-100；Dark: Primitives / 基础色板 · neutral-800",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:6",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:66af60a771599fb39ac5bbcb5013762ef2bdb459/4:234",
+          "targetVariableName": "neutral-100",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "default": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9450980424880981,
+          0.9607843160629272,
+          0.9764705896377563
+        ],
+        "alpha": 1,
+        "hex": "#F1F5F9"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-200；Dark: Primitives / 基础色板 · neutral-700",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:7",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:1cffded167f38f3c793471bc2456c167cc2e62b2/4:235",
+          "targetVariableName": "neutral-200",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "hover": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.886274516582489,
+          0.9098039269447327,
+          0.9411764740943909
+        ],
+        "alpha": 1,
+        "hex": "#E2E8F0"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-300；Dark: Primitives / 基础色板 · neutral-600",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:8",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2e222426471e98878e9894e2bd2acec3311c8999/4:236",
+          "targetVariableName": "neutral-300",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "active": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#FFFFFF"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-50；Dark: Primitives / 基础色板 · neutral-700",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:9",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2f571d844d9b9e17adac081b7b6ca6e399de8f11/4:233",
+          "targetVariableName": "neutral-50",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "disabled": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9725490212440491,
+          0.9803921580314636,
+          0.9882352948188782
+        ],
+        "alpha": 1,
+        "hex": "#F8FAFC"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-100；Dark: Primitives / 基础色板 · neutral-800",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:10",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:66af60a771599fb39ac5bbcb5013762ef2bdb459/4:234",
+          "targetVariableName": "neutral-100",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "selected": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.23529411852359772,
+          0.23529411852359772,
+          0.9254902005195618
+        ],
+        "alpha": 1,
+        "hex": "#3C3CEC"
+      },
+      "$description": "Light: Primitives / 基础色板 · blue-500；Dark: Primitives / 基础色板 · blue-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:353:6",
+        "com.figma.scopes": [
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2cf6cbd2d300acf6342dd8b29c8e7c35ef99a0fb/4:188",
+          "targetVariableName": "blue-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    }
+  },
+  "border": {
+    "default": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.886274516582489,
+          0.9098039269447327,
+          0.9411764740943909
+        ],
+        "alpha": 1,
+        "hex": "#E2E8F0"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-300；Dark: Primitives / 基础色板 · neutral-600",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:11",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2e222426471e98878e9894e2bd2acec3311c8999/4:236",
+          "targetVariableName": "neutral-300",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "subtle": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9450980424880981,
+          0.9607843160629272,
+          0.9764705896377563
+        ],
+        "alpha": 1,
+        "hex": "#F1F5F9"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-200；Dark: Primitives / 基础色板 · neutral-700",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:12",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:1cffded167f38f3c793471bc2456c167cc2e62b2/4:235",
+          "targetVariableName": "neutral-200",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "strong": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7960784435272217,
+          0.8352941274642944,
+          0.8823529481887817
+        ],
+        "alpha": 1,
+        "hex": "#CBD5E1"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-400；Dark: Primitives / 基础色板 · neutral-500",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:13",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:bf2461bf7fa3ba03a7c1f7ba6d155fb72209c966/4:237",
+          "targetVariableName": "neutral-400",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "focus": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.23529411852359772,
+          0.23529411852359772,
+          0.9254902005195618
+        ],
+        "alpha": 1,
+        "hex": "#3C3CEC"
+      },
+      "$description": "Light: Primitives / 基础色板 · blue-500；Dark: Primitives / 基础色板 · blue-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:14",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2cf6cbd2d300acf6342dd8b29c8e7c35ef99a0fb/4:188",
+          "targetVariableName": "blue-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "disabled": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9725490212440491,
+          0.9803921580314636,
+          0.9882352948188782
+        ],
+        "alpha": 1,
+        "hex": "#F8FAFC"
+      },
+      "$description": "Light: Primitives / 基础色板 · neutral-100；Dark: Primitives / 基础色板 · neutral-800",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:15",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:66af60a771599fb39ac5bbcb5013762ef2bdb459/4:234",
+          "targetVariableName": "neutral-100",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    }
+  },
+  "text": {
+    "primary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "alpha": 1,
+        "hex": "#000000"
+      },
+      "$description": "Light: Primitives / 基础色板 · text-900；Dark: Primitives / 基础色板 · text-50",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:16",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:7f674231a4790e7102de100f5392c91354cfef82/4:232",
+          "targetVariableName": "text-900",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "body": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.250980406999588,
+          0.250980406999588,
+          0.250980406999588
+        ],
+        "alpha": 1,
+        "hex": "#404040"
+      },
+      "$description": "Light: Primitives / 基础色板 · text-700；Dark: Primitives / 基础色板 · text-100",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:17",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:a7f06d1f956abe9c91ddacda75320fb892c96816/4:230",
+          "targetVariableName": "text-700",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.32156863808631897,
+          0.32156863808631897,
+          0.32156863808631897
+        ],
+        "alpha": 1,
+        "hex": "#525252"
+      },
+      "$description": "Light: Primitives / 基础色板 · text-600；Dark: Primitives / 基础色板 · text-200",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:18",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:dda0185c1d7f695eea92173698e93342f0b81d49/4:229",
+          "targetVariableName": "text-600",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "tertiary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.45098039507865906,
+          0.45098039507865906,
+          0.45098039507865906
+        ],
+        "alpha": 1,
+        "hex": "#737373"
+      },
+      "$description": "Light: Primitives / 基础色板 · text-500；Dark: Primitives / 基础色板 · text-300",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:19",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:14f375aa84c487f4964e85e4714da0949e028859/4:228",
+          "targetVariableName": "text-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "disabled": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6392157077789307,
+          0.6392157077789307,
+          0.6392157077789307
+        ],
+        "alpha": 1,
+        "hex": "#A3A3A3"
+      },
+      "$description": "Light: Primitives / 基础色板 · text-400；Dark: Primitives / 基础色板 · text-500",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:20",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:9464c6ab0c5f7727ab267339a9924e60512db969/4:227",
+          "targetVariableName": "text-400",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "brand": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.23529411852359772,
+          0.23529411852359772,
+          0.9254902005195618
+        ],
+        "alpha": 1,
+        "hex": "#3C3CEC"
+      },
+      "$description": "Light: Primitives / 基础色板 · blue-500；Dark: Primitives / 基础色板 · blue-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:22",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2cf6cbd2d300acf6342dd8b29c8e7c35ef99a0fb/4:188",
+          "targetVariableName": "blue-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "inverse": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#FFFFFF"
+      },
+      "$description": "Light / Dark：Primitives / 基础色板 · text-50",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:23",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:958a778bf9b36e9778e5140bb506100bfe11fb8b/4:223",
+          "targetVariableName": "text-50",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    }
+  },
+  "action": {
+    "link": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.23529411852359772,
+          0.23529411852359772,
+          0.9254902005195618
+        ],
+        "alpha": 1,
+        "hex": "#3C3CEC"
+      },
+      "$description": "Light: Primitives / 基础色板 · blue-500；Dark: Primitives / 基础色板 · blue-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:21",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2cf6cbd2d300acf6342dd8b29c8e7c35ef99a0fb/4:188",
+          "targetVariableName": "blue-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "primary": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.23529411852359772,
+          0.23529411852359772,
+          0.9254902005195618
+        ],
+        "alpha": 1,
+        "hex": "#3C3CEC"
+      },
+      "$description": "Light: Primitives / 基础色板 · blue-500；Dark: Primitives / 基础色板 · blue-500",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:24",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2cf6cbd2d300acf6342dd8b29c8e7c35ef99a0fb/4:188",
+          "targetVariableName": "blue-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "primary-hover": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1882352977991104,
+          0.1882352977991104,
+          0.7803921699523926
+        ],
+        "alpha": 1,
+        "hex": "#3030C7"
+      },
+      "$description": "Light: Primitives / 基础色板 · blue-600；Dark: Primitives / 基础色板 · blue-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:25",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:82b8c7e11e9c5da6785c1fa9f9540f0aeb78aae5/4:189",
+          "targetVariableName": "blue-600",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "primary-active": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.14509804546833038,
+          0.14509804546833038,
+          0.6235294342041016
+        ],
+        "alpha": 1,
+        "hex": "#25259F"
+      },
+      "$description": "Light: Primitives / 基础色板 · blue-700；Dark: Primitives / 基础色板 · blue-600",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:26",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:eb4f822b01ee8042a76fd9256f9f15fa1f364476/4:190",
+          "targetVariableName": "blue-700",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "primary-content": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          1,
+          1
+        ],
+        "alpha": 1,
+        "hex": "#FFFFFF"
+      },
+      "$description": "Light: Primitives / 基础色板 · text-50；Dark: Primitives / 基础色板 · text-50",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:353:7",
+        "com.figma.scopes": [
+          "TEXT_FILL"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:958a778bf9b36e9778e5140bb506100bfe11fb8b/4:223",
+          "targetVariableName": "text-50",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    }
+  },
+  "feedback": {
+    "success": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.08627451211214066,
+          0.7803921699523926,
+          0.5137255191802979
+        ],
+        "alpha": 1,
+        "hex": "#16C783"
+      },
+      "$description": "Light: Primitives / 基础色板 · green-500；Dark: Primitives / 基础色板 · green-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:27",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:1ae97af66873e5fc850d10c4911a12973617dce2/4:218",
+          "targetVariableName": "green-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "warning": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1,
+          0.48627451062202454,
+          0.14509804546833038
+        ],
+        "alpha": 1,
+        "hex": "#FF7C25"
+      },
+      "$description": "Light: Primitives / 基础色板 · yellow-500；Dark: Primitives / 基础色板 · yellow-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:28",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:67795458edb455e9f534c007962b7bd1293064c1/4:208",
+          "targetVariableName": "yellow-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "error": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9176470637321472,
+          0.2235294133424759,
+          0.26274511218070984
+        ],
+        "alpha": 1,
+        "hex": "#EA3943"
+      },
+      "$description": "Light: Primitives / 基础色板 · red-500；Dark: Primitives / 基础色板 · red-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:29",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:f9d47f93fa6e64958418aaefd705b4bfbef42e4c/4:198",
+          "targetVariableName": "red-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "info": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.23529411852359772,
+          0.23529411852359772,
+          0.9254902005195618
+        ],
+        "alpha": 1,
+        "hex": "#3C3CEC"
+      },
+      "$description": "Light: Primitives / 基础色板 · blue-500；Dark: Primitives / 基础色板 · blue-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:30",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:2cf6cbd2d300acf6342dd8b29c8e7c35ef99a0fb/4:188",
+          "targetVariableName": "blue-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    }
+  },
+  "trading": {
+    "up": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.08627451211214066,
+          0.7803921699523926,
+          0.5137255191802979
+        ],
+        "alpha": 1,
+        "hex": "#16C783"
+      },
+      "$description": "Light: Primitives / 基础色板 · green-500；Dark: Primitives / 基础色板 · green-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:31",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:1ae97af66873e5fc850d10c4911a12973617dce2/4:218",
+          "targetVariableName": "green-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "down": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9176470637321472,
+          0.2235294133424759,
+          0.26274511218070984
+        ],
+        "alpha": 1,
+        "hex": "#EA3943"
+      },
+      "$description": "Light: Primitives / 基础色板 · red-500；Dark: Primitives / 基础色板 · red-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:149:32",
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:f9d47f93fa6e64958418aaefd705b4bfbef42e4c/4:198",
+          "targetVariableName": "red-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "buy": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.08627451211214066,
+          0.7803921699523926,
+          0.5137255191802979
+        ],
+        "alpha": 1,
+        "hex": "#16C783"
+      },
+      "$description": "Light: Primitives / 基础色板 · green-500；Dark: Primitives / 基础色板 · green-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:353:8",
+        "com.figma.scopes": [
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:1ae97af66873e5fc850d10c4911a12973617dce2/4:218",
+          "targetVariableName": "green-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    },
+    "sell": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9176470637321472,
+          0.2235294133424759,
+          0.26274511218070984
+        ],
+        "alpha": 1,
+        "hex": "#EA3943"
+      },
+      "$description": "Light: Primitives / 基础色板 · red-500；Dark: Primitives / 基础色板 · red-400",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:353:9",
+        "com.figma.scopes": [
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:f9d47f93fa6e64958418aaefd705b4bfbef42e4c/4:198",
+          "targetVariableName": "red-500",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    }
+  },
+  "overlay": {
+    "mask": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0,
+          0,
+          0
+        ],
+        "alpha": 1,
+        "hex": "#000000"
+      },
+      "$description": "Light: Primitives / 基础色板 · text-900；Dark: Primitives / 基础色板 · text-900",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:353:10",
+        "com.figma.scopes": [
+          "FRAME_FILL",
+          "SHAPE_FILL"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:7f674231a4790e7102de100f5392c91354cfef82/4:232",
+          "targetVariableName": "text-900",
+          "targetVariableSetId": "VariableCollectionId:81f493ceea333c0e44d9f38201cb7b99efc8f85f/4:182",
+          "targetVariableSetName": "Primitives / 基础色板"
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "com.figma.modeName": "Light / 浅色"
+  }
+}

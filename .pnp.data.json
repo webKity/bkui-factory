@@ -1,0 +1,10 @@
+{
+  "__info": [
+    "This project uses node_modules. Keep esbuild from inheriting an unrelated ancestor PnP manifest."
+  ],
+  "ignorePatternData": ".*",
+  "enableTopLevelFallback": false,
+  "fallbackExclusionList": [],
+  "fallbackPool": [],
+  "packageRegistryData": []
+}

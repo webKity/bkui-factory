@@ -1,0 +1,236 @@
+/* Button 局部组件 tokens：结构参考 Bootstrap 的 btn-* 变量。
+ * 此文件是 semantic → component 的唯一映射入口，可用业务 class 覆盖 --button-*。
+ * styles.css 仅消费 --button-*，不直接依赖主题、色板或其他组件。
+ */
+.bk-button {
+  --button-display: inline-flex;
+  --button-align: center;
+  --button-position: relative;
+  --button-box-sizing: border-box;
+  --button-margin: 0;
+  --button-width: auto;
+  --button-block-width: 100%;
+  --button-vertical-align: middle;
+  --button-user-select: none;
+  --button-white-space: nowrap;
+  --button-text-decoration: none;
+  --button-appearance: none;
+  --button-flex-shrink: 0;
+  --button-sr-position: absolute;
+  --button-sr-size: 1px;
+  --button-sr-padding: 0;
+  --button-sr-margin: -1px;
+  --button-sr-overflow: hidden;
+  --button-sr-clip-path: inset(50%);
+  --button-sr-white-space: nowrap;
+  --button-sr-border: 0;
+  --button-icon-display: block;
+  --button-icon-fill-size: 100%;
+  --button-cursor: pointer;
+  --button-disabled-cursor: not-allowed;
+
+  --button-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --button-font-weight: 500;
+  --button-border-width: 1px;
+  --button-border-style: solid;
+  --button-border-radius: var(--radius-scale-md);
+  --button-round-border-radius: var(--radius-scale-full);
+  --button-focus-ring-color: var(--color-border-focus);
+  --button-focus-ring-width: 3px;
+  --button-focus-ring-style: solid;
+  --button-focus-ring-offset: 2px;
+  --button-transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  --button-reduced-motion-transition: none;
+  --button-content-gap: 0px;
+  --button-leading-display: inline-flex;
+  --button-leading-closed-width: 0px;
+  --button-leading-closed-gap: 0px;
+  --button-leading-closed-opacity: 0;
+  --button-leading-open-opacity: 1;
+  --button-leading-overflow: hidden;
+  --button-loading-duration: 200ms;
+  --button-loading-easing: ease;
+  --button-leading-transition: width var(--button-loading-duration) var(--button-loading-easing), margin-inline-end var(--button-loading-duration) var(--button-loading-easing), opacity var(--button-loading-duration) var(--button-loading-easing);
+
+  /* 默认 normal intent；其余 intent 只映射已有语义颜色，不派生新颜色。 */
+  --button-tone-color: var(--color-text-primary);
+  --button-tone-bg: var(--color-fill-default);
+  --button-tone-border-color: var(--color-border-default);
+  --button-tone-hover-bg: var(--color-fill-hover);
+  --button-tone-active-bg: var(--color-fill-active);
+  --button-tone-outline-color: var(--color-text-body);
+  --button-transparent: transparent;
+  --button-color: var(--button-tone-color);
+  --button-bg: var(--button-tone-bg);
+  --button-border-color: var(--button-tone-border-color);
+  --button-hover-color: var(--button-tone-color);
+  --button-hover-bg: var(--button-tone-hover-bg);
+  --button-hover-border-color: var(--button-tone-hover-bg);
+  --button-active-color: var(--button-tone-color);
+  --button-active-bg: var(--button-tone-active-bg);
+  --button-active-border-color: var(--button-tone-active-bg);
+  --button-disabled-color: var(--color-text-disabled);
+  --button-disabled-bg: var(--color-fill-disabled);
+  --button-disabled-border-color: var(--color-border-disabled);
+  --button-disabled-opacity: 1;
+  --button-loading-opacity: 0.65;
+
+  /* 尺寸契约：所有变体及媒体查询共用。 */
+  --button-size-2xs-height: 24px;
+  --button-size-2xs-padding-x: 8px;
+  --button-size-2xs-padding-y: 1px;
+  --button-size-2xs-font-size: var(--text-2xs-size);
+  --button-size-2xs-line-height: var(--text-2xs-line-height);
+  --button-size-2xs-gap: 3px;
+  --button-size-2xs-icon-size: 12px;
+
+  --button-size-xs-height: 28px;
+  --button-size-xs-padding-x: 10px;
+  --button-size-xs-padding-y: 3px;
+  --button-size-xs-font-size: var(--text-xs-size);
+  --button-size-xs-line-height: var(--text-xs-line-height);
+  --button-size-xs-gap: 4px;
+  --button-size-xs-icon-size: 14px;
+
+  --button-size-sm-height: 32px;
+  --button-size-sm-padding-x: 12px;
+  --button-size-sm-padding-y: 4px;
+  --button-size-sm-font-size: var(--text-sm-size);
+  --button-size-sm-line-height: var(--text-sm-line-height);
+  --button-size-sm-gap: 4px;
+  --button-size-sm-icon-size: 16px;
+
+  --button-size-base-height: 40px;
+  --button-size-base-padding-x: 16px;
+  --button-size-base-padding-y: 7px;
+  --button-size-base-font-size: var(--text-base-size);
+  --button-size-base-line-height: var(--text-base-line-height);
+  --button-size-base-gap: 5px;
+  --button-size-base-icon-size: 18px;
+
+  --button-size-lg-height: 44px;
+  --button-size-lg-padding-x: 20px;
+  --button-size-lg-padding-y: 8px;
+  --button-size-lg-font-size: var(--text-lg-size);
+  --button-size-lg-line-height: var(--text-lg-line-height);
+  --button-size-lg-gap: 6px;
+  --button-size-lg-icon-size: 20px;
+
+  --button-size-xl-height: 48px;
+  --button-size-xl-padding-x: 24px;
+  --button-size-xl-padding-y: 9px;
+  --button-size-xl-font-size: var(--text-xl-size);
+  --button-size-xl-line-height: var(--text-xl-line-height);
+  --button-size-xl-gap: 6px;
+  --button-size-xl-icon-size: 22px;
+
+  --button-size-2xl-height: 56px;
+  --button-size-2xl-padding-x: 28px;
+  --button-size-2xl-padding-y: 12px;
+  --button-size-2xl-font-size: var(--text-2xl-size);
+  --button-size-2xl-line-height: var(--text-2xl-line-height);
+  --button-size-2xl-gap: 8px;
+  --button-size-2xl-icon-size: 24px;
+
+  /* 缺失的响应式尺寸逐级回退；每个按钮自行定义，避免继承父元素的断点值。 */
+  --button-sm-height: var(--button-base-height, var(--button-size-base-height));
+  --button-sm-padding-x: var(--button-base-padding-x, var(--button-size-base-padding-x));
+  --button-sm-padding-y: var(--button-base-padding-y, var(--button-size-base-padding-y));
+  --button-sm-font-size: var(--button-base-font-size, var(--button-size-base-font-size));
+  --button-sm-line-height: var(--button-base-line-height, var(--button-size-base-line-height));
+  --button-sm-gap: var(--button-base-gap, var(--button-size-base-gap));
+  --button-sm-icon-size: var(--button-base-icon-size, var(--button-size-base-icon-size));
+  --button-md-height: var(--button-sm-height);
+  --button-md-padding-x: var(--button-sm-padding-x);
+  --button-md-padding-y: var(--button-sm-padding-y);
+  --button-md-font-size: var(--button-sm-font-size);
+  --button-md-line-height: var(--button-sm-line-height);
+  --button-md-gap: var(--button-sm-gap);
+  --button-md-icon-size: var(--button-sm-icon-size);
+  --button-lg-height: var(--button-md-height);
+  --button-lg-padding-x: var(--button-md-padding-x);
+  --button-lg-padding-y: var(--button-md-padding-y);
+  --button-lg-font-size: var(--button-md-font-size);
+  --button-lg-line-height: var(--button-md-line-height);
+  --button-lg-gap: var(--button-md-gap);
+  --button-lg-icon-size: var(--button-md-icon-size);
+  --button-xl-height: var(--button-lg-height);
+  --button-xl-padding-x: var(--button-lg-padding-x);
+  --button-xl-padding-y: var(--button-lg-padding-y);
+  --button-xl-font-size: var(--button-lg-font-size);
+  --button-xl-line-height: var(--button-lg-line-height);
+  --button-xl-gap: var(--button-lg-gap);
+  --button-xl-icon-size: var(--button-lg-icon-size);
+  --button-2xl-height: var(--button-xl-height);
+  --button-2xl-padding-x: var(--button-xl-padding-x);
+  --button-2xl-padding-y: var(--button-xl-padding-y);
+  --button-2xl-font-size: var(--button-xl-font-size);
+  --button-2xl-line-height: var(--button-xl-line-height);
+  --button-2xl-gap: var(--button-xl-gap);
+  --button-2xl-icon-size: var(--button-xl-icon-size);
+
+  --button-height: var(--button-base-height, var(--button-size-base-height));
+  --button-padding-x: var(--button-base-padding-x, var(--button-size-base-padding-x));
+  --button-padding-y: var(--button-base-padding-y, var(--button-size-base-padding-y));
+  --button-font-size: var(--button-base-font-size, var(--button-size-base-font-size));
+  --button-line-height: var(--button-base-line-height, var(--button-size-base-line-height));
+  --button-gap: var(--button-base-gap, var(--button-size-base-gap));
+  --button-icon-size: var(--button-base-icon-size, var(--button-size-base-icon-size));
+}
+
+.bk-button:where([data-intent='info']) {
+  --button-tone-color: var(--color-action-primary-content);
+  --button-tone-bg: var(--color-action-primary);
+  --button-tone-border-color: var(--color-action-primary);
+  --button-tone-hover-bg: var(--color-action-primary-hover);
+  --button-tone-active-bg: var(--color-action-primary-active);
+  --button-tone-outline-color: var(--color-action-link);
+}
+
+.bk-button:where([data-intent='success']) {
+  --button-tone-color: var(--color-action-primary-content);
+  --button-tone-bg: var(--color-feedback-success);
+  --button-tone-border-color: var(--button-tone-bg);
+  --button-tone-hover-bg: var(--button-tone-bg);
+  --button-tone-active-bg: var(--button-tone-bg);
+  --button-tone-outline-color: var(--color-feedback-success);
+}
+
+.bk-button:where([data-intent='warning']) {
+  --button-tone-color: var(--color-action-primary-content);
+  --button-tone-bg: var(--color-feedback-warning);
+  --button-tone-border-color: var(--button-tone-bg);
+  --button-tone-hover-bg: var(--button-tone-bg);
+  --button-tone-active-bg: var(--button-tone-bg);
+  --button-tone-outline-color: var(--color-feedback-warning);
+}
+
+.bk-button:where([data-intent='error']) {
+  --button-tone-color: var(--color-action-primary-content);
+  --button-tone-bg: var(--color-feedback-error);
+  --button-tone-border-color: var(--button-tone-bg);
+  --button-tone-hover-bg: var(--button-tone-bg);
+  --button-tone-active-bg: var(--button-tone-bg);
+  --button-tone-outline-color: var(--color-feedback-error);
+}
+
+.bk-button:where([data-variant='line']),
+.bk-button:where([data-variant='ghost']) {
+  --button-color: var(--button-tone-outline-color);
+  --button-bg: var(--button-transparent);
+  --button-border-color: var(--button-tone-outline-color);
+  --button-hover-color: var(--button-tone-outline-color);
+  --button-hover-bg: var(--color-fill-hover);
+  --button-hover-border-color: var(--button-tone-outline-color);
+  --button-active-color: var(--button-tone-outline-color);
+  --button-active-bg: var(--color-fill-active);
+  --button-active-border-color: var(--button-tone-outline-color);
+  --button-disabled-bg: var(--button-transparent);
+}
+
+.bk-button:where([data-variant='ghost']) {
+  --button-border-color: var(--button-transparent);
+  --button-hover-border-color: var(--button-transparent);
+  --button-active-border-color: var(--button-transparent);
+  --button-disabled-border-color: var(--button-transparent);
+}

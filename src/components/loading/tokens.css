@@ -1,0 +1,59 @@
+/* semantic → component 映射；业务样式可覆盖 --loading-*。 */
+.bk-loading {
+  --loading-display: inline-flex;
+  --loading-align: center;
+  --loading-flex-shrink: 0;
+  --loading-vertical-align: middle;
+  --loading-line-height: 0;
+  --loading-box-sizing: border-box;
+  --loading-color: currentColor;
+  --loading-size-2xs: 14px;
+  --loading-size-xs: 16px;
+  --loading-size-sm: 18px;
+  --loading-size-base: 20px;
+  --loading-size-lg: 22px;
+  --loading-size-xl: 24px;
+  --loading-size-2xl: 28px;
+  --loading-sm-size: var(--loading-base-size, var(--loading-size-base));
+  --loading-md-size: var(--loading-sm-size);
+  --loading-lg-size: var(--loading-md-size);
+  --loading-xl-size: var(--loading-lg-size);
+  --loading-2xl-size: var(--loading-xl-size);
+  --loading-size: var(--loading-base-size, var(--loading-size-base));
+  --loading-aspect-ratio: 1;
+  --loading-width: calc(var(--loading-size) * var(--loading-aspect-ratio));
+  --loading-fill-size: 100%;
+  --loading-duration: 800ms;
+  --loading-spin-animation: bk-loading-spin var(--loading-duration) linear infinite;
+  --loading-spin-start: rotate(0turn);
+  --loading-spin-end: rotate(1turn);
+  --loading-reduced-motion-animation: none;
+
+  --loading-bars-gap: 8%;
+  --loading-bar-width: 12%;
+  --loading-bar-radius: var(--radius-scale-xs);
+  --loading-bar-transform-origin: center;
+  --loading-bar-min-transform: scaleY(0.35);
+  --loading-bar-max-transform: scaleY(1);
+  --loading-bar-animation: bk-loading-bars var(--loading-duration) ease-in-out infinite;
+  --loading-bar-delay-1: calc(var(--loading-duration) * -0.4);
+  --loading-bar-delay-2: calc(var(--loading-duration) * -0.3);
+  --loading-bar-delay-3: calc(var(--loading-duration) * -0.2);
+  --loading-bar-delay-4: calc(var(--loading-duration) * -0.1);
+  --loading-bar-delay-5: 0ms;
+
+  --loading-logo-aspect-ratio: 3.4133333333;
+  --loading-logo-muted-opacity: 0.24;
+  --loading-logo-start-opacity: 1;
+  --loading-logo-end-opacity: 0;
+  --loading-logo-start-width: 0px;
+  --loading-logo-end-width: 1024px;
+  --loading-logo-reveal-animation: bk-loading-logo-reveal var(--loading-duration) ease-out infinite;
+  --loading-logo-fade-animation: bk-loading-logo-fade var(--loading-duration) linear infinite;
+}
+
+.bk-loading:where([data-type='rect']) { --loading-duration: 1000ms; }
+.bk-loading:where([data-type='logo']) {
+  --loading-duration: 3320ms;
+  --loading-aspect-ratio: var(--loading-logo-aspect-ratio);
+}
