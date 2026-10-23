@@ -116,11 +116,11 @@ test('loading 用 Loading 替换前置图标，保留文案、后置图标和焦
   assert.equal(button.textContent, '提交');
   assert.equal(button.querySelector('[data-testid="prefix"]'), null);
   assert(button.querySelector('[data-testid="suffix"]'));
-  assert.equal(button.querySelectorAll('.bk-button__icon').length, 1);
-  assert.equal(button.querySelector('.bk-loading').getAttribute('aria-hidden'), 'true');
-  assert.equal(button.querySelector('.bk-loading').dataset.type, 'normal');
-  assert(button.querySelector('.bk-loading svg path'));
-  assert.equal(button.querySelector('.bk-loading').style.getPropertyValue('--loading-size'), 'var(--button-icon-size)');
+  assert.equal(button.querySelectorAll('.bkreact-button__icon').length, 1);
+  assert.equal(button.querySelector('.bkreact-loading').getAttribute('aria-hidden'), 'true');
+  assert.equal(button.querySelector('.bkreact-loading').dataset.type, 'normal');
+  assert(button.querySelector('.bkreact-loading svg path'));
+  assert.equal(button.querySelector('.bkreact-loading').style.getPropertyValue('--loading-size'), 'var(--button-icon-size)');
   await act(() => button.click());
   assert.equal(clicks, 0);
   assert.equal(parentClicks, 0);
