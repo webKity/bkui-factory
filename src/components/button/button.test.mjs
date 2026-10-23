@@ -76,7 +76,7 @@ async function render(element) {
     root = createRoot(container);
   }
   await act(() => root.render(element));
-  return container.querySelector('.bk-button');
+  return container.querySelector('.bkreact-button');
 }
 
 test('原生按钮默认不提交表单；显式 submit、原生属性和 ref 正常', async () => {
@@ -126,7 +126,7 @@ test('loading 用 Loading 替换前置图标，保留文案、后置图标和焦
   assert.equal(parentClicks, 0);
   button = await render(content(false));
   assert(button.querySelector('[data-testid="prefix"]'));
-  assert.equal(button.querySelector('.bk-loading'), null);
+  assert.equal(button.querySelector('.bkreact-loading'), null);
   await act(() => button.click());
   assert.equal(clicks, 1);
   assert.equal(parentClicks, 1);
@@ -144,22 +144,22 @@ test('无前置图标的按钮和链接在加载切换时保留槽位与文案�
   for (const extra of [{}, { link: '#loading' }]) {
     const view = loading => h(Button, { ...extra, loading }, '提交订单');
     let button = await render(view(false));
-    const leading = button.querySelector('.bk-button__leading');
-    const label = button.querySelector('.bk-button__label');
+    const leading = button.querySelector('.bkreact-button__leading');
+    const label = button.querySelector('.bkreact-button__label');
     assert.equal(leading.hasAttribute('data-visible'), false);
     assert.equal(leading.getAttribute('aria-hidden'), 'true');
     button = await render(view(true));
-    assert.equal(button.querySelector('.bk-button__leading'), leading);
-    assert.equal(button.querySelector('.bk-button__label'), label);
+    assert.equal(button.querySelector('.bkreact-button__leading'), leading);
+    assert.equal(button.querySelector('.bkreact-button__label'), label);
     assert.equal(leading.hasAttribute('data-visible'), true);
     assert.equal(button.textContent, '提交订单');
     button = await render(view(false));
-    assert.equal(button.querySelector('.bk-button__leading'), leading);
+    assert.equal(button.querySelector('.bkreact-button__leading'), leading);
     assert.equal(leading.hasAttribute('data-visible'), false);
-    assert.equal(button.querySelector('.bk-button__label'), label);
+    assert.equal(button.querySelector('.bkreact-button__label'), label);
   }
   const iconOnly = await render(h(Button, { prefixIcon: h('svg'), 'aria-label': '继续' }));
-  assert.equal(iconOnly.querySelector('.bk-button__leading').hasAttribute('data-spacing'), false);
+  assert.equal(iconOnly.querySelector('.bkreact-button__leading').hasAttribute('data-spacing'), false);
 });
 
 test('纯图标 loading 提供隐藏名称，保留显式名称和可见文案', async () => {
@@ -168,19 +168,19 @@ test('纯图标 loading 提供隐藏名称，保留显式名称和可见文案',
     const view = props => h(Button, { link, loading: true, prefixIcon: h('svg'), ...props });
     let button = await render(view({}));
     await expect(button).toHaveAccessibleName('加载中');
-    assert.equal(button.querySelector('.bk-button__sr-only').hasAttribute('aria-hidden'), false);
+    assert.equal(button.querySelector('.bkreact-button__sr-only').hasAttribute('aria-hidden'), false);
     button = await render(view({ 'aria-label': '保存' }));
     await expect(button).toHaveAccessibleName('保存');
-    assert.equal(button.querySelector('.bk-button__sr-only'), null);
+    assert.equal(button.querySelector('.bkreact-button__sr-only'), null);
     await render(h('div', null, h('span', { id: 'button-name' }, '上传'), view({ 'aria-labelledby': 'button-name' })));
-    button = container.querySelector('.bk-button');
+    button = container.querySelector('.bkreact-button');
     await expect(button).toHaveAccessibleName('上传');
-    assert.equal(button.querySelector('.bk-button__sr-only'), null);
+    assert.equal(button.querySelector('.bkreact-button__sr-only'), null);
     button = await render(view({ children: '提交' }));
     await expect(button).toHaveAccessibleName('提交');
-    assert.equal(button.querySelector('.bk-button__sr-only'), null);
+    assert.equal(button.querySelector('.bkreact-button__sr-only'), null);
     button = await render(view({ loading: false }));
-    assert.equal(button.querySelector('.bk-button__sr-only'), null);
+    assert.equal(button.querySelector('.bkreact-button__sr-only'), null);
   }
 });
 
@@ -240,7 +240,7 @@ test('响应式高度在断点边界切换，缺失断点逐级回退', async ()
   const button = await render(h(Button, { size: { sm: 'xs', lg: 'lg', '2xl': '2xl' } }, '响应式'));
   for (const [width, expected] of [[0, '40px'], [639, '40px'], [640, '28px'], [767, '28px'], [768, '28px'], [1023, '28px'], [1024, '44px'], [1280, '44px'], [1535, '44px'], [1536, '56px']]) {
     const values = new Map();
-    tokens.walkRules('.bk-button', rule => rule.walkDecls(decl => values.set(decl.prop, decl.value)));
+    tokens.walkRules('.bkreact-button', rule => rule.walkDecls(decl => values.set(decl.prop, decl.value)));
     styles.walkAtRules('media', media => {
       const minWidth = media.params.match(/^\(min-width: (\d+)rem\)$/);
       if (minWidth && width >= Number(minWidth[1]) * 16) {

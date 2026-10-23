@@ -2,7 +2,7 @@
  * 此文件是 semantic → component 的唯一映射入口，可用业务 class 覆盖 --button-*。
  * styles.css 仅消费 --button-*，不直接依赖主题、色板或其他组件。
  */
-.bk-button {
+.bkreact-button {
   --button-display: inline-flex;
   --button-align: center;
   --button-position: relative;
@@ -178,7 +178,7 @@
   --button-icon-size: var(--button-base-icon-size, var(--button-size-base-icon-size));
 }
 
-.bk-button:where([data-intent='info']) {
+.bkreact-button:where([data-intent='info']) {
   --button-tone-color: var(--color-action-primary-content);
   --button-tone-bg: var(--color-action-primary);
   --button-tone-border-color: var(--color-action-primary);
@@ -187,7 +187,7 @@
   --button-tone-outline-color: var(--color-action-link);
 }
 
-.bk-button:where([data-intent='success']) {
+.bkreact-button:where([data-intent='success']) {
   --button-tone-color: var(--color-action-primary-content);
   --button-tone-bg: var(--color-feedback-success);
   --button-tone-border-color: var(--button-tone-bg);
@@ -196,7 +196,7 @@
   --button-tone-outline-color: var(--color-feedback-success);
 }
 
-.bk-button:where([data-intent='warning']) {
+.bkreact-button:where([data-intent='warning']) {
   --button-tone-color: var(--color-action-primary-content);
   --button-tone-bg: var(--color-feedback-warning);
   --button-tone-border-color: var(--button-tone-bg);
@@ -205,7 +205,7 @@
   --button-tone-outline-color: var(--color-feedback-warning);
 }
 
-.bk-button:where([data-intent='error']) {
+.bkreact-button:where([data-intent='error']) {
   --button-tone-color: var(--color-action-primary-content);
   --button-tone-bg: var(--color-feedback-error);
   --button-tone-border-color: var(--button-tone-bg);
@@ -214,8 +214,8 @@
   --button-tone-outline-color: var(--color-feedback-error);
 }
 
-.bk-button:where([data-variant='line']),
-.bk-button:where([data-variant='ghost']) {
+.bkreact-button:where([data-variant='line']),
+.bkreact-button:where([data-variant='ghost']) {
   --button-color: var(--button-tone-outline-color);
   --button-bg: var(--button-transparent);
   --button-border-color: var(--button-tone-outline-color);
@@ -228,7 +228,7 @@
   --button-disabled-bg: var(--button-transparent);
 }
 
-.bk-button:where([data-variant='ghost']) {
+.bkreact-button:where([data-variant='ghost']) {
   --button-border-color: var(--button-transparent);
   --button-hover-border-color: var(--button-transparent);
   --button-active-border-color: var(--button-transparent);

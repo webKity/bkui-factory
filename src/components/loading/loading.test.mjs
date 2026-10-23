@@ -37,24 +37,24 @@ after(async () => { dom?.window.close(); await rm(temporary, { recursive: true, 
 
 function parse(props) {
   const dom = new JSDOM(renderToStaticMarkup(h(Loading, props)));
-  return dom.window.document.querySelector('.bk-loading');
+  return dom.window.document.querySelector('.bkreact-loading');
 }
 
 test('normal 在 SSR 中立即输出 loader SVG；rect 输出五根柱子；logo 保留两层原始路径', () => {
   const normal = parse({});
   assert.equal(normal.getAttribute('role'), 'status');
   assert.equal(normal.getAttribute('aria-label'), '加载中');
-  assert(normal.querySelector('.bk-icon.animate-spin svg path'));
+  assert(normal.querySelector('.bkreact-icon.animate-spin svg path'));
   assert.equal(normal.querySelector('[data-placeholder]'), null);
   const rect = parse({ type: 'rect' });
-  assert.equal(rect.querySelectorAll('.bk-loading__bar').length, 5);
+  assert.equal(rect.querySelectorAll('.bkreact-loading__bar').length, 5);
   assert.equal(rect.querySelector('svg'), null);
   const logo = parse({ type: 'logo' });
   assert.equal(logo.querySelector('svg').getAttribute('viewBox'), '0 360 1024 300');
-  assert.equal(logo.querySelectorAll('.bk-loading__logo-muted path').length, 4);
+  assert.equal(logo.querySelectorAll('.bkreact-loading__logo-muted path').length, 4);
   assert.deepEqual(
-    [...logo.querySelectorAll('.bk-loading__logo-muted path')].map(p => p.getAttribute('d')),
-    [...logo.querySelectorAll('.bk-loading__logo-overlay path')].map(p => p.getAttribute('d')),
+    [...logo.querySelectorAll('.bkreact-loading__logo-muted path')].map(p => p.getAttribute('d')),
+    [...logo.querySelectorAll('.bkreact-loading__logo-overlay path')].map(p => p.getAttribute('d')),
   );
 });
 
@@ -105,7 +105,7 @@ test('响应式尺寸在断点边界切换，缺少尺寸逐级回退', async ()
   const inline = getSizeStyle({ sm: 'xs', lg: 'lg', '2xl': '2xl' });
   for (const [width, expected] of [[0, '18px'], [639, '18px'], [640, '14px'], [768, '14px'], [1023, '14px'], [1024, '20px'], [1280, '20px'], [1535, '20px'], [1536, '24px']]) {
     const values = new Map();
-    tokens.walkRules('.bk-loading', rule => rule.walkDecls(d => values.set(d.prop, d.value)));
+    tokens.walkRules('.bkreact-loading', rule => rule.walkDecls(d => values.set(d.prop, d.value)));
     styles.walkAtRules('media', media => {
       const match = media.params.match(/^\(min-width: (\d+)rem\)$/);
       if (match && width >= Number(match[1]) * 16) media.walkDecls(d => values.set(d.prop, d.value));

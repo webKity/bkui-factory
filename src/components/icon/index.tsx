@@ -47,7 +47,7 @@ export const BKIcon = (props: IconProps) => {
   return (
     <span
       {...rest}
-      className={joinClassNames('bk-icon', className)}
+      className={joinClassNames('bkreact-icon', className)}
       data-placeholder={!ready ? '' : undefined}
       data-hover-color={hoverColor ? '' : undefined}
       aria-hidden={!ready ? true : rest['aria-hidden']}

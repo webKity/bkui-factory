@@ -28,7 +28,7 @@ export const Loading = forwardRef<HTMLSpanElement, LoadingProps>(function Loadin
     <span
       {...rest}
       ref={ref}
-      className={joinClassNames('bk-loading', className)}
+      className={joinClassNames('bkreact-loading', className)}
       data-type={type}
       data-size={typeof size === 'object' ? 'responsive' : size}
       role={hidden ? undefined : role ?? 'status'}
@@ -38,11 +38,11 @@ export const Loading = forwardRef<HTMLSpanElement, LoadingProps>(function Loadin
       style={loadingStyle}
     >
       {type === 'logo' ? <LogoLoading /> : type === 'rect' ? (
-        <span className="bk-loading__bars" aria-hidden="true">
-          {Array.from({ length: 5 }, (_, index) => <span key={index} className="bk-loading__bar" />)}
+        <span className="bkreact-loading__bars" aria-hidden="true">
+          {Array.from({ length: 5 }, (_, index) => <span key={index} className="bkreact-loading__bar" />)}
         </span>
       ) : (
-        <BKIcon name="loader" size="100%" className="bk-loading__icon animate-spin" renderInServer />
+        <BKIcon name="loader" size="100%" className="bkreact-loading__icon animate-spin" renderInServer />
       )}
     </span>
   );

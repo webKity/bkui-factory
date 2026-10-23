@@ -1,5 +1,5 @@
 /* 所有样式值只消费 Button 的局部 tokens。 */
-.bk-button {
+.bkreact-button {
   display: var(--button-display);
   position: var(--button-position);
   box-sizing: var(--button-box-sizing);
@@ -27,25 +27,25 @@
 }
 
 @media (hover: hover) {
-  .bk-button:where(:not([data-disabled])):hover {
+  .bkreact-button:where(:not([data-disabled])):hover {
     color: var(--button-hover-color);
     background-color: var(--button-hover-bg);
     border-color: var(--button-hover-border-color);
   }
 }
 
-.bk-button:where(:not([data-disabled])):active {
+.bkreact-button:where(:not([data-disabled])):active {
   color: var(--button-active-color);
   background-color: var(--button-active-bg);
   border-color: var(--button-active-border-color);
 }
 
-.bk-button:focus-visible {
+.bkreact-button:focus-visible {
   outline: var(--button-focus-ring-width) var(--button-focus-ring-style) var(--button-focus-ring-color);
   outline-offset: var(--button-focus-ring-offset);
 }
 
-.bk-button[data-disabled] {
+.bkreact-button[data-disabled] {
   color: var(--button-disabled-color);
   background-color: var(--button-disabled-bg);
   border-color: var(--button-disabled-border-color);
@@ -53,26 +53,26 @@
   cursor: var(--button-disabled-cursor);
 }
 
-.bk-button[data-loading] {
+.bkreact-button[data-loading] {
   opacity: var(--button-loading-opacity);
 }
 
-.bk-button[data-block] {
+.bkreact-button[data-block] {
   width: var(--button-block-width);
 }
 
-.bk-button[data-round] {
+.bkreact-button[data-round] {
   border-radius: var(--button-round-border-radius);
 }
 
-.bk-button__content,
-.bk-button__icon {
+.bkreact-button__content,
+.bkreact-button__icon {
   display: var(--button-display);
   align-items: var(--button-align);
   justify-content: var(--button-align);
 }
 
-.bk-button__sr-only {
+.bkreact-button__sr-only {
   position: var(--button-sr-position);
   width: var(--button-sr-size);
   height: var(--button-sr-size);
@@ -84,12 +84,12 @@
   border: var(--button-sr-border);
 }
 
-.bk-button__content {
+.bkreact-button__content {
   gap: var(--button-content-gap);
 }
 
 /* 保留前置槽位，以已知的图标宽度过渡，避免 auto 宽度测量和异步卸载。 */
-.bk-button__leading {
+.bkreact-button__leading {
   display: var(--button-leading-display);
   flex-shrink: var(--button-flex-shrink);
   width: var(--button-leading-closed-width);
@@ -99,49 +99,49 @@
   transition: var(--button-leading-transition);
 }
 
-.bk-button__leading[data-visible] {
+.bkreact-button__leading[data-visible] {
   width: var(--button-icon-size);
   opacity: var(--button-leading-open-opacity);
 }
 
-.bk-button__leading[data-visible][data-spacing] {
+.bkreact-button__leading[data-visible][data-spacing] {
   margin-inline-end: var(--button-gap);
 }
 
-.bk-button__leading-inner {
+.bkreact-button__leading-inner {
   display: var(--button-leading-display);
   align-items: var(--button-align);
   flex-shrink: var(--button-flex-shrink);
   width: var(--button-icon-size);
 }
 
-.bk-button__suffix[data-spacing] {
+.bkreact-button__suffix[data-spacing] {
   margin-inline-start: var(--button-gap);
 }
 
-.bk-button__icon,
-.bk-button__loading {
+.bkreact-button__icon,
+.bkreact-button__loading {
   flex-shrink: var(--button-flex-shrink);
   width: var(--button-icon-size);
   height: var(--button-icon-size);
 }
 
-.bk-button__icon > svg {
+.bkreact-button__icon > svg {
   display: var(--button-icon-display);
   width: var(--button-icon-fill-size);
   height: var(--button-icon-fill-size);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bk-button,
-  .bk-button__leading {
+  .bkreact-button,
+  .bkreact-button__leading {
     transition: var(--button-reduced-motion-transition);
   }
 }
 
 /* 断点回退在 tokens.css 中逐级定义，此处只切换当前尺寸。 */
 @media (min-width: 40rem) {
-  .bk-button {
+  .bkreact-button {
     --button-height: var(--button-sm-height);
     --button-padding-x: var(--button-sm-padding-x);
     --button-padding-y: var(--button-sm-padding-y);
@@ -153,7 +153,7 @@
 }
 
 @media (min-width: 48rem) {
-  .bk-button {
+  .bkreact-button {
     --button-height: var(--button-md-height);
     --button-padding-x: var(--button-md-padding-x);
     --button-padding-y: var(--button-md-padding-y);
@@ -165,7 +165,7 @@
 }
 
 @media (min-width: 64rem) {
-  .bk-button {
+  .bkreact-button {
     --button-height: var(--button-lg-height);
     --button-padding-x: var(--button-lg-padding-x);
     --button-padding-y: var(--button-lg-padding-y);
@@ -177,7 +177,7 @@
 }
 
 @media (min-width: 80rem) {
-  .bk-button {
+  .bkreact-button {
     --button-height: var(--button-xl-height);
     --button-padding-x: var(--button-xl-padding-x);
     --button-padding-y: var(--button-xl-padding-y);
@@ -189,7 +189,7 @@
 }
 
 @media (min-width: 96rem) {
-  .bk-button {
+  .bkreact-button {
     --button-height: var(--button-2xl-height);
     --button-padding-x: var(--button-2xl-padding-x);
     --button-padding-y: var(--button-2xl-padding-y);

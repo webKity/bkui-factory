@@ -39,7 +39,7 @@ const ButtonImpl = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps
   const needsLoadingLabel = loading && !hasLabel && !props['aria-label'] && !props['aria-labelledby'];
   const hasLeading = loading || prefixIcon != null;
   const commonProps = {
-    className: ['bk-button', className].filter(Boolean).join(' '),
+    className: ['bkreact-button', className].filter(Boolean).join(' '),
     style: getButtonSizeStyle(size),
     'data-intent': intent,
     'data-variant': variant,
@@ -52,27 +52,27 @@ const ButtonImpl = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps
     ...(isDisabled ? { onClickCapture: preventActivation, onAuxClickCapture: preventActivation } : {}),
   } as const;
   const content = (
-    <span className="bk-button__content">
+    <span className="bkreact-button__content">
       <span
-        className="bk-button__leading"
+        className="bkreact-button__leading"
         aria-hidden="true"
         data-visible={hasLeading ? '' : undefined}
         data-spacing={hasLabel || suffixIcon != null ? '' : undefined}
       >
-        <span className="bk-button__leading-inner">
+        <span className="bkreact-button__leading-inner">
           {loading
             ? <Loading
                 type="normal"
-                className="bk-button__loading"
+                className="bkreact-button__loading"
                 aria-hidden="true"
                 style={{ '--loading-size': 'var(--button-icon-size)' } as CSSProperties}
               />
-            : prefixIcon != null && <span className="bk-button__icon" aria-hidden="true">{prefixIcon}</span>}
+            : prefixIcon != null && <span className="bkreact-button__icon" aria-hidden="true">{prefixIcon}</span>}
         </span>
       </span>
-      {hasLabel && <span className="bk-button__label">{children}</span>}
-      {needsLoadingLabel && <span className="bk-button__sr-only">加载中</span>}
-      {suffixIcon != null && <span className="bk-button__icon bk-button__suffix" data-spacing={hasLabel ? '' : undefined} aria-hidden="true">{suffixIcon}</span>}
+      {hasLabel && <span className="bkreact-button__label">{children}</span>}
+      {needsLoadingLabel && <span className="bkreact-button__sr-only">加载中</span>}
+      {suffixIcon != null && <span className="bkreact-button__icon bkreact-button__suffix" data-spacing={hasLabel ? '' : undefined} aria-hidden="true">{suffixIcon}</span>}
     </span>
   );
 

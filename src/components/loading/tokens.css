@@ -1,5 +1,5 @@
 /* semantic → component 映射；业务样式可覆盖 --loading-*。 */
-.bk-loading {
+.bkreact-loading {
   --loading-display: inline-flex;
   --loading-align: center;
   --loading-flex-shrink: 0;
@@ -52,8 +52,8 @@
   --loading-logo-fade-animation: bk-loading-logo-fade var(--loading-duration) linear infinite;
 }
 
-.bk-loading:where([data-type='rect']) { --loading-duration: 1000ms; }
-.bk-loading:where([data-type='logo']) {
+.bkreact-loading:where([data-type='rect']) { --loading-duration: 1000ms; }
+.bkreact-loading:where([data-type='logo']) {
   --loading-duration: 3320ms;
   --loading-aspect-ratio: var(--loading-logo-aspect-ratio);
 }
