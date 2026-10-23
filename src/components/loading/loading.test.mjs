@@ -103,7 +103,7 @@ test('响应式尺寸在断点边界切换，缺少尺寸逐级回退', async ()
   const tokens = postcss.parse(await readFile(path.join(project, 'src/components/loading/tokens.css'), 'utf8'));
   const styles = postcss.parse(await readFile(path.join(project, 'src/components/loading/styles.css'), 'utf8'));
   const inline = getSizeStyle({ sm: 'xs', lg: 'lg', '2xl': '2xl' });
-  for (const [width, expected] of [[0, '18px'], [639, '18px'], [640, '14px'], [768, '14px'], [1023, '14px'], [1024, '20px'], [1280, '20px'], [1535, '20px'], [1536, '24px']]) {
+  for (const [width, expected] of [[0, '20px'], [639, '20px'], [640, '16px'], [768, '16px'], [1023, '16px'], [1024, '22px'], [1280, '22px'], [1535, '22px'], [1536, '28px']]) {
     const values = new Map();
     tokens.walkRules('.bkreact-loading', rule => rule.walkDecls(d => values.set(d.prop, d.value)));
     styles.walkAtRules('media', media => {

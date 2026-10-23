@@ -120,11 +120,20 @@ test('空闲加载可水合且不会产生不匹配，卸载时取消回调', as
 test('不支持 requestIdleCallback 时也能加载，保留颜色、hover、class、原生属性和点击事件', async () => {
   let clicks = 0;
   container = document.createElement('div'); document.body.append(container);
-  await act(() => { root = createRoot(container); root.render(h(BKIcon, {
-    name: 'heart', variant: 'filled', color: 'red', hoverColor: 'blue', className: 'custom',
-    'data-testid': 'favorite', ariaLabel: '收藏', onClick: () => clicks++,
-  })); });
-  await act(async () => { await new Promise(resolve => window.setTimeout(resolve, 10)); });
+  const originalSetTimeout = window.setTimeout;
+  let makeReady;
+  window.setTimeout = callback => { makeReady = callback; return 42; };
+  try {
+    await act(() => { root = createRoot(container); root.render(h(BKIcon, {
+      name: 'heart', variant: 'filled', color: 'red', hoverColor: 'blue', className: 'custom',
+      'data-testid': 'favorite', ariaLabel: '收藏', onClick: () => clicks++,
+    })); });
+    assert.equal(container.querySelector('svg'), null);
+    assert.equal(typeof makeReady, 'function');
+    await act(() => makeReady());
+  } finally {
+    window.setTimeout = originalSetTimeout;
+  }
   const span = container.querySelector('span');
   assert(container.querySelector('svg'));
   assert(span.classList.contains('custom'));
