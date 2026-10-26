@@ -1,8 +1,10 @@
+
 import { useEffect, useRef, useState } from 'react';
-import type { ComponentType } from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn } from 'storybook/test';
 import { Button } from './index';
+
+import type { ComponentType } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ButtonProps } from './type';
 import type { IBKIntent, IBKSize, IBKVariants } from '../types/base';
 

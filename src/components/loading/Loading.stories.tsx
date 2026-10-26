@@ -1,8 +1,10 @@
-import type { CSSProperties } from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
+
 import { expect } from 'storybook/test';
 import { Loading } from './index';
 import { Button } from '../button';
+
+import type { CSSProperties } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { IBKSize } from '../types/base';
 
 const sizes: IBKSize[] = ['2xs', 'xs', 'sm', 'base', 'lg', 'xl', '2xl'];

@@ -74,6 +74,14 @@
   --button-disabled-border-color: var(--color-border-disabled);
   --button-disabled-opacity: 1;
   --button-loading-opacity: 0.65;
+  --button-spinner-border-width: 2px;
+  --button-spinner-track-color: transparent;
+  --button-spinner-color: currentColor;
+  --button-spinner-radius: 50%;
+  --button-spinner-animation: bkreact-button-spin 800ms linear infinite;
+  --button-spinner-start: rotate(0deg);
+  --button-spinner-end: rotate(360deg);
+  --button-spinner-reduced-motion-animation: none;
 
   /* 尺寸契约：所有变体及媒体查询共用。 */
   --button-size-2xs-height: 24px;

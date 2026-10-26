@@ -26,15 +26,17 @@
   transition: var(--button-transition);
 }
 
+/* 视觉禁用与 loading 都不再响应 hover/active 的着色反馈，
+ * 避免 loading 时因为鼠标悬停导致颜色跳变，干扰“忙碌中”的语义。 */
 @media (hover: hover) {
-  .bkreact-button:where(:not([data-disabled])):hover {
+  .bkreact-button:where(:not([data-disabled], [data-loading])):hover {
     color: var(--button-hover-color);
     background-color: var(--button-hover-bg);
     border-color: var(--button-hover-border-color);
   }
 }
 
-.bkreact-button:where(:not([data-disabled])):active {
+.bkreact-button:where(:not([data-disabled], [data-loading])):active {
   color: var(--button-active-color);
   background-color: var(--button-active-bg);
   border-color: var(--button-active-border-color);
@@ -45,16 +47,23 @@
   outline-offset: var(--button-focus-ring-offset);
 }
 
+/* 视觉禁用：只有真正 disabled 才应用灰底/灰字，避免覆盖 loading 的 intent 色调。 */
 .bkreact-button[data-disabled] {
   color: var(--button-disabled-color);
   background-color: var(--button-disabled-bg);
   border-color: var(--button-disabled-border-color);
   opacity: var(--button-disabled-opacity);
-  cursor: var(--button-disabled-cursor);
 }
 
+/* loading：保留当前 intent 的色彩，仅整体降低不透明度。 */
 .bkreact-button[data-loading] {
   opacity: var(--button-loading-opacity);
+}
+
+/* disabled 与 loading 都表现为“不可交互”的光标。 */
+.bkreact-button[data-disabled],
+.bkreact-button[data-loading] {
+  cursor: var(--button-disabled-cursor);
 }
 
 .bkreact-button[data-block] {
@@ -70,18 +79,6 @@
   display: var(--button-display);
   align-items: var(--button-align);
   justify-content: var(--button-align);
-}
-
-.bkreact-button__sr-only {
-  position: var(--button-sr-position);
-  width: var(--button-sr-size);
-  height: var(--button-sr-size);
-  padding: var(--button-sr-padding);
-  margin: var(--button-sr-margin);
-  overflow: var(--button-sr-overflow);
-  clip-path: var(--button-sr-clip-path);
-  white-space: var(--button-sr-white-space);
-  border: var(--button-sr-border);
 }
 
 .bkreact-button__content {
@@ -120,7 +117,7 @@
 }
 
 .bkreact-button__icon,
-.bkreact-button__loading {
+.bkreact-button__spinner {
   flex-shrink: var(--button-flex-shrink);
   width: var(--button-icon-size);
   height: var(--button-icon-size);
@@ -132,70 +129,86 @@
   height: var(--button-icon-fill-size);
 }
 
+.bkreact-button__spinner {
+  box-sizing: var(--button-box-sizing);
+  border: var(--button-spinner-border-width) var(--button-border-style) var(--button-spinner-track-color);
+  border-inline-end-color: var(--button-spinner-color);
+  border-radius: var(--button-spinner-radius);
+  animation: var(--button-spinner-animation);
+}
+
+@keyframes bkreact-button-spin {
+  from { transform: var(--button-spinner-start); }
+  to { transform: var(--button-spinner-end); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .bkreact-button,
   .bkreact-button__leading {
     transition: var(--button-reduced-motion-transition);
   }
+  .bkreact-button__spinner {
+    animation: var(--button-spinner-reduced-motion-animation);
+  }
 }
 
-/* 断点回退在 tokens.css 中逐级定义，此处只切换当前尺寸。 */
+/* 未设置的断点沿用较小断点的尺寸；移动端默认为 base。 */
 @media (min-width: 40rem) {
   .bkreact-button {
-    --button-height: var(--button-sm-height);
-    --button-padding-x: var(--button-sm-padding-x);
-    --button-padding-y: var(--button-sm-padding-y);
-    --button-font-size: var(--button-sm-font-size);
-    --button-line-height: var(--button-sm-line-height);
-    --button-gap: var(--button-sm-gap);
-    --button-icon-size: var(--button-sm-icon-size);
+    --button-height: var(--button-sm-height, var(--button-base-height, var(--button-size-base-height)));
+    --button-padding-x: var(--button-sm-padding-x, var(--button-base-padding-x, var(--button-size-base-padding-x)));
+    --button-padding-y: var(--button-sm-padding-y, var(--button-base-padding-y, var(--button-size-base-padding-y)));
+    --button-font-size: var(--button-sm-font-size, var(--button-base-font-size, var(--button-size-base-font-size)));
+    --button-line-height: var(--button-sm-line-height, var(--button-base-line-height, var(--button-size-base-line-height)));
+    --button-gap: var(--button-sm-gap, var(--button-base-gap, var(--button-size-base-gap)));
+    --button-icon-size: var(--button-sm-icon-size, var(--button-base-icon-size, var(--button-size-base-icon-size)));
   }
 }
 
 @media (min-width: 48rem) {
   .bkreact-button {
-    --button-height: var(--button-md-height);
-    --button-padding-x: var(--button-md-padding-x);
-    --button-padding-y: var(--button-md-padding-y);
-    --button-font-size: var(--button-md-font-size);
-    --button-line-height: var(--button-md-line-height);
-    --button-gap: var(--button-md-gap);
-    --button-icon-size: var(--button-md-icon-size);
+    --button-height: var(--button-md-height, var(--button-sm-height, var(--button-base-height, var(--button-size-base-height))));
+    --button-padding-x: var(--button-md-padding-x, var(--button-sm-padding-x, var(--button-base-padding-x, var(--button-size-base-padding-x))));
+    --button-padding-y: var(--button-md-padding-y, var(--button-sm-padding-y, var(--button-base-padding-y, var(--button-size-base-padding-y))));
+    --button-font-size: var(--button-md-font-size, var(--button-sm-font-size, var(--button-base-font-size, var(--button-size-base-font-size))));
+    --button-line-height: var(--button-md-line-height, var(--button-sm-line-height, var(--button-base-line-height, var(--button-size-base-line-height))));
+    --button-gap: var(--button-md-gap, var(--button-sm-gap, var(--button-base-gap, var(--button-size-base-gap))));
+    --button-icon-size: var(--button-md-icon-size, var(--button-sm-icon-size, var(--button-base-icon-size, var(--button-size-base-icon-size))));
   }
 }
 
 @media (min-width: 64rem) {
   .bkreact-button {
-    --button-height: var(--button-lg-height);
-    --button-padding-x: var(--button-lg-padding-x);
-    --button-padding-y: var(--button-lg-padding-y);
-    --button-font-size: var(--button-lg-font-size);
-    --button-line-height: var(--button-lg-line-height);
-    --button-gap: var(--button-lg-gap);
-    --button-icon-size: var(--button-lg-icon-size);
+    --button-height: var(--button-lg-height, var(--button-md-height, var(--button-sm-height, var(--button-base-height, var(--button-size-base-height)))));
+    --button-padding-x: var(--button-lg-padding-x, var(--button-md-padding-x, var(--button-sm-padding-x, var(--button-base-padding-x, var(--button-size-base-padding-x)))));
+    --button-padding-y: var(--button-lg-padding-y, var(--button-md-padding-y, var(--button-sm-padding-y, var(--button-base-padding-y, var(--button-size-base-padding-y)))));
+    --button-font-size: var(--button-lg-font-size, var(--button-md-font-size, var(--button-sm-font-size, var(--button-base-font-size, var(--button-size-base-font-size)))));
+    --button-line-height: var(--button-lg-line-height, var(--button-md-line-height, var(--button-sm-line-height, var(--button-base-line-height, var(--button-size-base-line-height)))));
+    --button-gap: var(--button-lg-gap, var(--button-md-gap, var(--button-sm-gap, var(--button-base-gap, var(--button-size-base-gap)))));
+    --button-icon-size: var(--button-lg-icon-size, var(--button-md-icon-size, var(--button-sm-icon-size, var(--button-base-icon-size, var(--button-size-base-icon-size)))));
   }
 }
 
 @media (min-width: 80rem) {
   .bkreact-button {
-    --button-height: var(--button-xl-height);
-    --button-padding-x: var(--button-xl-padding-x);
-    --button-padding-y: var(--button-xl-padding-y);
-    --button-font-size: var(--button-xl-font-size);
-    --button-line-height: var(--button-xl-line-height);
-    --button-gap: var(--button-xl-gap);
-    --button-icon-size: var(--button-xl-icon-size);
+    --button-height: var(--button-xl-height, var(--button-lg-height, var(--button-md-height, var(--button-sm-height, var(--button-base-height, var(--button-size-base-height))))));
+    --button-padding-x: var(--button-xl-padding-x, var(--button-lg-padding-x, var(--button-md-padding-x, var(--button-sm-padding-x, var(--button-base-padding-x, var(--button-size-base-padding-x))))));
+    --button-padding-y: var(--button-xl-padding-y, var(--button-lg-padding-y, var(--button-md-padding-y, var(--button-sm-padding-y, var(--button-base-padding-y, var(--button-size-base-padding-y))))));
+    --button-font-size: var(--button-xl-font-size, var(--button-lg-font-size, var(--button-md-font-size, var(--button-sm-font-size, var(--button-base-font-size, var(--button-size-base-font-size))))));
+    --button-line-height: var(--button-xl-line-height, var(--button-lg-line-height, var(--button-md-line-height, var(--button-sm-line-height, var(--button-base-line-height, var(--button-size-base-line-height))))));
+    --button-gap: var(--button-xl-gap, var(--button-lg-gap, var(--button-md-gap, var(--button-sm-gap, var(--button-base-gap, var(--button-size-base-gap))))));
+    --button-icon-size: var(--button-xl-icon-size, var(--button-lg-icon-size, var(--button-md-icon-size, var(--button-sm-icon-size, var(--button-base-icon-size, var(--button-size-base-icon-size))))));
   }
 }
 
 @media (min-width: 96rem) {
   .bkreact-button {
-    --button-height: var(--button-2xl-height);
-    --button-padding-x: var(--button-2xl-padding-x);
-    --button-padding-y: var(--button-2xl-padding-y);
-    --button-font-size: var(--button-2xl-font-size);
-    --button-line-height: var(--button-2xl-line-height);
-    --button-gap: var(--button-2xl-gap);
-    --button-icon-size: var(--button-2xl-icon-size);
+    --button-height: var(--button-2xl-height, var(--button-xl-height, var(--button-lg-height, var(--button-md-height, var(--button-sm-height, var(--button-base-height, var(--button-size-base-height)))))));
+    --button-padding-x: var(--button-2xl-padding-x, var(--button-xl-padding-x, var(--button-lg-padding-x, var(--button-md-padding-x, var(--button-sm-padding-x, var(--button-base-padding-x, var(--button-size-base-padding-x)))))));
+    --button-padding-y: var(--button-2xl-padding-y, var(--button-xl-padding-y, var(--button-lg-padding-y, var(--button-md-padding-y, var(--button-sm-padding-y, var(--button-base-padding-y, var(--button-size-base-padding-y)))))));
+    --button-font-size: var(--button-2xl-font-size, var(--button-xl-font-size, var(--button-lg-font-size, var(--button-md-font-size, var(--button-sm-font-size, var(--button-base-font-size, var(--button-size-base-font-size)))))));
+    --button-line-height: var(--button-2xl-line-height, var(--button-xl-line-height, var(--button-lg-line-height, var(--button-md-line-height, var(--button-sm-line-height, var(--button-base-line-height, var(--button-size-base-line-height)))))));
+    --button-gap: var(--button-2xl-gap, var(--button-xl-gap, var(--button-lg-gap, var(--button-md-gap, var(--button-sm-gap, var(--button-base-gap, var(--button-size-base-gap)))))));
+    --button-icon-size: var(--button-2xl-icon-size, var(--button-xl-icon-size, var(--button-lg-icon-size, var(--button-md-icon-size, var(--button-sm-icon-size, var(--button-base-icon-size, var(--button-size-base-icon-size)))))));
   }
 }
