@@ -4,6 +4,7 @@ import { mergeConfig } from 'vite';
 const config = {
   stories: ['../../../docs/**/*.mdx', '../../../docs/**/*.stories.tsx', '../../../packages/ui-react/src/components/**/*.stories.tsx'],
   addons: ['@storybook/addon-docs'],
+  docs: { defaultName: '文档' },
   framework: '@storybook/react-vite',
   core: { disableTelemetry: true, disableWhatsNewNotifications: true },
   features: { sidebarOnboardingChecklist: false, menuOnboardingChecklist: false },

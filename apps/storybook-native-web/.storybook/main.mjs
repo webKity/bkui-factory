@@ -3,6 +3,7 @@ export default {
   framework: '@storybook/react-native-web-vite',
   stories: ['../../../packages/ui-native/src/**/*.stories.tsx'],
   addons: ['@storybook/addon-docs'],
+  docs: { defaultName: '文档' },
   core: { disableTelemetry: true, disableWhatsNewNotifications: true },
   async viteFinal(config) {
     const { mergeConfig } = await import('vite');
