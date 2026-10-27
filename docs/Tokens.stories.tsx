@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import colorCss from '../src/components/themes/light/semantic/colors.css?raw';
+import colorCss from '../packages/ui-react/src/components/themes/light/semantic/colors.css?raw';
 
 const colors = [...colorCss.matchAll(/(--color-[a-z0-9-]+):/g)].map(match => match[1]);
 const radii = ['none', 'xs', 'sm', 'md', 'lg', 'xl', '2xl', 'full'];

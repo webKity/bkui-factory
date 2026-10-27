@@ -1,0 +1,83 @@
+{
+  "base": {
+    "color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-primary}"
+    },
+    "bar-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-xs}"
+    },
+    "logo-aspect-ratio": {
+      "$type": "number",
+      "$value": 3.4133333333333336
+    },
+    "logo-muted-opacity": {
+      "$type": "number",
+      "$value": 0.24
+    },
+    "normal-duration-ms": {
+      "$type": "number",
+      "$value": 800
+    },
+    "rect-duration-ms": {
+      "$type": "number",
+      "$value": 1000
+    },
+    "logo-duration-ms": {
+      "$type": "number",
+      "$value": 3320
+    }
+  },
+  "sizes": {
+    "2xs": {
+      "$type": "dimension",
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      }
+    },
+    "xs": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": {
+        "value": 18,
+        "unit": "px"
+      }
+    },
+    "base": {
+      "$type": "dimension",
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      }
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": {
+        "value": 22,
+        "unit": "px"
+      }
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
+    },
+    "2xl": {
+      "$type": "dimension",
+      "$value": {
+        "value": 28,
+        "unit": "px"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+.bkreact-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  font-size: 0;
+  line-height: 0;
+  color: var(--bk-icon-color);
+}
+
+.bkreact-icon > svg {
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bkreact-icon[data-placeholder] {
+  background: var(--color-fill-disabled);
+}
+
+.bkreact-icon[data-hover-color] {
+  transition: color 0.15s ease-in-out;
+}
+
+.bkreact-icon[data-hover-color]:hover {
+  color: var(--bk-icon-hover-color);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-icon[data-hover-color] { transition: none; }
+}

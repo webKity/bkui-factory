@@ -1,0 +1,95 @@
+/* Button 局部组件 tokens：结构参考 Bootstrap 的 btn-* 变量。
+ * 设计值由 design.tokens.css 从 source/components 编译；本文件只维护 Web 样式及状态组合。
+ * styles.css 仅消费 --button-*，不直接依赖主题、色板或其他组件。
+ */
+.bkreact-button {
+  --button-display: inline-flex;
+  --button-align: center;
+  --button-position: relative;
+  --button-box-sizing: border-box;
+  --button-margin: 0;
+  --button-width: auto;
+  --button-block-width: 100%;
+  --button-vertical-align: middle;
+  --button-user-select: none;
+  --button-white-space: nowrap;
+  --button-text-decoration: none;
+  --button-appearance: none;
+  --button-flex-shrink: 0;
+  --button-sr-position: absolute;
+  --button-sr-size: 1px;
+  --button-sr-padding: 0;
+  --button-sr-margin: -1px;
+  --button-sr-overflow: hidden;
+  --button-sr-clip-path: inset(50%);
+  --button-sr-white-space: nowrap;
+  --button-sr-border: 0;
+  --button-icon-display: block;
+  --button-icon-fill-size: 100%;
+  --button-cursor: pointer;
+  --button-disabled-cursor: not-allowed;
+
+  --button-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --button-border-style: solid;
+  --button-focus-ring-style: solid;
+  --button-transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  --button-reduced-motion-transition: none;
+  --button-leading-display: inline-flex;
+  --button-leading-closed-width: 0px;
+  --button-leading-closed-gap: 0px;
+  --button-leading-closed-opacity: 0;
+  --button-leading-open-opacity: 1;
+  --button-leading-overflow: hidden;
+  --button-loading-duration: 200ms;
+  --button-loading-easing: ease;
+  --button-leading-transition: width var(--button-loading-duration) var(--button-loading-easing), margin-inline-end var(--button-loading-duration) var(--button-loading-easing), opacity var(--button-loading-duration) var(--button-loading-easing);
+
+  /* 默认 normal intent；其余 intent 只映射已有语义颜色，不派生新颜色。 */
+  --button-transparent: transparent;
+  --button-color: var(--button-tone-color);
+  --button-bg: var(--button-tone-bg);
+  --button-border-color: var(--button-tone-border-color);
+  --button-hover-color: var(--button-tone-color);
+  --button-hover-bg: var(--button-tone-hover-bg);
+  --button-hover-border-color: var(--button-tone-hover-bg);
+  --button-active-color: var(--button-tone-color);
+  --button-active-bg: var(--button-tone-active-bg);
+  --button-active-border-color: var(--button-tone-active-bg);
+  --button-spinner-track-color: transparent;
+  --button-spinner-color: currentColor;
+  --button-spinner-radius: 50%;
+  --button-spinner-animation: bkreact-button-spin 800ms linear infinite;
+  --button-spinner-start: rotate(0deg);
+  --button-spinner-end: rotate(360deg);
+  --button-spinner-reduced-motion-animation: none;
+
+  /* 尺寸契约：所有变体及媒体查询共用。 */
+  --button-height: var(--button-base-height);
+  --button-padding-x: var(--button-base-padding-x);
+  --button-padding-y: var(--button-base-padding-y);
+  --button-font-size: var(--button-base-font-size);
+  --button-line-height: var(--button-base-line-height);
+  --button-gap: var(--button-base-gap);
+  --button-icon-size: var(--button-base-icon-size);
+}
+
+.bkreact-button:where([data-variant='outline']),
+.bkreact-button:where([data-variant='ghost']) {
+  --button-color: var(--button-tone-outline-color);
+  --button-bg: var(--button-transparent);
+  --button-border-color: var(--button-tone-outline-color);
+  --button-hover-color: var(--button-tone-outline-color);
+  --button-hover-bg: var(--color-fill-hover);
+  --button-hover-border-color: var(--button-tone-outline-color);
+  --button-active-color: var(--button-tone-outline-color);
+  --button-active-bg: var(--color-fill-active);
+  --button-active-border-color: var(--button-tone-outline-color);
+  --button-disabled-bg: var(--button-transparent);
+}
+
+.bkreact-button:where([data-variant='ghost']) {
+  --button-border-color: var(--button-transparent);
+  --button-hover-border-color: var(--button-transparent);
+  --button-active-border-color: var(--button-transparent);
+  --button-disabled-border-color: var(--button-transparent);
+}

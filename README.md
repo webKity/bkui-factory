@@ -1,77 +1,66 @@
 # bkui-factory
 
-`bkui-factory` 是 `@bkreact/ui` 的组件库工程，目前已完成 Figma tokens 到多主题 CSS 的生成、入口汇总和校验。已提供基于 Base UI 的 Button，Tailwind 映射及 npm 包发布链路仍在搭建中。
+`bkui-factory` 是基于共享 Figma tokens 的 React / React Native 组件库工作区。`@bkreact/ui` 保留现有 Web API，`@bkreact/ui-native` 基于 NativeWind V5 提供 RN Button、Icon、Loading、ThemeProvider 和 useTheme；`@bkreact/assets` 提供共用的图标与 Logo 路径。Tokens 从设计源直接编译进平台组件源码。
 
-项目将设计数据、转换程序、主题产物和组件类型分开维护。设计变量修改后，通过脚本更新 CSS；业务页面使用带有视觉用途的 semantic 变量，组件通过自身的局部 tokens 映射 semantic。
+Figma 原始基础变量保留在 `source/`。Button 与 Loading 的设计映射和尺寸补充在 `source/components/*.tokens.json`；这部分由原有 CSS 提取，不表示已从 Figma 自动同步组件定义。编译器将同一份输入解析成带类型和引用的模型，再生成 Web CSS 和 RN 数值主题。脚本不连接 Figma。
 
 ## 目录与职责
 
 ```text
-.
-├── source/                         # Figma 导出的原始 tokens 与主题配置
-│   ├── themes.config.json          # 默认主题配置
-│   ├── primitives/
-│   │   ├── light/                  # 浅色主题基础色板
-│   │   └── dark /                  # 深色主题基础色板，当前目录名带尾部空格
-│   └── semantic/
-│       ├── light/                  # 浅色主题语义颜色
-│       ├── dark /                  # 深色主题语义颜色
-│       ├── English.tokens.json     # 英文字体及共用排版设置
-│       ├── 中文.tokens.json        # 中文字体及共用排版设置
-│       ├── Numeric.tokens.json     # 数字字体及共用排版设置
-│       └──  radius.tokens.json     # 共用圆角，当前文件名带前导空格
-├── .storybook/                     # Storybook 配置、主题工具栏和示例布局
-├── docs/                           # 项目介绍与设计变量展示
-├── scripts/
-│   ├── generate-theme-tokens.mjs    # 读取、转换、渲染、写入和只读校验
-│   ├── generate-theme-tokens.test.mjs
-│   └── button.typecheck.tsx          # Button API 的类型契约测试
-├── src/
-│   ├── components/
-│   │   ├── themes/                 # 自动生成，修改应从 source 开始
-│   │   │   ├── index.css           # 汇总所有主题
-│   │   │   ├── light/
-│   │   │   │   ├── index.css       # 汇总本主题的全部 token 文件
-│   │   │   │   ├── primitive/colors.css
-│   │   │   │   └── semantic/
-│   │   │   │       ├── colors.css
-│   │   │   │       ├── radius.css
-│   │   │   │       └── typography.css
-│   │   │   └── dark/               # 与 light 相同的输出结构
-│   │   ├── types/base.ts           # 组件共用类型约定
-│   │   └── button/                  # Button 实现、API、tokens、stories 与自动测试
-│   ├── client.ts                    # 客户端组件导出
-│   ├── index.ts                     # 服务端可使用的类型导出
-│   ├── styles.css                   # 主题与组件的总样式入口
-│   ├── tailwind-entry.css          # Tailwind 源码扫描入口
-│   └── tailwind-preset.ts          # Tailwind 主题映射草稿
-├── package.json                    # 包导出声明、依赖和 token 命令
-├── yarn.lock
-├── tsup.config.ts                  # 预留的组件库打包配置
-├── tsconfig.json
-└── postcss.config.js
+source/                               # Figma 与共享组件设计输入
+├── primitives/
+├── semantic/
+├── components/*.tokens.json          # 每个组件的设计定义
+├── icons/                            # Figma 图标导出
+└── themes.config.json
+scripts/
+├── generate-theme-tokens.mjs         # 编译命令入口
+└── tokens/
+    ├── source.mjs                    # 读取、规范化、引用与类型校验
+    └── build.mjs                     # 两端输出、写入及一致性校验
+packages/
+├── assets/                           # 共用图标与 Logo 路径
+├── ui-react/src/components/
+│   ├── themes/                       # 基础色、语义色、字体和圆角 CSS
+│   ├── button/
+│   │   ├── design.tokens.css         # 自动生成的 Button 设计值
+│   │   └── tokens.css                # Button 的 Web 状态与布局映射
+│   └── loading/                      # 同样在组件内部维护 tokens
+└── ui-native/src/components/
+    ├── themes/
+    │   ├── tokens.ts                 # 自动生成的基础主题及语义变量
+    │   ├── tokens.css                # 自动生成的 NativeWind 语义映射
+    │   └── index.tsx                 # ThemeProvider、useTheme
+    ├── button/
+    │   ├── design.tokens.ts          # 自动生成的 Button 各主题设计值
+    │   ├── tokens.ts                 # 状态计算与 NativeWind 组件变量
+    │   ├── type.ts                   # 组件 API
+    │   └── index.tsx                 # 组件渲染与静态工具类
+    └── loading/                      # 独立的 design.tokens.ts 与实现
+apps/
+├── storybook-web/.storybook/
+└── storybook-native-web/.storybook/
 ```
+
+全局主题只包含 primitive 与 semantic。Button、Loading 的设计值留在各自组件目录，由组件自行选择主题、计算状态并注入局部变量。修改设计值从 `source/` 开始，运行 `npm run tokens:build` 后直接更新平台源码；带生成标记的文件不手工修改。维护组件时，直接查看它的设计 tokens、平台映射和渲染实现即可。
 
 当前导出文件中的首尾空格可以保留，脚本会在生成路径和变量名称时去掉首尾空格。它读取本地 JSON，不连接 Figma，也不负责从 Figma 下载数据。
 
 ## 架构与数据流
 
-```mermaid
-flowchart TD
-    A[Figma 导出 tokens JSON] --> B[source：基础色板、语义颜色、字体、圆角]
-    C[source/themes.config.json] --> D[转换脚本]
-    B --> D
-    D --> E[themes/主题/primitive 与 semantic CSS]
-    E --> F[themes/主题/index.css]
-    F --> G[themes/index.css]
-    G --> T[Button 局部组件 tokens]
-    T --> H[Button 样式只消费 button tokens]
-    H --> U[使用方导入样式并设置 html theme]
+```text
+Figma 基础变量 + 共享组件设计定义
+                ↓
+       类型与引用模型（每主题）
+           ↙             ↘
+主题 / 组件 CSS       主题 / 组件 TypeScript
+      ↓                     ↓
+ React DOM 组件       RN Pressable / Text
 ```
 
 ### 1. 设计数据层：source
 
-脚本支持以下输入约定：
+脚本支持以下输入约定。表中的输出为 Web 主题路径；RN 的基础与语义数据合并在 `components/themes/tokens.ts`：
 
 | 输入路径 | 含义 | 输出 |
 | --- | --- | --- |
@@ -81,12 +70,13 @@ flowchart TD
 | `semantic/<theme>/English.tokens.json` 等字体模式文件 | 指定主题的排版覆盖 | 该主题的 `semantic/typography.css` |
 | `semantic/radius.tokens.json` | 各主题共用的圆角默认值 | 各主题的 `semantic/radius.css` |
 | `semantic/<theme>/radius.tokens.json` | 指定主题的完整圆角定义 | 该主题的 `semantic/radius.css` |
+| `components/<component>.tokens.json` | 共享组件设计定义 | 两端组件目录内的 `design.tokens.css` / `design.tokens.ts` |
 
 `English`、`中文`、`Numeric` 是当前支持的三个字体模式文件名。它们表示英文、中文、数字使用的字体；相同的字号、行高等设置会合并，不会生成三份排版文件。
 
 主题从输入目录中发现，无需在脚本里维护 light/dark 白名单。增加主题时，应提供它的基础色板和语义颜色；共用字体和圆角会复制到该主题。**不同主题的颜色不会互相回退**，语义颜色引用的 primitive 必须存在于同一主题中。
 
-### 2. 转换层：scripts
+### 2. 转换层：scripts/tokens
 
 [转换脚本](scripts/generate-theme-tokens.mjs) 的处理顺序为：
 
@@ -94,17 +84,17 @@ flowchart TD
 2. 展开嵌套分组，继承分组的 `$type`，忽略作为元数据的 `$` 字段。
 3. 建立各主题的 primitive 索引，再解析语义颜色引用。
 4. 合并字体默认值与主题覆盖，选择主题圆角或共用圆角。
-5. 渲染主题作用域和 CSS 变量，生成每个主题入口及总入口。
+5. 解析组件 token 引用，校验循环与类型；生成主题 CSS、组件 CSS，以及 RN 已解析主题。
 6. 所有输入转换与校验成功后，才开始写入文件；`--check` 模式只比较文件。
 
-脚本导出两个程序接口：
+CLI 在 `scripts/generate-theme-tokens.mjs`，同时生成两端。底层保留两个只处理主题 CSS 的兼容接口：
 
 | 接口 | 职责 |
 | --- | --- |
 | `buildThemeFiles({ sourceDir? })` | 返回 `Map<相对输出路径, CSS 内容>`，不写文件 |
 | `generateThemes({ sourceDir?, targetDir?, check?, quiet? })` | 写入文件，或以 `check: true` 校验现有产物；返回预期输出文件的完整路径列表 |
 
-默认输入是项目根目录下的 `source/`，默认输出是 `src/components/themes/`，不依赖执行命令时的工作目录。
+默认输入是项目根目录下的 `source/`。完整编译接口 `buildTokenFiles({ sourceDir? })` 和 `generateTokens({ sourceDir?, targetRoot?, check?, quiet? })` 从 `scripts/generate-theme-tokens.mjs` 导出；前者返回以仓库根目录为基准的输出 Map，后者生成或校验两端文件。兼容 CSS 接口默认输出 `packages/ui-react/src/components/themes/`。
 
 校验涵盖重名、错误类型、无效颜色、悬空 primitive 引用、字体模式冲突、非法圆角和不存在的默认主题。它不提供文件系统层面的事务：写入阶段发生磁盘错误时，仍可能留下部分已更新文件。
 
@@ -133,9 +123,9 @@ flowchart TD
 
 ### 4. 组件类型层
 
-[base.ts](src/components/types/base.ts) 定义组件的共用类型，包括尺寸、响应式断点、视觉变体、意图、布局、表单选项和生命周期接口。[button/type.ts](src/components/button/type.ts) 通过 `ButtonProps` 区分原生按钮与链接属性，包含图标、尺寸、变体、加载态和链接等属性。
+[base.ts](packages/ui-react/src/components/types/base.ts) 定义组件的共用类型，包括尺寸、响应式断点、视觉变体、意图、布局、表单选项和生命周期接口。[button/type.ts](packages/ui-react/src/components/button/type.ts) 通过 `ButtonProps` 区分原生按钮与链接属性，包含图标、尺寸、变体、加载态和链接等属性。
 
-[Button 实现](src/components/button/index.tsx) 负责渲染和状态，[src/client.ts](src/client.ts) 导出客户端组件，[src/index.ts](src/index.ts) 仅导出类型。原生按钮分支使用 `@base-ui/react/button`；链接分支直接渲染 `<a>`，保留原生导航语义。
+[Button 实现](packages/ui-react/src/components/button/index.tsx) 负责渲染和状态，[src/client.ts](packages/ui-react/src/client.ts) 导出客户端组件，[src/index.ts](packages/ui-react/src/index.ts) 仅导出类型。原生按钮分支使用 `@base-ui/react/button`；链接分支直接渲染 `<a>`，保留原生导航语义。
 
 ## 生成与校验
 
@@ -150,9 +140,9 @@ yarn install --frozen-lockfile
 依赖就绪后，在项目根目录运行：
 
 ```bash
-npm run tokens:build   # 重新生成 token CSS、主题入口和总入口
-npm run tokens:check   # 只读检查生成文件是否与 source 一致
-npm run tokens:test    # 运行转换和主题机制的回归测试
+npm run tokens:build   # 同时生成 Web 主题/组件 CSS 与 RN 主题
+npm run tokens:check   # 只读检查两端生成文件及遗留产物
+npm run tokens:test    # 主题机制与跨端编译回归测试
 npm run button:test    # 运行 Button DOM、组件 token 约束及示例交互测试
 npm test               # 运行所有自动测试
 npm run typecheck      # 检查源码与 Button API 类型契约
@@ -162,7 +152,7 @@ npm run typecheck      # 检查源码与 Button API 类型契约
 
 修改时先更新 `source/`，再执行生成、校验和测试。生成文件带有 `Generated by npm run tokens:build; do not edit.` 标记，不应直接手工维护。
 
-`tokens:check` 会检查预期生成文件的缺失和内容差异，以及带有生成标记的多余 CSS；手写的其他 CSS 不纳入逐字节比较。生成命令不会自动删除旧产物，删除或重命名源文件后，应根据校验结果清理旧生成文件。
+`tokens:check` 会检查预期 Web/RN 文件的缺失和内容差异，以及带有生成标记的多余文件；手写文件不纳入逐字节比较。生成命令不会自动删除旧产物，删除或重命名源文件后，应根据校验结果清理旧生成文件。
 
 测试覆盖实际源数据的转换、生成一致性、主题隔离、字体覆盖、默认主题、入口导出完整性、引用有效性、透明度和异常输入。维护转换规则时，应同步更新这些测试。
 
@@ -191,14 +181,14 @@ npm run dev
 npm run build:docs
 ```
 
-产物位于 `.storybook-static/`，这是组件文档站点的构建，与组件 npm 包的发布构建相互独立。
+Web 产物位于 `.storybook-static/web/`，这是组件文档站点的构建，与组件 npm 包的发布构建相互独立。
 
 ### 每个组件的示例与测试约定
 
 当前项目只有 Button 一个可渲染的公共组件。它的示例和测试位于组件目录：
 
 ```text
-src/components/button/
+packages/ui-react/src/components/button/
 ├── index.tsx
 ├── type.ts
 ├── tokens.css
@@ -209,7 +199,7 @@ src/components/button/
 └── button.test.mjs                 # DOM 行为、样式约束及示例交互回归
 ```
 
-新增组件时，在对应目录添加 `组件名.stories.tsx` 和 `组件名.test.mjs`。Storybook 自动发现 `src/components/**/*.stories.tsx`；`npm test` 自动执行 `src/components/*/*.test.mjs`，无需逐个修改服务器配置或测试命令。
+新增组件时，在对应目录添加 `组件名.stories.tsx` 和 `组件名.test.mjs`。Storybook 自动发现 `packages/ui-react/src/components/**/*.stories.tsx`；`npm test` 自动执行 `packages/ui-react/src/components/*/*.test.mjs`，无需逐个修改服务器配置或测试命令。
 
 示例至少包含默认状态、支持的视觉变体和尺寸、禁用与加载状态、关键交互。组件通过自身 tokens 设置样式，示例使用真实组件，避免另写一份预览实现。
 
@@ -217,7 +207,7 @@ Button 的五个 `play` 交互用例同时由 `npm test` 在 DOM 测试环境中
 
 ### 本地构建配置
 
-`.storybook/main.mjs` 使用 React + Vite，并为文档站点单独配置标准 CSS 处理，不依赖尚未完成的 Tailwind/PostCSS 发布配置。
+`apps/storybook-web/.storybook/main.mjs` 使用 React + Vite，并为文档站点单独配置标准 CSS 处理，与消费端的 Tailwind/PostCSS 配置隔离。
 
 项目使用 `node_modules`。当前机器的上级目录存在其他项目的 Yarn PnP 配置，可能被 esbuild 误识别；根目录的 `.pnp.data.json` 将本项目路径排除在 PnP 解析之外，使依赖继续从本项目 `node_modules` 读取，不修改上级目录配置。
 
@@ -244,7 +234,7 @@ html[theme='light'] {
 
 因此，未设置 `theme` 属性时使用默认主题；显式属性优先决定主题。`theme=""` 或不存在的主题名不会触发默认回退。若删除配置文件或不设置 `defaultTheme`，生成结果仅包含显式主题选择器。
 
-在支持 CSS 导入的应用中，导入本仓库的主题总入口即可使用所有主题。下面以应用入口位于本项目 `src/` 下为例，路径需随使用位置调整：
+在支持 CSS 导入的应用中，导入本仓库的主题总入口即可使用所有主题。下面以应用入口位于本项目 `packages/ui-react/src/` 下为例，路径需随使用位置调整：
 
 ```ts
 import './components/themes/index.css';
@@ -284,24 +274,24 @@ document.documentElement.removeAttribute('theme');
 
 ## Button 与组件 tokens
 
-源码使用示例（相对路径以项目根目录为例；发布构建完成前不使用 npm 包名导入）：
+源码使用示例（相对路径以项目根目录为例）：
 
 ```tsx
-import { Button } from './src/client';
-import './src/styles.css';
+import { Button } from './packages/ui-react/src/client';
+import './packages/ui-react/src/styles.css';
 
-<Button intent="info" variant="fill" onClick={() => console.log('提交')}>提交</Button>;
-<Button intent="success" variant="line" size={{ sm: 'xs', lg: 'lg' }}>响应式尺寸</Button>;
+<Button intent="brand" variant="fill" onClick={() => console.log('提交')}>提交</Button>;
+<Button intent="success" variant="outline" size={{ base: 'base', sm: 'xs', lg: 'lg' }}>响应式尺寸</Button>;
 <Button link="/account" target="_blank" rel="noreferrer">账户</Button>;
 <Button loading>提交中</Button>;
 ```
 
-`src/styles.css` 导入所有主题及 Button、Icon、Loading 样式。Button 和 Loading 自身也导入局部样式；直接导入组件时仍需接入主题样式，以提供 semantic 变量。
+`packages/ui-react/src/styles.css` 导入所有主题及 Button、Icon、Loading 样式。Button 和 Loading 自身也导入局部样式；直接导入组件时仍需接入主题样式，以提供 semantic 变量。
 
 | API | 支持值与默认行为 |
 | --- | --- |
-| `intent` | `normal`（默认）、`info`、`success`、`warning`、`error` |
-| `variant` | `fill`（默认）、`line`、`ghost` |
+| `intent` | `normal`（默认）、`brand`、`success`、`warning`、`danger` |
+| `variant` | `fill`（默认）、`outline`、`ghost` |
 | `size` | `2xs` / `xs` / `sm` / `base`（默认）/ `lg` / `xl` / `2xl`，或响应式尺寸对象 |
 | `block` / `round` | 默认关闭；分别设置整行宽度、胶囊圆角 |
 | `prefixIcon` / `suffixIcon` | 文案前后图标，作为装饰内容隐藏于辅助技术；loading 时前置图标由 `Loading type="normal"` 替换 |
@@ -323,11 +313,12 @@ primitive 颜色 → semantic 颜色 ─┐
 semantic 字体、圆角 ────────────┴→ button/tokens.css → button/styles.css
 ```
 
-- [tokens.css](src/components/button/tokens.css)：定义所有 `--button-*`，包括颜色、状态、尺寸、图标、焦点、加载槽位过渡和响应式尺寸的默认值；这是 Button 到 semantic 的映射入口。旋转动画由 Loading 管理。
-- [styles.css](src/components/button/styles.css)：样式属性只消费 `--button-*`，不直接读取 semantic 或 primitive 变量。intent 和 variant 修改局部 tokens，统一的状态规则消费它们。
-- [size.ts](src/components/button/size.ts)：根据 `size` 生成内部 `--button-*` 引用，响应式切换交由媒体查询完成。
+- [design.tokens.css](packages/ui-react/src/components/button/design.tokens.css)：自动生成共享设计映射、尺寸、意图色彩。
+- [tokens.css](packages/ui-react/src/components/button/tokens.css)：手写 Web 布局、状态组合、焦点样式、加载动画和显式响应式尺寸，仅消费共享设计值。
+- [styles.css](packages/ui-react/src/components/button/styles.css)：样式属性只消费 `--button-*`，不直接读取 semantic 或 primitive 变量。intent 和 variant 修改局部 tokens，统一的状态规则消费它们。
+- [size.ts](packages/ui-react/src/components/button/size.ts)：根据 `size` 生成内部 `--button-*` 引用，响应式切换交由媒体查询完成。
 
-组件颜色直接映射已有 semantic tokens，不使用 `color-mix` 或其他方式派生颜色。主操作按钮使用 `action-primary` 的默认、hover 和 active 语义色；success、warning、error 尚无独立的 hover/active 语义色，因此复用各自的反馈色。line、ghost 的交互背景使用 `fill-hover` 和 `fill-active`。新增状态色应先在设计 tokens 中定义。
+组件颜色直接映射已有 semantic tokens，不使用 `color-mix` 或其他方式派生颜色。主操作按钮使用 `action-primary` 的默认、hover 和 active 语义色；success、warning、danger 尚无独立的 hover/active 语义色，因此复用各自的反馈色。outline、ghost 的交互背景使用 `fill-hover` 和 `fill-active`。新增状态色应先在设计 tokens 中定义。
 
 使用方可以通过业务 class 覆盖 Button tokens，不必修改主题文件：
 
@@ -345,59 +336,131 @@ semantic 字体、圆角 ────────────┴→ button/token
 ## Loading 与组件 tokens
 
 ```tsx
-import { Loading } from './src/client';
-import './src/styles.css';
+import { Loading } from './packages/ui-react/src/client';
+import './packages/ui-react/src/styles.css';
 
 <Loading />;
 <Loading type="rect" size={32} fillColor="var(--color-action-link)" speed={1200} />;
 <Loading type="logo" size="xl" />;
-<Loading size={{ sm: 'xs', lg: 'lg', '2xl': '2xl' }} />;
+<Loading size={{ base: 'base', sm: 'xs', lg: 'lg', '2xl': '2xl' }} />;
 ```
 
 `type` 默认为 `normal`，复用 `BKIcon name="loader"` 的旋转动画；`rect` 使用五根错峰伸缩的柱子；`logo` 使用 BitKan Logo 原始路径，从左到右显现、停留后淡出。
 
-`size` 支持与 Button 相同的七档尺寸、响应式对象，以及像素数值。七档高度依次为 12、14、16、18、20、22、24px，默认为 `base`（18px）；Logo 按其 `1024 / 300` 比例计算宽度。响应式断点和逐级回退规则与 Button 一致。
+`size` 支持与 Button 相同的七档尺寸、响应式对象，以及像素数值。七档高度依次为 14、16、18、20、22、24、28px，默认为 `base`（20px）；Logo 按其 `1024 / 300` 比例计算宽度。响应式对象必须显式提供 `base`；仅配置的断点参与尺寸切换。
 
 `fillColor` 默认继承当前文字颜色；`speed` 是一次循环的毫秒数，normal、rect、logo 默认分别为 800、1000、3320ms。无效速度回退到类型默认值。组件支持原生 span 属性和 ref，默认以 `role="status"`、名称“加载中”提供状态语义；父组件已处理加载提示时，可传入 `aria-hidden` 避免重复播报。
 
-- [tokens.css](src/components/loading/tokens.css)：定义 `--loading-*` 尺寸、颜色、动画和圆角映射。
-- [styles.css](src/components/loading/styles.css)：仅消费 Loading tokens；包含响应式尺寸和减少动态效果规则。
-- [size.ts](src/components/loading/size.ts)：生成尺寸 token 引用。
-- [logo.tsx](src/components/loading/logo.tsx)：保留原始 Logo 路径，使用独立裁剪 ID，支持同页多个实例和服务端水合。
+- [tokens.css](packages/ui-react/src/components/loading/tokens.css)：定义 `--loading-*` 尺寸、颜色、动画和圆角映射。
+- [styles.css](packages/ui-react/src/components/loading/styles.css)：仅消费 Loading tokens；包含响应式尺寸和减少动态效果规则。
+- [size.ts](packages/ui-react/src/components/loading/size.ts)：生成尺寸 token 引用。
+- [logo.tsx](packages/ui-react/src/components/loading/logo.tsx)：保留原始 Logo 路径，使用独立裁剪 ID，支持同页多个实例和服务端水合。
 
 通过业务 class 或 `style` 覆盖 `--loading-size`、`--loading-color`、`--loading-duration` 可以定制样式。Button 只在 loading 时渲染 normal Loading，并将其尺寸绑定到 `--button-icon-size`，沿用按钮的文字颜色。
 
 验证命令：`npm run loading:test`、`npm run button:test`、`npm run typecheck`。Storybook 的“组件/Loading”包含三种动画、全部尺寸、响应式、颜色/速度、组件 tokens 及 Button 集成示例。
 
-## 构建配置与当前缺口
+## 尺寸完整性与错误处理
 
-[package.json](package.json) 声明的包名是 `@bkreact/ui`，仅将 `dist/` 纳入发布文件，并将 CSS 标记为具有副作用。以下是当前的导出声明，**尚不能据此认为这些发布产物已经可用**：
+组件样式使用单一变量引用，例如 `var(--button-xl-height)`，不提供 `var()` 默认值来掩盖缺失的定义。编译器要求 Button 七档尺寸中的 height、padding-x、padding-y、font-size、line-height、gap、icon-size 全部存在；Loading 同样要求七档尺寸完整。缺失项在写入任何平台文件之前报错，错误中包含源文件及完整 token 路径，例如：
 
-| 包导出 | 预期产物 |
-| --- | --- |
-| `@bkreact/ui` | `dist/index.js`、`index.cjs`、`index.d.ts` |
-| `@bkreact/ui/client` | `dist/client.js`、`client.cjs`、`client.d.ts` |
-| `@bkreact/ui/styles.css` | `dist/styles.css` |
-| `@bkreact/ui/tailwind.css` | `dist/tailwind-entry.css` |
-| `@bkreact/ui/tailwind-preset` | `dist/tailwind-preset.js` |
-| `@bkreact/ui/safelist.css` | `dist/safelist.css` |
+```text
+source/components/button.tokens.json：缺少尺寸 token components.button.sizes.xl.height
+```
 
-配置及未完成部分如下：
+两端响应式 size 均要求 `base`，例如 `size={{ base: 'sm', lg: 'xl' }}`。只有声明的断点会切换尺寸，未声明的断点不会生成覆盖规则；这与引用一个缺失的尺寸定义不同。未知尺寸、未知断点、缺少 base，以及无效的数字尺寸均直接抛错。未传 size 时仍使用组件声明的默认值 `base`。
 
-| 文件或模块 | 当前状态 |
-| --- | --- |
-| [tsup.config.ts](tsup.config.ts) | 配置了 ESM/CJS、类型声明、source map 和 React 外置依赖；入口为 `src/index.ts`、`src/client.ts`。尚未提供完整 npm build 命令及样式发布流程 |
-| [tsconfig.json](tsconfig.json) | 配置严格模式和 React JSX；`include` 覆盖 `src/` 和 Button API 类型测试；使用已安装的 TypeScript 执行 `npm run typecheck` |
-| [postcss.config.js](postcss.config.js) | 声明 Tailwind PostCSS 与 `autoprefixer`；`autoprefixer` 未列入项目依赖，当前环境也未安装 |
-| [src/tailwind-entry.css](src/tailwind-entry.css) | 目前只有 `@source "./"` 扫描声明，没有接入主题总入口 |
-| [src/tailwind-preset.ts](src/tailwind-preset.ts) | `yourPreset` 仍引用 `--primary`、`--radius` 占位变量，与当前 token 名称尚未对齐 |
-| 主题类型 | `IBKTheme` 当前为 `'black' \| 'light'`，实际生成的主题为 `dark` / `light`，后续需要统一 |
-| 样式发布 | 当前没有生成或复制上述 `dist` 样式、preset 和 safelist 的完整流程 |
+## 共享组件 token 格式与 RN 使用
 
-当前可直接使用并验证的是源码 Button、主题 CSS 和 token 工具链。发布组件库前，需要补齐 Tailwind 映射及完整打包产物。
+组件定义按文件区分组件名，例如 `source/components/button.tokens.json`。当前支持 `base`、`sizes.<size>`、`intents.<intent>` 三类分组，可继承 `$type`。示例为：
+
+```json
+{
+  "base": {
+    "border-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-md}"
+    }
+  },
+  "sizes": {
+    "base": {
+      "height": {
+        "$type": "dimension",
+        "$value": { "value": 40, "unit": "px" }
+      }
+    }
+  }
+}
+```
+
+这是格式片段，不能替换完整 Button 定义。引用使用规范化后的 ID：`primitive.brand-500`（示意名称）、`semantic.color-action-primary`、`semantic.text-base-size`、`components.button.base.border-width`。允许链式引用，拒绝悬空引用、循环和类型不匹配。不能引用 intent 局部变量，因为它在 CSS 中受选择器影响。
+
+组件值支持 `color`、`dimension`、`number`、`string`；dimension 直接值目前只接受 px。px 在 Web 输出中保留单位，在 RN 中按相同设计数值输出为逻辑尺寸，不进行 PixelRatio 倍乘。字体 Figma scopes 用于区分数值是否为尺寸。阴影、渐变、复合排版和平台特定单位暂未实现，遇到不支持的组件类型会报错。
+
+Web 保留 CSS 引用关系，RN 每个主题解析出真实值。运行时切换 RN 的 ThemeProvider 会更新组件；新增 RN 组件通过 `useTheme()` 消费基础与语义值，并从自己目录的 `design.tokens.ts` 读取组件设计值。全局主题没有 `components` 字段。RN Button 支持七档及响应式尺寸、五种 intent、三种 variant、loading、disabled、round、block 和前后图标插槽。RN Icon 使用 react-native-svg 渲染共用路径，支持 Figma regular/filled 与旧图标名；RN Loading 提供 normal/rect/logo 三种动画、数字或响应式尺寸、速度、颜色和减少动态效果。Web 的 DOM 事件、链接导航、SSR 空闲占位等保留为平台接口，RN 使用 onPress 与原生无障碍属性。
+
+```tsx
+import '@bkreact/ui-native/styles.css';
+import { Button, ThemeProvider } from '@bkreact/ui-native';
+
+export function Example() {
+  return (
+    <ThemeProvider mode="dark">
+      <Button intent="brand" onPress={() => console.log('submit')}>
+        提交
+      </Button>
+    </ThemeProvider>
+  );
+}
+```
+
+RN 默认使用系统字体。应用自行加载字体文件，再传入 `ThemeProvider fontFamily="已注册的字体名"`；Figma 导出的字体名并不代表字体文件已经安装。RN 的 TypeScript tokens 由 Metro/Vite 随组件源码转译，发布组件包时一起构建。基础与语义值保留在主题中，组件设计值按组件分别导入。
+
+## NativeWind V5 接入
+
+当前固定 `nativewind@5.0.0-rc.0` 与 `react-native-css@3.1.0-rc.0`。这是 V5 RC 配对版本，不是 V4 的配置方式。开发依赖使用 RN 0.86.3、Reanimated 4.5.1、Worklets 0.10.1、Tailwind/@tailwindcss/postcss 4.1.12；React 沿用项目现有 19.3.1。lightningcss 对 NativeWind 编译器固定 1.30.1，Vite 的依赖单独解析。[官方安装说明](https://www.nativewind.dev/v5/getting-started/installation)
+
+原生应用配置 Metro（以下为使用 React Native Metro 配置的示例；Expo 应用可使用自己的 getDefaultConfig）：
+
+```js
+const { getDefaultConfig } = require('@react-native/metro-config');
+const withBKNativewind = require('@bkreact/ui-native/metro');
+module.exports = withBKNativewind(getDefaultConfig(__dirname));
+```
+
+应用的 PostCSS 配置需启用 `@tailwindcss/postcss`，并在顶层 App/布局中导入一次 `@bkreact/ui-native/styles.css`。这个入口包含 Tailwind、NativeWind 和本地 `components/themes/tokens.css` 的语义映射，并通过 `@source` 扫描组件源码。组件使用显式 styled 适配器，不依赖库发布时运行 Babel 的全局替换；应用自身的 className 由 Metro 包装器处理。库本身不导入全局 CSS，避免隐式重复注册。
+
+`ThemeProvider` 通过 V5 的 `VariableContextProvider` 只注入语义变量；Button、Loading 在自身作用域注入私有变量。长度变量带 px 单位，在原生编译后成为逻辑尺寸；`withBKNativewind` 设置 `inlineVariables: false`，保留运行时切换主题及组件状态的能力。不要直接把 Web 的 `html[theme]` 选择器交给原生编译器。[动态主题说明](https://www.nativewind.dev/v5/guides/themes)
+
+Tailwind 映射使用 `bk-` 前缀，例如 `bg-bk-action-primary`、`text-bk-text-primary`、`text-bk-base` 和 `rounded-bk-scale-md`。Button 和 Loading 支持 className，Button 另有 textClassName；工具类通过 tailwind-merge 合并，调用方同组工具类覆盖默认工具类。数值 style、SVG 属性和动画值保留原生形式。
+
+```tsx
+<Button className="px-8" textClassName="text-lg" intent="brand">
+  自定义间距与字号
+</Button>
+```
+
+Web/RN 图标注册表及原始 Logo 路径集中在 `packages/assets/src/`。图标源变更后执行 `npm run icons:build`；直接修改资源包源码后执行 `npm run build --workspace=@bkreact/assets`。根目录 dev、文档构建、测试、类型检查会先构建资源包。
+
+## 两端文档与构建
+
+```bash
+npm run dev                 # React 文档，127.0.0.1:6006
+npm run dev:native          # RN 浏览器文档，127.0.0.1:6007
+npm run build:docs          # .storybook-static/web/
+npm run build:docs:native   # .storybook-static/native/
+npm run build               # 生成 tokens，构建 Web/RN 组件及类型声明
+npm run typecheck           # 两端类型检查
+npm test                    # Web 回归、跨端编译及 RN Web 渲染测试
+```
+
+RN 浏览器文档通过 react-native-web 渲染，包含 Button、Icon、Loading 和 NativeWind 主题示例，独立使用 ThemeProvider；Web 工具栏设置 HTML theme 属性。此仓库尚未创建 iOS/Android 示例应用或实机 Storybook，浏览器测试不能替代原生触摸、字体和布局验证。
+
+`@bkreact/ui` 的包名及 `client`、`styles.css` 等入口保留。资源包和两个组件包各自输出到 `packages/<包>/dist/`；Web CSS 会随构建复制并保留相对导入结构。原先指向不存在文件的 `safelist.css` 导出已移除。TypeScript 使用 5.9 系列以兼容当前 tsup 声明构建和 RN 文档插件。没有执行 npm 发布。
 
 ## 维护原则
 
 - 视觉契约使用“视觉用途”，不绑定具体元素：例如使用 `surface-container`、`text-primary` 表达用途。
 - 区分值变化与契约变化：主题色值调整保持变量名稳定；变量新增、删除、重命名时，检查使用方和类型约定。
 - 设计数据、转换规则、生成产物分别维护；修改规则后运行一致性校验和回归测试。
+- 缺失尺寸和样式定义通过明确错误暴露，修复对应源文件；不增加默认值或回退链掩盖问题。

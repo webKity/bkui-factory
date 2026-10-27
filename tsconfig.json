@@ -13,10 +13,10 @@
     "skipLibCheck": true
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
+    "packages/ui-react/src/**/*.ts",
+    "packages/ui-react/src/**/*.tsx",
     "scripts/button.typecheck.tsx",
-    ".storybook/preview.tsx",
+    "apps/storybook-web/.storybook/preview.tsx",
     "docs/**/*.stories.tsx"
   ]
 }

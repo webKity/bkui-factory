@@ -1,0 +1,42 @@
+{
+  "name": "@bkreact/ui-native",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "react-native": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "react-native": "./src/index.ts",
+      "import": "./dist/index.js"
+    },
+    "./styles.css": "./src/styles.css",
+    "./metro": "./metro.cjs"
+  },
+  "files": [
+    "src",
+    "dist",
+    "metro.cjs"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "tsup && node ../../scripts/build-native-css.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@bkreact/assets": "1.0.0",
+    "tailwind-merge": "^3.7.0"
+  },
+  "peerDependencies": {
+    "react": ">=19 <20",
+    "react-native": ">=0.83 <0.87",
+    "nativewind": "5.0.0-rc.0",
+    "react-native-css": "3.1.0-rc.0",
+    "react-native-svg": ">=15 <16",
+    "react-native-reanimated": ">=4.5 <5",
+    "react-native-worklets": ">=0.10 <0.11"
+  }
+}

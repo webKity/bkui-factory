@@ -1,12 +1,12 @@
 import { createRef } from 'react';
-import { Button } from '../src/components/button';
+import { Button } from '../packages/ui-react/src/components/button';
 
 const buttonRef = createRef<HTMLButtonElement>();
 const anchorRef = createRef<HTMLAnchorElement>();
 
 <Button ref={buttonRef} type="submit" onClick={event => event.currentTarget.checkValidity()} />;
 <Button link="/account" ref={anchorRef} target="_blank" rel="noreferrer" onClick={event => event.currentTarget.href} />;
-<Button size={{ sm: 'xs', lg: '2xl' }} intent="success" variant="line" />;
+<Button size={{ base: 'base', sm: 'xs', lg: '2xl' }} intent="success" variant="outline" />;
 
 // @ts-expect-error 链接模式需要 anchor ref。
 <Button link="/account" ref={buttonRef} />;
@@ -18,3 +18,13 @@ const anchorRef = createRef<HTMLAnchorElement>();
 <Button link="/account" type="submit" />;
 // @ts-expect-error 不接受约定外的尺寸。
 <Button size="huge" />;
+
+// @ts-expect-error 响应式对象必须显式提供基础尺寸
+<Button size={{ sm: 'xs' }} />;
+
+// @ts-expect-error 旧的 intent 名称不再支持。
+<Button intent="info" />;
+// @ts-expect-error 错误状态使用 danger。
+<Button intent="error" />;
+// @ts-expect-error 描边样式使用 outline。
+<Button variant="line" />;

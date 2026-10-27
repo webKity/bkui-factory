@@ -1,0 +1,24 @@
+{
+  "name": "@bkreact/assets",
+  "version": "1.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./icons": {
+      "types": "./dist/icons.d.ts",
+      "import": "./dist/icons.js",
+      "require": "./dist/icons.cjs"
+    },
+    "./logo": {
+      "types": "./dist/logo.d.ts",
+      "import": "./dist/logo.js",
+      "require": "./dist/logo.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup"
+  }
+}
