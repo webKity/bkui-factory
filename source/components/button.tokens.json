@@ -98,6 +98,10 @@
   },
   "sizes": {
     "2xs": {
+      "fixed-width": {
+        "$type": "dimension",
+        "$value": { "value": 48, "unit": "px" }
+      },
       "height": {
         "$type": "dimension",
         "$value": {
@@ -143,6 +147,10 @@
       }
     },
     "xs": {
+      "fixed-width": {
+        "$type": "dimension",
+        "$value": { "value": 64, "unit": "px" }
+      },
       "height": {
         "$type": "dimension",
         "$value": {
@@ -188,6 +196,10 @@
       }
     },
     "sm": {
+      "fixed-width": {
+        "$type": "dimension",
+        "$value": { "value": 80, "unit": "px" }
+      },
       "height": {
         "$type": "dimension",
         "$value": {
@@ -233,6 +245,10 @@
       }
     },
     "base": {
+      "fixed-width": {
+        "$type": "dimension",
+        "$value": { "value": 96, "unit": "px" }
+      },
       "height": {
         "$type": "dimension",
         "$value": {
@@ -278,6 +294,10 @@
       }
     },
     "lg": {
+      "fixed-width": {
+        "$type": "dimension",
+        "$value": { "value": 112, "unit": "px" }
+      },
       "height": {
         "$type": "dimension",
         "$value": {
@@ -323,6 +343,10 @@
       }
     },
     "xl": {
+      "fixed-width": {
+        "$type": "dimension",
+        "$value": { "value": 128, "unit": "px" }
+      },
       "height": {
         "$type": "dimension",
         "$value": {
@@ -368,6 +392,10 @@
       }
     },
     "2xl": {
+      "fixed-width": {
+        "$type": "dimension",
+        "$value": { "value": 160, "unit": "px" }
+      },
       "height": {
         "$type": "dimension",
         "$value": {

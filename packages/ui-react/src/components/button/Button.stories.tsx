@@ -20,18 +20,20 @@ const meta = {
   title: '组件/Button',
   component: ButtonExample,
   tags: ['autodocs'],
-  args: { children: '确认操作', intent: 'brand', variant: 'fill', size: 'base', disabled: false, loading: false, block: false, round: false, onClick: fn() },
+  args: { children: '确认操作', intent: 'brand', variant: 'fill', shape: 'rect', widthMode: 'auto', size: 'base', disabled: false, loading: false, block: false, round: false, onClick: fn() },
   argTypes: {
     children: { control: 'text', description: '按钮文案或自定义内容。' },
     intent: { control: 'select', options: intents, description: '视觉意图；组件默认 normal。' },
     variant: { control: 'inline-radio', options: variants, description: '填充、描边或无边框按钮。' },
+    shape: { control: 'inline-radio', options: ['rect', 'square'], description: '默认 rect；square 宽高相等，配合 round 为圆形。block 优先于 shape。' },
+    widthMode: { control: 'inline-radio', options: ['auto', 'fixed'], description: '默认 auto；fixed 锁定每档内容区宽度，长文案省略、图标保留。block 或 square 优先于 fixed。' },
     size: { control: 'select', options: sizes, description: '七档尺寸；响应式对象必须提供 base，sm/md/lg/xl/2xl 按需配置。' },
     disabled: { control: 'boolean', description: '禁用交互；原生按钮使用 disabled。' },
-    loading: { control: 'boolean', description: 'Loading 替换前置图标，保留文案、后置图标和焦点，并阻止重复触发。' },
+    loading: { control: 'boolean', description: '局部 spinner 替换前置图标，保留文案、后置图标和焦点，并阻止重复触发。' },
     block: { control: 'boolean', description: '占据容器整行宽度。' },
     round: { control: 'boolean', description: '使用胶囊圆角。' },
     link: { control: 'text', description: '提供时渲染原生 a；disabled/loading 时移除 href。' },
-    prefixIcon: { control: false, description: '前置装饰图标，loading 时由 Loading 替换。' },
+    prefixIcon: { control: false, description: '前置装饰图标，loading 时由局部 spinner 替换。' },
     suffixIcon: { control: false, description: '后置装饰图标。' },
     onClick: { control: false, description: '点击事件，事件元素类型随 link 区分。' },
   },
@@ -75,11 +77,42 @@ export const Sizes: Story = {
   </div>)}</div>,
 };
 
+export const Shapes: Story = {
+  name: '形状与圆角',
+  render: () => <div className="example-stack">
+    <p className="example-note">shape 只支持 rect / square；圆形由 square + round 组合。图标按钮请提供 aria-label。</p>
+    {sizes.map(size => <div className="example-row" key={size}>
+      <code>{size}</code>
+      <Button size={size} shape="rect">矩形</Button>
+      <Button size={size} round>胶囊</Button>
+      <Button size={size} shape="square" prefixIcon={arrow} aria-label={`${size} 方形继续`} />
+      <Button size={size} shape="square" round prefixIcon={arrow} aria-label={`${size} 圆形继续`} />
+      <Button size={size} shape="square" round loading aria-label={`${size} 正在提交`} />
+    </div>)}
+  </div>,
+};
+
+export const FixedWidth: Story = {
+  name: '固定内容区宽度与省略',
+  render: () => <div className="example-stack">
+    <p className="example-note">fixed-width 是包含图标、间距和文案的内容区宽度，两侧 padding 与 border 另外叠加。加载切换时外框宽度不变。</p>
+    {sizes.map(size => <div className="example-row" key={size}>
+      <code>{size}</code>
+      <Button size={size} widthMode="fixed">继续</Button>
+      <Button size={size} widthMode="fixed" prefixIcon={arrow} suffixIcon={arrow}>这是一段会被省略的较长按钮文案</Button>
+      <Button size={size} widthMode="fixed" loading>正在提交较长的按钮文案</Button>
+    </div>)}
+    <Button widthMode="fixed" link="#fixed-width">固定宽度链接</Button>
+    <Button widthMode="fixed" size={{ base: 'sm', md: 'lg', xl: '2xl' }}>响应式固定内容区宽度</Button>
+    <Button widthMode="fixed" block>block 优先，占据整行</Button>
+  </div>,
+};
+
 export const States: Story = {
   name: '状态与图标',
   render: () => <div className="example-stack">
     <div className="example-row"><Button intent="brand">默认</Button><Button intent="brand" disabled>已禁用</Button><Button intent="brand" loading>提交中</Button><Button intent="brand" round>胶囊按钮</Button></div>
-    <div className="example-row"><Button prefixIcon={arrow}>前置图标</Button><Button suffixIcon={arrow}>后置图标</Button><Button prefixIcon={arrow} suffixIcon={arrow} loading>图标与加载</Button><Button aria-label="继续" prefixIcon={arrow} round /></div>
+    <div className="example-row"><Button prefixIcon={arrow}>前置图标</Button><Button suffixIcon={arrow}>后置图标</Button><Button prefixIcon={arrow} suffixIcon={arrow} loading>图标与加载</Button><Button aria-label="继续" prefixIcon={arrow} shape="square" round /></div>
     <Button intent="brand" block>整行按钮</Button>
   </div>,
 };

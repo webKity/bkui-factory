@@ -138,7 +138,7 @@ function emitComponentCss(model) {
     for (const [id, token] of first.tokens) {
       if (!id.startsWith(`components.${component}.`)) continue;
       const parts = id.split('.');
-      const selector = `.bkreact-${component}` + (parts[2] === 'intents' ? `:where([data-intent='${parts[3]}'])` : '');
+      const selector = (component === 'button' ? '.bk-button' : `.bkreact-${component}`) + (parts[2] === 'intents' ? `:where([data-intent='${parts[3]}'])` : '');
       const name = cssComponentPath(id);
       const names = namesBySelector.get(selector) ?? new Set();
       if (names.has(name)) throw new Error(`重复组件 CSS 变量：${selector}/${name}`);

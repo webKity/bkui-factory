@@ -1,5 +1,5 @@
 /* 所有样式值只消费 Button 的局部 tokens。 */
-.bkreact-button {
+.bk-button {
   display: var(--button-display);
   position: var(--button-position);
   box-sizing: var(--button-box-sizing);
@@ -29,26 +29,26 @@
 /* 视觉禁用与 loading 都不再响应 hover/active 的着色反馈，
  * 避免 loading 时因为鼠标悬停导致颜色跳变，干扰“忙碌中”的语义。 */
 @media (hover: hover) {
-  .bkreact-button:where(:not([data-disabled], [data-loading])):hover {
+  .bk-button:where(:not([data-disabled], [data-loading])):hover {
     color: var(--button-hover-color);
     background-color: var(--button-hover-bg);
     border-color: var(--button-hover-border-color);
   }
 }
 
-.bkreact-button:where(:not([data-disabled], [data-loading])):active {
+.bk-button:where(:not([data-disabled], [data-loading])):active {
   color: var(--button-active-color);
   background-color: var(--button-active-bg);
   border-color: var(--button-active-border-color);
 }
 
-.bkreact-button:focus-visible {
+.bk-button:focus-visible {
   outline: var(--button-focus-ring-width) var(--button-focus-ring-style) var(--button-focus-ring-color);
   outline-offset: var(--button-focus-ring-offset);
 }
 
 /* 视觉禁用：只有真正 disabled 才应用灰底/灰字，避免覆盖 loading 的 intent 色调。 */
-.bkreact-button[data-disabled] {
+.bk-button[data-disabled] {
   color: var(--button-disabled-color);
   background-color: var(--button-disabled-bg);
   border-color: var(--button-disabled-border-color);
@@ -56,37 +56,71 @@
 }
 
 /* loading：保留当前 intent 的色彩，仅整体降低不透明度。 */
-.bkreact-button[data-loading] {
+.bk-button[data-loading]:not([data-disabled]) {
   opacity: var(--button-loading-opacity);
 }
 
 /* disabled 与 loading 都表现为“不可交互”的光标。 */
-.bkreact-button[data-disabled],
-.bkreact-button[data-loading] {
+.bk-button[data-disabled],
+.bk-button[data-loading] {
   cursor: var(--button-disabled-cursor);
 }
 
-.bkreact-button[data-block] {
+.bk-button[data-block] {
   width: var(--button-block-width);
 }
 
-.bkreact-button[data-round] {
+.bk-button[data-round] {
   border-radius: var(--button-round-border-radius);
 }
 
-.bkreact-button__content,
-.bkreact-button__icon {
+/* 正方形：宽高相等、padding 归零、内容由 flex 居中。
+ * 尺寸引用 --button-shape-square-size（默认 = --button-height），
+ * 因此响应式 size 会自然传递到形状。 */
+.bk-button[data-shape='square'] {
+  width: var(--button-shape-square-size);
+  height: var(--button-shape-square-size);
+  min-height: var(--button-shape-square-size);
+  padding: var(--button-shape-square-padding);
+  flex-shrink: var(--button-flex-shrink);
+}
+
+/* 固定宽度模式：
+ * 用 border-box + calc 达成「内容区宽 + 两侧 padding 和 border」的 content-box 视觉效果。
+ * 保持 border-box 是为了让 min-height 的语义与 auto 模式完全一致。 */
+.bk-button[data-width-mode='fixed'] {
+  width: calc(var(--button-fixed-width) + var(--button-padding-x) * 2 + var(--button-border-width) * 2);
+  justify-content: var(--button-align);
+  flex-shrink: var(--button-flex-shrink);
+}
+
+.bk-button__content {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.bk-button[data-width-mode='fixed'] .bk-button__label,
+.bk-button[data-shape='square'] .bk-button__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: var(--button-fixed-text-overflow);
+  white-space: nowrap;
+}
+
+.bk-button__content,
+.bk-button__icon {
   display: var(--button-display);
   align-items: var(--button-align);
   justify-content: var(--button-align);
+  flex-shrink: var(--button-flex-shrink);
 }
 
-.bkreact-button__content {
+.bk-button__content {
   gap: var(--button-content-gap);
 }
 
 /* 保留前置槽位，以已知的图标宽度过渡，避免 auto 宽度测量和异步卸载。 */
-.bkreact-button__leading {
+.bk-button__leading {
   display: var(--button-leading-display);
   flex-shrink: var(--button-flex-shrink);
   width: var(--button-leading-closed-width);
@@ -96,40 +130,40 @@
   transition: var(--button-leading-transition);
 }
 
-.bkreact-button__leading[data-visible] {
+.bk-button__leading[data-visible] {
   width: var(--button-icon-size);
   opacity: var(--button-leading-open-opacity);
 }
 
-.bkreact-button__leading[data-visible][data-spacing] {
+.bk-button__leading[data-visible][data-spacing] {
   margin-inline-end: var(--button-gap);
 }
 
-.bkreact-button__leading-inner {
+.bk-button__leading-inner {
   display: var(--button-leading-display);
   align-items: var(--button-align);
   flex-shrink: var(--button-flex-shrink);
   width: var(--button-icon-size);
 }
 
-.bkreact-button__suffix[data-spacing] {
+.bk-button__suffix[data-spacing] {
   margin-inline-start: var(--button-gap);
 }
 
-.bkreact-button__icon,
-.bkreact-button__spinner {
+.bk-button__icon,
+.bk-button__spinner {
   flex-shrink: var(--button-flex-shrink);
   width: var(--button-icon-size);
   height: var(--button-icon-size);
 }
 
-.bkreact-button__icon > svg {
+.bk-button__icon > svg {
   display: var(--button-icon-display);
   width: var(--button-icon-fill-size);
   height: var(--button-icon-fill-size);
 }
 
-.bkreact-button__spinner {
+.bk-button__spinner {
   box-sizing: var(--button-box-sizing);
   border: var(--button-spinner-border-width) var(--button-border-style) var(--button-spinner-track-color);
   border-inline-end-color: var(--button-spinner-color);
@@ -137,24 +171,24 @@
   animation: var(--button-spinner-animation);
 }
 
-@keyframes bkreact-button-spin {
+@keyframes bk-button-spin {
   from { transform: var(--button-spinner-start); }
   to { transform: var(--button-spinner-end); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bkreact-button,
-  .bkreact-button__leading {
+  .bk-button,
+  .bk-button__leading {
     transition: var(--button-reduced-motion-transition);
   }
-  .bkreact-button__spinner {
+  .bk-button__spinner {
     animation: var(--button-spinner-reduced-motion-animation);
   }
 }
 
-/* 仅在显式配置的断点切换尺寸；基础尺寸由 size.base 指定。 */
+/* 仅显式声明的断点切换尺寸，其余断点沿用当前尺寸。 */
 @media (min-width: 40rem) {
-  .bkreact-button[data-size-sm] {
+  .bk-button[data-size-sm] {
     --button-height: var(--button-sm-height);
     --button-padding-x: var(--button-sm-padding-x);
     --button-padding-y: var(--button-sm-padding-y);
@@ -162,11 +196,12 @@
     --button-line-height: var(--button-sm-line-height);
     --button-gap: var(--button-sm-gap);
     --button-icon-size: var(--button-sm-icon-size);
+    --button-fixed-width: var(--button-sm-fixed-width);
   }
 }
 
 @media (min-width: 48rem) {
-  .bkreact-button[data-size-md] {
+  .bk-button[data-size-md] {
     --button-height: var(--button-md-height);
     --button-padding-x: var(--button-md-padding-x);
     --button-padding-y: var(--button-md-padding-y);
@@ -174,11 +209,12 @@
     --button-line-height: var(--button-md-line-height);
     --button-gap: var(--button-md-gap);
     --button-icon-size: var(--button-md-icon-size);
+    --button-fixed-width: var(--button-md-fixed-width);
   }
 }
 
 @media (min-width: 64rem) {
-  .bkreact-button[data-size-lg] {
+  .bk-button[data-size-lg] {
     --button-height: var(--button-lg-height);
     --button-padding-x: var(--button-lg-padding-x);
     --button-padding-y: var(--button-lg-padding-y);
@@ -186,11 +222,12 @@
     --button-line-height: var(--button-lg-line-height);
     --button-gap: var(--button-lg-gap);
     --button-icon-size: var(--button-lg-icon-size);
+    --button-fixed-width: var(--button-lg-fixed-width);
   }
 }
 
 @media (min-width: 80rem) {
-  .bkreact-button[data-size-xl] {
+  .bk-button[data-size-xl] {
     --button-height: var(--button-xl-height);
     --button-padding-x: var(--button-xl-padding-x);
     --button-padding-y: var(--button-xl-padding-y);
@@ -198,11 +235,12 @@
     --button-line-height: var(--button-xl-line-height);
     --button-gap: var(--button-xl-gap);
     --button-icon-size: var(--button-xl-icon-size);
+    --button-fixed-width: var(--button-xl-fixed-width);
   }
 }
 
 @media (min-width: 96rem) {
-  .bkreact-button[data-size-2xl] {
+  .bk-button[data-size-2xl] {
     --button-height: var(--button-2xl-height);
     --button-padding-x: var(--button-2xl-padding-x);
     --button-padding-y: var(--button-2xl-padding-y);
@@ -210,5 +248,6 @@
     --button-line-height: var(--button-2xl-line-height);
     --button-gap: var(--button-2xl-gap);
     --button-icon-size: var(--button-2xl-icon-size);
+    --button-fixed-width: var(--button-2xl-fixed-width);
   }
 }

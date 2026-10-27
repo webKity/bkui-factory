@@ -293,18 +293,36 @@ import './packages/ui-react/src/styles.css';
 | `intent` | `normal`（默认）、`brand`、`success`、`warning`、`danger` |
 | `variant` | `fill`（默认）、`outline`、`ghost` |
 | `size` | `2xs` / `xs` / `sm` / `base`（默认）/ `lg` / `xl` / `2xl`，或响应式尺寸对象 |
+| `shape` | `rect`（默认）/ `square`；square 宽高均取当前尺寸的 height，padding 为 0；配合 round 得到圆形 |
+| `widthMode` | `auto`（默认）/ `fixed`；fixed 锁定内容区宽度，文案超出时省略，保留图标 |
 | `block` / `round` | 默认关闭；分别设置整行宽度、胶囊圆角 |
-| `prefixIcon` / `suffixIcon` | 文案前后图标，作为装饰内容隐藏于辅助技术；loading 时前置图标由 `Loading type="normal"` 替换 |
-| `disabled` / `loading` | 默认关闭；均阻止激活，loading 保留文案与后置图标，显示 Loading 并设置 `aria-busy` |
+| `prefixIcon` / `suffixIcon` | 文案前后图标，作为装饰内容隐藏于辅助技术；loading 时前置图标由局部 spinner 替换 |
+| `disabled` / `loading` | 默认关闭；均阻止激活，loading 保留文案与后置图标，显示 spinner 并设置 `aria-busy` |
 | `link` | 存在时渲染原生链接，支持 `target`、`rel`；禁用或加载时移除 `href` 并拦截点击 |
 | `type` | 原生按钮默认 `button`，显式 `submit` 才用于表单提交 |
 | `ref` / `onClick` | 根据是否提供 `link`，分别对应 `HTMLAnchorElement` 或 `HTMLButtonElement` |
 
 响应式尺寸的断点为 `sm: 40rem`、`md: 48rem`、`lg: 64rem`、`xl: 80rem`、`2xl: 96rem`。移动端默认使用 `base`，未设置的断点沿用较小断点的值，无需 JavaScript 监听窗口。
 
-进入和退出 loading 时，前置槽位以 `--button-loading-duration`（默认 `200ms`）和 `--button-loading-easing`（默认 `ease`）平滑展开或收起，无需测量按钮宽度。已有前置图标时原位替换；整行按钮保持整行宽度。非加载状态不渲染 Loading，减少动态效果偏好会关闭过渡。
+Web Button 的宽度优先级为 `block > shape > widthMode`：block 会使用 rect + auto；square 会使用 auto，冲突组合在开发环境发出提示。`round` 独立控制圆角，圆形使用 `shape="square" round`，没有 `shape="circle"`。这些属性同样适用于 link 模式。Button 通过 `className` 覆盖局部 tokens，不开放 `style`。
 
-loading 中的原生按钮通过 Base UI 保留焦点；`disabled` 则使用原生 disabled。图标按钮需由使用方提供 `aria-label`。Loading 遵循 `prefers-reduced-motion`，键盘焦点使用可见 outline。
+```tsx
+<Button shape="square" round prefixIcon={<svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" stroke="currentColor" /></svg>} aria-label="添加" />;
+<Button widthMode="fixed" prefixIcon={<span>→</span>}>较长按钮文案会显示省略号</Button>;
+<Button widthMode="fixed" size={{ base: 'sm', lg: 'xl' }}>响应式固定宽度</Button>;
+```
+
+`source/components/button.tokens.json` 中的 `sizes.<size>.fixed-width` 定义整个内容区（图标、间距、文案）的宽度；两侧 padding 和 border 另外叠加。外框总宽为 `fixed-width + 2 × padding-x + 2 × border-width`，固定模式在 flex 容器内不会自动收缩。七档内容区默认宽度如下，可在源文件中调整后运行 `npm run tokens:build`：
+
+| size | 2xs | xs | sm | base | lg | xl | 2xl |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| fixed-width（px） | 48 | 64 | 80 | 96 | 112 | 128 | 160 |
+
+Storybook 的“组件/Button”新增“形状与圆角”“固定内容区宽度与省略”，覆盖七档尺寸、图标、loading、链接和响应式用法。以上 shape / widthMode API 当前属于 Web Button，RN 尚未开放这两个属性。
+
+进入和退出 loading 时，前置槽位以 `--button-loading-duration`（默认 `200ms`）和 `--button-loading-easing`（默认 `ease`）平滑展开或收起，无需测量按钮宽度。已有前置图标时原位替换；整行按钮保持整行宽度。非加载状态不渲染 spinner；系统开启减少动态效果时关闭过渡和旋转动画。fixed / square 模式在加载切换时外框尺寸保持不变。
+
+loading 中的原生按钮通过 Base UI 保留焦点；`disabled` 则使用原生 disabled。图标按钮需由使用方提供 `aria-label`。spinner 遵循 `prefers-reduced-motion`，键盘焦点使用可见 outline。loading 保留 intent 配色并使用 loading-opacity；disabled 与 loading 同时设置时，禁用配色和 disabled-opacity 优先。
 
 组件 tokens 分层参考 [Bootstrap Button 局部 CSS 变量](https://getbootstrap.com/docs/5.3/components/buttons/#css)：
 
@@ -356,13 +374,13 @@ import './packages/ui-react/src/styles.css';
 - [size.ts](packages/ui-react/src/components/loading/size.ts)：生成尺寸 token 引用。
 - [logo.tsx](packages/ui-react/src/components/loading/logo.tsx)：保留原始 Logo 路径，使用独立裁剪 ID，支持同页多个实例和服务端水合。
 
-通过业务 class 或 `style` 覆盖 `--loading-size`、`--loading-color`、`--loading-duration` 可以定制样式。Button 只在 loading 时渲染 normal Loading，并将其尺寸绑定到 `--button-icon-size`，沿用按钮的文字颜色。
+通过业务 class 或 `style` 覆盖 `--loading-size`、`--loading-color`、`--loading-duration` 可以定制样式。Web Button 使用独立的局部 spinner，尺寸绑定到 `--button-icon-size`，颜色继承按钮文字；RN Button 继续使用原生 Loading 组件。
 
 验证命令：`npm run loading:test`、`npm run button:test`、`npm run typecheck`。Storybook 的“组件/Loading”包含三种动画、全部尺寸、响应式、颜色/速度、组件 tokens 及 Button 集成示例。
 
 ## 尺寸完整性与错误处理
 
-组件样式使用单一变量引用，例如 `var(--button-xl-height)`，不提供 `var()` 默认值来掩盖缺失的定义。编译器要求 Button 七档尺寸中的 height、padding-x、padding-y、font-size、line-height、gap、icon-size 全部存在；Loading 同样要求七档尺寸完整。缺失项在写入任何平台文件之前报错，错误中包含源文件及完整 token 路径，例如：
+组件样式使用单一变量引用，例如 `var(--button-xl-height)`，不提供 `var()` 默认值来掩盖缺失的定义。编译器要求 Button 七档尺寸中的 height、padding-x、padding-y、font-size、line-height、gap、icon-size、fixed-width 全部存在；Loading 同样要求七档尺寸完整。缺失项在写入任何平台文件之前报错，错误中包含源文件及完整 token 路径，例如：
 
 ```text
 source/components/button.tokens.json：缺少尺寸 token components.button.sizes.xl.height

@@ -171,6 +171,7 @@ test('缺少任一组件尺寸或维度时，报告源文件和 token 路径并�
   const buttonFile = path.join(options.sourceDir, 'components/button.tokens.json');
   const original = await readFile(buttonFile, 'utf8');
   for (const [edit, missing] of [
+    [data => { delete data.sizes.xl['fixed-width']; }, 'components.button.sizes.xl.fixed-width'],
     [data => { delete data.sizes.xl.height; }, 'components.button.sizes.xl.height'],
     [data => { delete data.sizes.xs; }, 'components.button.sizes.xs.height'],
     [data => { delete data.sizes.base['font-size']; }, 'components.button.sizes.base.font-size'],

@@ -25,6 +25,7 @@ export const tokens = {
     },
     "sizes": {
       "2xs": {
+        "fixed-width": 48,
         "height": 24,
         "padding-x": 8,
         "padding-y": 1,
@@ -34,6 +35,7 @@ export const tokens = {
         "icon-size": 12
       },
       "xs": {
+        "fixed-width": 64,
         "height": 28,
         "padding-x": 10,
         "padding-y": 3,
@@ -43,6 +45,7 @@ export const tokens = {
         "icon-size": 14
       },
       "sm": {
+        "fixed-width": 80,
         "height": 32,
         "padding-x": 12,
         "padding-y": 4,
@@ -52,6 +55,7 @@ export const tokens = {
         "icon-size": 16
       },
       "base": {
+        "fixed-width": 96,
         "height": 40,
         "padding-x": 16,
         "padding-y": 7,
@@ -61,6 +65,7 @@ export const tokens = {
         "icon-size": 18
       },
       "lg": {
+        "fixed-width": 112,
         "height": 44,
         "padding-x": 20,
         "padding-y": 8,
@@ -70,6 +75,7 @@ export const tokens = {
         "icon-size": 20
       },
       "xl": {
+        "fixed-width": 128,
         "height": 48,
         "padding-x": 24,
         "padding-y": 9,
@@ -79,6 +85,7 @@ export const tokens = {
         "icon-size": 22
       },
       "2xl": {
+        "fixed-width": 160,
         "height": 56,
         "padding-x": 28,
         "padding-y": 12,
@@ -156,6 +163,7 @@ export const tokens = {
     },
     "sizes": {
       "2xs": {
+        "fixed-width": 48,
         "height": 24,
         "padding-x": 8,
         "padding-y": 1,
@@ -165,6 +173,7 @@ export const tokens = {
         "icon-size": 12
       },
       "xs": {
+        "fixed-width": 64,
         "height": 28,
         "padding-x": 10,
         "padding-y": 3,
@@ -174,6 +183,7 @@ export const tokens = {
         "icon-size": 14
       },
       "sm": {
+        "fixed-width": 80,
         "height": 32,
         "padding-x": 12,
         "padding-y": 4,
@@ -183,6 +193,7 @@ export const tokens = {
         "icon-size": 16
       },
       "base": {
+        "fixed-width": 96,
         "height": 40,
         "padding-x": 16,
         "padding-y": 7,
@@ -192,6 +203,7 @@ export const tokens = {
         "icon-size": 18
       },
       "lg": {
+        "fixed-width": 112,
         "height": 44,
         "padding-x": 20,
         "padding-y": 8,
@@ -201,6 +213,7 @@ export const tokens = {
         "icon-size": 20
       },
       "xl": {
+        "fixed-width": 128,
         "height": 48,
         "padding-x": 24,
         "padding-y": 9,
@@ -210,6 +223,7 @@ export const tokens = {
         "icon-size": 22
       },
       "2xl": {
+        "fixed-width": 160,
         "height": 56,
         "padding-x": 28,
         "padding-y": 12,

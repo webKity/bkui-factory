@@ -28,3 +28,14 @@ const anchorRef = createRef<HTMLAnchorElement>();
 <Button intent="error" />;
 // @ts-expect-error 描边样式使用 outline。
 <Button variant="line" />;
+
+<Button shape="square" round prefixIcon={<svg />} aria-label="添加" />;
+<Button widthMode="fixed" size={{ base: 'sm', lg: 'xl' }}>固定宽度</Button>;
+<Button link="/account" widthMode="fixed" shape="rect">账户</Button>;
+// @ts-expect-error 圆形使用 square + round，而非独立 shape 值。
+<Button shape="circle" />;
+// @ts-expect-error 只支持 auto / fixed。
+<Button widthMode="full" />;
+
+// @ts-expect-error Button 通过 className 覆盖组件 tokens，不开放 style。
+<Button style={{ width: 200 }} />;

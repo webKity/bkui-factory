@@ -241,7 +241,7 @@ export async function buildTokenModel({ sourceDir, components: includeComponents
     for (const id of tokens.keys()) resolve(id);
     if (includeComponents) {
       const sizeProperties = {
-        button: ['height', 'padding-x', 'padding-y', 'font-size', 'line-height', 'gap', 'icon-size'],
+        button: ['height', 'padding-x', 'padding-y', 'font-size', 'line-height', 'gap', 'icon-size', 'fixed-width'],
         loading: [],
       };
       for (const [component, properties] of Object.entries(sizeProperties)) {
