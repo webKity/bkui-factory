@@ -2,7 +2,7 @@
 
 `bkui-factory` 是基于共享 Figma tokens 的 React / React Native 组件库工作区。`@bkreact/ui` 保留现有 Web API，`@bkreact/ui-native` 基于 NativeWind V5 提供 RN Button、Icon、Loading、ThemeProvider 和 useTheme；`@bkreact/assets` 提供共用的图标与 Logo 路径。Tokens 从设计源直接编译进平台组件源码。
 
-Figma 原始基础变量保留在 `source/`。Button 与 Loading 的设计映射和尺寸补充在 `source/components/*.tokens.json`；这部分由原有 CSS 提取，不表示已从 Figma 自动同步组件定义。编译器将同一份输入解析成带类型和引用的模型，再生成 Web CSS 和 RN 数值主题。脚本不连接 Figma。
+Figma 原始基础变量保留在 `source/`。Button 与 Loading 的设计映射和尺寸补充在 `source/components/*.tokens.json`；这部分由原有 CSS 提取，不表示已从 Figma 自动同步组件定义。编译器将同一份输入解析成带类型和引用的模型，再生成 Web CSS 和保留引用关系的 RN TypeScript 主题工厂。脚本不连接 Figma。
 
 ## 目录与职责
 
@@ -32,7 +32,7 @@ packages/
     │   ├── tokens.css                # 自动生成的 NativeWind 语义映射
     │   └── index.tsx                 # ThemeProvider、useTheme
     ├── button/
-    │   ├── design.tokens.ts          # 自动生成的 Button 各主题设计值
+    │   ├── design.tokens.ts          # 自动生成的 createTokens(theme) 工厂
     │   ├── tokens.ts                 # 状态计算与 NativeWind 组件变量
     │   ├── type.ts                   # 组件 API
     │   └── index.tsx                 # 组件渲染与静态工具类
@@ -42,7 +42,7 @@ apps/
 └── storybook-native-web/.storybook/
 ```
 
-全局主题只包含 primitive 与 semantic。Button、Loading 的设计值留在各自组件目录，由组件自行选择主题、计算状态并注入局部变量。修改设计值从 `source/` 开始，运行 `npm run tokens:build` 后直接更新平台源码；带生成标记的文件不手工修改。维护组件时，直接查看它的设计 tokens、平台映射和渲染实现即可。
+全局主题只包含 primitive 与 semantic。Button、Loading 的设计值留在各自组件目录，由组件消费当前主题、计算状态并注入局部变量。修改设计值从 `source/` 开始，运行 `npm run tokens:build` 后直接更新平台源码；带生成标记的文件不手工修改。维护组件时，直接查看它的设计 tokens、平台映射和渲染实现即可。
 
 当前导出文件中的首尾空格可以保留，脚本会在生成路径和变量名称时去掉首尾空格。它读取本地 JSON，不连接 Figma，也不负责从 Figma 下载数据。
 
@@ -84,7 +84,7 @@ Figma 基础变量 + 共享组件设计定义
 2. 展开嵌套分组，继承分组的 `$type`，忽略作为元数据的 `$` 字段。
 3. 建立各主题的 primitive 索引，再解析语义颜色引用。
 4. 合并字体默认值与主题覆盖，选择主题圆角或共用圆角。
-5. 解析组件 token 引用，校验循环与类型；生成主题 CSS、组件 CSS，以及 RN 已解析主题。
+5. 解析组件 token 引用，校验循环与类型；生成主题 CSS、组件 CSS，以及 RN 的基础/语义/组件 token 工厂。
 6. 所有输入转换与校验成功后，才开始写入文件；`--check` 模式只比较文件。
 
 CLI 在 `scripts/generate-theme-tokens.mjs`，同时生成两端。底层保留两个只处理主题 CSS 的兼容接口：
@@ -304,7 +304,7 @@ import './packages/ui-react/src/styles.css';
 
 响应式尺寸的断点为 `sm: 40rem`、`md: 48rem`、`lg: 64rem`、`xl: 80rem`、`2xl: 96rem`。移动端默认使用 `base`，未设置的断点沿用较小断点的值，无需 JavaScript 监听窗口。
 
-Web Button 的宽度优先级为 `block > shape > widthMode`：block 会使用 rect + auto；square 会使用 auto，冲突组合在开发环境发出提示。`round` 独立控制圆角，圆形使用 `shape="square" round`，没有 `shape="circle"`。这些属性同样适用于 link 模式。Button 通过 `className` 覆盖局部 tokens，不开放 `style`。
+Web / RN Button 的宽度优先级为 `block > shape > widthMode`：block 会使用 rect + auto；square 会使用 auto，冲突组合在开发环境发出提示。`round` 独立控制圆角，圆形使用 `shape="square" round`，没有 `shape="circle"`。Web 的这些属性同样适用于 link 模式。Web Button 通过 `className` 覆盖局部 tokens，不开放 `style`；RN 保留原生 `style`、`textStyle` 和 NativeWind 的 `className`、`textClassName`。
 
 ```tsx
 <Button shape="square" round prefixIcon={<svg viewBox="0 0 16 16"><path d="M8 3v10M3 8h10" stroke="currentColor" /></svg>} aria-label="添加" />;
@@ -318,7 +318,7 @@ Web Button 的宽度优先级为 `block > shape > widthMode`：block 会使用 r
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | fixed-width（px） | 48 | 64 | 80 | 96 | 112 | 128 | 160 |
 
-Storybook 的“组件/Button”新增“形状与圆角”“固定内容区宽度与省略”，覆盖七档尺寸、图标、loading、链接和响应式用法。以上 shape / widthMode API 当前属于 Web Button，RN 尚未开放这两个属性。
+Storybook 的“组件/Button”新增“形状与圆角”“固定内容区宽度与省略”，覆盖七档尺寸、图标、loading、链接和响应式用法。RN 文档同样提供形状、固定宽度、响应式与加载伸缩示例，跳转由 onPress 接入应用导航。
 
 进入和退出 loading 时，前置槽位以 `--button-loading-duration`（默认 `200ms`）和 `--button-loading-easing`（默认 `ease`）平滑展开或收起，无需测量按钮宽度。已有前置图标时原位替换；整行按钮保持整行宽度。非加载状态不渲染 spinner；系统开启减少动态效果时关闭过渡和旋转动画。fixed / square 模式在加载切换时外框尺寸保持不变。
 
@@ -374,7 +374,7 @@ import './packages/ui-react/src/styles.css';
 - [size.ts](packages/ui-react/src/components/loading/size.ts)：生成尺寸 token 引用。
 - [logo.tsx](packages/ui-react/src/components/loading/logo.tsx)：保留原始 Logo 路径，使用独立裁剪 ID，支持同页多个实例和服务端水合。
 
-通过业务 class 或 `style` 覆盖 `--loading-size`、`--loading-color`、`--loading-duration` 可以定制样式。Web Button 使用独立的局部 spinner，尺寸绑定到 `--button-icon-size`，颜色继承按钮文字；RN Button 继续使用原生 Loading 组件。
+通过业务 class 或 `style` 覆盖 `--loading-size`、`--loading-color`、`--loading-duration` 可以定制样式。Web / RN Button 都使用自身的局部 spinner，与 Loading 独立；尺寸、线宽、颜色和动画时长均从 Button tokens 获取。
 
 验证命令：`npm run loading:test`、`npm run button:test`、`npm run typecheck`。Storybook 的“组件/Loading”包含三种动画、全部尺寸、响应式、颜色/速度、组件 tokens 及 Button 集成示例。
 
@@ -415,7 +415,7 @@ source/components/button.tokens.json：缺少尺寸 token components.button.size
 
 组件值支持 `color`、`dimension`、`number`、`string`；dimension 直接值目前只接受 px。px 在 Web 输出中保留单位，在 RN 中按相同设计数值输出为逻辑尺寸，不进行 PixelRatio 倍乘。字体 Figma scopes 用于区分数值是否为尺寸。阴影、渐变、复合排版和平台特定单位暂未实现，遇到不支持的组件类型会报错。
 
-Web 保留 CSS 引用关系，RN 每个主题解析出真实值。运行时切换 RN 的 ThemeProvider 会更新组件；新增 RN 组件通过 `useTheme()` 消费基础与语义值，并从自己目录的 `design.tokens.ts` 读取组件设计值。全局主题没有 `components` 字段。RN Button 支持七档及响应式尺寸、五种 intent、三种 variant、loading、disabled、round、block 和前后图标插槽。RN Icon 使用 react-native-svg 渲染共用路径，支持 Figma regular/filled 与旧图标名；RN Loading 提供 normal/rect/logo 三种动画、数字或响应式尺寸、速度、颜色和减少动态效果。Web 的 DOM 事件、链接导航、SSR 空闲占位等保留为平台接口，RN 使用 onPress 与原生无障碍属性。
+Web 用 CSS 变量保留引用关系，RN 用 TypeScript 函数保留同一条引用链：`createTheme(mode, overrides)` 先由 primitive 计算 semantic，组件目录中的 `createTokens(theme)` 再通过 `theme.semantic` / `theme.primitive` 计算组件值。组件不按 mode 读取一份已展开的颜色快照。新增 RN 组件通过 `useTheme()` 获取当前主题，再调用自己目录的 token 工厂。全局主题没有 `components` 字段。RN Button 支持七档及响应式尺寸、五种 intent、三种 variant、loading、disabled、round、block、shape、widthMode 和前后图标插槽。RN Icon 使用 react-native-svg 渲染共用路径，支持 Figma regular/filled 与旧图标名；RN Loading 提供 normal/rect/logo 三种动画、数字或响应式尺寸、速度、颜色和减少动态效果。Web 的 DOM 事件、链接导航、SSR 空闲占位等保留为平台接口，RN 使用 onPress 与原生无障碍属性。
 
 ```tsx
 import '@bkreact/ui-native/styles.css';
@@ -431,6 +431,36 @@ export function Example() {
   );
 }
 ```
+
+RN 的三层数据独立于 CSS 存在：`themes/tokens.ts` 管理基础值与语义映射，`button/design.tokens.ts` / `loading/design.tokens.ts` 管理组件映射，组件实现消费生成后的局部 tokens。NativeWind CSS 是原生样式编译入口；`VariableContextProvider` 只把当前 TypeScript 主题映射为 NativeWind 可消费的变量，不承担设计数据的存储。
+
+```tsx
+<ThemeProvider mode="light" overrides={{
+  primitive: { 'blue-500': '#123456' },
+  semantic: { 'text-base-size': 20, 'text-base-line-height': 28, 'radius-scale-md': 12 },
+}}>
+  <Button intent="brand">随当前主题变化</Button>
+</ThemeProvider>
+```
+
+`overrides.primitive` 会先传导到语义映射，`overrides.semantic` 再覆盖指定语义值；更新 overrides 会更新已挂载组件，无需重新编译 CSS。不要直接修改主题对象，应通过新的 overrides 对象触发 React 更新。组件层未引用语义变量的固有设计值（例如固定内容区宽度和 spinner 时长）仍由 `source/components/` 管理。RN 文档“设计变量/NativeWind → 三层 tokens 实时联动”可操作验证这条链路。
+
+RN 的形状、宽度优先级和七档 fixed-width 与 Web 一致，尺寸单位由 NativeWind 编译为原生逻辑尺寸：
+
+```tsx
+import { BKIcon, Button } from '@bkreact/ui-native';
+
+<Button shape="square" round prefixIcon={<BKIcon name="check" />} accessibilityLabel="确认" />;
+<Button widthMode="fixed" prefixIcon={<BKIcon name="check" />}>超出内容区的长文案会单行省略</Button>;
+<Button widthMode="fixed" size={{ base: 'sm', lg: 'xl' }}>响应式固定宽度</Button>;
+<Button block loading>提交中</Button>;
+```
+
+图标槽位固定为当前 size 的 icon-size，不参与收缩；其中的 BKIcon 默认跟随按钮的尺寸和文字颜色，显式传入 size / color 时优先使用传入值。任意自定义图标节点需由调用方自行设置内部尺寸。前置图标在 loading 时由局部 spinner 替换，后置图标保留，装饰槽位不重复播报。fixed / square 的文案使用 `numberOfLines={1}` 与 `ellipsizeMode="tail"`；外框在加载切换时保持宽度。
+
+RN 使用原生 Animated 实现槽位的宽度、间距、透明度过渡及 spinner 旋转；系统启用减少动态效果时直接切换槽位并停止旋转，卸载时清理动画和无障碍订阅。hover / pressed 状态仅在非 disabled、非 loading 时改变配色。
+
+组件 source 的 `base.shape-square-padding`、`base.outline-hover-bg`、`base.outline-active-bg`、`base.spinner-duration-ms`、`base.loading-duration-ms` 分别定义方形 padding、轮廓交互背景、800ms 旋转周期及 200ms 槽位过渡。两端读取同一份定义，不在平台代码中重复维护设计数值。编译器校验这些字段与每个 intent 的六个必要颜色；缺失字段、无效类型或非正动画时长会在写入之前报错。
 
 RN 默认使用系统字体。应用自行加载字体文件，再传入 `ThemeProvider fontFamily="已注册的字体名"`；Figma 导出的字体名并不代表字体文件已经安装。RN 的 TypeScript tokens 由 Metro/Vite 随组件源码转译，发布组件包时一起构建。基础与语义值保留在主题中，组件设计值按组件分别导入。
 

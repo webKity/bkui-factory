@@ -1,12 +1,13 @@
 import { twMerge } from 'tailwind-merge';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import type { ElementRef, ForwardRefExoticComponent, RefAttributes } from 'react';
-import { AccessibilityInfo, Animated, Easing, View } from 'react-native';
+import { Animated, Easing, View } from 'react-native';
 import { VariableContextProvider } from 'nativewind';
 import { useThemeContext } from '../themes';
-import { tokens as loadingTokens } from './design.tokens';
+import { createTokens } from './design.tokens';
 import { StyledView } from '../utils/styled';
 import { useResponsiveSize } from '../utils/size';
+import { useReducedMotion } from '../utils/motion';
 import { BKIcon } from '../icon';
 import { LogoLoading } from './logo';
 
@@ -15,21 +16,11 @@ export type { LoadingProps, LoadingType, LoadingSize } from './type';
 
 const loadingClassName = 'flex-row items-center justify-center shrink-0 w-[var(--bk-loading-width)] h-[var(--bk-loading-size)]';
 
-function useReducedMotion() {
-  const [reduced, setReduced] = useState(true);
-  useEffect(() => {
-    let active = true;
-    void AccessibilityInfo.isReduceMotionEnabled().then(value => { if (active) setReduced(value); }).catch(() => {});
-    const subscription = AccessibilityInfo.addEventListener('reduceMotionChanged', setReduced);
-    return () => { active = false; subscription?.remove(); };
-  }, []);
-  return reduced;
-}
 export const Loading: ForwardRefExoticComponent<LoadingProps & RefAttributes<ElementRef<typeof View>>> = forwardRef<ElementRef<typeof View>, LoadingProps>(function Loading({
   type = 'normal', size = 'base', fillColor, speed, ariaLabel, accessibilityLabel, className, style, 'aria-hidden': hidden, ...props
 }, ref) {
-  const { mode } = useThemeContext();
-  const shared = loadingTokens[mode];
+  const { theme } = useThemeContext();
+  const shared = createTokens(theme);
   const resolvedSize = useResponsiveSize(typeof size === 'number' ? 'base' : size);
   if (typeof size === 'number' && (!Number.isFinite(size) || size < 0)) throw new Error(`Loading.size：尺寸必须为非负有限数值，收到 ${size}`);
   const height = typeof size === 'number' ? size : shared.sizes[resolvedSize];

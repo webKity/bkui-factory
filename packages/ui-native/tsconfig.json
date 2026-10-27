@@ -14,6 +14,7 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
+    "../../scripts/native-button.typecheck.tsx",
     "../../apps/storybook-native-web/.storybook/preview.tsx"
   ]
 }

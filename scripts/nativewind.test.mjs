@@ -14,7 +14,7 @@ test('NativeWind V5 将实际组件工具类编译为原生样式，并保留运
   const result = compile(css.css, { inlineVariables: false });
   const sheet = result.stylesheet();
   const rules = new Map(sheet.s);
-  for (const name of ['bg-[var(--bk-button-bg)]', 'min-h-[var(--bk-button-height)]', 'text-[length:var(--bk-button-font-size)]', 'h-[var(--bk-loading-size)]', 'bg-bk-action-primary', 'text-bk-text-primary', 'rounded-bk-scale-md', 'text-bk-base']) assert(rules.has(name), `未编译工具类：${name}`);
+  for (const name of ['bg-[var(--bk-button-bg)]', 'min-h-[var(--bk-button-height)]', 'text-[length:var(--bk-button-font-size)]', 'h-[var(--bk-loading-size)]', 'w-[var(--bk-button-width)]', 'h-[var(--bk-button-height)]', 'w-[var(--bk-button-icon-size)]', 'gap-[var(--bk-button-content-gap)]', 'ms-[var(--bk-button-gap)]', 'bg-bk-action-primary', 'text-bk-text-primary', 'rounded-bk-scale-md', 'text-bk-base']) assert(rules.has(name), `未编译工具类：${name}`);
   assert(JSON.stringify(rules.get('bg-[var(--bk-button-bg)]')).includes('bk-button-bg'));
   assert(JSON.stringify(rules.get('bg-bk-action-primary')).includes('bk-semantic-color-action-primary'));
   assert(JSON.stringify(rules.get('text-bk-base')).includes('bk-semantic-text-base-size'));
@@ -22,13 +22,14 @@ test('NativeWind V5 将实际组件工具类编译为原生样式，并保留运
 
 test('全局只生成基础主题和语义变量，组件设计值只写入组件目录', async () => {
   const files = await buildTokenFiles();
-  const { themes, themeVariables: variables } = await evaluateTokenModule(files.get('packages/ui-native/src/components/themes/tokens.ts'));
-  const { tokens: button } = await evaluateTokenModule(files.get('packages/ui-native/src/components/button/design.tokens.ts'));
-  const { tokens: loading } = await evaluateTokenModule(files.get('packages/ui-native/src/components/loading/design.tokens.ts'));
+  const { themes, getThemeVariables } = await evaluateTokenModule(files.get('packages/ui-native/src/components/themes/tokens.ts'));
+  const { createTokens: button } = await evaluateTokenModule(files.get('packages/ui-native/src/components/button/design.tokens.ts'));
+  const { createTokens: loading } = await evaluateTokenModule(files.get('packages/ui-native/src/components/loading/design.tokens.ts'));
+  const variables = Object.fromEntries(Object.entries(themes).map(([name, theme]) => [name, getThemeVariables(theme)]));
   for (const [name, theme] of Object.entries(themes)) {
     assert(!Object.hasOwn(theme, 'components'));
-    assert.equal(button[name].sizes.base.height, 40);
-    assert.equal(loading[name].sizes.base, 20);
+    assert.equal(button(theme).sizes.base.height, 40);
+    assert.equal(loading(theme).sizes.base, 20);
     assert.equal(variables[name]['--bk-semantic-text-base-size'], `${theme.semantic['text-base-size']}px`);
     assert(Object.keys(variables[name]).every(key => key.startsWith('--bk-semantic-')));
   }

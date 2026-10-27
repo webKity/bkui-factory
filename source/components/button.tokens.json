@@ -1,5 +1,10 @@
 {
   "base": {
+    "shape-square-padding": {"$type": "dimension", "$value": {"value": 0, "unit": "px"}},
+    "outline-hover-bg": {"$type": "color", "$value": "{semantic.color-fill-hover}"},
+    "outline-active-bg": {"$type": "color", "$value": "{semantic.color-fill-active}"},
+    "spinner-duration-ms": {"$type": "number", "$value": 800},
+    "loading-duration-ms": {"$type": "number", "$value": 200},
     "font-weight": {
       "$type": "number",
       "$value": 500.0

@@ -40,7 +40,7 @@
   --button-leading-closed-opacity: 0;
   --button-leading-open-opacity: 1;
   --button-leading-overflow: hidden;
-  --button-loading-duration: 200ms;
+  --button-loading-duration: calc(var(--button-loading-duration-ms) * 1ms);
   --button-loading-easing: ease;
   --button-leading-transition: width var(--button-loading-duration) var(--button-loading-easing), margin-inline-end var(--button-loading-duration) var(--button-loading-easing), opacity var(--button-loading-duration) var(--button-loading-easing);
 
@@ -58,7 +58,7 @@
   --button-spinner-track-color: transparent;
   --button-spinner-color: currentColor;
   --button-spinner-radius: 50%;
-  --button-spinner-animation: bk-button-spin 800ms linear infinite;
+  --button-spinner-animation: bk-button-spin calc(var(--button-spinner-duration-ms) * 1ms) linear infinite;
   --button-spinner-start: rotate(0deg);
   --button-spinner-end: rotate(360deg);
   --button-spinner-reduced-motion-animation: none;
@@ -74,8 +74,6 @@
   --button-fixed-width: var(--button-base-fixed-width);
   --button-fixed-text-overflow: ellipsis;
   --button-shape-square-size: var(--button-height);
-  --button-shape-square-padding: 0px;
-  --button-content-gap: 0px;
 }
 
 .bk-button:where([data-variant='outline']),
@@ -84,10 +82,10 @@
   --button-bg: var(--button-transparent);
   --button-border-color: var(--button-tone-outline-color);
   --button-hover-color: var(--button-tone-outline-color);
-  --button-hover-bg: var(--color-fill-hover);
+  --button-hover-bg: var(--button-outline-hover-bg);
   --button-hover-border-color: var(--button-tone-outline-color);
   --button-active-color: var(--button-tone-outline-color);
-  --button-active-bg: var(--color-fill-active);
+  --button-active-bg: var(--button-outline-active-bg);
   --button-active-border-color: var(--button-tone-outline-color);
   --button-disabled-bg: var(--button-transparent);
 }

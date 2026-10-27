@@ -258,6 +258,28 @@ export async function buildTokenModel({ sourceDir, components: includeComponents
           }
         }
       }
+      const buttonFile = path.join(sourceDir, 'components/button.tokens.json');
+      const requiredButtonTokens = new Map([
+        ['base.shape-square-padding', 'dimension'], ['base.content-gap', 'dimension'],
+        ['base.spinner-border-width', 'dimension'],
+        ['base.spinner-duration-ms', 'number'], ['base.loading-duration-ms', 'number'],
+        ['base.outline-hover-bg', 'color'], ['base.outline-active-bg', 'color'],
+      ]);
+      for (const intent of ['brand', 'success', 'danger', 'warning', 'normal']) {
+        for (const property of ['tone-color', 'tone-bg', 'tone-border-color', 'tone-hover-bg', 'tone-active-bg', 'tone-outline-color']) {
+          requiredButtonTokens.set(`intents.${intent}.${property}`, 'color');
+        }
+      }
+      for (const [name, type] of requiredButtonTokens) {
+        const id = `components.button.${name}`;
+        const token = tokens.get(id);
+        if (!token) throw new Error(`${buttonFile}：缺少组件 token ${id}`);
+        if (token.type !== type) throw new Error(`${buttonFile}：${id} 必须为 ${type}`);
+        const value = resolve(id);
+        if ((type === 'dimension' && value < 0) || (type === 'number' && value <= 0)) {
+          throw new Error(`${buttonFile}：${id} 必须为${type === 'dimension' ? '非负数' : '正数'}`);
+        }
+      }
     }
 
     const native = { primitive: {}, semantic: {}, components: {} };

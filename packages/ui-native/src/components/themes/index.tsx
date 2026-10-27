@@ -1,8 +1,8 @@
 import { createContext, useContext, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import { VariableContextProvider } from 'nativewind';
-import { defaultTheme, themes, themeVariables } from './tokens';
-import type { NativeTheme, ThemeName } from './tokens';
+import { createTheme, defaultTheme, themes, getThemeVariables } from './tokens';
+import type { NativeTheme, ThemeName, ThemeOverrides } from './tokens';
 
 interface ThemeContextValue {
   mode: ThemeName;
@@ -10,14 +10,17 @@ interface ThemeContextValue {
   fontFamily?: string;
 }
 const ThemeContext = createContext<ThemeContextValue>({ mode: defaultTheme, theme: themes[defaultTheme] });
-export function ThemeProvider({ mode = defaultTheme, fontFamily, children }: {
-  mode?: ThemeName; fontFamily?: string; children: ReactNode;
+export function ThemeProvider({ mode = defaultTheme, overrides, fontFamily, children }: {
+  mode?: ThemeName; overrides?: ThemeOverrides; fontFamily?: string; children: ReactNode;
 }) {
-  const value = useMemo(() => ({ mode, theme: themes[mode], fontFamily }), [mode, fontFamily]);
+  const theme = useMemo(() => createTheme(mode, overrides), [mode, overrides]);
+  const variables = useMemo(() => getThemeVariables(theme), [theme]);
+  const value = useMemo(() => ({ mode, theme, fontFamily }), [mode, theme, fontFamily]);
   return <ThemeContext.Provider value={value}>
-    <VariableContextProvider value={themeVariables[mode]}>{children}</VariableContextProvider>
+    <VariableContextProvider value={variables}>{children}</VariableContextProvider>
   </ThemeContext.Provider>;
 }
 export const useTheme = () => useContext(ThemeContext).theme;
 export const useThemeContext = () => useContext(ThemeContext);
-export type { ThemeName, NativeTheme };
+export { createTheme };
+export type { ThemeName, NativeTheme, ThemeOverrides };

@@ -158,35 +158,70 @@ function emitComponentCss(model) {
 function emitNativeFiles(model) {
   const outputs = new Map();
   const base = 'packages/ui-native/src/components';
-  // Global theme data contains foundations only. Components own their generated values.
-  const themes = Object.fromEntries(Object.entries(model.themes).map(([name, data]) => [name, {
-    primitive: data.native.primitive,
-    semantic: data.native.semantic,
-  }]));
+  // Preserve aliases in TS, just as Web preserves them with CSS custom properties.
+  const first = Object.values(model.themes)[0];
+  function expression(data, id, scope) {
+    const token = data.tokens.get(id);
+    if (token.ref) {
+      if (token.ref.startsWith('primitive.')) return `${scope}.primitive[${JSON.stringify(token.ref.slice(10))}]`;
+      if (token.ref.startsWith('semantic.')) return `${scope}.semantic[${JSON.stringify(token.ref.slice(9))}]`;
+      return expression(data, token.ref, scope);
+    }
+    return JSON.stringify(token.value);
+  }
+  function tree(value, id, indent = 2) {
+    if (!value || typeof value !== 'object') return expression(first, id, 'theme');
+    return `{\n${Object.entries(value).map(([key, child]) => `${' '.repeat(indent)}${JSON.stringify(key)}: ${tree(child, `${id}.${key}`, indent + 2)},`).join('\n')}\n${' '.repeat(indent - 2)}}`;
+  }
+  const primitive = Object.fromEntries(Object.entries(model.themes).map(([name, data]) => [name, data.native.primitive]));
+  const semanticFactories = Object.entries(model.themes).map(([name, data]) => {
+    const entries = [...data.tokens].filter(([id]) => id.startsWith('semantic.')).map(([id]) => {
+      const value = expression(data, id, 'theme').replace(/^theme\.primitive/, 'primitive');
+      return `    ${JSON.stringify(id.slice(9))}: ${value},`;
+    });
+    return `  ${JSON.stringify(name)}: (primitive: PrimitiveTokens) => ({\n${entries.join('\n')}\n  }),`;
+  });
   const dimensions = [...new Set(Object.values(model.themes).flatMap(data => [...data.tokens]
     .filter(([id, token]) => id.startsWith('semantic.') && token.type === 'dimension')
     .map(([id]) => id.slice('semantic.'.length))))];
   const themeSource = [
     `// ${notice}`,
-    `export const themes = ${JSON.stringify(themes, null, 2)};`,
-    'export type ThemeName = keyof typeof themes;',
-    'export type NativeTheme = typeof themes[ThemeName];',
+    `const primitiveTokens = ${JSON.stringify(primitive, null, 2)};`,
+    'export type ThemeName = keyof typeof primitiveTokens;',
+    'export type PrimitiveTokens = typeof primitiveTokens[ThemeName];',
     `export const defaultTheme: ThemeName = ${JSON.stringify(model.defaultTheme)};`,
     '',
+    `const semanticFactories = {\n${semanticFactories.join('\n')}\n};`,
+    'export type SemanticTokens = ReturnType<typeof semanticFactories[ThemeName]>;',
+    'export interface NativeTheme { primitive: PrimitiveTokens; semantic: SemanticTokens }',
+    'export interface ThemeOverrides { primitive?: Partial<PrimitiveTokens>; semantic?: Partial<SemanticTokens> }',
+    '',
+    'export function createTheme(mode: ThemeName, overrides: ThemeOverrides = {}): NativeTheme {',
+    '  const primitive = { ...primitiveTokens[mode], ...overrides.primitive };',
+    '  return { primitive, semantic: { ...semanticFactories[mode](primitive), ...overrides.semantic } };',
+    '}',
+    `export const themes = { ${Object.keys(model.themes).map(name => `${JSON.stringify(name)}: createTheme(${JSON.stringify(name)})`).join(', ')} };`,
+    '',
     `const dimensions = new Set(${JSON.stringify(dimensions)});`,
-    'export const themeVariables = Object.fromEntries(',
-    '  Object.entries(themes).map(([name, theme]) => [name, Object.fromEntries(',
-    '    Object.entries(theme.semantic).map(([key, value]) => [',
-    '      `--bk-semantic-${key}`, dimensions.has(key) ? `${value}px` : value,',
-    '    ]),',
-    '  )]),',
-    ') as Record<ThemeName, Record<`--${string}`, string | number>>;',
+    'export function getThemeVariables(theme: NativeTheme): Record<`--${string}`, string | number> {',
+    '  return Object.fromEntries(Object.entries(theme.semantic).map(([key, value]) => [',
+    '    `--bk-semantic-${key}`, dimensions.has(key) ? `${value}px` : value,',
+    '  ]));',
+    '}',
     '',
   ].join('\n');
   outputs.set(`${base}/themes/tokens.ts`, themeSource);
   for (const component of Object.keys(model.componentDefinitions)) {
-    const values = Object.fromEntries(Object.entries(model.themes).map(([name, data]) => [name, data.native.components[component]]));
-    outputs.set(`${base}/${component}/design.tokens.ts`, `// ${notice}\nexport const tokens = ${JSON.stringify(values, null, 2)};\n`);
+    const contents = [
+      `// ${notice}`,
+      "import type { NativeTheme } from '../themes/tokens';",
+      '',
+      'export function createTokens(theme: NativeTheme) {',
+      `  return ${tree(first.native.components[component], `components.${component}`, 4)};`,
+      '}',
+      '',
+    ].join('\n');
+    outputs.set(`${base}/${component}/design.tokens.ts`, contents);
   }
   const declarations = [];
   const utilities = [];

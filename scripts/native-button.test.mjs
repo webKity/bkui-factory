@@ -5,7 +5,7 @@ import path from 'node:path';
 import { after, before, test } from 'node:test';
 import { build } from 'esbuild';
 import { JSDOM } from 'jsdom';
-import { act, createElement as h } from 'react';
+import { act, createElement as h, createRef } from 'react';
 
 const project = fileURLToPath(new URL('../', import.meta.url));
 let dom, temporary, root, container, Button, ThemeProvider, Loading, BKIcon, render;
@@ -60,7 +60,7 @@ test('RN Button 通过实际 RN Web 渲染，onPress、loading、disabled 及主
   button = await render({ onPress: () => presses++, loading: true });
   assert.equal(button.getAttribute('aria-disabled'), 'true');
   assert.equal(button.getAttribute('aria-busy'), 'true');
-  assert(button.querySelector('svg'));
+  assert(button.querySelector('[data-testid="bk-button-spinner"]'));
   assert(!button.querySelector('[role="progressbar"]'), '按钮内的装饰 Loading 不重复播报');
   await act(() => button.click());
   assert.equal(presses, 1);
@@ -116,4 +116,68 @@ test('NativeWind 自定义 className 能覆盖组件默认工具类', async () =
   assert(button.className.includes('px-8'));
   assert(!button.className.includes('bg-[var(--bk-button-bg)]'));
   assert(!button.className.includes('px-[var(--bk-button-padding-x)]'));
+});
+
+
+test('RN square / fixed / block 遵循 Web 的宽度优先级，长文案与图标使用独立槽位', async () => {
+  const prefix = h(BKIcon, { name: 'check', 'data-testid': 'prefix' });
+  const suffix = h(BKIcon, { name: 'check', 'data-testid': 'suffix' });
+  let button = await render({ shape: 'square', round: true, prefixIcon: prefix });
+  assert(button.className.includes('w-[var(--bk-button-width)]'));
+  assert(button.classList.contains('h-[var(--bk-button-height)]'));
+  const variables = () => Object.assign({}, ...[...container.querySelectorAll('[style]')].map(node => Object.fromEntries(
+    Array.from({ length: node.style.length }, (_, i) => node.style[i]).filter(key => key.startsWith('--bk-button-')).map(key => [key, node.style.getPropertyValue(key)]),
+  )));
+  assert.equal(variables()['--bk-button-width'], '40px');
+  assert.equal(variables()['--bk-button-padding-x'], '0px');
+  assert.equal(button.querySelector('[data-testid="prefix"]').getAttribute('width'), '18');
+  button = await render({ widthMode: 'fixed', prefixIcon: prefix, suffixIcon: suffix });
+  assert.equal(variables()['--bk-button-width'], '130px', '96 内容区 + 2 × 16 padding + 2 × 1 border');
+  assert.equal(button.querySelectorAll('svg').length, 2);
+  assert(button.querySelector('[data-testid="bk-button-leading"]').hasAttribute('aria-hidden'));
+  assert(button.querySelector('[data-testid="bk-button-suffix"]').className.includes('shrink-0'));
+  const label = [...button.querySelectorAll('div')].find(node => node.textContent === '提交' && node.className.includes('text-['));
+  assert(label.className.includes('shrink'));
+  assert(!button.hasAttribute('shape'));
+  assert(!button.hasAttribute('widthMode'));
+  button = await render({ widthMode: 'fixed', loading: true });
+  assert.equal(variables()['--bk-button-width'], '130px');
+  assert(button.querySelector('[data-testid="bk-button-spinner"]'));
+  button = await render({ block: true, shape: 'square', widthMode: 'fixed' });
+  assert(button.className.includes('w-full'));
+  assert(!button.className.includes('w-[var(--bk-button-width)]'));
+  assert(!button.classList.contains('h-[var(--bk-button-height)]'));
+  assert.equal(variables()['--bk-button-padding-x'], '16px');
+});
+
+test('RN Button 保留 ref 和原生 style 覆盖，显式图标尺寸和颜色优先', async () => {
+  const ref = createRef();
+  const button = await render({ ref, style: { marginTop: 7 }, prefixIcon: h(BKIcon, { name: 'check', size: 12, color: '#123456' }) });
+  assert.equal(ref.current, button);
+  assert.equal(button.style.marginTop, '7px');
+  assert.equal(button.querySelector('svg').getAttribute('width'), '12');
+  assert(button.querySelector('path').getAttribute('fill') === '#123456');
+});
+
+test('同一 mode 下修改 ThemeProvider 的 primitive / semantic，Button、Icon 和 Loading 随当前主题更新', async () => {
+  const view = overrides => h(ThemeProvider, { mode: 'light', overrides },
+    h(Button, { intent: 'brand' }, '提交'), h(BKIcon, { name: 'check' }), h(Loading, { type: 'rect' }));
+  const variable = name => [...container.querySelectorAll('[style]')].map(node => node.style.getPropertyValue(name)).find(Boolean);
+  await act(() => root.render(view({ primitive: { 'blue-500': '#123456' } })));
+  assert.equal(variable('--bk-semantic-color-action-primary'), '#123456');
+  assert.equal(variable('--bk-button-bg'), '#123456');
+  const button = container.querySelector('[role="button"]');
+  await act(() => root.render(view({ semantic: {
+    'color-action-primary': '#654321', 'color-text-primary': '#345678',
+    'text-base-size': 21, 'radius-scale-md': 11,
+  } })));
+  assert.equal(container.querySelector('[role="button"]'), button, '更新主题时不重建按钮');
+  assert.equal(variable('--bk-button-bg'), '#654321');
+  assert.equal(variable('--bk-button-font-size'), '21px');
+  assert.equal(variable('--bk-button-radius'), '11px');
+  assert.equal(container.querySelector('svg').getAttribute('color'), '#345678');
+  const bar = container.querySelector('[role="progressbar"] [style*="scaleY"]');
+  assert.equal(bar.style.backgroundColor, 'rgb(52, 86, 120)');
+  await act(() => root.render(view(undefined)));
+  assert.notEqual(variable('--bk-button-bg'), '#654321');
 });

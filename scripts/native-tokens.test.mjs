@@ -30,9 +30,9 @@ async function editComponent(options, edit) {
 }
 async function native(outputs) {
   const { themes } = await evaluateTokenModule(outputs.get('packages/ui-native/src/components/themes/tokens.ts'));
-  const { tokens: button } = await evaluateTokenModule(outputs.get('packages/ui-native/src/components/button/design.tokens.ts'));
+  const { createTokens: button } = await evaluateTokenModule(outputs.get('packages/ui-native/src/components/button/design.tokens.ts'));
   // Assemble only inside tests to compare component values with foundation references.
-  return Object.fromEntries(Object.entries(themes).map(([name, theme]) => [name, { ...theme, components: { button: button[name] } }]));
+  return Object.fromEntries(Object.entries(themes).map(([name, theme]) => [name, { ...theme, components: { button: button(theme) } }]));
 }
 
 test('同一设计源生成 Web 引用与 RN 解析值，两端所有组件 token 一致', async () => {
@@ -137,9 +137,9 @@ test('RN 状态组合保持 intent 色彩，loading 阻止交互时不变成 dis
     for (const intent of ['normal', 'brand', 'success', 'warning', 'danger']) {
       for (const variant of ['fill', 'outline', 'ghost']) {
         for (const size of ['2xs', 'xs', 'sm', 'base', 'lg', 'xl', '2xl']) {
-          const normal = resolveButtonTokens(mode, { intent, variant, size });
-          const loading = resolveButtonTokens(mode, { intent, variant, size, loading: true });
-          const disabled = resolveButtonTokens(mode, { intent, variant, size, disabled: true, loading: true });
+          const normal = resolveButtonTokens(theme, { intent, variant, size });
+          const loading = resolveButtonTokens(theme, { intent, variant, size, loading: true });
+          const disabled = resolveButtonTokens(theme, { intent, variant, size, disabled: true, loading: true });
           assert.equal(normal.height, theme.components.button.sizes[size].height);
           assert.equal(loading.color, normal.color);
           assert.equal(disabled.color, theme.components.button.base['disabled-color']);
@@ -149,7 +149,7 @@ test('RN 状态组合保持 intent 色彩，loading 阻止交互时不变成 dis
         }
       }
     }
-    const token = resolveButtonTokens(mode, { intent: 'brand', pressed: true });
+    const token = resolveButtonTokens(theme, { intent: 'brand', pressed: true });
     assert.equal(token.background, theme.components.button.intents.brand['tone-active-bg']);
   }
 });
@@ -192,4 +192,128 @@ test('缺少任一组件尺寸或维度时，报告源文件和 token 路径并�
   await writeFile(loadingFile, JSON.stringify(loading));
   await assert.rejects(generateTokens(options), /loading.tokens.json.*缺少尺寸 token components.loading.sizes.2xl/);
   await assert.rejects(readFile(path.join(options.targetRoot, 'packages/ui-native/src/components/themes/tokens.ts')), { code: 'ENOENT' });
+});
+
+
+test('RN 几何尺寸、优先级与 Web 契约一致，fixed 包含两侧 padding 和 border', async () => {
+  const themes = await native(await buildTokenFiles());
+  for (const [mode, theme] of Object.entries(themes)) {
+    for (const [size, expected] of Object.entries(theme.components.button.sizes)) {
+      const fixed = resolveButtonTokens(theme, { size, widthMode: 'fixed' });
+      assert.equal(fixed.width, expected['fixed-width'] + expected['padding-x'] * 2 + fixed.borderWidth * 2);
+      assert.equal(fixed.loadingDuration, theme.components.button.base['loading-duration-ms']);
+      assert.equal(fixed.spinnerDuration, theme.components.button.base['spinner-duration-ms']);
+      const square = resolveButtonTokens(theme, { size, shape: 'square', widthMode: 'fixed', round: true });
+      assert.equal(square.width, expected.height);
+      assert.equal(square.height, expected.height);
+      assert.equal(square['padding-x'], theme.components.button.base['shape-square-padding']);
+      assert.equal(square['padding-y'], theme.components.button.base['shape-square-padding']);
+      assert.equal(square.widthMode, 'auto');
+      assert.equal(square.radius, theme.components.button.base['round-border-radius']);
+      const block = resolveButtonTokens(theme, { size, shape: 'square', widthMode: 'fixed', block: true });
+      assert.equal(block.shape, 'rect');
+      assert.equal(block.widthMode, 'auto');
+      assert.equal(block.width, undefined);
+      assert.equal(block['padding-x'], expected['padding-x']);
+    }
+  }
+});
+
+test('RN hover / pressed 的配色及交互屏蔽与 Web 一致', async () => {
+  const themes = await native(await buildTokenFiles());
+  for (const [mode, theme] of Object.entries(themes)) {
+    const base = theme.components.button.base;
+    for (const [intent, tone] of Object.entries(theme.components.button.intents)) {
+      for (const variant of ['fill', 'outline', 'ghost']) {
+        const hover = resolveButtonTokens(theme, { intent, variant, hovered: true });
+        const pressed = resolveButtonTokens(theme, { intent, variant, hovered: true, pressed: true });
+        const outlined = variant !== 'fill';
+        assert.equal(hover.background, outlined ? base['outline-hover-bg'] : tone['tone-hover-bg']);
+        assert.equal(pressed.background, outlined ? base['outline-active-bg'] : tone['tone-active-bg']);
+        assert.equal(hover.borderColor, variant === 'ghost' ? 'transparent' : outlined ? tone['tone-outline-color'] : tone['tone-hover-bg']);
+        for (const state of [{ loading: true }, { disabled: true }, { loading: true, disabled: true }]) {
+          assert.deepEqual(resolveButtonTokens(theme, { intent, variant, ...state, hovered: true, pressed: true }), resolveButtonTokens(theme, { intent, variant, ...state }));
+        }
+      }
+    }
+  }
+});
+
+test('缺失状态 token 或动画时长非法时，在写入之前暴露 source 中的完整路径', async t => {
+  const options = await fixture(t);
+  const file = path.join(options.sourceDir, 'components/button.tokens.json');
+  const original = await readFile(file, 'utf8');
+  for (const [edit, missing] of [
+    [data => { delete data.base['shape-square-padding']; }, 'base.shape-square-padding'],
+    [data => { delete data.base['outline-hover-bg']; }, 'base.outline-hover-bg'],
+    [data => { delete data.intents.brand['tone-hover-bg']; }, 'intents.brand.tone-hover-bg'],
+    [data => { data.base['spinner-duration-ms'].$value = 0; }, 'base.spinner-duration-ms'],
+  ]) {
+    await writeFile(file, original);
+    await editComponent(options, edit);
+    await assert.rejects(generateTokens(options), error => error.message.includes('button.tokens.json') && error.message.includes(`components.button.${missing}`));
+    await assert.rejects(readFile(path.join(options.targetRoot, 'packages/ui-native/src/components/button/design.tokens.ts')), { code: 'ENOENT' });
+  }
+});
+
+test('RN 在运行时保留 primitive → semantic → component 引用链，无需重新编译 CSS', async () => {
+  const files = await buildTokenFiles();
+  const { themes, createTheme, getThemeVariables } = await evaluateTokenModule(files.get('packages/ui-native/src/components/themes/tokens.ts'));
+  const buttonSource = files.get('packages/ui-native/src/components/button/design.tokens.ts');
+  const { createTokens: button } = await evaluateTokenModule(buttonSource);
+  const { createTokens: loading } = await evaluateTokenModule(files.get('packages/ui-native/src/components/loading/design.tokens.ts'));
+  assert.match(buttonSource, /theme\.semantic\["color-action-primary"\]/);
+  assert.doesNotMatch(buttonSource, /"light"|"dark"/);
+  const theme = createTheme('light', { primitive: { 'blue-500': '#123456' } });
+  assert.equal(theme.semantic['color-action-primary'], '#123456');
+  assert.equal(button(theme).intents.brand['tone-bg'], '#123456');
+  assert.equal(resolveButtonTokens(theme, { intent: 'brand' }).background, '#123456');
+  const custom = createTheme('light', { semantic: {
+    'color-action-primary': '#654321', 'color-text-primary': '#345678',
+    'text-base-size': 21, 'text-base-line-height': 30, 'radius-scale-md': 11, 'radius-scale-xs': 3,
+  } });
+  const resolved = resolveButtonTokens(custom, { intent: 'brand' });
+  assert.equal(resolved.background, '#654321');
+  assert.equal(resolved['font-size'], 21);
+  assert.equal(resolved['line-height'], 30);
+  assert.equal(resolved.radius, 11);
+  assert.equal(loading(custom).base.color, '#345678');
+  assert.equal(loading(custom).base['bar-radius'], 3);
+  assert.equal(getThemeVariables(custom)['--bk-semantic-color-action-primary'], '#654321');
+  assert.equal(getThemeVariables(custom)['--bk-semantic-text-base-size'], '21px');
+  assert.notEqual(themes.light.semantic['color-action-primary'], '#654321', '自定义主题不能污染预置主题');
+  assert(!JSON.stringify(custom).includes('var('));
+});
+
+test('source 修改后写入 RN 工厂，重新生成仍保留三层引用且结果稳定', async t => {
+  const options = await fixture(t);
+  const semanticFile = path.join(options.sourceDir, 'semantic/light/colors.tokens.json');
+  const semantic = JSON.parse(await readFile(semanticFile, 'utf8'));
+  // 更换 source 中的引用目标，保留 Figma 缓存值，以验证生成结果使用引用关系。
+  semantic.action.primary.$extensions['com.figma.aliasData'].targetVariableName = 'green-500';
+  await writeFile(semanticFile, JSON.stringify(semantic));
+  await editComponent(options, data => {
+    data.base['border-radius'].$value = '{semantic.radius-scale-lg}';
+    data.base['custom-radius'] = { $type: 'dimension', $value: '{components.button.base.border-radius}' };
+  });
+  const themeFile = path.join(options.targetRoot, 'packages/ui-native/src/components/themes/tokens.ts');
+  const buttonFile = path.join(options.targetRoot, 'packages/ui-native/src/components/button/design.tokens.ts');
+  await generateTokens(options);
+  const themeCode = await readFile(themeFile, 'utf8');
+  const buttonCode = await readFile(buttonFile, 'utf8');
+  const { createTheme } = await evaluateTokenModule(themeCode);
+  const { createTokens } = await evaluateTokenModule(buttonCode);
+  const theme = createTheme('light', {
+    primitive: { 'green-500': '#123456' },
+    semantic: { 'radius-scale-lg': 19 },
+  });
+  assert.equal(createTokens(theme).intents.brand['tone-bg'], '#123456');
+  assert.equal(createTokens(theme).base['border-radius'], 19);
+  assert.equal(createTokens(theme).base['custom-radius'], 19, '组件内的链式引用也必须保留对当前主题的依赖');
+  assert.match(buttonCode, /theme\.semantic\["radius-scale-lg"\]/);
+  assert.doesNotMatch(buttonCode, /export const tokens|"light"|"dark"/);
+  await generateTokens(options);
+  assert.equal(await readFile(themeFile, 'utf8'), themeCode);
+  assert.equal(await readFile(buttonFile, 'utf8'), buttonCode);
+  await generateTokens({ ...options, check: true });
 });
