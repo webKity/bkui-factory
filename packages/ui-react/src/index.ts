@@ -5,3 +5,5 @@ export type { IconProps, IconName, FigmaIconName, IconVariant } from './componen
 
 export type { LoadingProps, LoadingType, LoadingSize } from './components/loading/type';
 export type { InputOTPProps } from './components/input.otp';
+
+export type { IAlertProps } from './components/alert/type';

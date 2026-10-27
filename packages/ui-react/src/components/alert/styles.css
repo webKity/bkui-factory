@@ -1,0 +1,145 @@
+/* 样式仅消费 Alert 局部 tokens。 */
+.bkreact-alert {
+  display: var(--alert-display);
+  box-sizing: var(--alert-box-sizing);
+  width: var(--alert-width);
+  align-items: var(--alert-align);
+  gap: var(--alert-gap);
+  padding: var(--alert-padding-y) var(--alert-padding-x);
+  font-family: var(--alert-font-family);
+  font-size: var(--alert-font-size);
+  line-height: var(--alert-line-height);
+  color: var(--alert-color);
+  background: var(--alert-bg);
+  border: var(--alert-border-width) var(--alert-border-style) var(--alert-border-color);
+  border-radius: var(--alert-border-radius);
+  overflow-wrap: var(--alert-overflow-wrap);
+}
+
+.bkreact-alert__content {
+  flex: var(--alert-content-flex);
+  min-width: var(--alert-min-width);
+}
+
+.bkreact-alert__message {
+  font-weight: var(--alert-message-font-weight);
+}
+
+.bkreact-alert__description {
+  margin-block-start: var(--alert-description-gap);
+  color: var(--alert-description-color);
+}
+
+.bkreact-alert__icon,
+.bkreact-alert__close {
+  flex: var(--alert-fixed-flex);
+  width: var(--alert-icon-size);
+  height: var(--alert-icon-size);
+  margin-block-start: var(--alert-icon-offset);
+  color: var(--alert-icon-color);
+}
+
+.bkreact-alert__icon > svg,
+.bkreact-alert__close > svg {
+  display: var(--alert-icon-display);
+  width: var(--alert-icon-fill-size);
+  height: var(--alert-icon-fill-size);
+}
+
+.bkreact-alert__action {
+  flex: var(--alert-fixed-flex);
+}
+
+.bkreact-alert__close {
+  display: var(--alert-display);
+  align-items: var(--alert-close-align);
+  justify-content: var(--alert-close-align);
+  padding: var(--alert-close-padding);
+  border: var(--alert-close-border);
+  border-radius: var(--alert-border-radius);
+  background: var(--alert-close-bg);
+  cursor: var(--alert-close-cursor);
+}
+
+.bkreact-alert__close > svg {
+  stroke-width: var(--alert-close-stroke-width);
+}
+
+.bkreact-alert__close:hover {
+  background: var(--alert-close-hover-bg);
+}
+
+.bkreact-alert__close:focus-visible {
+  outline: var(--alert-focus-ring-width) var(--alert-border-style) var(--alert-focus-ring-color);
+  outline-offset: var(--alert-focus-ring-offset);
+}
+
+.bkreact-alert[data-state='closing'] {
+  animation: var(--alert-close-animation);
+}
+
+@keyframes bk-alert-close {
+  from { opacity: var(--alert-open-opacity); }
+  to { opacity: var(--alert-closed-opacity); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-alert[data-state='closing'] {
+    animation: var(--alert-reduced-motion-animation);
+  }
+}
+
+@media (min-width: 40rem) {
+  .bkreact-alert[data-size-sm] {
+    --alert-padding-x: var(--alert-sm-padding-x);
+    --alert-padding-y: var(--alert-sm-padding-y);
+    --alert-font-size: var(--alert-sm-font-size);
+    --alert-line-height: var(--alert-sm-line-height);
+    --alert-gap: var(--alert-sm-gap);
+    --alert-icon-size: var(--alert-sm-icon-size);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-alert[data-size-md] {
+    --alert-padding-x: var(--alert-md-padding-x);
+    --alert-padding-y: var(--alert-md-padding-y);
+    --alert-font-size: var(--alert-md-font-size);
+    --alert-line-height: var(--alert-md-line-height);
+    --alert-gap: var(--alert-md-gap);
+    --alert-icon-size: var(--alert-md-icon-size);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-alert[data-size-lg] {
+    --alert-padding-x: var(--alert-lg-padding-x);
+    --alert-padding-y: var(--alert-lg-padding-y);
+    --alert-font-size: var(--alert-lg-font-size);
+    --alert-line-height: var(--alert-lg-line-height);
+    --alert-gap: var(--alert-lg-gap);
+    --alert-icon-size: var(--alert-lg-icon-size);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-alert[data-size-xl] {
+    --alert-padding-x: var(--alert-xl-padding-x);
+    --alert-padding-y: var(--alert-xl-padding-y);
+    --alert-font-size: var(--alert-xl-font-size);
+    --alert-line-height: var(--alert-xl-line-height);
+    --alert-gap: var(--alert-xl-gap);
+    --alert-icon-size: var(--alert-xl-icon-size);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-alert[data-size-2xl] {
+    --alert-padding-x: var(--alert-2xl-padding-x);
+    --alert-padding-y: var(--alert-2xl-padding-y);
+    --alert-font-size: var(--alert-2xl-font-size);
+    --alert-line-height: var(--alert-2xl-line-height);
+    --alert-gap: var(--alert-2xl-gap);
+    --alert-icon-size: var(--alert-2xl-icon-size);
+  }
+}

@@ -4,3 +4,5 @@
 @import './components/icon/index.css';
 @import './components/loading/index.css';
 @import './components/input.otp/index.css';
+
+@import './components/alert/index.css';

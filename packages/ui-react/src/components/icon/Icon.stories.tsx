@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { BKIcon, figmaIconNames, iconNames } from './index';
 import { figmaIcons } from './figma';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta = {
   title: '组件/Icon',

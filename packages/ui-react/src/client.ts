@@ -11,3 +11,6 @@ export type { IconProps, IconName, FigmaIconName, IconVariant } from './componen
 
 export { Loading } from './components/loading';
 export type { LoadingProps, LoadingType, LoadingSize } from './components/loading/type';
+
+export { Alert } from './components/alert';
+export type { IAlertProps } from './components/alert/type';
