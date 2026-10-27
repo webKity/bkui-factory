@@ -1,0 +1,101 @@
+/* 样式层只消费 InputOTP 自己的 component tokens。 */
+.bkreact-input-otp {
+  display: var(--input-otp-display);
+  align-items: var(--input-otp-align);
+  gap: var(--input-otp-gap);
+}
+
+.bkreact-input-otp__input {
+  box-sizing: var(--input-otp-box-sizing);
+  width: var(--input-otp-slot-size);
+  height: var(--input-otp-slot-size);
+  min-width: var(--input-otp-min-width);
+  flex-shrink: var(--input-otp-flex-shrink);
+  margin: var(--input-otp-margin);
+  padding: var(--input-otp-padding);
+  appearance: var(--input-otp-appearance);
+  border: var(--input-otp-border-width) var(--input-otp-border-style) var(--input-otp-border-color);
+  border-radius: var(--input-otp-border-radius);
+  background: var(--input-otp-bg);
+  color: var(--input-otp-color);
+  font-family: var(--input-otp-font-family);
+  font-size: var(--input-otp-font-size);
+  font-weight: var(--input-otp-font-weight);
+  line-height: var(--input-otp-line-height);
+  text-align: var(--input-otp-text-align);
+  cursor: var(--input-otp-cursor);
+  outline: var(--input-otp-rest-outline-width) var(--input-otp-outline-style) var(--input-otp-focus-ring-color);
+  outline-offset: var(--input-otp-focus-ring-offset);
+  transition: var(--input-otp-transition);
+}
+
+.bkreact-input-otp__input:where(:hover:not(:disabled):not([readonly])) {
+  border-color: var(--input-otp-hover-border-color);
+}
+
+.bkreact-input-otp__input:where(:focus) {
+  border-color: var(--input-otp-focus-border-color);
+  outline-width: var(--input-otp-focus-ring-width);
+}
+
+.bkreact-input-otp__input:where([data-invalid]) {
+  border-color: var(--input-otp-invalid-border-color);
+  outline-color: var(--input-otp-invalid-border-color);
+}
+
+.bkreact-input-otp__input:where(:disabled) {
+  color: var(--input-otp-disabled-color);
+  background: var(--input-otp-disabled-bg);
+  border-color: var(--input-otp-disabled-border-color);
+  opacity: var(--input-otp-disabled-opacity);
+  cursor: var(--input-otp-disabled-cursor);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-input-otp__input { transition: var(--input-otp-reduced-motion-transition); }
+}
+
+@media (min-width: 40rem) {
+  .bkreact-input-otp[data-size-sm] {
+    --input-otp-slot-size: var(--input-otp-sm-slot-size);
+    --input-otp-font-size: var(--input-otp-sm-font-size);
+    --input-otp-line-height: var(--input-otp-sm-line-height);
+    --input-otp-gap: var(--input-otp-sm-gap);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-input-otp[data-size-md] {
+    --input-otp-slot-size: var(--input-otp-md-slot-size);
+    --input-otp-font-size: var(--input-otp-md-font-size);
+    --input-otp-line-height: var(--input-otp-md-line-height);
+    --input-otp-gap: var(--input-otp-md-gap);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-input-otp[data-size-lg] {
+    --input-otp-slot-size: var(--input-otp-lg-slot-size);
+    --input-otp-font-size: var(--input-otp-lg-font-size);
+    --input-otp-line-height: var(--input-otp-lg-line-height);
+    --input-otp-gap: var(--input-otp-lg-gap);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-input-otp[data-size-xl] {
+    --input-otp-slot-size: var(--input-otp-xl-slot-size);
+    --input-otp-font-size: var(--input-otp-xl-font-size);
+    --input-otp-line-height: var(--input-otp-xl-line-height);
+    --input-otp-gap: var(--input-otp-xl-gap);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-input-otp[data-size-2xl] {
+    --input-otp-slot-size: var(--input-otp-2xl-slot-size);
+    --input-otp-font-size: var(--input-otp-2xl-font-size);
+    --input-otp-line-height: var(--input-otp-2xl-line-height);
+    --input-otp-gap: var(--input-otp-2xl-gap);
+  }
+}

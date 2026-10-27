@@ -1,0 +1,24 @@
+/* 设计值由 source/components/input-otp.tokens.json 生成；这里维护 Web 结构和状态组合。 */
+.bkreact-input-otp {
+  --input-otp-display: inline-flex;
+  --input-otp-align: center;
+  --input-otp-box-sizing: border-box;
+  --input-otp-margin: 0;
+  --input-otp-padding: 0;
+  --input-otp-min-width: 0;
+  --input-otp-flex-shrink: 0;
+  --input-otp-text-align: center;
+  --input-otp-appearance: none;
+  --input-otp-border-style: solid;
+  --input-otp-outline-style: solid;
+  --input-otp-rest-outline-width: 0px;
+  --input-otp-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --input-otp-cursor: text;
+  --input-otp-disabled-cursor: not-allowed;
+  --input-otp-transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  --input-otp-reduced-motion-transition: none;
+  --input-otp-slot-size: var(--input-otp-base-slot-size);
+  --input-otp-font-size: var(--input-otp-base-font-size);
+  --input-otp-line-height: var(--input-otp-base-line-height);
+  --input-otp-gap: var(--input-otp-base-gap);
+}

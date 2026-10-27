@@ -150,7 +150,8 @@ function emitComponentCss(model) {
       const lines = groups.get(selector) ?? [];
       lines.push(`  ${name}: ${value};`); groups.set(selector, lines);
     }
-    outputs.set(`packages/ui-react/src/components/${component}/design.tokens.css`, `/* ${notice} */\n` + [...groups].map(([selector, lines]) => `${selector} {\n${lines.join('\n')}\n}\n`).join('\n'));
+    const directory = component === 'input-otp' ? 'input.otp' : component;
+    outputs.set(`packages/ui-react/src/components/${directory}/design.tokens.css`, `/* ${notice} */\n` + [...groups].map(([selector, lines]) => `${selector} {\n${lines.join('\n')}\n}\n`).join('\n'));
   }
   return outputs;
 }

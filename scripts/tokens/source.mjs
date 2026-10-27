@@ -243,6 +243,7 @@ export async function buildTokenModel({ sourceDir, components: includeComponents
       const sizeProperties = {
         button: ['height', 'padding-x', 'padding-y', 'font-size', 'line-height', 'gap', 'icon-size', 'fixed-width'],
         loading: [],
+        'input-otp': ['slot-size', 'font-size', 'line-height', 'gap'],
       };
       for (const [component, properties] of Object.entries(sizeProperties)) {
         const file = path.join(sourceDir, 'components', `${component}.tokens.json`);

@@ -1,5 +1,8 @@
 'use client';
 
+export { InputOTP } from './components/input.otp';
+export type { InputOTPProps } from './components/input.otp';
+
 export { Button } from './components/button';
 export type { ButtonProps, ButtonNativeProps, ButtonLinkProps, ButtonComponent, ButtonShape, ButtonWidthMode } from './components/button/type';
 

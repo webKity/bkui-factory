@@ -4,3 +4,4 @@ export type { IBKIntent, IBKVariants, IBKSize, IBKResponsiveSize } from './compo
 export type { IconProps, IconName, FigmaIconName, IconVariant } from './components/icon';
 
 export type { LoadingProps, LoadingType, LoadingSize } from './components/loading/type';
+export type { InputOTPProps } from './components/input.otp';

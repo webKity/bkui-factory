@@ -43,8 +43,7 @@ const ButtonImpl = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps
 
   // 优先级：block > shape > widthMode。
   const effectiveShape: ButtonShape = block ? 'rect' : shape;
-  const effectiveWidthMode: ButtonWidthMode =
-    block || effectiveShape !== 'rect' ? 'auto' : widthMode;
+  const effectiveWidthMode: ButtonWidthMode = block || effectiveShape !== 'rect' ? 'auto' : widthMode;
 
   if (process.env.NODE_ENV !== 'production') {
     if (block && shape !== 'rect') {
