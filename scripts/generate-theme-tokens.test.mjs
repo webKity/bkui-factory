@@ -49,7 +49,7 @@ function declarations(outputs, theme, defaultTheme = 'light') {
       assert(!variables.has(prop), `${file}：重复变量 ${prop}`);
       variables.set(prop, value);
       if (file.endsWith(path.join('semantic', 'colors.css'))) {
-        assert.match(value, /^var\(--theme-[a-z0-9-]+\)$/, file);
+        assert.match(value, /^(?:var\(--theme-[a-z0-9-]+\)|#[A-F0-9]{6}(?:[A-F0-9]{2})?)$/, file);
       }
     });
   }
@@ -79,9 +79,13 @@ test('实际 source 的所有颜色、字体和圆角均转换正确，且不跨
       assert.equal(variables.get(`--theme-color-${token.name}`), hex(token.$value));
     }
     for (const token of await sourceTokens(`semantic/${sourceTheme}/colors.tokens.json`)) {
-      const target = token.$extensions['com.figma.aliasData'].targetVariableName;
+      if (token.$extensions['com.figma.composedColor']) {
+        assert.equal(variables.get(`--color-${token.name}`), hex(token.$value));
+        continue;
+      }
+      const target = token.$extensions['com.figma.aliasData'].targetVariableName.replace(new RegExp(`^${theme}/`, 'i'), '');
       assert.equal(variables.get(`--color-${token.name}`), `var(--theme-color-${target})`);
-      assert.equal(resolve(variables, `--color-${token.name}`), hex(token.$value));
+      assert.equal(resolve(variables, `--color-${token.name}`), variables.get(`--theme-color-${target}`));
     }
     for (const [mode, suffix] of [['English', 'en'], ['中文', 'zh'], ['Numeric', 'numeric']]) {
       for (const token of await sourceTokens(`semantic/${mode}.tokens.json`)) {
@@ -174,7 +178,9 @@ test('保留透明度、继承的类型；语义值以 primitive 引用为准', 
   await writeFile(file, JSON.stringify(data));
   const variables = declarations(await buildThemeFiles(options), 'light');
   assert.equal(variables.get('--theme-color-transparent'), '#FF000080');
-  assert.equal(resolve(variables, '--color-surface-page'), '#FFFFFF');
+  const target = data.surface.page.$extensions['com.figma.aliasData'].targetVariableName.replace(/^light\//i, '');
+  assert.equal(variables.get('--color-surface-page'), `var(--theme-color-${target})`);
+  assert.equal(resolve(variables, '--color-surface-page'), variables.get(`--theme-color-${target}`));
 });
 
 test('无效颜色、错误集合及错误文件类型不会被静默接受', async t => {
@@ -227,6 +233,8 @@ test('新增主题自动导出，配置的默认主题独占无 theme 属性时�
   const options = await fixture(t);
   await cp(path.join(options.sourceDir, 'primitives/light'), path.join(options.sourceDir, 'primitives/custom'), { recursive: true });
   await cp(path.join(options.sourceDir, 'semantic/light'), path.join(options.sourceDir, 'semantic/custom'), { recursive: true });
+  const customColors = path.join(options.sourceDir, 'semantic/custom/colors.tokens.json');
+  await writeFile(customColors, (await readFile(customColors, 'utf8')).replaceAll('Light/', 'Custom/'));
   await writeJson(options.sourceDir, 'themes.config.json', { defaultTheme: 'custom' });
   const outputs = await buildThemeFiles(options);
   assert.match(outputs.get('index.css'), /@import '.\/custom\/index.css';/);

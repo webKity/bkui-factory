@@ -78,7 +78,7 @@ test('primitive 修改传播至 Web 引用及 RN 组件，不使用 Figma 的陈
   const options = await fixture(t);
   const initial = await native(await buildTokenFiles(options));
   const semantic = JSON.parse(await readFile(path.join(options.sourceDir, 'semantic/light/colors.tokens.json'), 'utf8'));
-  const alias = semantic.action.primary.$extensions['com.figma.aliasData'].targetVariableName;
+  const alias = semantic.action.primary.$extensions['com.figma.aliasData'].targetVariableName.replace(/^light\//i, '');
   const file = path.join(options.sourceDir, 'primitives/light/ colors.tokens.json');
   const primitives = JSON.parse(await readFile(file, 'utf8'));
   function replace(group, prefix = []) {

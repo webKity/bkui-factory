@@ -61,19 +61,23 @@
 .bkreact-alert:where([data-intent='brand']) {
   --alert-border-color: var(--color-feedback-info);
   --alert-icon-color: var(--color-feedback-info);
+  --alert-bg: var(--color-tag-blue);
 }
 
 .bkreact-alert:where([data-intent='success']) {
   --alert-border-color: var(--color-feedback-success);
   --alert-icon-color: var(--color-feedback-success);
+  --alert-bg: var(--color-tag-green);
 }
 
 .bkreact-alert:where([data-intent='warning']) {
   --alert-border-color: var(--color-feedback-warning);
   --alert-icon-color: var(--color-feedback-warning);
+  --alert-bg: var(--color-tag-orange);
 }
 
 .bkreact-alert:where([data-intent='danger']) {
   --alert-border-color: var(--color-feedback-error);
   --alert-icon-color: var(--color-feedback-error);
+  --alert-bg: var(--color-tag-red);
 }

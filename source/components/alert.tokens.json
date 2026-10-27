@@ -346,6 +346,10 @@
       "icon-color": {
         "$type": "color",
         "$value": "{semantic.color-feedback-info}"
+      },
+      "bg": {
+        "$type": "color",
+        "$value": "{semantic.color-tag-blue}"
       }
     },
     "success": {
@@ -356,6 +360,10 @@
       "icon-color": {
         "$type": "color",
         "$value": "{semantic.color-feedback-success}"
+      },
+      "bg": {
+        "$type": "color",
+        "$value": "{semantic.color-tag-green}"
       }
     },
     "warning": {
@@ -366,6 +374,10 @@
       "icon-color": {
         "$type": "color",
         "$value": "{semantic.color-feedback-warning}"
+      },
+      "bg": {
+        "$type": "color",
+        "$value": "{semantic.color-tag-orange}"
       }
     },
     "danger": {
@@ -376,6 +388,10 @@
       "icon-color": {
         "$type": "color",
         "$value": "{semantic.color-feedback-error}"
+      },
+      "bg": {
+        "$type": "color",
+        "$value": "{semantic.color-tag-red}"
       }
     }
   }

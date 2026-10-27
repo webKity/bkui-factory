@@ -56,6 +56,7 @@ export function collectTokens(group, names = [], inheritedType, tokens = []) {
       value: group.$value,
       scopes: group.$extensions?.['com.figma.scopes'] ?? [],
       alias: group.$extensions?.['com.figma.aliasData'],
+      composedColor: group.$extensions?.['com.figma.composedColor'],
     });
   } else {
     for (const [name, child] of Object.entries(group)) {
@@ -168,10 +169,17 @@ export async function buildTokenModel({ sourceDir, components: includeComponents
     }
     for (const source of sources.filter(source => source.theme === theme && source.kind === 'semantic')) {
       for (const token of source.tokens) {
+        // Figma 的组合颜色已在 $value 中包含跨模式引用的最终颜色及透明度。
+        // 保留导出结果，避免将 Dark/... 引用错误地映射到当前主题。
+        if (token.composedColor) {
+          add(`semantic.color-${token.name}`, { type: 'color', value: colorToCss(token.value) });
+          continue;
+        }
         if (!/^Primitives?(?:\s*\/|$)/i.test(token.alias?.targetVariableSetName ?? '') || !token.alias?.targetVariableName) {
           throw new Error(`缺少 primitive 引用：${token.name}`);
         }
-        add(`semantic.color-${token.name}`, { type: 'color', ref: `primitive.${normalizeName(token.alias.targetVariableName)}` });
+        const targetName = token.alias.targetVariableName.replace(new RegExp(`^${theme}/`, 'i'), '');
+        add(`semantic.color-${token.name}`, { type: 'color', ref: `primitive.${normalizeName(targetName)}` });
       }
     }
     const typography = new Map();

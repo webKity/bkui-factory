@@ -81,18 +81,22 @@ export function createTokens(theme: NativeTheme) {
       "brand": {
         "border-color": theme.semantic["color-feedback-info"],
         "icon-color": theme.semantic["color-feedback-info"],
+        "bg": theme.semantic["color-tag-blue"],
       },
       "success": {
         "border-color": theme.semantic["color-feedback-success"],
         "icon-color": theme.semantic["color-feedback-success"],
+        "bg": theme.semantic["color-tag-green"],
       },
       "warning": {
         "border-color": theme.semantic["color-feedback-warning"],
         "icon-color": theme.semantic["color-feedback-warning"],
+        "bg": theme.semantic["color-tag-orange"],
       },
       "danger": {
         "border-color": theme.semantic["color-feedback-error"],
         "icon-color": theme.semantic["color-feedback-error"],
+        "bg": theme.semantic["color-tag-red"],
       },
     },
   };
