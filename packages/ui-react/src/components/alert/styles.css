@@ -40,7 +40,7 @@
 }
 
 .bkreact-alert__icon > svg,
-.bkreact-alert__close > svg {
+.bkreact-alert__close > .bkreact-icon {
   display: var(--alert-icon-display);
   width: var(--alert-icon-fill-size);
   height: var(--alert-icon-fill-size);
@@ -61,12 +61,13 @@
   cursor: var(--alert-close-cursor);
 }
 
-.bkreact-alert__close > svg {
-  stroke-width: var(--alert-close-stroke-width);
-}
 
 .bkreact-alert__close:hover {
   background: var(--alert-close-hover-bg);
+}
+
+.bkreact-alert__close:disabled {
+  cursor: var(--alert-close-disabled-cursor);
 }
 
 .bkreact-alert__close:focus-visible {

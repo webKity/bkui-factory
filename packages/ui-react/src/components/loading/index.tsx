@@ -5,23 +5,37 @@ import { BKIcon } from '../icon';
 import { joinClassNames } from '../utils';
 import { LogoLoading } from './logo';
 import { getResponsiveSizeAttributes } from '../utils/size';
-import { getLoadingSizeStyle } from './size';
+import { getLoadingSizeStyle, normalizeLoadingSize } from './size';
 import './index.css';
 
 import type { CSSProperties } from 'react';
 import type { LoadingProps } from './type';
 export type { LoadingProps, LoadingType, LoadingSize } from './type';
 
-export const Loading = forwardRef<HTMLSpanElement, LoadingProps>(function Loading({
-  type = 'normal', size = 'base', fillColor, speed, className, style,
-  ariaLabel, 'aria-label': nativeLabel, 'aria-labelledby': labelledBy,
-  'aria-hidden': ariaHidden, role, ...rest
-}, ref) {
+export const Loading = forwardRef<HTMLSpanElement, LoadingProps>(function Loading(
+  {
+    type = 'normal',
+    size = 'base',
+    fillColor,
+    speed,
+    className,
+    style,
+    'aria-label': nativeLabel,
+    'aria-labelledby': labelledBy,
+    'aria-hidden': ariaHidden,
+    role,
+    ...rest
+  },
+  ref,
+) {
+  size = normalizeLoadingSize(size);
   const hidden = ariaHidden === true || ariaHidden === 'true';
   const loadingStyle = {
     ...getLoadingSizeStyle(size),
     ...(fillColor !== undefined ? { '--loading-color': fillColor } : {}),
-    ...(speed !== undefined && Number.isFinite(speed) && speed > 0 ? { '--loading-duration': `${speed}ms` } : {}),
+    ...(speed !== undefined && Number.isFinite(speed) && speed > 0
+      ? { '--loading-duration': `${speed}ms` }
+      : {}),
     ...style,
   } as CSSProperties;
 
@@ -32,19 +46,37 @@ export const Loading = forwardRef<HTMLSpanElement, LoadingProps>(function Loadin
       ref={ref}
       className={joinClassNames('bkreact-loading', className)}
       data-type={type}
-      data-size={typeof size === 'object' ? 'responsive' : size}
+      data-size={
+        typeof size === 'object'
+          ? 'responsive'
+          : typeof size === 'number'
+            ? 'custom'
+            : size
+      }
+      data-size-px={typeof size === 'number' ? size : undefined}
       role={hidden ? undefined : role ?? 'status'}
       aria-hidden={ariaHidden}
-      aria-label={hidden || labelledBy ? undefined : ariaLabel ?? nativeLabel ?? '加载中'}
+      aria-label={
+        hidden || labelledBy ? undefined : nativeLabel ?? '加载中'
+      }
       aria-labelledby={hidden ? undefined : labelledBy}
       style={loadingStyle}
     >
-      {type === 'logo' ? <LogoLoading /> : type === 'rect' ? (
+      {type === 'logo' ? (
+        <LogoLoading />
+      ) : type === 'rect' ? (
         <span className="bkreact-loading__bars" aria-hidden="true">
-          {Array.from({ length: 5 }, (_, index) => <span key={index} className="bkreact-loading__bar" />)}
+          {Array.from({ length: 5 }, (_, index) => (
+            <span key={index} className="bkreact-loading__bar" />
+          ))}
         </span>
       ) : (
-        <BKIcon name="loader" size="100%" className="bkreact-loading__icon animate-spin" renderInServer />
+        <BKIcon
+          name="loader"
+          size="100%"
+          className="bkreact-loading__icon bkreact-loading__icon--spin"
+          renderInServer
+        />
       )}
     </span>
   );

@@ -6,7 +6,8 @@
   --notification-border-color: var(--color-border-default);
   --notification-accent-color: var(--color-text-secondary);
   --notification-width: 360px;
-  --notification-padding: 16px;
+  --notification-padding-x: 16px;
+  --notification-padding-y: 12px;
   --notification-gap: 12px;
   --notification-content-gap: 8px;
   --notification-border-width: 1px;

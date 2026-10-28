@@ -1,4 +1,6 @@
 .bkreact-gallery {
+  --gallery-arrow-size: 32px;
+  --gallery-motion-sign: 1;
   --gallery-dot-size: 8px;
   --gallery-hover-duration: 160ms;
   --gallery-hover-easing: ease-out;

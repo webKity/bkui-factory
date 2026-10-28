@@ -4,10 +4,22 @@ import { mapResponsiveSize } from '../utils/size';
 
 type LoadingSizeStyle = CSSProperties & { [key: `--loading-${string}`]: string };
 
+export function normalizeLoadingSize(size: LoadingSize): LoadingSize {
+  if (typeof size === 'number' && (!Number.isFinite(size) || size < 0)) {
+    if (process.env.NODE_ENV === 'development') {
+      console.warn(
+        `Loading.size：尺寸必须为非负有限数值，收到 ${size}，已回退到 base`,
+      );
+    }
+    return 'base';
+  }
+  return size;
+}
+
 export function getLoadingSizeStyle(size: LoadingSize): LoadingSizeStyle {
+  size = normalizeLoadingSize(size);
   const style: LoadingSizeStyle = {};
   if (typeof size === 'number') {
-    if (!Number.isFinite(size) || size < 0) throw new Error(`Loading.size：尺寸必须为非负有限数值，收到 ${size}`);
     style['--loading-base-size'] = `${size}px`;
     return style;
   }

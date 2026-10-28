@@ -10,18 +10,18 @@ import { renderToStaticMarkup, renderToString } from 'react-dom/server';
 import postcss from 'postcss';
 
 const project = fileURLToPath(new URL('../../../', import.meta.url));
-let temporary, Loading, dom, root, container, createRoot, hydrateRoot, getSizeStyle;
+let temporary, Loading, dom, root, container, createRoot, hydrateRoot, getSizeStyle, getResponsiveSizeAttributes;
 
 before(async () => {
   await mkdir(path.join(project, '.test-output'), { recursive: true });
   temporary = await mkdtemp(path.join(project, '.test-output/loading-'));
   const result = await build({
-    stdin: { contents: "export {Loading} from './src/components/loading'; export {getLoadingSizeStyle} from './src/components/loading/size';", resolveDir: project },
+    stdin: { contents: "export {Loading} from './src/components/loading'; export {getLoadingSizeStyle} from './src/components/loading/size'; export {getResponsiveSizeAttributes} from './src/components/utils/size';", resolveDir: project },
     bundle: true, packages: 'external', platform: 'node', format: 'esm', jsx: 'automatic', loader: { '.css': 'empty' }, write: false,
   });
   const file = path.join(temporary, 'loading.mjs');
   await writeFile(file, result.outputFiles[0].contents);
-  ({ Loading, getLoadingSizeStyle: getSizeStyle } = await import(file));
+  ({ Loading, getLoadingSizeStyle: getSizeStyle, getResponsiveSizeAttributes } = await import(file));
   dom = new JSDOM('<!doctype html><html><body></body></html>', { pretendToBeVisual: true });
   for (const name of ['window', 'document', 'navigator', 'HTMLElement', 'Element', 'Node', 'Event', 'MouseEvent']) {
     Object.defineProperty(globalThis, name, { configurable: true, value: dom.window[name] });
@@ -44,7 +44,7 @@ test('normal 在 SSR 中立即输出 loader SVG；rect 输出五根柱子；logo
   const normal = parse({});
   assert.equal(normal.getAttribute('role'), 'status');
   assert.equal(normal.getAttribute('aria-label'), '加载中');
-  assert(normal.querySelector('.bkreact-icon.animate-spin svg path'));
+  assert(normal.querySelector('.bkreact-icon.bkreact-loading__icon--spin svg path'));
   assert.equal(normal.querySelector('[data-placeholder]'), null);
   const rect = parse({ type: 'rect' });
   assert.equal(rect.querySelectorAll('.bkreact-loading__bar').length, 5);
@@ -68,8 +68,11 @@ test('七档尺寸、像素尺寸、颜色和速度写入 Loading tokens，非�
   assert.equal(custom.style.getPropertyValue('--loading-duration'), '1200ms');
   assert(custom.classList.contains('custom'));
   assert.equal(custom.dataset.testid, 'spinner');
+  assert.equal(custom.dataset.size, 'custom');
+  assert.equal(custom.dataset.sizePx, '32');
+  assert.equal(parse({ size: 'lg' }).dataset.size, 'lg');
+  assert.equal(parse({ size: 'lg' }).hasAttribute('data-size-px'), false);
   for (const speed of [0, -1, Infinity, NaN]) assert.equal(parse({ speed }).style.getPropertyValue('--loading-duration'), '');
-  for (const size of [-1, Infinity, NaN]) assert.throws(() => getSizeStyle(size), /非负有限数值/);
   assert.equal(parse({ size: 0 }).style.getPropertyValue('--loading-base-size'), '0px');
   const overridden = parse({ size: 32, speed: 1200, style: { '--loading-size': 'var(--button-icon-size)', '--loading-duration': '2s' } });
   assert.equal(overridden.style.getPropertyValue('--loading-size'), 'var(--button-icon-size)');
@@ -129,10 +132,12 @@ test('装饰 Loading 不重复播报，支持自定义名称、labelledby、原�
   assert.equal(parse({ 'aria-hidden': true }).getAttribute('role'), null);
   assert.equal(parse({ 'aria-hidden': true }).getAttribute('aria-label'), null);
   assert.equal(parse({ 'aria-label': '上传中' }).getAttribute('aria-label'), '上传中');
+  assert.equal(parse({ 'aria-label': '上传中' }).getAttribute('aria-label'), '上传中');
+  assert.equal(parse({ 'aria-label': '' }).getAttribute('aria-label'), '');
   assert.equal(parse({ 'aria-labelledby': 'upload-label' }).getAttribute('aria-label'), null);
   const ref = createRef();
   container = document.createElement('div'); document.body.append(container);
-  await act(() => { root = createRoot(container); root.render(h(Loading, { type: 'rect', ref, ariaLabel: '保存中', id: 'saving' })); });
+  await act(() => { root = createRoot(container); root.render(h(Loading, { type: 'rect', ref, 'aria-label': '保存中', id: 'saving' })); });
   assert.equal(ref.current, container.querySelector('#saving'));
   assert.equal(ref.current.getAttribute('aria-label'), '保存中');
 });
@@ -150,4 +155,61 @@ test('同页多个 Logo 的裁剪 ID 独立，水合时 ID 稳定且无错误', 
   for (const clip of container.querySelectorAll('g[clip-path]')) {
     assert(ids.some(id => clip.getAttribute('clip-path') === `url(#${id})`));
   }
+});
+
+
+test('非法数字尺寸在开发环境警告并回退，生产环境静默回退，SSR 不抛错', () => {
+  const previousEnv = process.env.NODE_ENV;
+  const previousWarn = console.warn;
+  const warnings = [];
+  console.warn = (...args) => warnings.push(args);
+  try {
+    for (const environment of ['development', 'production']) {
+      process.env.NODE_ENV = environment;
+      warnings.length = 0;
+      for (const size of [NaN, Infinity, -Infinity, -1]) {
+        assert.deepEqual(getSizeStyle(size), getSizeStyle('base'));
+        const element = parse({ size });
+        assert.equal(element.style.getPropertyValue('--loading-base-size'), 'var(--loading-size-base)');
+        assert.equal(element.dataset.size, 'base');
+        assert.equal(element.hasAttribute('data-size-px'), false);
+      }
+      assert.equal(warnings.length, environment === 'development' ? 8 : 0);
+      for (const [message] of warnings) assert.match(message, /非负有限数值.*回退到 base/);
+    }
+  } finally {
+    console.warn = previousWarn;
+    if (previousEnv === undefined) delete process.env.NODE_ENV;
+    else process.env.NODE_ENV = previousEnv;
+  }
+});
+
+test('响应式属性仅标记显式断点，数字和具名尺寸没有断点标记', () => {
+  assert.deepEqual(getResponsiveSizeAttributes({ base: 'base', sm: 'xs' }), { 'data-size-sm': true });
+  assert.deepEqual(getResponsiveSizeAttributes({ base: 'base' }), {});
+  assert.deepEqual(getResponsiveSizeAttributes('lg'), {});
+  assert.deepEqual(getResponsiveSizeAttributes(32), {});
+  const element = parse({ size: { base: 'base', sm: 'xs' } });
+  assert.equal(element.dataset.size, 'responsive');
+  assert(element.hasAttribute('data-size-sm'));
+  for (const breakpoint of ['md', 'lg', 'xl', '2xl']) assert.equal(element.hasAttribute(`data-size-${breakpoint}`), false);
+  assert.equal(element.hasAttribute('data-size-px'), false);
+});
+
+test('Logo reveal 宽度与 viewBox 同步，SVG 使用独立 display，旋转不依赖 Tailwind 类', async () => {
+  const logo = parse({ type: 'logo' });
+  const width = logo.querySelector('svg').getAttribute('viewBox').split(' ')[2];
+  assert.equal(logo.querySelector('clipPath rect').getAttribute('width'), width);
+  const tokens = postcss.parse(await readFile(path.join(project, 'src/components/loading/tokens.css'), 'utf8'));
+  let endWidth, display;
+  tokens.walkDecls('--loading-logo-end-width', d => { endWidth = d.value; });
+  tokens.walkDecls('--loading-logo-display', d => { display = d.value; });
+  assert.equal(endWidth, `${width}px`);
+  assert.equal(display, 'block');
+  const css = postcss.parse(await readFile(path.join(project, 'src/components/loading/styles.css'), 'utf8'));
+  css.walkRules('.bkreact-loading__logo', rule => {
+    rule.walkDecls('display', d => assert.equal(d.value, 'var(--loading-logo-display)'));
+  });
+  assert.equal(parse({}).querySelector('.animate-spin'), null);
+  assert(!css.toString().includes('.animate-spin'));
 });

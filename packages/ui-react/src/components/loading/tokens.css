@@ -32,7 +32,9 @@
   --loading-logo-start-opacity: 1;
   --loading-logo-end-opacity: 0;
   --loading-logo-start-width: 0px;
+  /* Must match the SVG viewBox width and reveal rect width in logo.tsx. */
   --loading-logo-end-width: 1024px;
+  --loading-logo-display: block;
   --loading-logo-reveal-animation: bk-loading-logo-reveal var(--loading-duration) ease-out infinite;
   --loading-logo-fade-animation: bk-loading-logo-fade var(--loading-duration) linear infinite;
 }

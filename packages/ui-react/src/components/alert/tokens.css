@@ -9,7 +9,7 @@
   --alert-fixed-flex: 0 0 auto;
   --alert-border-style: solid;
   --alert-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
-  --alert-overflow-wrap: anywhere;
+  --alert-overflow-wrap: break-word;
   --alert-icon-display: block;
   --alert-icon-fill-size: 100%;
   --alert-icon-offset: calc((var(--alert-line-height) - var(--alert-icon-size)) / 2);
@@ -17,8 +17,8 @@
   --alert-close-border: 0px;
   --alert-close-bg: transparent;
   --alert-close-cursor: pointer;
+  --alert-close-disabled-cursor: default;
   --alert-close-align: center;
-  --alert-close-stroke-width: 1.5;
   --alert-close-animation: bk-alert-close calc(var(--alert-close-duration-ms) * 1ms) ease forwards;
   --alert-reduced-motion-animation: none;
   --alert-open-opacity: 1;

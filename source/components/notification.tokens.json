@@ -27,7 +27,14 @@
         "unit": "px"
       }
     },
-    "padding": {
+    "padding-x": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "padding-y": {
       "$type": "dimension",
       "$value": {
         "value": 16,

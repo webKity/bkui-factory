@@ -11,7 +11,7 @@ export type { TypographyProps } from './components/typography/type';
 
 export type * from './components/input/type';
 
-export type { GalleryItem, GalleryMediaType, GalleryProps, ShowGalleryOptions } from './components/gallery/type';
+export type { GalleryItem, GalleryLabels, GalleryMediaType, GalleryProps, ShowGalleryOptions } from './components/gallery/type';
 
 export type { Pagingprops, PaginationProps, PaginationAs, PaginationItemType, PaginationItemProps } from './components/pagination/type';
 

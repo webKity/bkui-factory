@@ -1,9 +1,10 @@
 import { Alert } from './index';
 import { Button } from '../button';
+import { BKIcon } from '../icon';
 import { componentSizes } from '../utils/size';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-const info = <svg viewBox="0 0 16 16" fill="none" stroke="currentColor"><circle cx="8" cy="8" r="6" /><path d="M8 7v5M8 4v1" /></svg>;
+const info = <BKIcon name="info-circle" size="100%" renderInServer />;
 const meta = {
   title: '组件/Alert',
   component: Alert,
@@ -17,7 +18,7 @@ const meta = {
     action: { control: false },
     onClose: { control: false, description: '关闭动画结束并移除组件后触发一次。' },
   },
-  parameters: { docs: { description: { component: '支持五种意图、七档响应式尺寸及自定义内容插槽。样式只消费 --alert-* 组件 tokens。closable 默认关闭，onClose 在关闭动画结束时触发；减少动态效果时直接关闭。' } } },
+  parameters: { docs: { description: { component: '支持五种意图、七档响应式尺寸及自定义内容插槽。样式只消费 --alert-* 组件 tokens。closable 默认关闭，onClose 在关闭动画结束时触发；减少动态效果时直接关闭。关闭后保持隐藏，修改内容不会自动重新展示，需更换 key 重建实例。' } } },
 } satisfies Meta<typeof Alert>;
 export default meta;
 type Story = StoryObj<typeof meta>;

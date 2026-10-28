@@ -1,15 +1,18 @@
 'use client';
 
 import { useEffect, useMemo, useRef } from 'react';
+
+import { Button } from '../button';
+import { BKIcon } from '../icon';
+
 import type { CSSProperties } from 'react';
 import type { IconName } from '../icon';
 import type { IBKIntent } from '../types/base';
-import { Button } from '../button';
-import { BKIcon } from '../icon';
 import type { NotificationProps } from './type';
 import './index.css';
 
 export type * from './type';
+
 export { NotificationProvider, useNotification } from './provider';
 
 const intentIcons = {

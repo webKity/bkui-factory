@@ -15,17 +15,44 @@ const meta = {
   title: '组件/Loading',
   component: Loading,
   tags: ['autodocs'],
-  args: { type: 'normal', size: 'base', ariaLabel: '加载中' },
+  args: { type: 'normal', size: 'base', 'aria-label': '加载中' },
   argTypes: {
-    type: { control: { type: 'inline-radio', labels: { normal: '旋转图标', rect: '伸缩柱状', logo: '品牌标志' } }, options: types, description: '旋转图标、五根伸缩柱子和品牌标志渐显三种加载效果。' },
-    size: { control: 'select', options: sizes, description: '七档尺寸，也支持像素数值或响应式对象；base 高度为 20px，响应式对象必须提供 base。' },
-    fillColor: { control: 'color', description: '默认继承 currentColor；通过 --loading-color 覆盖。' },
-    speed: { control: { type: 'number', min: 1, step: 100 }, description: '一次动画循环的毫秒数。normal 默认 800ms，rect 1000ms，logo 3320ms。' },
-    ariaLabel: { control: 'text', description: '默认状态名称为“加载中”；在按钮中作为装饰内容隐藏。' },
+    type: {
+      control: {
+        type: 'inline-radio',
+        labels: { normal: '旋转图标', rect: '伸缩柱状', logo: '品牌标志' },
+      },
+      options: types,
+      description: '旋转图标、五根伸缩柱子和品牌标志渐显三种加载效果。',
+    },
+    size: {
+      control: 'select',
+      options: sizes,
+      description: '七档尺寸，也支持像素数值或响应式对象；base 高度为 20px，响应式对象必须提供 base。',
+    },
+    fillColor: {
+      control: 'color',
+      description: '默认继承 currentColor；通过 --loading-color 覆盖。',
+    },
+    speed: {
+      control: { type: 'number', min: 1, step: 100 },
+      description: '一次动画循环的毫秒数。normal 默认 800ms，rect 1000ms，logo 3320ms。'
+        + 'style 中的 --loading-duration 优先于 speed。',
+    },
+    'aria-label': {
+      control: 'text',
+      description: '默认状态名称为“加载中”；列表或批量加载时建议使用 aria-hidden，由父级统一播报。',
+    },
     className: { control: 'text' },
   },
   parameters: {
-    docs: { description: { component: '加载指示器的样式仅使用 --loading-* 组件样式变量。旋转类型复用加载图标；品牌标志使用原始矢量路径，逐步显现后淡出。系统开启减少动态效果时停止动画，保持加载图形可见。' } },
+    docs: {
+      description: {
+        component: '加载指示器的样式仅使用 --loading-* 组件样式变量。'
+          + '旋转类型复用加载图标；品牌标志使用原始矢量路径，逐步显现后淡出。'
+          + '系统开启减少动态效果时停止动画，保持加载图形可见。',
+      },
+    },
   },
 } satisfies Meta<typeof Loading>;
 export default meta;
@@ -36,9 +63,16 @@ export const Rect: Story = { name: '柱状加载', args: { type: 'rect', size: 3
 export const Logo: Story = { name: '标志加载', args: { type: 'logo', size: 48 } };
 export const Types: Story = {
   name: '加载类型',
-  render: () => <div className="example-row">{types.map(type => <div className="example-item" key={type}>
-    <Loading type={type} size={32} ariaLabel={`${typeLabels[type]}加载中`} /><code className="example-caption">{typeLabels[type]}</code>
-  </div>)}</div>,
+  render: () => (
+    <div className="example-row">
+      {types.map(type => (
+        <div className="example-item" key={type}>
+          <Loading type={type} size={32} aria-label={`${typeLabels[type]}加载中`} />
+          <code className="example-caption">{typeLabels[type]}</code>
+        </div>
+      ))}
+    </div>
+  ),
   play: async ({ canvas }) => {
     const statuses = canvas.getAllByRole('status');
     await expect(statuses).toHaveLength(3);

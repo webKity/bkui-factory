@@ -1,4 +1,3 @@
-
 import type { ReactNode } from 'react';
 
 export type GalleryMediaType = 'image' | 'video';
@@ -12,8 +11,28 @@ export interface GalleryItem {
   alt?: string;
 }
 
+/** 可按需覆盖；默认文案为英文。函数接收从 1 开始的位置。 */
+export interface GalleryLabels {
+  region?: string;
+  video?: string;
+  previous?: string;
+  next?: string;
+  carouselRoleDescription?: string;
+  slideRoleDescription?: string;
+  pagination?: string;
+  thumbnails?: string;
+  slide?: (position: number, total: number) => string;
+  dot?: (position: number) => string;
+  thumbnail?: (position: number) => string;
+  counter?: (position: number, total: number) => string;
+  close?: string;
+  empty?: ReactNode;
+  mediaError?: ReactNode;
+}
+
 export interface GalleryProps {
   items: GalleryItem[];
+  labels?: GalleryLabels;
   index?: number;
   defaultIndex?: number;
   onIndexChange?: (index: number, item: GalleryItem) => void;
@@ -34,6 +53,7 @@ export interface GalleryProps {
 
 export interface ShowGalleryOptions {
   items: GalleryItem[];
+  labels?: GalleryLabels;
   defaultIndex?: number;
   loop?: boolean;
   showArrows?: boolean;
@@ -43,6 +63,7 @@ export interface ShowGalleryOptions {
   captionPosition?: 'overlay' | 'below';
   aspectRatio?: string;
   objectFit?: 'contain' | 'cover';
+  /** 优先于 labels.close，兼容已有调用。 */
   closeLabel?: string;
   onIndexChange?: (index: number, item: GalleryItem) => void;
   onClose?: () => void;

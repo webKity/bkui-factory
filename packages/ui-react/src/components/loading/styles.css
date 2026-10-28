@@ -12,7 +12,7 @@
   color: var(--loading-color);
 }
 
-.bkreact-loading__icon.animate-spin { animation: var(--loading-spin-animation); }
+.bkreact-loading__icon--spin { animation: var(--loading-spin-animation); }
 
 .bkreact-loading__bars {
   display: var(--loading-display);
@@ -40,7 +40,7 @@
 .bkreact-loading__bar:nth-child(5) { animation-delay: var(--loading-bar-delay-5); }
 
 .bkreact-loading__logo {
-  display: var(--loading-display);
+  display: var(--loading-logo-display);
   width: var(--loading-fill-size);
   height: var(--loading-fill-size);
   fill: var(--loading-color);
@@ -71,7 +71,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bkreact-loading__icon.animate-spin,
+  .bkreact-loading__icon--spin,
   .bkreact-loading__bar,
   .bkreact-loading__logo-reveal,
   .bkreact-loading__logo-overlay { animation: var(--loading-reduced-motion-animation); }

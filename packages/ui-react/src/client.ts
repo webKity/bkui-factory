@@ -22,7 +22,7 @@ export { Input, Textarea, InputGroup, InputGroupAddon, InputGroupText, InputGrou
 export type * from './components/input/type';
 
 export { Gallery, showGallery } from './components/gallery';
-export type { GalleryItem, GalleryMediaType, GalleryProps, ShowGalleryOptions } from './components/gallery/type';
+export type { GalleryItem, GalleryLabels, GalleryMediaType, GalleryProps, ShowGalleryOptions } from './components/gallery/type';
 
 export { Pagination } from './components/pagination';
 export type { Pagingprops, PaginationProps, PaginationAs, PaginationItemType, PaginationItemProps } from './components/pagination/type';
