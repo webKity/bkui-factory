@@ -1,0 +1,27 @@
+/* 主题语义只在此处映射；styles.css 仅消费 Rating 局部 tokens。 */
+.bk-rating {
+  --rating-color: var(--color-fill-hover);
+  --rating-selected-color: var(--color-feedback-warning);
+  --rating-focus-ring-color: var(--color-border-focus);
+  --rating-focus-ring-width: 3px;
+  --rating-focus-ring-offset: 2px;
+  --rating-border-radius: var(--radius-scale-xs);
+  --rating-disabled-opacity: 0.5;
+  --rating-transition: color 160ms ease;
+  --rating-icon-size: var(--rating-base-icon-size);
+  --rating-gap: var(--rating-base-gap);
+  --rating-size-2xs-icon-size: 14px;
+  --rating-size-xs-icon-size: 16px;
+  --rating-size-sm-icon-size: 20px;
+  --rating-size-base-icon-size: 24px;
+  --rating-size-lg-icon-size: 28px;
+  --rating-size-xl-icon-size: 32px;
+  --rating-size-2xl-icon-size: 40px;
+  --rating-size-2xs-gap: 2px;
+  --rating-size-xs-gap: 3px;
+  --rating-size-sm-gap: 4px;
+  --rating-size-base-gap: 4px;
+  --rating-size-lg-gap: 6px;
+  --rating-size-xl-gap: 6px;
+  --rating-size-2xl-gap: 8px;
+}

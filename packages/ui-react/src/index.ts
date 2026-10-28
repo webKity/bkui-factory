@@ -18,3 +18,5 @@ export type { Pagingprops, PaginationProps, PaginationAs, PaginationItemType, Pa
 export type * from './components/notification/type';
 
 export type { ToastConfigType, ToastProps } from './components/toast/type';
+
+export type { RatingProps, RatingTrigger } from './components/rating/type';

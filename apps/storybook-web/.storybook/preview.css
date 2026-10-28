@@ -17,7 +17,6 @@ body {
 
 .example-canvas {
   color: var(--color-text-primary);
-  background: var(--color-surface-page);
   padding: 16px;
   border-radius: var(--radius-scale-md);
 }

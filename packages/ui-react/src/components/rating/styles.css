@@ -1,0 +1,95 @@
+.bk-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--rating-gap);
+  vertical-align: middle;
+}
+
+.bk-rating__item {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+/* 保留原生 radio 的焦点、方向键和表单行为，只隐藏视觉外观。 */
+.bk-rating__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.bk-rating__icon {
+  display: inline-flex;
+  width: var(--rating-icon-size);
+  height: var(--rating-icon-size);
+  color: var(--rating-color);
+  border-radius: var(--rating-border-radius);
+  transition: var(--rating-transition);
+}
+
+.bk-rating__icon[data-filled] {
+  color: var(--rating-selected-color);
+}
+
+.bk-rating__input:focus-visible + .bk-rating__icon {
+  outline: var(--rating-focus-ring-width) solid var(--rating-focus-ring-color);
+  outline-offset: var(--rating-focus-ring-offset);
+}
+
+.bk-rating[data-disabled] {
+  opacity: var(--rating-disabled-opacity);
+}
+
+.bk-rating[data-disabled] .bk-rating__item {
+  cursor: not-allowed;
+}
+
+.bk-rating[data-readonly] .bk-rating__item {
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bk-rating__icon { transition: none; }
+}
+
+@media (min-width: 40rem) {
+  .bk-rating[data-size-sm] {
+    --rating-icon-size: var(--rating-sm-icon-size);
+    --rating-gap: var(--rating-sm-gap);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bk-rating[data-size-md] {
+    --rating-icon-size: var(--rating-md-icon-size);
+    --rating-gap: var(--rating-md-gap);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bk-rating[data-size-lg] {
+    --rating-icon-size: var(--rating-lg-icon-size);
+    --rating-gap: var(--rating-lg-gap);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bk-rating[data-size-xl] {
+    --rating-icon-size: var(--rating-xl-icon-size);
+    --rating-gap: var(--rating-xl-gap);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bk-rating[data-size-2xl] {
+    --rating-icon-size: var(--rating-2xl-icon-size);
+    --rating-gap: var(--rating-2xl-gap);
+  }
+}

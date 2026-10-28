@@ -32,3 +32,6 @@ export type * from './components/notification/type';
 
 export { Toast, showToast } from './components/toast';
 export type { ToastConfigType, ToastProps } from './components/toast/type';
+
+export { Rating } from './components/rating';
+export type { RatingProps, RatingTrigger } from './components/rating/type';
