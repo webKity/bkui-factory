@@ -15,11 +15,27 @@
 .bkreact-gallery__title { font-weight: var(--gallery-title-weight); }
 .bkreact-gallery__description { opacity: .8; }
 .bkreact-gallery__dots { position: absolute; bottom: var(--gallery-gap); left: 50%; transform: translateX(-50%); display: flex; max-width: calc(100% - 140px); overflow-x: auto; gap: 8px; padding: var(--gallery-gap); }
-.bkreact-gallery__dot { flex: 0 0 auto; width: var(--gallery-dot-size); height: var(--gallery-dot-size); padding: 0; border: 0; border-radius: 50%; background: var(--gallery-dot-color); cursor: pointer; }
-.bkreact-gallery__dot[aria-current] { background: var(--gallery-dot-active-color); }
+.bkreact-gallery__dot {
+  --button-hover-bg: var(--gallery-dot-hover-color);
+  --button-active-bg: var(--gallery-dot-hover-color);
+  min-height: 0;
+  flex: 0 0 auto; width: var(--gallery-dot-size); height: var(--gallery-dot-size); padding: 0; border: 0; border-radius: 50%; background: var(--gallery-dot-color); cursor: pointer; }
+.bkreact-gallery__dot[aria-current] {
+  --button-hover-bg: var(--gallery-dot-active-color);
+  --button-active-bg: var(--gallery-dot-active-color);
+  background: var(--gallery-dot-active-color); }
 .bkreact-gallery__thumbnails { display: flex; gap: var(--gallery-gap); padding: var(--gallery-gap) 2px; overflow-x: auto; }
-.bkreact-gallery__thumbnail { position: relative; flex: 0 0 auto; width: var(--gallery-thumbnail-width); height: var(--gallery-thumbnail-height); padding: 0; overflow: hidden; border: 2px solid transparent; border-radius: var(--gallery-thumbnail-radius); background: var(--gallery-bg); color: var(--gallery-color); cursor: pointer; }
-.bkreact-gallery__thumbnail[aria-current] { border-color: var(--gallery-accent); }
+.bkreact-gallery__thumbnail {
+  --button-hover-bg: var(--gallery-bg);
+  --button-active-bg: var(--gallery-bg);
+  --button-hover-border-color: var(--gallery-hover-border);
+  --button-active-border-color: var(--gallery-hover-border);
+  min-height: 0;
+  position: relative; flex: 0 0 auto; width: var(--gallery-thumbnail-width); height: var(--gallery-thumbnail-height); padding: 0; overflow: hidden; border: 2px solid transparent; border-radius: var(--gallery-thumbnail-radius); background: var(--gallery-bg); color: var(--gallery-color); cursor: pointer; }
+.bkreact-gallery__thumbnail[aria-current] {
+  --button-hover-border-color: var(--gallery-accent);
+  --button-active-border-color: var(--gallery-accent);
+  border-color: var(--gallery-accent); }
 .bkreact-gallery__thumbnail img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .bkreact-gallery__play { position: absolute; inset: 0; display: grid; place-items: center; color: var(--gallery-overlay-color); background: var(--gallery-overlay-bg); }
 .bkreact-gallery:focus-visible, .bkreact-gallery button:focus-visible { outline: 2px solid var(--gallery-accent); outline-offset: 2px; }
@@ -93,3 +109,8 @@
   .bkreact-gallery__arrow, .bkreact-gallery__close,
   .bkreact-gallery__dot, .bkreact-gallery__thumbnail { transition: none; }
 }
+
+/* Button 的内部内容槽填满缩略图，保持图片裁切与点击范围。 */
+.bkreact-gallery__thumbnail > .bk-button__content,
+.bkreact-gallery__thumbnail .bk-button__label { width: 100%; height: 100%; }
+.bkreact-gallery__thumbnail .bk-button__label { display: block; }

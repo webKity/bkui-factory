@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '../button';
+import { BKIcon } from '../icon';
 import './index.css';
 
 import type { KeyboardEvent } from 'react';
@@ -18,12 +19,12 @@ function Media({ item, objectFit }: { item: GalleryItem; objectFit: GalleryProps
   const [failed, setFailed] = useState(false);
   if (failed) return <div className="bkreact-gallery__empty" role="status">媒体加载失败</div>;
   return item.type === 'video'
-    ? <video className="bkreact-gallery__media" style={{ objectFit }} src={item.src} poster={item.poster} controls playsInline preload="metadata" aria-label={item.alt ?? item.title ?? '视频'} onError={() => setFailed(true)} />
+    ? <video className="bkreact-gallery__media" style={{ objectFit }} src={item.src} poster={item.poster} controls playsInline preload="metadata" aria-label="Video" onError={() => setFailed(true)} />
     : <img className="bkreact-gallery__media" style={{ objectFit }} src={item.src} alt={item.alt ?? item.title ?? ''} onError={() => setFailed(true)} />;
 }
 
-const previousIcon = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="m14 5-7 7 7 7" /></svg>;
-const nextIcon = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="m10 5 7 7-7 7" /></svg>;
+const previousIcon = <BKIcon name="left" size="100%" renderInServer />;
+const nextIcon = <BKIcon name="right" size="100%" renderInServer />;
 
 export function Gallery({
   items, index, defaultIndex = 0, onIndexChange, loop = false,
@@ -88,37 +89,63 @@ export function Gallery({
   );
 
   return (
-    <section className={['bkreact-gallery', className].filter(Boolean).join(' ')} role="region" aria-roledescription="轮播图" aria-label="媒体画廊" tabIndex={0} onKeyDown={onKeyDown}>
+    <section className={['bkreact-gallery', className].filter(Boolean).join(' ')} role="region" aria-roledescription="carousel" aria-label="Media gallery" tabIndex={0} onKeyDown={onKeyDown}>
       <div className="bkreact-gallery__viewport" data-dots={multiple && showDots || undefined} style={{ aspectRatio }}>
-        {item ? <div key={motion.revision} ref={slideRef} className="bkreact-gallery__slide" data-motion={motion.outgoing ? 'enter' : undefined} data-direction={motion.direction > 0 ? 'next' : 'previous'} role="group" aria-roledescription="幻灯片" aria-label={`${activeIndex + 1} / ${items.length}`}
-          onAnimationEnd={event => {
-            if (event.target !== event.currentTarget || event.animationName !== 'bk-gallery-enter') return;
-            const revision = motion.revision;
-            setMotion(current => current.revision === revision ? { ...current, outgoing: undefined } : current);
-          }}>
-          <Media key={mediaKey} item={item} objectFit={objectFit} />
-        </div> : <div className="bkreact-gallery__empty" role="status">{emptyDescription}</div>}
-        {motion.outgoing && <div key={`outgoing-${motion.revision}`} className="bkreact-gallery__outgoing" data-direction={motion.direction > 0 ? 'next' : 'previous'} aria-hidden="true" inert>
-          {/* 视频立即卸载，退场仅展示 poster，避免隐藏的视频继续播放。 */}
-          {(motion.outgoing.type !== 'video' || motion.outgoing.poster) && <img className="bkreact-gallery__snapshot" src={motion.outgoing.type === 'video' ? motion.outgoing.poster : motion.outgoing.src} alt="" style={{ objectFit }} />}
-        </div>}
+        {
+          item ? (
+            <div key={motion.revision} ref={slideRef} className="bkreact-gallery__slide" data-motion={motion.outgoing ? 'enter' : undefined} data-direction={motion.direction > 0 ? 'next' : 'previous'} role="group" aria-roledescription="slide" aria-label={`${activeIndex + 1} of ${items.length}`}
+              onAnimationEnd={event => {
+                if (event.target !== event.currentTarget || event.animationName !== 'bk-gallery-enter') return;
+                const revision = motion.revision;
+                setMotion(current => current.revision === revision ? { ...current, outgoing: undefined } : current);
+              }}>
+              <Media key={mediaKey} item={item} objectFit={objectFit} />
+            </div>
+          ) : <div className="bkreact-gallery__empty" role="status">{emptyDescription}</div>
+        }
+
+        {
+          motion.outgoing && (
+            <div key={`outgoing-${motion.revision}`} className="bkreact-gallery__outgoing" data-direction={motion.direction > 0 ? 'next' : 'previous'} aria-hidden="true" inert>
+              {/* 视频立即卸载，退场仅展示 poster，避免隐藏的视频继续播放。 */}
+              {(motion.outgoing.type !== 'video' || motion.outgoing.poster) && <img className="bkreact-gallery__snapshot" src={motion.outgoing.type === 'video' ? motion.outgoing.poster : motion.outgoing.src} alt="" style={{ objectFit }} />}
+            </div>
+          )
+        }
+
         {item && showCounter && <span className="bkreact-gallery__counter" aria-live="polite" aria-atomic="true">{activeIndex + 1} / {items.length}</span>}
-        {multiple && showArrows && <>
-          {(loop || activeIndex > 0) && <Button className="bkreact-gallery__arrow" data-direction="previous" shape="square" round size="sm" aria-label="上一项" prefixIcon={previousIcon} onClick={() => select(activeIndex - 1)} />}
-          {(loop || activeIndex < items.length - 1) && <Button className="bkreact-gallery__arrow" data-direction="next" shape="square" round size="sm" aria-label="下一项" prefixIcon={nextIcon} onClick={() => select(activeIndex + 1)} />}
-        </>}
-        {multiple && showDots && <nav className="bkreact-gallery__dots" aria-label="画廊分页">
-          {items.map((_, i) => <button key={i} type="button" className="bkreact-gallery__dot" aria-label={`转到第 ${i + 1} 项`} aria-current={i === activeIndex ? 'true' : undefined} onClick={() => select(i)} />)}
-        </nav>}
+        
+        {
+          multiple && showArrows && (
+            <>
+              {(loop || activeIndex > 0) && <Button className="bkreact-gallery__arrow" data-direction="previous" shape="square" round size="sm" aria-label="Previous item" prefixIcon={previousIcon} onClick={() => select(activeIndex - 1)} />}
+              {(loop || activeIndex < items.length - 1) && <Button className="bkreact-gallery__arrow" data-direction="next" shape="square" round size="sm" aria-label="Next item" prefixIcon={nextIcon} onClick={() => select(activeIndex + 1)} />}
+            </>
+          )
+        }
+
+        {
+          multiple && showDots && (
+            <nav className="bkreact-gallery__dots" aria-label="Gallery pagination">
+              {items.map((_, i) => <Button key={i} variant="ghost" size="2xs" className="bkreact-gallery__dot" aria-label={`Go to item ${i + 1}`} aria-current={i === activeIndex ? 'true' : undefined} onClick={() => select(i)} />)}
+            </nav>
+          )
+        }
         {captionPosition === 'overlay' && caption}
       </div>
+      
       {captionPosition === 'below' && caption}
-      {item && showThumbnails && <nav className="bkreact-gallery__thumbnails" aria-label="画廊缩略图">
-        {items.map((entry, i) => <button key={i} type="button" className="bkreact-gallery__thumbnail" aria-label={`查看第 ${i + 1} 项${entry.title ? `：${entry.title}` : ''}`} aria-current={i === activeIndex ? 'true' : undefined} onClick={() => select(i)}>
-          {entry.type !== 'video' || entry.poster ? <img src={entry.type === 'video' ? entry.poster : entry.src} alt="" loading="lazy" /> : <span aria-hidden="true">▶</span>}
-          {entry.type === 'video' && entry.poster && <span className="bkreact-gallery__play" aria-hidden="true">▶</span>}
-        </button>)}
-      </nav>}
+
+      {
+        item && showThumbnails && (
+          <nav className="bkreact-gallery__thumbnails" aria-label="Gallery thumbnails">
+            {items.map((entry, i) => <Button key={i} variant="ghost" size="2xs" className="bkreact-gallery__thumbnail" aria-label={`View item ${i + 1}`} aria-current={i === activeIndex ? 'true' : undefined} onClick={() => select(i)}>
+              {entry.type !== 'video' || entry.poster ? <img src={entry.type === 'video' ? entry.poster : entry.src} alt="" loading="lazy" /> : <span aria-hidden="true">▶</span>}
+              {entry.type === 'video' && entry.poster && <span className="bkreact-gallery__play" aria-hidden="true">▶</span>}
+            </Button>)}
+          </nav>
+        )
+      }
     </section>
   );
 }

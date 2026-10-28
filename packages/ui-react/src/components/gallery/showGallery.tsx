@@ -3,15 +3,16 @@
 import { Dialog } from '@base-ui/react/dialog';
 import { createRoot } from 'react-dom/client';
 import { Button } from '../button';
+import { BKIcon } from '../icon';
 import { Gallery } from './index';
 import type { ShowGalleryOptions } from './type';
 
-const closeIcon = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="m6 6 12 12M6 18 18 6" /></svg>;
+const closeIcon = <BKIcon name="close" size="100%" renderInServer />;
 
 /** 打开独立画廊弹层；返回可重复安全调用的关闭函数。仅可在浏览器中调用。 */
 export function showGallery(options: ShowGalleryOptions): () => void {
   if (typeof document === 'undefined') return () => {};
-  const { closeLabel = '关闭画廊', onClose, ...props } = options;
+  const { closeLabel = 'Close gallery', onClose, ...props } = options;
   const previousFocus = document.activeElement;
   const container = document.createElement('div');
   container.className = 'bkreact-gallery-root';
@@ -33,7 +34,7 @@ export function showGallery(options: ShowGalleryOptions): () => void {
     <Dialog.Root defaultOpen onOpenChange={open => { if (!open) close(); }}>
       <Dialog.Portal container={container}>
         <Dialog.Backdrop className="bkreact-gallery bkreact-gallery__backdrop" />
-        <Dialog.Popup className="bkreact-gallery bkreact-gallery__dialog" aria-label="媒体画廊" aria-describedby={undefined}>
+        <Dialog.Popup className="bkreact-gallery bkreact-gallery__dialog" aria-label="Media gallery" aria-describedby={undefined}>
           <Dialog.Close render={<Button className="bkreact-gallery__close" shape="square" round aria-label={closeLabel} prefixIcon={closeIcon} />} />
           <Gallery {...props} />
         </Dialog.Popup>

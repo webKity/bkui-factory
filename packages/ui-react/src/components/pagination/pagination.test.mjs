@@ -174,7 +174,7 @@ test('导航 ref、自定义类名和响应式 Button 尺寸可用', async () =>
   const ref = createRef();
   const nav = await render({ current: 1, totalPage: 5, ref, className: 'custom-pagination', size: { base: 'xs', md: 'lg' } });
   assert.equal(ref.current, nav);
-  assert.equal(nav.getAttribute('aria-label'), '分页');
+  assert.equal(nav.getAttribute('aria-label'), 'Pagination');
   assert(nav.classList.contains('custom-pagination'));
   const button = item('第 1 页');
   assert.equal(button.getAttribute('type'), 'button');

@@ -55,34 +55,43 @@ test('SSR supports empty state, custom classes, caption and media semantics', ()
   assert.equal(doc.querySelector('video').style.objectFit, 'cover');
   assert.equal(doc.querySelector('[data-position="below"]').textContent, '视频');
   assert.equal(doc.querySelector('[aria-live]').textContent, '2 / 3');
+  assert.equal(doc.querySelector('section').getAttribute('aria-label'), 'Media gallery');
+  assert.equal(doc.querySelector('[role="group"]').getAttribute('aria-roledescription'), 'slide');
+  for (const control of doc.querySelectorAll('button')) {
+    assert(control.classList.contains('bk-button'));
+    assert.doesNotMatch(control.getAttribute('aria-label'), /[\u3400-\u9fff]/);
+  }
+  for (const label of ['Previous item', 'Next item']) {
+    assert(doc.querySelector(`[aria-label="${label}"] .bkreact-icon svg path`));
+  }
 });
 
 test('arrows honor boundaries, looping wraps, thumbnails and dots navigate', async () => {
   const changes = [];
   await mount({ items, onIndexChange: (...args) => changes.push(args) });
-  assert.equal(button('上一项'), undefined);
-  assert(button('下一项'));
-  await act(() => button('下一项').click());
+  assert.equal(button('Previous item'), undefined);
+  assert(button('Next item'));
+  await act(() => button('Next item').click());
   assert(container.querySelector('video')); assert.deepEqual(changes[0], [1, items[1]]);
-  assert(button('上一项')); assert(button('下一项'));
-  await act(() => button('转到第 3 项').click());
-  assert.equal(container.querySelector('video'), null); assert.equal(button('下一项'), undefined);
-  assert(button('上一项'));
-  await act(() => button('查看第 1 项：第一张').click());
+  assert(button('Previous item')); assert(button('Next item'));
+  await act(() => button('Go to item 3').click());
+  assert.equal(container.querySelector('video'), null); assert.equal(button('Next item'), undefined);
+  assert(button('Previous item'));
+  await act(() => button('View item 1').click());
   assert.equal(container.querySelector('.bkreact-gallery__media').alt, '山');
   await act(() => root.render(h(Gallery, { items, loop: true })));
-  await act(() => button('上一项').click());
+  await act(() => button('Previous item').click());
   assert.equal(container.querySelector('[aria-live]').textContent, '3 / 3');
-  assert(button('上一项')); assert(button('下一项'));
-  await act(() => button('下一项').click());
+  assert(button('Previous item')); assert(button('Next item'));
+  await act(() => button('Next item').click());
   assert.equal(container.querySelector('[aria-live]').textContent, '1 / 3');
-  assert(button('上一项')); assert(button('下一项'));
+  assert(button('Previous item')); assert(button('Next item'));
 });
 
 test('controlled index emits callbacks without updating until the parent changes it', async () => {
   const changes = [];
   await mount({ items, index: 0, onIndexChange: (...args) => changes.push(args) });
-  await act(() => button('下一项').click());
+  await act(() => button('Next item').click());
   assert.deepEqual(changes, [[1, items[1]]]);
   assert.equal(container.querySelector('[aria-live]').textContent, '1 / 3');
   await act(() => root.render(h(Gallery, { items, index: 1 })));
@@ -107,7 +116,7 @@ test('media errors recover when navigating to another item', async () => {
   await mount({ items });
   await act(() => container.querySelector('.bkreact-gallery__media').dispatchEvent(new Event('error')));
   assert.equal(container.querySelector('[role="status"]').textContent, '媒体加载失败');
-  await act(() => button('下一项').click());
+  await act(() => button('Next item').click());
   assert(container.querySelector('video'));
 });
 
@@ -141,10 +150,10 @@ test('directional animation follows controlled indexes, loop boundaries and rapi
 
   // 切到非受控模式，从 0 向前跨边界应仍向右滑动。
   await act(() => root.render(h(Gallery, { items, loop: true })));
-  await act(() => button('上一项').click());
+  await act(() => button('Previous item').click());
   slide = container.querySelector('.bkreact-gallery__slide');
   assert.equal(slide.dataset.direction, 'previous');
-  await act(() => button('下一项').click());
+  await act(() => button('Next item').click());
   assert.notEqual(container.querySelector('.bkreact-gallery__slide'), slide);
   assert.equal(container.querySelector('.bkreact-gallery__slide').dataset.direction, 'next');
   await act(() => endAnimation(slide));
@@ -156,7 +165,7 @@ test('outgoing video is unmounted immediately and only its inert poster animates
   motionStyle();
   await mount({ items, defaultIndex: 1 });
   const video = container.querySelector('video');
-  await act(() => button('下一项').click());
+  await act(() => button('Next item').click());
   assert.equal(video.isConnected, false);
   assert.equal(container.querySelector('video'), null);
   const outgoing = container.querySelector('.bkreact-gallery__outgoing');
@@ -168,12 +177,12 @@ test('outgoing video is unmounted immediately and only its inert poster animates
 test('disabled motion and missing animationend both clean up the outgoing snapshot', async () => {
   motionStyle('10s', 'none');
   await mount({ items });
-  await act(() => button('下一项').click());
+  await act(() => button('Next item').click());
   assert.equal(container.querySelector('[data-motion]'), null);
   assert.equal(container.querySelector('.bkreact-gallery__outgoing'), null);
   document.querySelector('[data-gallery-test-style]').remove();
   motionStyle('1ms');
-  await act(() => button('下一项').click());
+  await act(() => button('Next item').click());
   assert(container.querySelector('.bkreact-gallery__outgoing'));
   await act(() => new Promise(resolve => setTimeout(resolve, 80)));
   assert.equal(container.querySelector('.bkreact-gallery__outgoing'), null);
@@ -182,9 +191,9 @@ test('disabled motion and missing animationend both clean up the outgoing snapsh
 test('imperative close is idempotent, removes root, restores focus and calls onClose once', async () => {
   const trigger = document.createElement('button'); document.body.append(trigger); trigger.focus();
   let calls = 0, close;
-  await act(async () => { close = showGallery({ items, defaultIndex: 1, closeLabel: '关闭预览', onClose: () => calls++ }); closers.push(close); });
+  await act(async () => { close = showGallery({ items, defaultIndex: 1, closeLabel: 'Close preview', onClose: () => calls++ }); closers.push(close); });
   assert(document.querySelector('[role="dialog"] video'));
-  assert(document.querySelector('[aria-label="关闭预览"]'));
+  assert(document.querySelector('[aria-label="Close preview"].bk-button .bkreact-icon svg'));
   await act(async () => { close(); close(); });
   assert.equal(document.querySelector('.bkreact-gallery-root'), null);
   assert.equal(calls, 1); assert.equal(document.activeElement, trigger);
@@ -196,7 +205,7 @@ test('dialog close button and Escape dismiss and clean up their roots', async ()
   for (const method of ['button', 'escape']) {
     await act(async () => { closers.push(showGallery({ items, onClose: () => calls++ })); });
     await act(async () => {
-      if (method === 'button') document.querySelector('[aria-label="关闭画廊"]').click();
+      if (method === 'button') document.querySelector('[aria-label="Close gallery"]').click();
       else key(document.querySelector('[role="dialog"]'), 'Escape');
     });
     assert.equal(document.querySelector('.bkreact-gallery-root'), null);

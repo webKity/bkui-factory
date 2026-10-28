@@ -2,6 +2,7 @@
 
 import { forwardRef } from 'react';
 import { Button } from '../button';
+import { BKIcon } from '../icon';
 import { getPaginationPages, normalizePageCount } from './pages';
 import type { MouseEventHandler } from 'react';
 import type { PaginationItemType, PaginationProps } from './type';
@@ -56,7 +57,8 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
       'aria-current': active ? 'page' as const : undefined,
       'data-pagination-type': type,
       onClick: handleClick,
-      children: type === 'page' ? target : <span aria-hidden="true">{type === 'previous' ? '‹' : '›'}</span>,
+      prefixIcon: type === 'page' ? undefined : <BKIcon name={type === 'previous' ? 'left' : 'right'} size="100%" renderInServer />,
+      children: type === 'page' ? target : undefined,
     };
     return as === 'a'
       ? <Button key={type === 'page' ? target : type} {...common} link={typeof href === 'string' ? href : ''} />
@@ -64,7 +66,7 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
   };
 
   return (
-    <nav ref={ref} aria-label="分页" className={['bk-pagination', className].filter(Boolean).join(' ')}>
+    <nav ref={ref} aria-label="Pagination" className={['bk-pagination', className].filter(Boolean).join(' ')}>
       <ul className="bk-pagination__list">
         <li>{renderItem(Math.max(1, page - 1), 'previous')}</li>
         {getPaginationPages(page, total, pagerCount).map(entry => (

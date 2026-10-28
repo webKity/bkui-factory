@@ -48,7 +48,7 @@ function ControlledExample() {
 export const Controlled: Story = { name: '受控索引', render: () => <ControlledExample /> };
 export const Imperative: Story = {
   name: '函数式调用',
-  render: () => <Button intent="brand" onClick={() => showGallery({ items, defaultIndex: 1, loop: true, closeLabel: '关闭预览' })}>打开画廊</Button>,
+  render: () => <Button intent="brand" onClick={() => showGallery({ items, defaultIndex: 1, loop: true, closeLabel: 'Close preview' })}>打开画廊</Button>,
 };
 
 export const HoverStates: Story = {
@@ -58,7 +58,7 @@ export const HoverStates: Story = {
     <p className="example-note">箭头和缩略图悬停时显示边框；指示器为实心小点，激活项使用主题色。缩略图选中边框会持续保留。键盘 Tab 可检查焦点状态。</p>
     <Gallery {...args} />
     <div className="example-row">
-      <Button intent="brand" onClick={() => showGallery({ ...args, closeLabel: '关闭预览' })}>打开弹层，查看关闭按钮状态</Button>
+      <Button intent="brand" onClick={() => showGallery({ ...args, closeLabel: 'Close preview' })}>打开弹层，查看关闭按钮状态</Button>
     </div>
   </div>,
 };
