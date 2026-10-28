@@ -1,7 +1,7 @@
 'use client';
 
 export { Typography } from './components/typography';
-export type { TypographyProps } from './components/typography/type';
+export type { TypographyProps, TypographyComponent } from './components/typography/type';
 
 export { InputOTP } from './components/input.otp';
 export type { InputOTPProps } from './components/input.otp';

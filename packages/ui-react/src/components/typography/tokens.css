@@ -2,6 +2,7 @@
 .bk-typography {
   --typography-code-font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --typography-border-style: solid;
+  --typography-rule-width: 1px;
   --typography-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
   --typography-color: var(--color-text-body);
   --typography-body: var(--typography-color);
@@ -17,10 +18,11 @@
   --typography-quote-borders: var(--color-border-strong);
   --typography-captions: var(--color-text-secondary);
   --typography-kbd: var(--color-text-primary);
-  --typography-kbd-shadows: 0 0 0;
+  --typography-kbd-shadows: var(--color-border-default);
+  --typography-kbd-font-family: var(--typography-font-family);
   --typography-code: var(--color-text-primary);
-  --typography-pre-code: #C9C9C9;
-  --typography-pre-bg: rgba(0, 0, 0);
+  --typography-pre-code: var(--color-text-body);
+  --typography-pre-bg: var(--color-fill-subtle);
   --typography-th-borders: var(--color-border-strong);
   --typography-td-borders: var(--color-border-subtle);
   --typography-max-width: 65ch;
@@ -39,7 +41,9 @@
   --typography-code-radius: var(--radius-scale-md);
   --typography-white-space: normal;
   --typography-pre-line-white-space: pre-line;
-  /* 按正文相对 base（16px）的比例缩放标题；2xs / xs 均为 12px。 */
+  /* 标题使用独立的七档设计比例，不要求等于正文与 16px 的比值。
+   * 2xs / xs 正文均为 12px，标题仍通过不同的比例区分层级。
+   */
   --typography-size-2xs-heading-scale: 0.9;
   --typography-size-2xs-font-size: var(--text-2xs-size);
   --typography-size-2xs-line-height: var(--text-2xs-line-height);

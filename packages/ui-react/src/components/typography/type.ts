@@ -1,10 +1,21 @@
-import type { ElementType, HTMLAttributes, ReactNode } from 'react';
+import type { ComponentPropsWithRef, ComponentPropsWithoutRef, ElementType, ReactElement, ReactNode } from 'react';
 import type { IBKResponsiveSize, IBKSize } from '../types/base';
 
-export interface TypographyProps extends Omit<HTMLAttributes<HTMLElement>, 'children'> {
-  as?: ElementType;
+interface TypographyOwnProps<T extends ElementType> {
+  as?: T;
   children?: ReactNode;
+  /** 字符串选择全局尺寸；响应式对象必须提供 base，可选断点仅在显式配置时生效。 */
   size?: IBKSize | IBKResponsiveSize;
   /** 保留文本中的换行符，默认关闭。 */
   preLine?: boolean;
+}
+
+/** 原生属性及事件类型随 as 变化，默认渲染 div。 */
+export type TypographyProps<T extends ElementType = 'div'> = TypographyOwnProps<T>
+  & Omit<ComponentPropsWithoutRef<T>, keyof TypographyOwnProps<T>>;
+
+export interface TypographyComponent {
+  <T extends ElementType = 'div'>(props: TypographyProps<T> & {
+    ref?: ComponentPropsWithRef<T>['ref'];
+  }): ReactElement | null;
 }

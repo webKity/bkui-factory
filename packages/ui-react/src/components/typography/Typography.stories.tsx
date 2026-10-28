@@ -11,6 +11,7 @@ const content = <>
   <ul><li>有序呈现信息，保持清晰的阅读层次。</li><li>自动适配亮色与暗色主题。</li></ul>
   <blockquote><p>排版样式仅作用于当前组件内的内容。</p></blockquote>
   <h3>代码与表格</h3>
+  <p>使用 <kbd>⌘</kbd> + <kbd>K</kbd> 打开搜索，使用 <kbd>Esc</kbd> 关闭。</p>
   <pre><code>{'const message = "Hello Typography";\nconsole.log(message);'}</code></pre>
   <table><thead><tr><th>属性</th><th>默认值</th></tr></thead><tbody><tr><td>size</td><td>base</td></tr><tr><td>preLine</td><td>false</td></tr></tbody></table>
   <p><small>最后更新：示例内容</small></p>
@@ -26,7 +27,7 @@ const meta = {
     as: { control: 'select', options: ['div', 'article', 'section'] },
     children: { control: false },
   },
-  parameters: { docs: { description: { component: '基于 @tailwindcss/typography，使用 --typography-* 私有组件 tokens。支持七档正文尺寸、响应式尺寸、语义容器、原生属性及 ref。标题基于项目 h1–h6 token 随 size 等比例缩放；not-bk-typography 可排除嵌入内容。' } } },
+  parameters: { docs: { description: { component: '基于 @tailwindcss/typography，使用 --typography-* 私有组件 tokens。标题基于项目 h1–h6 token，按独立七档设计比例缩放；lead 默认为正文的 1.1 倍。响应式 size 必须包含 base，data-size 标记配置模式，data-size-* 标记显式断点。原生属性、事件及 ref 类型随 as 变化。not-bk-typography 可排除嵌入内容；代码块和按键阴影均随主题切换。' } } },
 } satisfies Meta<typeof Typography>;
 export default meta;
 type Story = StoryObj<typeof meta>;

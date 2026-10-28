@@ -2,7 +2,7 @@
 const typography = require('@tailwindcss/typography');
 
 const css = {
-  color: 'var(--typography-color)',
+  color: 'var(--tw-prose-body)',
   maxWidth: 'var(--typography-max-width)',
   fontFamily: 'var(--typography-font-family)',
   fontSize: 'var(--typography-font-size)',
@@ -32,9 +32,10 @@ for (let level = 1; level <= 6; level++) {
 }
 css.pre = { borderRadius: 'var(--typography-code-radius)', whiteSpace: 'pre', backgroundColor: 'var(--typography-pre-bg)', color: 'var(--typography-pre-code)', fontFamily: 'var(--typography-code-font-family)' };
 // 插件通常配合 Tailwind Preflight 使用；在组件作用域内补齐必要规则。
-css['code, kbd'] = { fontFamily: 'var(--typography-code-font-family)' };
+css.code = { fontFamily: 'var(--typography-code-font-family)' };
+css.kbd = { fontFamily: 'var(--typography-kbd-font-family)' };
 css.blockquote = { borderInlineStartStyle: 'var(--typography-border-style)', marginInline: '0' };
-css.hr = { borderStyle: 'var(--typography-border-style)', borderInlineWidth: '0', borderBottomWidth: '0' };
+css.hr = { borderStyle: 'var(--typography-border-style)', borderTopWidth: 'var(--typography-rule-width)', borderInlineWidth: '0', borderBottomWidth: '0' };
 css.table = { borderCollapse: 'collapse', borderSpacing: '0' };
 css['thead, tbody tr'] = { borderBottomStyle: 'var(--typography-border-style)' };
 css.tfoot = { borderTopStyle: 'var(--typography-border-style)' };
