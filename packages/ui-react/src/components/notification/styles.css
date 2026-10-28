@@ -19,7 +19,8 @@
 .bkreact-notification {
   position: relative;
   overflow: hidden;
-  display: var(--notification-display);
+  display: var(--notification-card-display);
+  grid-template-columns: var(--notification-columns);
   box-sizing: var(--notification-box-sizing);
   align-items: flex-start;
   gap: var(--notification-gap);
@@ -47,7 +48,16 @@
 }
 .bkreact-notification__title { font-weight: var(--notification-title-font-weight); }
 .bkreact-notification__message { color: var(--notification-message-color); }
-.bkreact-notification__actions { display: var(--notification-display); flex-wrap: wrap; gap: var(--notification-content-gap); }
+.bkreact-notification__actions {
+  grid-column: 2 / -1;
+  display: var(--notification-display);
+  justify-content: var(--notification-actions-align);
+  flex-wrap: wrap;
+  gap: var(--notification-content-gap);
+}
+.bkreact-notification__close {
+  margin-block-start: var(--notification-close-offset);
+}
 .bkreact-notification[data-state='closing'] { animation: var(--notification-exit-animation); pointer-events: none; }
 @keyframes bk-notification-enter {
   from { opacity: var(--notification-closed-opacity); transform: translateY(var(--notification-motion-offset)); }

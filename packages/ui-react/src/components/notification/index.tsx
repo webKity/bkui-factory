@@ -61,16 +61,24 @@ export function Notification({ item, onClose }: NotificationProps) {
         {item.title != null && <div className="bkreact-notification__title">{item.title}</div>}
         {item.message != null && <div className="bkreact-notification__message">{item.message}</div>}
         {item.children != null && <div className="bkreact-notification__body">{item.children}</div>}
-        {!!item.actions?.length && <div className="bkreact-notification__actions">
-          {item.actions.map((action, index) => (
-            <Button key={index} size="sm" intent={action.intent ?? intent} variant={action.variant ?? 'ghost'}
-              disabled={item.closing} onClick={action.onClick}>{action.label}</Button>
-          ))}
-        </div>}
+
       </div>
-      <Button className="bkreact-notification__close" size="sm" shape="square" variant="ghost"
-        aria-label="Close notification" disabled={item.closing} onClick={() => onClose(item.id)}
-        prefixIcon={<BKIcon name="close" size="100%" renderInServer />} />
+      <Button
+        className="bkreact-notification__close"
+        size="sm"
+        shape="square"
+        variant="ghost"
+        aria-label="Close notification"
+        disabled={item.closing}
+        prefixIcon={<BKIcon name="close" size="100%" renderInServer />}
+        onClick={() => onClose(item.id)}
+      />
+      {!!item.actions?.length && <div className="bkreact-notification__actions">
+        {item.actions.map((action, index) => (
+          <Button key={index} size="sm" intent={action.intent ?? intent} variant={action.variant ?? 'ghost'}
+            disabled={item.closing} onClick={action.onClick}>{action.label}</Button>
+        ))}
+      </div>}
     </div>
   );
 }

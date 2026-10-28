@@ -2,6 +2,9 @@
 .bkreact-notification,
 .bkreact-notification-viewport {
   --notification-display: flex;
+  --notification-card-display: grid;
+  --notification-columns: var(--notification-icon-size) minmax(0, 1fr) auto;
+  --notification-actions-align: flex-end;
   --notification-box-sizing: border-box;
   --notification-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
   --notification-border-style: solid;
@@ -30,4 +33,9 @@
 /* 动画引用的时长和延迟由 fill 的行内变量提供，必须在同一元素解析。 */
 .bkreact-notification__progress-fill {
   --notification-countdown-animation: bk-notification-countdown var(--notification-countdown-duration) linear var(--notification-countdown-delay) forwards;
+}
+
+/* 将关闭按钮中心对齐到首行文字中心，保留 Button 的原有点击区域。 */
+.bkreact-notification__close {
+  --notification-close-offset: calc((var(--notification-line-height) - var(--button-height)) / 2);
 }
