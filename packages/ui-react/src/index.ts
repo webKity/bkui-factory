@@ -7,3 +7,4 @@ export type { LoadingProps, LoadingType, LoadingSize } from './components/loadin
 export type { InputOTPProps } from './components/input.otp';
 
 export type { IAlertProps } from './components/alert/type';
+export type { TypographyProps } from './components/typography/type';

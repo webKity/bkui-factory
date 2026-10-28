@@ -12,11 +12,15 @@
   --input-otp-border-style: solid;
   --input-otp-outline-style: solid;
   --input-otp-rest-outline-width: 0px;
-  --input-otp-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --input-otp-font-family: var(--font-family-zh, sans-serif), var(--font-family-en, sans-serif);
   --input-otp-cursor: text;
   --input-otp-disabled-cursor: not-allowed;
   --input-otp-transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
   --input-otp-reduced-motion-transition: none;
+  --input-otp-base-slot-size: var(--input-otp-size-base-slot-size);
+  --input-otp-base-font-size: var(--input-otp-size-base-font-size);
+  --input-otp-base-line-height: var(--input-otp-size-base-line-height);
+  --input-otp-base-gap: var(--input-otp-size-base-gap);
   --input-otp-slot-size: var(--input-otp-base-slot-size);
   --input-otp-font-size: var(--input-otp-base-font-size);
   --input-otp-line-height: var(--input-otp-base-line-height);

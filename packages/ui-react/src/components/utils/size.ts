@@ -28,6 +28,7 @@ export function mapResponsiveSize(size: IBKSize | IBKResponsiveSize, visit: (sco
   }
 }
 
+/** 只返回 data-size-* 断点标记；data-size 由组件自行设置。 */
 export function getResponsiveSizeAttributes(size: IBKSize | IBKResponsiveSize | number) {
   if (!size || typeof size !== 'object') return {};
   return Object.fromEntries(sizeBreakpoints.filter(key => Object.hasOwn(size, key)).map(key => [`data-size-${key}`, true]));

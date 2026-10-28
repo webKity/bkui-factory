@@ -1,0 +1,48 @@
+.bk-typography {
+  white-space: var(--typography-white-space);
+  overflow-wrap: anywhere;
+}
+
+.bk-typography[data-pre-line] {
+  white-space: var(--typography-pre-line-white-space);
+}
+
+@media (min-width: 40rem) {
+  .bk-typography[data-size-sm] {
+    --typography-heading-scale: var(--typography-sm-heading-scale);
+    --typography-font-size: var(--typography-sm-font-size);
+    --typography-line-height: var(--typography-sm-line-height);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bk-typography[data-size-md] {
+    --typography-heading-scale: var(--typography-md-heading-scale);
+    --typography-font-size: var(--typography-md-font-size);
+    --typography-line-height: var(--typography-md-line-height);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bk-typography[data-size-lg] {
+    --typography-heading-scale: var(--typography-lg-heading-scale);
+    --typography-font-size: var(--typography-lg-font-size);
+    --typography-line-height: var(--typography-lg-line-height);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bk-typography[data-size-xl] {
+    --typography-heading-scale: var(--typography-xl-heading-scale);
+    --typography-font-size: var(--typography-xl-font-size);
+    --typography-line-height: var(--typography-xl-line-height);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bk-typography[data-size-2xl] {
+    --typography-heading-scale: var(--typography-2xl-heading-scale);
+    --typography-font-size: var(--typography-2xl-font-size);
+    --typography-line-height: var(--typography-2xl-line-height);
+  }
+}

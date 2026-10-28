@@ -6,7 +6,7 @@ import { JSDOM } from 'jsdom';
 import { act, createElement as h, createRef } from 'react';
 
 let InputOTP, createRoot, userEvent, dom, temporary, root, container;
-const globals = ['window', 'document', 'navigator', 'HTMLElement', 'HTMLInputElement', 'Element', 'Node', 'Event', 'MouseEvent', 'KeyboardEvent'];
+const globals = ['window', 'document', 'navigator', 'HTMLElement', 'HTMLDivElement', 'HTMLSpanElement', 'HTMLInputElement', 'SVGElement', 'Element', 'Node', 'Event', 'MouseEvent', 'KeyboardEvent'];
 before(async () => {
   dom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'https://example.test', pretendToBeVisual: true });
   for (const key of globals) Object.defineProperty(globalThis, key, { configurable: true, value: dom.window[key] });
@@ -50,12 +50,61 @@ test('默认六位、ref、响应式尺寸及 Base UI className/style 回调', a
   assert.equal(inputs[0].autocomplete, 'one-time-code');
   assert.deepEqual(inputs.map(input => input.value), ['1', '2', '', '', '', '']);
   assert.equal(ref.current, container.querySelector('.bkreact-input-otp'));
+  assert(ref.current instanceof HTMLDivElement);
   assert(ref.current.classList.contains('incomplete'));
   assert(ref.current.hasAttribute('data-size-md'));
-  assert.equal(ref.current.style.getPropertyValue('--input-otp-base-slot-size'), 'var(--input-otp-size-sm-slot-size)');
-  assert.equal(ref.current.style.getPropertyValue('--input-otp-md-slot-size'), 'var(--input-otp-size-lg-slot-size)');
+  for (const dimension of ['slot-size', 'font-size', 'line-height', 'gap']) {
+    assert.equal(ref.current.style.getPropertyValue(`--input-otp-base-${dimension}`), `var(--input-otp-size-sm-${dimension})`);
+    assert.equal(ref.current.style.getPropertyValue(`--input-otp-md-${dimension}`), `var(--input-otp-size-lg-${dimension})`);
+  }
   assert.equal(ref.current.style.getPropertyValue('--input-otp-gap'), '13px');
   assert.equal(ref.current.style.marginTop, '7px');
+});
+
+test('非法 length 回退为六位并发出开发期诊断，后续仍能更新为合法位数', async t => {
+  const error = t.mock.method(console, 'error', () => {});
+  for (const length of [0, -1, 1.5, NaN, Infinity, Number.MAX_SAFE_INTEGER + 1, null]) {
+    const inputs = await render({ length, value: '12345678' });
+    assert.equal(inputs.length, 6);
+    assert.deepEqual(inputs.map(input => input.value), ['1', '2', '3', '4', '5', '6']);
+  }
+  assert.equal(error.mock.callCount(), 7);
+  assert(error.mock.calls.every(call => /length.*回退为 6/.test(call.arguments[0])));
+  const inputs = await render({ length: 6, value: '654321' });
+  assert.equal(inputs.length, 6);
+  assert.deepEqual(inputs.map(input => input.value), ['6', '5', '4', '3', '2', '1']);
+  assert.equal(error.mock.callCount(), 7);
+});
+
+test('type 优先于 mask，未传 type 时 mask 生效', async () => {
+  for (const [props, expected] of [
+    [{ type: 'text', mask: true }, 'text'],
+    [{ type: 'password', mask: false }, 'password'],
+    [{ mask: true }, 'password'],
+    [{ mask: false }, 'text'],
+    [{}, 'text'],
+  ]) {
+    const inputs = await render(props);
+    assert(inputs.every(input => input.type === expected));
+  }
+});
+
+test('字符串 size、className 和无障碍属性透传', async () => {
+  const ref = createRef();
+  await render({ ref, size: 'lg', className: 'custom', 'aria-label': '验证码' });
+  assert(ref.current.classList.contains('custom'));
+  assert.equal(ref.current.dataset.size, 'lg');
+  assert.equal(ref.current.style.getPropertyValue('--input-otp-base-slot-size'), 'var(--input-otp-size-lg-slot-size)');
+  assert.equal(ref.current.getAttribute('aria-label'), '验证码');
+});
+
+test('受控输入触发 onValueChange，但值由外部 value 决定', async () => {
+  const changes = [];
+  const inputs = await render({ value: '12', onValueChange: value => changes.push(value) });
+  const user = userEvent.setup({ document });
+  await act(async () => { await user.click(inputs[2]); await user.keyboard('3'); });
+  assert.equal(changes.at(-1), '123');
+  assert.deepEqual(inputs.map(input => input.value), ['1', '2', '', '', '', '']);
 });
 
 test('输入、自动聚焦、方向键、退格、粘贴、完成回调及表单值', async () => {

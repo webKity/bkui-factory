@@ -1,5 +1,6 @@
 
 @import './components/themes/index.css';
+@import './components/typography/index.css';
 @import './components/button/index.css';
 @import './components/icon/index.css';
 @import './components/loading/index.css';

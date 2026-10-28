@@ -1,3 +1,4 @@
+/* 先加载生成的设计 tokens，再加载手写结构 tokens，最后加载消费变量的样式。 */
 @import './design.tokens.css';
 @import './tokens.css';
 @import './styles.css';

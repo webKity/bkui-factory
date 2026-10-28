@@ -23,7 +23,9 @@
     "predev": "npm run build --workspace=@bkreact/assets",
     "predev:native": "npm run build --workspace=@bkreact/assets",
     "prebuild:docs": "npm run build --workspace=@bkreact/assets",
-    "prebuild:docs:native": "npm run build --workspace=@bkreact/assets"
+    "prebuild:docs:native": "npm run build --workspace=@bkreact/assets",
+    "typography:build": "node scripts/build-typography-css.mjs",
+    "typography:check": "node scripts/build-typography-css.mjs --check"
   },
   "devDependencies": {
     "@babel/core": "^7.29.0",
@@ -34,6 +36,7 @@
     "@storybook/react-native-web-vite": "^10.6.0",
     "@storybook/react-vite": "^10.6.0",
     "@tailwindcss/postcss": "4.1.12",
+    "@tailwindcss/typography": "^0.5.20",
     "@types/react": "19.3.0",
     "@types/react-dom": "^19.3.0",
     "clsx": "^2.1.1",

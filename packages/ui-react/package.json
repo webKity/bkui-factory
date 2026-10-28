@@ -39,7 +39,7 @@
     "@bkreact/assets": "1.0.0"
   },
   "scripts": {
-    "build": "tsup && node ../../scripts/build-web-css.mjs",
+    "build": "node ../../scripts/build-typography-css.mjs && tsup && node ../../scripts/build-web-css.mjs",
     "typecheck": "tsc --noEmit -p ../../tsconfig.json"
   }
 }
