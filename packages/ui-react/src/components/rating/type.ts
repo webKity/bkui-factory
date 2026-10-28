@@ -13,15 +13,17 @@ export interface RatingProps extends Omit<
   defaultValue?: number;
   /** 星星数量，默认 5；非正安全整数回退为 5。 */
   count?: number;
-  /** 默认 click：悬停仅预览，点击提交；hover 则在鼠标移入时提交。 */
+  /** 默认 click：悬停仅预览，点击提交；hover 移入即提交，不同分值逐次通知，连续相同分值去重。 */
   trigger?: RatingTrigger;
   disabled?: boolean;
   /** 仅展示分数，不进入 Tab 顺序。 */
   readOnly?: boolean;
   size?: IBKSize | IBKResponsiveSize;
-  /** 表单字段名；未选择时不提交该字段。 */
+  /** 表单字段名；未传时每个实例独立成组，未选择时不提交该字段。 */
   name?: string;
   onChange?: (value: number) => void;
-  /** 自定义每个选项的可访问名称，默认“X 分”。 */
+  /** 根据当前分值生成整体可访问名称，适用于交互和只读模式；aria-label 优先。 */
+  getAriaLabel?: (value: number, total: number) => string;
+  /** 自定义每个选项的可访问名称，默认“X 分”；只读模式无选项，不调用此函数。 */
   getItemAriaLabel?: (value: number) => string;
 }

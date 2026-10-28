@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef, useId, useState } from 'react';
+import { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { BKIcon } from '../icon';
 import { getResponsiveSizeAttributes } from '../utils/size';
 import { getRatingSizeStyle } from './size';
@@ -28,6 +28,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
     size = 'base',
     name,
     onChange,
+    getAriaLabel,
     getItemAriaLabel = defaultItemAriaLabel,
     className,
     style,
@@ -41,12 +42,30 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
   const total = Number.isSafeInteger(count) && count > 0 ? count : 5;
   const [internalValue, setInternalValue] = useState(defaultValue);
   const [preview, setPreview] = useState<number | null>(null);
+  const lastHoverValue = useRef<number | null>(null);
   const selectedValue = normalizeValue(value ?? internalValue, total);
   const interactive = !disabled && !readOnly;
   const displayedValue = interactive && preview !== null ? Math.min(preview, total) : selectedValue;
 
-  function selectValue(nextValue: number) {
-    if (!interactive || nextValue === selectedValue) return;
+  useEffect(() => {
+    setPreview(null);
+  }, [value, total]);
+
+  useEffect(() => {
+    lastHoverValue.current = null;
+  }, [value, total, trigger, disabled, readOnly]);
+
+  function selectValue(nextValue: number, fromHover = false) {
+    if (!interactive) return;
+    if (nextValue === selectedValue) {
+      if (fromHover) lastHoverValue.current = null;
+      return;
+    }
+    // 受控方尚未回写时，也只通知一次连续相同的悬停选择。
+    if (fromHover) {
+      if (nextValue === lastHoverValue.current) return;
+      lastHoverValue.current = nextValue;
+    }
     if (value === undefined) setInternalValue(nextValue);
     onChange?.(nextValue);
   }
@@ -56,9 +75,13 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
       {...restProps}
       {...getResponsiveSizeAttributes(size)}
       ref={ref}
-      role={readOnly ? 'img' : 'radiogroup'}
-      aria-label={ariaLabel ?? (readOnly ? `评分：${selectedValue} / ${total}` : '评分')}
-      aria-disabled={disabled || undefined}
+      role={readOnly ? 'meter' : 'radiogroup'}
+      aria-label={ariaLabel ?? getAriaLabel?.(selectedValue, total) ?? (readOnly ? `评分：${selectedValue} / ${total}` : '评分')}
+      aria-valuenow={readOnly ? selectedValue : undefined}
+      aria-valuemin={readOnly ? 0 : undefined}
+      aria-valuemax={readOnly ? total : undefined}
+      aria-valuetext={readOnly ? `${selectedValue} / ${total}` : undefined}
+      aria-disabled={(!readOnly && disabled) || undefined}
       className={['bk-rating', className].filter(Boolean).join(' ')}
       style={{ ...getRatingSizeStyle(size), ...style }}
       data-size={typeof size === 'string' ? size : 'responsive'}
@@ -78,7 +101,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
         );
 
         // 只读展示不创建表单字段，也不暴露可操作控件。
-        if (readOnly) return <span className="bk-rating__item" key={itemValue}>{icon}</span>;
+        if (readOnly) return <span className="bk-rating__item" key={itemValue} aria-hidden="true">{icon}</span>;
 
         return (
           <label
@@ -86,7 +109,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
             className="bk-rating__item"
             onMouseEnter={() => {
               if (!interactive) return;
-              if (trigger === 'hover') selectValue(itemValue);
+              if (trigger === 'hover') selectValue(itemValue, true);
               else setPreview(itemValue);
             }}
           >

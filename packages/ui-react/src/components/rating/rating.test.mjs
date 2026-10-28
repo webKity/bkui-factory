@@ -92,6 +92,7 @@ test('click 模式悬停仅预览，移出恢复；hover 模式提交', async ()
   assert.equal(filled(), 2);
   await render({ trigger: 'hover', onChange: value => changes.push(value) });
   await hover(4);
+  await hover(4);
   assert.equal(selected(), '5');
   assert.deepEqual(changes, [5]);
 });
@@ -104,11 +105,67 @@ test('禁用和只读不能修改评分，只读不产生表单控件', async ()
   await hover(4);
   assert.equal(selected(), '3');
   assert.equal(changes, 0);
-  const rating = await render({ readOnly: true, value: 4 });
+  const rating = await render({ readOnly: true, disabled: true, value: 4 });
   assert.equal(radios().length, 0);
   assert.equal(filled(), 4);
-  assert.equal(rating.getAttribute('role'), 'img');
+  assert.equal(rating.getAttribute('role'), 'meter');
   assert.equal(rating.getAttribute('aria-label'), '评分：4 / 5');
+  assert.equal(rating.getAttribute('aria-valuenow'), '4');
+  assert.equal(rating.getAttribute('aria-valuemin'), '0');
+  assert.equal(rating.getAttribute('aria-valuemax'), '5');
+  assert.equal(rating.getAttribute('aria-valuetext'), '4 / 5');
+  assert.equal(rating.hasAttribute('aria-disabled'), false);
+  assert([...rating.querySelectorAll('.bk-rating__item')].every(item => item.getAttribute('aria-hidden') === 'true'));
+});
+
+test('受控 hover 在父级回写前去重，允许不同分值和回写后再次选择', async () => {
+  const changes = [];
+  const onChange = value => changes.push(value);
+  await render({ value: 2, trigger: 'hover', onChange });
+  await hover(3);
+  await act(() => container.firstElementChild.dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body })));
+  await hover(3);
+  assert.deepEqual(changes, [4]);
+  await hover(4);
+  await hover(3);
+  assert.deepEqual(changes, [4, 5, 4]);
+  await hover(1); // 返回当前已选值后，再次选择 4 是新的选择。
+  await hover(3);
+  assert.deepEqual(changes, [4, 5, 4, 4]);
+  await render({ value: 3, trigger: 'hover', onChange });
+  await hover(3);
+  assert.deepEqual(changes, [4, 5, 4, 4, 4]);
+});
+
+test('外部 value 或 count 更新时清除 click 预览', async () => {
+  await render({ value: 2 });
+  await hover(3);
+  assert.equal(filled(), 4);
+  await render({ value: 5 });
+  assert.equal(selected(), '5');
+  assert.equal(filled(), 5);
+  await hover(1);
+  await render({ value: 5, count: 3 });
+  assert.equal(selected(), '3');
+  assert.equal(filled(), 3);
+});
+
+test('整体与选项名称支持国际化，显式 aria-label 优先，只读不调用选项函数', async () => {
+  const getAriaLabel = (value, total) => `Score: ${value} of ${total}`;
+  let itemCalls = 0;
+  const getItemAriaLabel = value => { itemCalls++; return `${value} stars`; };
+  let rating = await render({ value: 2, getAriaLabel, getItemAriaLabel });
+  assert.equal(rating.getAttribute('aria-label'), 'Score: 2 of 5');
+  assert.equal(radios()[3].getAttribute('aria-label'), '4 stars');
+  assert.equal(rating.hasAttribute('aria-valuenow'), false);
+  rating = await render({ value: 3, getAriaLabel });
+  assert.equal(rating.getAttribute('aria-label'), 'Score: 3 of 5');
+  itemCalls = 0;
+  rating = await render({ value: 4, readOnly: true, getAriaLabel, getItemAriaLabel });
+  assert.equal(rating.getAttribute('aria-label'), 'Score: 4 of 5');
+  assert.equal(itemCalls, 0);
+  rating = await render({ value: 4, readOnly: true, getAriaLabel, 'aria-label': 'Review score' });
+  assert.equal(rating.getAttribute('aria-label'), 'Review score');
 });
 
 test('边界归一化与响应式尺寸、样式覆盖', async () => {
