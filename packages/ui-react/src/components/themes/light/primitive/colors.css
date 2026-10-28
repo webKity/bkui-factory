@@ -14,7 +14,6 @@ html[theme='light'] {
   --theme-color-blue-700: #2727A8;
   --theme-color-blue-800: #1F1F8C;
   --theme-color-blue-900: #171770;
-  --theme-color-blue-950: #101052;
 
   --theme-color-red-50: #FFF5F5;
   --theme-color-red-100: #FFE9EB;
@@ -26,7 +25,6 @@ html[theme='light'] {
   --theme-color-red-700: #BE2933;
   --theme-color-red-800: #A3202B;
   --theme-color-red-900: #881A24;
-  --theme-color-red-950: #5B0F16;
 
   --theme-color-yellow-50: #FFF5EC;
   --theme-color-yellow-100: #FFE9D8;
@@ -38,7 +36,6 @@ html[theme='light'] {
   --theme-color-yellow-700: #CA5B14;
   --theme-color-yellow-800: #AD4B0F;
   --theme-color-yellow-900: #8D3A0B;
-  --theme-color-yellow-950: #612308;
 
   --theme-color-green-50: #F0FDF7;
   --theme-color-green-100: #DDF9EB;
@@ -50,7 +47,6 @@ html[theme='light'] {
   --theme-color-green-700: #0B9764;
   --theme-color-green-800: #087A50;
   --theme-color-green-900: #065F40;
-  --theme-color-green-950: #043D2B;
 
   --theme-color-text-50: #000000;
   --theme-color-text-100: #141519;
@@ -62,7 +58,6 @@ html[theme='light'] {
   --theme-color-text-700: #A6A8AF;
   --theme-color-text-800: #BFC1C8;
   --theme-color-text-900: #D9DADD;
-  --theme-color-text-950: #FFFFFF;
 
   --theme-color-neutral-50: #FFFFFF;
   --theme-color-neutral-100: #FAFBFC;
@@ -74,5 +69,16 @@ html[theme='light'] {
   --theme-color-neutral-700: #C7CBD2;
   --theme-color-neutral-800: #B8BCC4;
   --theme-color-neutral-900: #AAB0B8;
+
+  --theme-color-blue-950: #101052;
+
+  --theme-color-red-950: #5B0F16;
+
+  --theme-color-yellow-950: #612308;
+
+  --theme-color-green-950: #043D2B;
+
+  --theme-color-text-950: #FFFFFF;
+
   --theme-color-neutral-950: #9EA4AD;
 }

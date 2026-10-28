@@ -1,0 +1,210 @@
+/* The rendering layer consumes only Input's local tokens. */
+.bkreact-input {
+  display: var(--input-display);
+  align-items: var(--input-align);
+  box-sizing: var(--input-box-sizing);
+  width: var(--input-width);
+  min-width: var(--input-min-width);
+  min-height: var(--input-height);
+  margin: 0;
+  padding: 0;
+  font-family: var(--input-font-family);
+  font-size: var(--input-font-size);
+  font-weight: var(--input-font-weight);
+  line-height: var(--input-line-height);
+  color: var(--input-color);
+  background: var(--input-bg);
+  border: var(--input-border-width) var(--input-border-style) var(--input-border-color);
+  border-radius: var(--input-border-radius);
+  transition: var(--input-transition);
+}
+@media (hover: hover) {
+  .bkreact-input:where(:not([data-disabled]), .bkreact-input-group:has(input:enabled, textarea:enabled)):hover { border-color: var(--input-hover-border-color); }
+}
+.bkreact-input:focus-within {
+  border-color: var(--input-focus-border-color);
+  outline: var(--input-outline);
+}
+/* Group attributes describe defaults; visuals follow the controls after overrides. */
+.bkreact-input[data-readonly]:not(.bkreact-input-group),
+.bkreact-input-group:where(:has(input[readonly], textarea[readonly]):not(:has(input:enabled:not([readonly]), textarea:enabled:not([readonly])))) {
+  background: var(--input-readonly-bg);
+  cursor: var(--input-readonly-cursor);
+}
+.bkreact-input[data-disabled]:not(.bkreact-input-group),
+.bkreact-input-group:where(:has(input:disabled, textarea:disabled):not(:has(input:enabled, textarea:enabled))) {
+  color: var(--input-disabled-color);
+  background: var(--input-disabled-bg);
+  border-color: var(--input-disabled-border-color);
+  cursor: var(--input-disabled-cursor);
+}
+.bkreact-input__control {
+  display: block;
+  box-sizing: var(--input-box-sizing);
+  width: var(--input-width);
+  min-width: var(--input-min-width);
+  flex: 1 1 0%;
+  margin: 0;
+  padding: var(--input-padding-y) var(--input-padding-x);
+  font: inherit;
+  line-height: inherit;
+  color: inherit;
+  background: var(--input-transparent);
+  border: 0;
+  border-radius: inherit;
+  outline: var(--input-outline);
+}
+.bkreact-input__control::placeholder, .bkreact-input--textarea::placeholder { color: var(--input-placeholder-color); opacity: 1; }
+.bkreact-input__control[readonly]:not(:disabled) { cursor: var(--input-readonly-cursor); }
+.bkreact-input__control:disabled { cursor: var(--input-disabled-cursor); }
+.bkreact-input__control::file-selector-button { font: inherit; color: var(--input-addon-color); background: var(--input-transparent); border: 0; }
+.bkreact-input__action, .bkreact-input__step {
+  display: inline-flex;
+  align-items: var(--input-align);
+  justify-content: var(--input-align);
+  box-sizing: var(--input-box-sizing);
+  flex: 0 0 auto;
+  align-self: stretch;
+  min-width: var(--input-height);
+  margin: 0;
+  padding: var(--input-gap);
+  font: inherit;
+  color: var(--input-action-color);
+  background: var(--input-transparent);
+  border: 0;
+  cursor: var(--input-action-cursor);
+}
+.bkreact-input__action > span, .bkreact-input__step > span { max-width: var(--input-icon-size); max-height: var(--input-icon-size); }
+.bkreact-input__action:enabled:hover { color: var(--input-action-hover-color); }
+.bkreact-input__action:focus-visible, .bkreact-input__step:focus-visible {
+  outline: var(--input-border-width) var(--input-border-style) var(--input-action-focus-color);
+  outline-offset: calc(-1 * var(--input-action-focus-inset));
+}
+.bkreact-input__action:disabled, .bkreact-input__step:disabled { cursor: var(--input-disabled-cursor); opacity: var(--input-action-disabled-opacity); }
+.bkreact-input__stepper {
+  display: flex;
+  align-self: stretch;
+  flex: 0 0 auto;
+  border-start-end-radius: inherit;
+  border-end-end-radius: inherit;
+  overflow: hidden;
+}
+.bkreact-input__step {
+  position: relative;
+  min-width: var(--input-step-width);
+  width: var(--input-step-width);
+  transition: var(--input-step-transition);
+}
+.bkreact-input__step::before {
+  content: '';
+  position: absolute;
+  inset-block: var(--input-step-divider-inset);
+  inset-inline-start: 0;
+  border-inline-start: var(--input-border-width) var(--input-border-style) var(--input-step-divider-color);
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .bkreact-input__step:enabled:hover {
+    color: var(--input-action-hover-color);
+    background: var(--input-step-hover-bg);
+  }
+}
+.bkreact-input__step:enabled:active {
+  color: var(--input-action-hover-color);
+  background: var(--input-step-active-bg);
+}
+.bkreact-input--textarea {
+  display: block;
+  min-height: var(--input-textarea-min-height);
+  padding: var(--input-padding-y) var(--input-padding-x);
+  outline: var(--input-outline);
+  resize: var(--input-textarea-resize);
+}
+.bkreact-input-group { flex-wrap: wrap; gap: var(--input-gap); padding-inline: var(--input-padding-x); }
+.bkreact-input-group > .bkreact-input { flex: 1 1 0%; width: auto; }
+.bkreact-input-group > .bkreact-input--textarea { flex-basis: 100%; }
+.bkreact-input-group > .bkreact-input[data-grouped] {
+  min-height: calc(var(--input-height) - var(--input-border-width) * 2);
+  border: 0;
+  background: var(--input-grouped-bg);
+  border-radius: 0;
+  outline: var(--input-outline);
+}
+.bkreact-input-group > .bkreact-input[data-grouped][data-readonly]:not([data-disabled]) {
+  background: var(--input-readonly-bg);
+}
+.bkreact-input-group > .bkreact-input[data-grouped][data-disabled] {
+  background: var(--input-disabled-bg);
+}
+.bkreact-input-group > .bkreact-input[data-grouped] > .bkreact-input__control,
+.bkreact-input-group > .bkreact-input--textarea[data-grouped] { padding-inline: 0; }
+.bkreact-input-group__addon, .bkreact-input-group__text { display: inline-flex; align-items: var(--input-align); gap: var(--input-gap); color: var(--input-addon-color); }
+.bkreact-input-group__addon { flex: 0 0 auto; }
+.bkreact-input-group__text { cursor: text; }
+.bkreact-input-group__addon[data-align='inline-start'] { order: -1; }
+.bkreact-input-group__addon[data-align='inline-end'] { order: 1; }
+.bkreact-input-group__addon[data-align='block-start'], .bkreact-input-group__addon[data-align='block-end'] { flex-basis: 100%; padding-block: var(--input-padding-y); }
+.bkreact-input-group__addon[data-align='block-start'] { order: -2; }
+.bkreact-input-group__addon[data-align='block-end'] { order: 2; }
+.bkreact-input-group__text svg { width: var(--input-icon-size); height: var(--input-icon-size); pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .bkreact-input, .bkreact-input__step { transition: none; } }
+
+@media (min-width: 40rem) {
+  .bkreact-input[data-size-sm] {
+    --input-height: var(--input-sm-height);
+    --input-padding-x: var(--input-sm-padding-x);
+    --input-padding-y: var(--input-sm-padding-y);
+    --input-font-size: var(--input-sm-font-size);
+    --input-line-height: var(--input-sm-line-height);
+    --input-gap: var(--input-sm-gap);
+    --input-icon-size: var(--input-sm-icon-size);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-input[data-size-md] {
+    --input-height: var(--input-md-height);
+    --input-padding-x: var(--input-md-padding-x);
+    --input-padding-y: var(--input-md-padding-y);
+    --input-font-size: var(--input-md-font-size);
+    --input-line-height: var(--input-md-line-height);
+    --input-gap: var(--input-md-gap);
+    --input-icon-size: var(--input-md-icon-size);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-input[data-size-lg] {
+    --input-height: var(--input-lg-height);
+    --input-padding-x: var(--input-lg-padding-x);
+    --input-padding-y: var(--input-lg-padding-y);
+    --input-font-size: var(--input-lg-font-size);
+    --input-line-height: var(--input-lg-line-height);
+    --input-gap: var(--input-lg-gap);
+    --input-icon-size: var(--input-lg-icon-size);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-input[data-size-xl] {
+    --input-height: var(--input-xl-height);
+    --input-padding-x: var(--input-xl-padding-x);
+    --input-padding-y: var(--input-xl-padding-y);
+    --input-font-size: var(--input-xl-font-size);
+    --input-line-height: var(--input-xl-line-height);
+    --input-gap: var(--input-xl-gap);
+    --input-icon-size: var(--input-xl-icon-size);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-input[data-size-2xl] {
+    --input-height: var(--input-2xl-height);
+    --input-padding-x: var(--input-2xl-padding-x);
+    --input-padding-y: var(--input-2xl-padding-y);
+    --input-font-size: var(--input-2xl-font-size);
+    --input-line-height: var(--input-2xl-line-height);
+    --input-gap: var(--input-2xl-gap);
+    --input-icon-size: var(--input-2xl-icon-size);
+  }
+}

@@ -25,7 +25,6 @@
   --button-disabled-opacity: 1;
   --button-loading-opacity: 0.65;
   --button-spinner-border-width: 2px;
-
   --button-size-2xs-fixed-width: 48px;
   --button-size-2xs-height: 24px;
   --button-size-2xs-padding-x: 8px;
@@ -34,7 +33,6 @@
   --button-size-2xs-line-height: var(--text-2xs-line-height);
   --button-size-2xs-gap: 3px;
   --button-size-2xs-icon-size: 12px;
-
   --button-size-xs-fixed-width: 64px;
   --button-size-xs-height: 28px;
   --button-size-xs-padding-x: 10px;
@@ -43,7 +41,6 @@
   --button-size-xs-line-height: var(--text-xs-line-height);
   --button-size-xs-gap: 4px;
   --button-size-xs-icon-size: 14px;
-
   --button-size-sm-fixed-width: 80px;
   --button-size-sm-height: 32px;
   --button-size-sm-padding-x: 12px;
@@ -52,7 +49,6 @@
   --button-size-sm-line-height: var(--text-sm-line-height);
   --button-size-sm-gap: 4px;
   --button-size-sm-icon-size: 16px;
-
   --button-size-base-fixed-width: 96px;
   --button-size-base-height: 40px;
   --button-size-base-padding-x: 16px;
@@ -61,7 +57,6 @@
   --button-size-base-line-height: var(--text-base-line-height);
   --button-size-base-gap: 5px;
   --button-size-base-icon-size: 18px;
-
   --button-size-lg-fixed-width: 112px;
   --button-size-lg-height: 44px;
   --button-size-lg-padding-x: 20px;
@@ -70,7 +65,6 @@
   --button-size-lg-line-height: var(--text-lg-line-height);
   --button-size-lg-gap: 6px;
   --button-size-lg-icon-size: 20px;
-
   --button-size-xl-fixed-width: 128px;
   --button-size-xl-height: 48px;
   --button-size-xl-padding-x: 24px;
@@ -79,7 +73,6 @@
   --button-size-xl-line-height: var(--text-xl-line-height);
   --button-size-xl-gap: 6px;
   --button-size-xl-icon-size: 22px;
-
   --button-size-2xl-fixed-width: 160px;
   --button-size-2xl-height: 56px;
   --button-size-2xl-padding-x: 28px;

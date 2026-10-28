@@ -31,7 +31,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = { name: '富文本排版' };
+export const Playground: Story = { name: '可调试用例' };
 export const ChineseArticle: Story = {
   name: '中文长文',
   args: {

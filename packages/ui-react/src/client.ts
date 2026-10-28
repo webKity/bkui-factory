@@ -17,3 +17,6 @@ export type { LoadingProps, LoadingType, LoadingSize } from './components/loadin
 
 export { Alert } from './components/alert';
 export type { IAlertProps } from './components/alert/type';
+
+export { Input, Textarea, InputGroup, InputGroupAddon, InputGroupText, InputGroupInput, InputGroupTextarea } from './components/input';
+export type * from './components/input/type';

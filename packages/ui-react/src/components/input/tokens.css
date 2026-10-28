@@ -1,0 +1,58 @@
+.bkreact-input {
+  --input-display: flex;
+  --input-align: center;
+  --input-box-sizing: border-box;
+  --input-width: 100%;
+  --input-min-width: 0;
+  --input-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --input-font-weight: 400;
+  --input-border-style: solid;
+  --input-transparent: transparent;
+  --input-outline: none;
+  --input-transition: border-color 160ms ease, background-color 160ms ease;
+  --input-action-cursor: pointer;
+  --input-disabled-cursor: not-allowed;
+  --input-readonly-bg: var(--color-fill-subtle);
+  --input-readonly-cursor: default;
+  --input-action-color: var(--input-placeholder-color);
+  --input-action-hover-color: var(--input-color);
+  --input-action-disabled-opacity: 0.4;
+  --input-step-divider-inset: calc(var(--input-gap) * 1.5);
+  --input-step-width: calc(var(--input-height) * 0.9);
+  --input-step-divider-color: var(--color-border-default);
+  --input-step-hover-bg: var(--color-fill-hover);
+  --input-step-active-bg: var(--color-fill-active);
+  --input-step-transition: color 160ms ease, background-color 160ms ease;
+  --input-textarea-min-height: 5rem;
+  --input-textarea-resize: vertical;
+  --input-grouped-bg: transparent;
+  --input-base-height: var(--input-size-base-height);
+  --input-height: var(--input-base-height);
+  --input-base-padding-x: var(--input-size-base-padding-x);
+  --input-padding-x: var(--input-base-padding-x);
+  --input-base-padding-y: var(--input-size-base-padding-y);
+  --input-padding-y: var(--input-base-padding-y);
+  --input-base-font-size: var(--input-size-base-font-size);
+  --input-font-size: var(--input-base-font-size);
+  --input-base-line-height: var(--input-size-base-line-height);
+  --input-line-height: var(--input-base-line-height);
+  --input-base-gap: var(--input-size-base-gap);
+  --input-gap: var(--input-base-gap);
+  --input-base-icon-size: var(--input-size-base-icon-size);
+  --input-icon-size: var(--input-base-icon-size);
+}
+.bkreact-input:where([data-variant='outline']) {
+  --input-bg: var(--input-transparent);
+}
+.bkreact-input:where([data-variant='ghost']) {
+  --input-bg: var(--input-transparent);
+  --input-border-color: var(--input-transparent);
+  --input-hover-border-color: var(--input-transparent);
+}
+.bkreact-input:where([data-invalid]),
+.bkreact-input-group:where(:has(> .bkreact-input[data-invalid])) {
+  --input-border-color: var(--color-feedback-error);
+  --input-hover-border-color: var(--color-feedback-error);
+  --input-focus-border-color: var(--color-feedback-error);
+  --input-action-focus-color: var(--color-feedback-error);
+}

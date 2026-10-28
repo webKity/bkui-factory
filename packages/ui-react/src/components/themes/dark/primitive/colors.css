@@ -13,7 +13,6 @@ html[theme='dark'] {
   --theme-color-blue-700: #8787EB;
   --theme-color-blue-800: #A9A9EF;
   --theme-color-blue-900: #CBCBF5;
-  --theme-color-blue-950: #E9E9FB;
 
   --theme-color-red-50: #4A1010;
   --theme-color-red-100: #651A18;
@@ -25,7 +24,6 @@ html[theme='dark'] {
   --theme-color-red-700: #EF8B82;
   --theme-color-red-800: #F3AAA3;
   --theme-color-red-900: #F8C9C4;
-  --theme-color-red-950: #FCE6E3;
 
   --theme-color-yellow-50: #5A2208;
   --theme-color-yellow-100: #862F08;
@@ -37,7 +35,6 @@ html[theme='dark'] {
   --theme-color-yellow-700: #FFA56B;
   --theme-color-yellow-800: #FFB98B;
   --theme-color-yellow-900: #FFD0B0;
-  --theme-color-yellow-950: #FFE9D8;
 
   --theme-color-green-50: #0A3A28;
   --theme-color-green-100: #105A3A;
@@ -49,7 +46,6 @@ html[theme='dark'] {
   --theme-color-green-700: #78C99E;
   --theme-color-green-800: #9BD8B5;
   --theme-color-green-900: #BDE8CE;
-  --theme-color-green-950: #E0F5E8;
 
   --theme-color-text-50: #FFFFFF;
   --theme-color-text-100: #C8CDD5;
@@ -61,7 +57,6 @@ html[theme='dark'] {
   --theme-color-text-700: #343841;
   --theme-color-text-800: #24272D;
   --theme-color-text-900: #15171B;
-  --theme-color-text-950: #0B0C0F;
 
   --theme-color-neutral-50: #09090B;
   --theme-color-neutral-100: #111318;
@@ -73,5 +68,16 @@ html[theme='dark'] {
   --theme-color-neutral-700: #56606C;
   --theme-color-neutral-800: #707B89;
   --theme-color-neutral-900: #9DA7B3;
+
+  --theme-color-blue-950: #E9E9FB;
+
+  --theme-color-red-950: #FCE6E3;
+
+  --theme-color-yellow-950: #FFE9D8;
+
+  --theme-color-green-950: #E0F5E8;
+
+  --theme-color-text-950: #0B0C0F;
+
   --theme-color-neutral-950: #E5E7EB;
 }
