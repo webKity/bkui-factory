@@ -1,0 +1,19 @@
+.bkreact-gallery {
+  --gallery-dot-size: 8px;
+  --gallery-hover-duration: 160ms;
+  --gallery-hover-easing: ease-out;
+  --gallery-motion-duration: 360ms;
+  --gallery-motion-easing: cubic-bezier(.4, 0, .2, 1);
+  --gallery-motion-distance: 100%;
+  --gallery-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --gallery-aspect-ratio: 16 / 9;
+  --gallery-media-max-height: 70dvh;
+  --gallery-dialog-width: 64rem;
+  --gallery-dialog-max-height: calc(100dvh - 32px);
+  --gallery-overlay-color: #fff;
+  --gallery-overlay-bg: #09090bb3;
+  --gallery-caption-bg: linear-gradient(transparent, #09090bd9);
+  --gallery-backdrop-bg: #09090bcc;
+  --gallery-control-z-index: 1;
+  --gallery-dialog-z-index: 1000;
+}

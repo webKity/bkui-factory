@@ -20,3 +20,9 @@ export type { IAlertProps } from './components/alert/type';
 
 export { Input, Textarea, InputGroup, InputGroupAddon, InputGroupText, InputGroupInput, InputGroupTextarea } from './components/input';
 export type * from './components/input/type';
+
+export { Gallery, showGallery } from './components/gallery';
+export type { GalleryItem, GalleryMediaType, GalleryProps, ShowGalleryOptions } from './components/gallery/type';
+
+export { Pagination } from './components/pagination';
+export type { Pagingprops, PaginationProps, PaginationAs, PaginationItemType, PaginationItemProps } from './components/pagination/type';

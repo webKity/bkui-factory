@@ -9,3 +9,7 @@
 @import './components/alert/index.css';
 
 @import './components/input/index.css';
+
+@import './components/gallery/index.css';
+
+@import './components/pagination/index.css';

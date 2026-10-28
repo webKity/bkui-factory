@@ -1,0 +1,29 @@
+.bk-pagination {
+  display: inline-flex;
+  max-width: 100%;
+  vertical-align: middle;
+}
+
+.bk-pagination__list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--pagination-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bk-pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--pagination-ellipsis-width);
+  color: var(--pagination-color);
+  font-size: var(--pagination-font-size);
+  user-select: none;
+}
+
+.bk-pagination .bk-pagination__item:where([data-variant='ghost']) {
+  --button-hover-bg: var(--pagination-item-hover-bg);
+}

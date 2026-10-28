@@ -1,0 +1,85 @@
+{
+  "base": {
+    "color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-primary}"
+    },
+    "muted": {
+      "$type": "color",
+      "$value": "{semantic.color-text-secondary}"
+    },
+    "bg": {
+      "$type": "color",
+      "$value": "{semantic.color-fill-subtle}"
+    },
+    "dialog-bg": {
+      "$type": "color",
+      "$value": "{semantic.color-surface-elevated}"
+    },
+    "accent": {
+      "$type": "color",
+      "$value": "{semantic.color-border-focus}"
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-md}"
+    },
+    "thumbnail-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-sm}"
+    },
+    "font-size": {
+      "$type": "dimension",
+      "$value": "{semantic.text-sm-size}"
+    },
+    "line-height": {
+      "$type": "dimension",
+      "$value": "{semantic.text-sm-line-height}"
+    },
+    "small-font-size": {
+      "$type": "dimension",
+      "$value": "{semantic.text-xs-size}"
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "thumbnail-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 72,
+        "unit": "px"
+      }
+    },
+    "thumbnail-height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 48,
+        "unit": "px"
+      }
+    },
+    "title-weight": {
+      "$type": "number",
+      "$value": 600
+    },
+    "hover-border": {
+      "$type": "color",
+      "$value": "{semantic.color-border-strong}"
+    },
+    "dot-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-tertiary}"
+    },
+    "dot-active-color": {
+      "$type": "color",
+      "$value": "{semantic.color-action-primary}"
+    },
+    "dot-hover-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-secondary}"
+    }
+  }
+}

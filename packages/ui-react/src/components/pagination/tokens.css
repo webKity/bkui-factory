@@ -1,0 +1,7 @@
+.bk-pagination {
+  --pagination-gap: 4px;
+  --pagination-ellipsis-width: 24px;
+  --pagination-color: var(--color-text-secondary);
+  --pagination-font-size: var(--text-sm-size);
+  --pagination-item-hover-bg: var(--color-fill-hover);
+}
