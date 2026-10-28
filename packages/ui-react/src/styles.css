@@ -13,3 +13,7 @@
 @import './components/gallery/index.css';
 
 @import './components/pagination/index.css';
+
+@import './components/notification/index.css';
+
+@import './components/toast/index.css';

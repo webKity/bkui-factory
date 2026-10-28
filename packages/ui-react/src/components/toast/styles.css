@@ -1,0 +1,55 @@
+/* 样式仅消费 Toast 局部 tokens。 */
+.bkreact-toast-viewport {
+  position: var(--toast-viewport-position);
+  inset: var(--toast-viewport-inset);
+  z-index: var(--toast-viewport-z-index);
+  display: var(--toast-viewport-display);
+  justify-content: var(--toast-viewport-align);
+  pointer-events: var(--toast-viewport-pointer-events);
+}
+
+.bkreact-toast {
+  display: var(--toast-display);
+  box-sizing: var(--toast-box-sizing);
+  align-items: var(--toast-align);
+  max-width: var(--toast-max-width);
+  gap: var(--toast-gap);
+  padding: var(--toast-padding-y) var(--toast-padding-x);
+  color: var(--toast-color);
+  background: var(--toast-bg);
+  border: var(--toast-border-width) var(--toast-border-style) var(--toast-border-color);
+  border-radius: var(--toast-border-radius);
+  font-family: var(--toast-font-family);
+  font-size: var(--toast-font-size);
+  line-height: var(--toast-line-height);
+  animation: var(--toast-animation);
+}
+
+.bkreact-toast__message {
+  min-width: var(--toast-min-width);
+  overflow-wrap: var(--toast-overflow-wrap);
+}
+
+.bkreact-toast__icon {
+  display: var(--toast-display);
+  align-items: var(--toast-align);
+  flex: var(--toast-icon-flex);
+  width: var(--toast-icon-size);
+  height: var(--toast-icon-size);
+  color: var(--toast-icon-color);
+}
+
+.bkreact-toast__icon > svg {
+  display: var(--toast-icon-display);
+  width: var(--toast-icon-fill-size);
+  height: var(--toast-icon-fill-size);
+}
+
+@keyframes bk-toast-enter {
+  from { opacity: var(--toast-enter-opacity); transform: var(--toast-enter-transform); }
+  to { opacity: var(--toast-open-opacity); transform: var(--toast-open-transform); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-toast { animation: var(--toast-reduced-motion-animation); }
+}

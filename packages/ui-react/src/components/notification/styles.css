@@ -1,0 +1,93 @@
+/* 样式只消费 --notification-* 局部 tokens。 */
+.bkreact-notification-viewport {
+  position: fixed;
+  z-index: var(--notification-z-index);
+  display: var(--notification-display);
+  flex-direction: column;
+  gap: var(--notification-stack-gap);
+  width: var(--notification-width);
+  max-width: calc(100% - var(--notification-viewport-gap) * 2);
+  max-height: calc(100% - var(--notification-viewport-gap) * 2);
+  overflow-y: auto;
+  pointer-events: none;
+}
+.bkreact-notification-viewport:empty { display: none; }
+.bkreact-notification-viewport[data-position^='top'] { top: var(--notification-viewport-gap); }
+.bkreact-notification-viewport[data-position^='bottom'] { bottom: var(--notification-viewport-gap); flex-direction: column-reverse; }
+.bkreact-notification-viewport[data-position$='left'] { left: var(--notification-viewport-gap); }
+.bkreact-notification-viewport[data-position$='right'] { right: var(--notification-viewport-gap); }
+.bkreact-notification {
+  position: relative;
+  overflow: hidden;
+  display: var(--notification-display);
+  box-sizing: var(--notification-box-sizing);
+  align-items: flex-start;
+  gap: var(--notification-gap);
+  padding: var(--notification-padding);
+  width: var(--notification-width);
+  max-width: 100%;
+  flex-shrink: 0;
+  color: var(--notification-color);
+  background: var(--notification-bg);
+  border: var(--notification-border-width) var(--notification-border-style) var(--notification-border-color);
+  border-radius: var(--notification-border-radius);
+  font-family: var(--notification-font-family);
+  font-size: var(--notification-font-size);
+  line-height: var(--notification-line-height);
+  overflow-wrap: var(--notification-overflow-wrap);
+  pointer-events: auto;
+  animation: var(--notification-enter-animation);
+}
+.bkreact-notification__content {
+  display: var(--notification-display);
+  flex-direction: column;
+  flex: var(--notification-content-flex);
+  min-width: var(--notification-min-width);
+  gap: var(--notification-content-gap);
+}
+.bkreact-notification__title { font-weight: var(--notification-title-font-weight); }
+.bkreact-notification__message { color: var(--notification-message-color); }
+.bkreact-notification__actions { display: var(--notification-display); flex-wrap: wrap; gap: var(--notification-content-gap); }
+.bkreact-notification[data-state='closing'] { animation: var(--notification-exit-animation); pointer-events: none; }
+@keyframes bk-notification-enter {
+  from { opacity: var(--notification-closed-opacity); transform: translateY(var(--notification-motion-offset)); }
+  to { opacity: var(--notification-open-opacity); transform: translateY(0); }
+}
+@keyframes bk-notification-exit {
+  to { opacity: var(--notification-closed-opacity); transform: translateY(var(--notification-motion-offset)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-notification {
+    --notification-enter-animation: var(--notification-reduced-motion-animation);
+    --notification-exit-animation: var(--notification-reduced-motion-animation);
+  }
+}
+
+.bkreact-notification__icon {
+  flex-shrink: 0;
+  width: var(--notification-icon-size);
+  height: var(--notification-icon-size);
+  margin-top: var(--notification-icon-offset);
+  color: var(--notification-accent-color);
+}
+.bkreact-notification__progress {
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--notification-progress-height);
+  background: var(--notification-progress-track-color);
+  pointer-events: none;
+}
+.bkreact-notification__progress-fill {
+  display: block;
+  height: 100%;
+  background: var(--notification-progress-color);
+  transform-origin: left;
+  animation: var(--notification-countdown-animation);
+}
+.bkreact-notification[data-state='closing'] .bkreact-notification__progress-fill {
+  animation-play-state: paused;
+}
+@keyframes bk-notification-countdown {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}

@@ -1,0 +1,119 @@
+{
+  "base": {
+    "color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-primary}"
+    },
+    "message-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-secondary}"
+    },
+    "bg": {
+      "$type": "color",
+      "$value": "{semantic.color-surface-elevated}"
+    },
+    "border-color": {
+      "$type": "color",
+      "$value": "{semantic.color-border-default}"
+    },
+    "accent-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-secondary}"
+    },
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 360,
+        "unit": "px"
+      }
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "content-gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "border-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1,
+        "unit": "px"
+      }
+    },
+    "border-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-md}"
+    },
+    "font-size": {
+      "$type": "dimension",
+      "$value": "{semantic.text-sm-size}"
+    },
+    "line-height": {
+      "$type": "dimension",
+      "$value": "{semantic.text-sm-line-height}"
+    },
+    "title-font-weight": {
+      "$type": "number",
+      "$value": 500
+    },
+    "motion-duration-ms": {
+      "$type": "number",
+      "$value": 180
+    },
+    "icon-size": {
+      "$type": "dimension",
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      }
+    },
+    "progress-height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 3,
+        "unit": "px"
+      }
+    }
+  },
+  "intents": {
+    "brand": {
+      "accent-color": {
+        "$type": "color",
+        "$value": "{semantic.color-feedback-info}"
+      }
+    },
+    "success": {
+      "accent-color": {
+        "$type": "color",
+        "$value": "{semantic.color-feedback-success}"
+      }
+    },
+    "warning": {
+      "accent-color": {
+        "$type": "color",
+        "$value": "{semantic.color-feedback-warning}"
+      }
+    },
+    "danger": {
+      "accent-color": {
+        "$type": "color",
+        "$value": "{semantic.color-feedback-error}"
+      }
+    }
+  }
+}

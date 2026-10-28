@@ -1,0 +1,29 @@
+/* 设计值来自 source/components/toast.tokens.json；此处维护 Web 布局。 */
+.bkreact-toast-viewport {
+  --toast-viewport-position: fixed;
+  --toast-viewport-inset: 24px 16px auto;
+  --toast-viewport-z-index: 1100;
+  --toast-viewport-display: flex;
+  --toast-viewport-align: center;
+  --toast-viewport-pointer-events: none;
+}
+
+.bkreact-toast {
+  --toast-display: inline-flex;
+  --toast-align: center;
+  --toast-box-sizing: border-box;
+  --toast-min-width: 0px;
+  --toast-max-width: 100%;
+  --toast-border-style: solid;
+  --toast-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --toast-overflow-wrap: anywhere;
+  --toast-icon-flex: 0 0 auto;
+  --toast-icon-display: block;
+  --toast-icon-fill-size: 100%;
+  --toast-animation: bk-toast-enter calc(var(--toast-motion-duration-ms) * 1ms) ease-out;
+  --toast-enter-opacity: 0;
+  --toast-open-opacity: 1;
+  --toast-enter-transform: translateY(-8px);
+  --toast-open-transform: translateY(0);
+  --toast-reduced-motion-animation: none;
+}

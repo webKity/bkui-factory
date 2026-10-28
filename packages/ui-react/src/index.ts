@@ -14,3 +14,7 @@ export type * from './components/input/type';
 export type { GalleryItem, GalleryMediaType, GalleryProps, ShowGalleryOptions } from './components/gallery/type';
 
 export type { Pagingprops, PaginationProps, PaginationAs, PaginationItemType, PaginationItemProps } from './components/pagination/type';
+
+export type * from './components/notification/type';
+
+export type { ToastConfigType, ToastProps } from './components/toast/type';
