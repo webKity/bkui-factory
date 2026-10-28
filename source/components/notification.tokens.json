@@ -20,13 +20,6 @@
       "$type": "color",
       "$value": "{semantic.color-text-secondary}"
     },
-    "width": {
-      "$type": "dimension",
-      "$value": {
-        "value": 360,
-        "unit": "px"
-      }
-    },
     "padding-x": {
       "$type": "dimension",
       "$value": {
@@ -37,7 +30,7 @@
     "padding-y": {
       "$type": "dimension",
       "$value": {
-        "value": 16,
+        "value": 12,
         "unit": "px"
       }
     },
@@ -93,6 +86,13 @@
       "$type": "dimension",
       "$value": {
         "value": 3,
+        "unit": "px"
+      }
+    },
+    "close-size": {
+      "$type": "dimension",
+      "$value": {
+        "value": 32,
         "unit": "px"
       }
     }

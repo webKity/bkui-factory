@@ -1,13 +1,15 @@
 import assert from 'node:assert/strict';
 import { after, afterEach, before, test } from 'node:test';
-import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { build } from 'esbuild';
 import { JSDOM } from 'jsdom';
 import { act, createElement as h, createRef } from 'react';
+import { renderToString } from 'react-dom/server';
+import postcss from 'postcss';
 
-let Pagination, getPaginationPages, createRoot, dom, temporary, root, container;
+let Pagination, Playground, getPaginationSizeStyle, getPaginationPages, createRoot, dom, temporary, root, container;
 const globals = ['window', 'document', 'navigator', 'HTMLElement', 'HTMLButtonElement', 'HTMLAnchorElement', 'Element', 'Node', 'Event', 'MouseEvent', 'KeyboardEvent'];
 
 before(async () => {
@@ -27,6 +29,8 @@ before(async () => {
   };
   ({ Pagination } = await bundle('./index.tsx', 'pagination'));
   ({ getPaginationPages } = await bundle('./pages.ts', 'pages'));
+  ({ getPaginationSizeStyle } = await bundle('./size.ts', 'size'));
+  ({ Playground } = await bundle('./Pagination.stories.tsx', 'stories'));
 });
 
 afterEach(async () => {
@@ -79,7 +83,8 @@ test('不同窗口和大页数均生成有序、唯一且包含当前页的有�
         assert.equal(pages[0], 1);
         assert.equal(pages.at(-1), total);
         assert.deepEqual(pages, [...new Set(pages)].sort((a, b) => a - b));
-        assert(entries.length <= 13);
+        // 此组最大窗口为 9，最多再增加两侧的补齐页或省略号。
+        assert(entries.length <= 9 + 2);
       }
     }
   }
@@ -174,11 +179,135 @@ test('导航 ref、自定义类名和响应式 Button 尺寸可用', async () =>
   const ref = createRef();
   const nav = await render({ current: 1, totalPage: 5, ref, className: 'custom-pagination', size: { base: 'xs', md: 'lg' } });
   assert.equal(ref.current, nav);
-  assert.equal(nav.getAttribute('aria-label'), 'Pagination');
+  assert.equal(nav.getAttribute('aria-label'), '分页');
   assert(nav.classList.contains('custom-pagination'));
   const button = item('第 1 页');
   assert.equal(button.getAttribute('type'), 'button');
   assert.equal(button.getAttribute('data-intent'), 'brand');
   assert.equal(button.style.getPropertyValue('--button-base-height'), 'var(--button-size-xs-height)');
   assert.equal(button.style.getPropertyValue('--button-md-height'), 'var(--button-size-lg-height)');
+});
+
+
+test('导出页码函数独立归一化异常输入并限制窗口内存', () => {
+  assert.deepEqual(getPaginationPages(NaN, 20), getPaginationPages(1, 20));
+  assert.deepEqual(getPaginationPages(99, 20), getPaginationPages(20, 20));
+  assert.deepEqual(getPaginationPages(-5, 20), getPaginationPages(1, 20));
+  assert.deepEqual(getPaginationPages(1, 5.9), [1, 2, 3, 4, 5]);
+  for (const total of [NaN, Infinity, -1]) {
+    assert.deepEqual(getPaginationPages(1, total), []);
+  }
+  assert.deepEqual(getPaginationPages(10, 20, 6), getPaginationPages(10, 20, 7));
+  assert.deepEqual(getPaginationPages(10, 20, -1), getPaginationPages(10, 20, 5));
+  for (const current of [1, 500_000_000, 1_000_000_000, Number.MAX_SAFE_INTEGER]) {
+    const entries = getPaginationPages(current, Number.MAX_SAFE_INTEGER, 1e9);
+    // 最大窗口 21，加两侧各一个省略号或补齐页。
+    assert(entries.length <= 21 + 2);
+    assert(entries.includes(current));
+    assert(entries.every(entry => typeof entry !== 'number' || Number.isSafeInteger(entry)));
+  }
+});
+
+test('空地址和纯空白地址回退按钮，普通点击和修饰键点击均不会导航', async () => {
+  for (const href of [undefined, '', '   ']) {
+    const changes = [];
+    await render({
+      current: 1,
+      totalPage: 5,
+      as: 'a',
+      getItemProps: () => ({ href }),
+      onChange: page => changes.push(page),
+    });
+    const button = item('第 2 页');
+    assert.equal(button.tagName, 'BUTTON');
+    assert.equal(button.getAttribute('href'), null);
+    assert.equal((await click(button)).defaultPrevented, true);
+    assert.equal((await click(button, { ctrlKey: true })).defaultPrevented, true);
+    assert.deepEqual(changes, [2, 2]);
+  }
+});
+
+test('支持导航与逐项标签定制，显式 aria-label 优先', async () => {
+  const nav = await render({
+    current: 1,
+    totalPage: 5,
+    label: 'Search results pages',
+    getItemAriaLabel: (page, type) => `${type} ${page}`,
+    itemProps: { 3: { 'aria-label': 'Third page' } },
+  });
+  assert.equal(nav.getAttribute('aria-label'), 'Search results pages');
+  assert(item('next 2'));
+  assert(item('page 2'));
+  assert(item('Third page'));
+});
+
+test('运行时过滤受管理属性，同时保留原生和 data 属性', async () => {
+  let changes = 0;
+  await render({
+    current: 1,
+    totalPage: 5,
+    itemProps: {
+      2: {
+        children: 'wrong',
+        dangerouslySetInnerHTML: { __html: 'wrong' },
+        link: '#wrong',
+        type: 'submit',
+        'aria-current': 'page',
+        size: '2xl',
+        intent: 'brand',
+        variant: 'fill',
+        onChange: () => { changes++; },
+        'data-custom': 'preserved',
+      },
+    },
+  });
+  const button = item('第 2 页');
+  assert.equal(button.tagName, 'BUTTON');
+  assert.equal(button.textContent, '2');
+  assert.equal(button.getAttribute('type'), 'button');
+  assert.equal(button.getAttribute('aria-current'), null);
+  assert.equal(button.dataset.intent, 'normal');
+  assert.equal(button.dataset.variant, 'ghost');
+  assert.equal(button.dataset.custom, 'preserved');
+  await act(() => button.dispatchEvent(new dom.window.Event('change', { bubbles: true })));
+  assert.equal(changes, 0);
+});
+
+test('SSR 输出导航、活动页与箭头 SVG', () => {
+  const markup = renderToString(h(Pagination, { current: 2, totalPage: 20 }));
+  const document = new JSDOM(markup).window.document;
+  assert.equal(document.querySelector('nav').getAttribute('aria-label'), '分页');
+  assert.equal(document.querySelector('[aria-current="page"]').textContent, '2');
+  assert.equal(document.querySelectorAll('svg').length, 2);
+});
+
+test('省略号七档尺寸与 Button token 保持一致，响应式只标记显式断点', async () => {
+  const source = await readFile(new URL('../button/design.tokens.css', import.meta.url), 'utf8');
+  const values = new Map();
+  postcss.parse(source).walkDecls(declaration => values.set(declaration.prop, declaration.value));
+  for (const size of ['2xs', 'xs', 'sm', 'base', 'lg', 'xl', '2xl']) {
+    const style = getPaginationSizeStyle(size);
+    assert.equal(style['--pagination-base-width'], values.get(`--button-size-${size}-height`));
+    assert.equal(style['--pagination-base-font-size'], values.get(`--button-size-${size}-font-size`));
+  }
+  const nav = await render({
+    current: 10,
+    totalPage: 20,
+    size: { base: 'xs', lg: '2xl' },
+  });
+  assert(nav.querySelector('.bk-pagination__ellipsis'));
+  assert(nav.hasAttribute('data-size-lg'));
+  assert.equal(nav.hasAttribute('data-size-md'), false);
+  assert.equal(nav.style.getPropertyValue('--pagination-base-width'), '28px');
+  assert.equal(nav.style.getPropertyValue('--pagination-lg-width'), '56px');
+});
+
+test('Playground 点击更新当前页，Controls 修改 current 后同步', async () => {
+  await render({ current: 1, totalPage: 5 });
+  const props = { current: 1, totalPage: 5 };
+  await act(() => root.render(h(Playground.render, props)));
+  await click(item('下一页'));
+  assert.equal(item('第 2 页').getAttribute('aria-current'), 'page');
+  await act(() => root.render(h(Playground.render, { ...props, current: 4 })));
+  assert.equal(item('第 4 页').getAttribute('aria-current'), 'page');
 });

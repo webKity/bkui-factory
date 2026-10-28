@@ -2,7 +2,8 @@
 
 import { createContext, useCallback, useContext, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Notification } from './index';
+import { Notification } from './Notification';
+import { DEFAULT_NOTIFICATION_DURATION } from './constants';
 import type { NotificationContextValue, NotificationInput, NotificationItem, NotificationPosition, NotificationProviderProps } from './type';
 
 const NotificationContext = createContext<NotificationContextValue | null>(null);
@@ -25,7 +26,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
   }, []);
   const showNotification = useCallback((input: NotificationInput) => {
     const id = `${prefix}-notification-${++sequence.current}`;
-    const { duration = 4500, ...item } = input;
+    const { duration = DEFAULT_NOTIFICATION_DURATION, ...item } = input;
     const timed = Number.isFinite(duration) && duration > 0;
     const expiresAt = timed ? Date.now() + duration : undefined;
     setItems(current => [...current, { ...item, id, duration, expiresAt, position: input.position ?? 'top-right', closing: false }]);
@@ -37,17 +38,25 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
 
   useEffect(() => {
     setMounted(true);
-    const pending = timers.current;
-    return () => { pending.forEach(clearTimeout); pending.clear(); };
+    return () => { timers.current.forEach(clearTimeout); timers.current.clear(); };
   }, []);
   const value = useMemo(() => ({ showNotification, closeNotification }), [showNotification, closeNotification]);
+
+  const grouped = useMemo(() => {
+    const groups: Record<NotificationPosition, NotificationItem[]> = {
+      'top-left': [], 'top-right': [], 'bottom-left': [], 'bottom-right': [],
+    };
+    for (const item of items) groups[item.position ?? 'top-right'].push(item);
+    return groups;
+  }, [items]);
 
   return <NotificationContext.Provider value={value}>
     {children}
     {mounted && createPortal(positions.map(position => (
       <div key={position} className="bkreact-notification-viewport" data-position={position}>
-        {items.filter(item => item.position === position).map(item => (
-          <Notification key={item.id} item={item} onClose={item.closing ? removeNotification : closeNotification} />
+        {/* 顶部新通知在最上方，底部新通知在最下方，始终靠近指定角落。 */}
+        {(position.startsWith('top') ? [...grouped[position]].reverse() : grouped[position]).map(item => (
+          <Notification key={item.id} item={item} onClose={closeNotification} onRemoved={removeNotification} />
         ))}
       </div>
     )), document.body)}

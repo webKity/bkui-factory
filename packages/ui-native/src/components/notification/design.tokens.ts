@@ -9,9 +9,8 @@ export function createTokens(theme: NativeTheme) {
       "bg": theme.semantic["color-surface-elevated"],
       "border-color": theme.semantic["color-border-default"],
       "accent-color": theme.semantic["color-text-secondary"],
-      "width": 360,
       "padding-x": 16,
-      "padding-y": 16,
+      "padding-y": 12,
       "gap": 12,
       "content-gap": 8,
       "border-width": 1,
@@ -22,6 +21,7 @@ export function createTokens(theme: NativeTheme) {
       "motion-duration-ms": 180,
       "icon-size": 20,
       "progress-height": 3,
+      "close-size": 32,
     },
     "intents": {
       "brand": {

@@ -27,7 +27,7 @@ export type { GalleryItem, GalleryLabels, GalleryMediaType, GalleryProps, ShowGa
 export { Pagination } from './components/pagination';
 export type { Pagingprops, PaginationProps, PaginationAs, PaginationItemType, PaginationItemProps } from './components/pagination/type';
 
-export { Notification, NotificationProvider, useNotification } from './components/notification';
+export { DEFAULT_NOTIFICATION_DURATION, Notification, NotificationProvider, useNotification } from './components/notification';
 export type * from './components/notification/type';
 
 export { Toast, showToast } from './components/toast';

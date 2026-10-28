@@ -1,4 +1,4 @@
-import { Notification, NotificationProvider, useNotification } from './index';
+import { DEFAULT_NOTIFICATION_DURATION, Notification, NotificationProvider, useNotification } from './index';
 import { Button } from '../button';
 import type { NotificationPosition } from './type';
 import type { Meta, StoryObj } from '@storybook/react-vite';
@@ -8,7 +8,7 @@ const meta = {
   component: Notification,
   tags: ['autodocs'],
   args: { item: { id: 'preview', title: '操作成功', message: '你的更改已保存。', intent: 'success' }, onClose: () => {} },
-  parameters: { docs: { description: { component: 'Notification 为受控卡片。使用 NotificationProvider 包裹应用后，通过 useNotification 获取 showNotification 和 closeNotification。默认右上角显示，4500ms 自动关闭；duration <= 0 保持显示。通知前方显示对应意图图标，底部进度条随倒计时从左向右填满，持续显示的通知无进度条。关闭先播放退场动画，再移除卡片。' } } },
+  parameters: { docs: { description: { component: `Notification 为受控卡片。使用 NotificationProvider 包裹应用后，通过 useNotification 获取 showNotification 和 closeNotification。默认右上角显示，${DEFAULT_NOTIFICATION_DURATION}ms 自动关闭；duration <= 0 保持显示。通知前方显示对应意图图标，底部进度条随倒计时从左向右填满，持续显示的通知无进度条。关闭先播放退场动画，再移除卡片。` } } },
 } satisfies Meta<typeof Notification>;
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -29,7 +29,7 @@ function Demo() {
   const { showNotification, closeNotification } = useNotification();
   return <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
     {(['top-left', 'top-right', 'bottom-left', 'bottom-right'] as NotificationPosition[]).map(position => (
-      <Button key={position} onClick={() => showNotification({ position, title: position, message: '这条通知将在 4.5 秒后关闭。', intent: 'success' })}>{position}</Button>
+      <Button key={position} onClick={() => showNotification({ position, title: position, message: `这条通知将在 ${DEFAULT_NOTIFICATION_DURATION / 1000} 秒后关闭。`, intent: 'success' })}>{position}</Button>
     ))}
     <Button onClick={() => {
       const id = showNotification({ title: '需要确认', message: '此通知保持显示，直到手动关闭。', duration: 0,

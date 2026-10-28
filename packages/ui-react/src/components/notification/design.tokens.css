@@ -5,7 +5,6 @@
   --notification-bg: var(--color-surface-elevated);
   --notification-border-color: var(--color-border-default);
   --notification-accent-color: var(--color-text-secondary);
-  --notification-width: 360px;
   --notification-padding-x: 16px;
   --notification-padding-y: 12px;
   --notification-gap: 12px;
@@ -18,6 +17,7 @@
   --notification-motion-duration-ms: 180;
   --notification-icon-size: 20px;
   --notification-progress-height: 3px;
+  --notification-close-size: 32px;
 }
 
 .bkreact-notification:where([data-intent='brand']) {

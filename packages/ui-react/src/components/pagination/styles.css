@@ -27,3 +27,38 @@
 .bk-pagination .bk-pagination__item:where([data-variant='ghost']) {
   --button-hover-bg: var(--pagination-item-hover-bg);
 }
+
+@media (min-width: 40rem) {
+  .bk-pagination[data-size-sm] {
+    --pagination-ellipsis-width: var(--pagination-sm-width);
+    --pagination-font-size: var(--pagination-sm-font-size);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bk-pagination[data-size-md] {
+    --pagination-ellipsis-width: var(--pagination-md-width);
+    --pagination-font-size: var(--pagination-md-font-size);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bk-pagination[data-size-lg] {
+    --pagination-ellipsis-width: var(--pagination-lg-width);
+    --pagination-font-size: var(--pagination-lg-font-size);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bk-pagination[data-size-xl] {
+    --pagination-ellipsis-width: var(--pagination-xl-width);
+    --pagination-font-size: var(--pagination-xl-font-size);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bk-pagination[data-size-2xl] {
+    --pagination-ellipsis-width: var(--pagination-2xl-width);
+    --pagination-font-size: var(--pagination-2xl-font-size);
+  }
+}
