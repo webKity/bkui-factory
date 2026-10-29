@@ -61,7 +61,6 @@
   cursor: var(--alert-close-cursor);
 }
 
-
 .bkreact-alert__close:hover {
   background: var(--alert-close-hover-bg);
 }
@@ -80,8 +79,12 @@
 }
 
 @keyframes bk-alert-close {
-  from { opacity: var(--alert-open-opacity); }
-  to { opacity: var(--alert-closed-opacity); }
+  from {
+    opacity: var(--alert-open-opacity);
+  }
+  to {
+    opacity: var(--alert-closed-opacity);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

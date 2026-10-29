@@ -12,6 +12,7 @@ import './index.css';
 
 import type { CSSProperties } from 'react';
 import type { LoadingProps } from './type';
+
 export type { LoadingProps, LoadingType, LoadingSize } from './type';
 
 export const Loading = forwardRef<HTMLSpanElement, LoadingProps>(function Loading(
@@ -47,18 +48,12 @@ export const Loading = forwardRef<HTMLSpanElement, LoadingProps>(function Loadin
       className={joinClassNames('bkreact-loading', className)}
       data-type={type}
       data-size={
-        typeof size === 'object'
-          ? 'responsive'
-          : typeof size === 'number'
-            ? 'custom'
-            : size
+        typeof size === 'object' ? 'responsive' : typeof size === 'number' ? 'custom' : size
       }
       data-size-px={typeof size === 'number' ? size : undefined}
       role={hidden ? undefined : role ?? 'status'}
       aria-hidden={ariaHidden}
-      aria-label={
-        hidden || labelledBy ? undefined : nativeLabel ?? '加载中'
-      }
+      aria-label={hidden || labelledBy ? undefined : nativeLabel ?? '加载中'}
       aria-labelledby={hidden ? undefined : labelledBy}
       style={loadingStyle}
     >
@@ -83,4 +78,5 @@ export const Loading = forwardRef<HTMLSpanElement, LoadingProps>(function Loadin
 });
 
 Loading.displayName = 'Loading';
+
 export default Loading;

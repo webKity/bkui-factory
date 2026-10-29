@@ -6,9 +6,17 @@ import { mapResponsiveSize } from '../utils/size';
 export function getCalendarSizeStyle(size: IBKSize | IBKResponsiveSize) {
   const style: CSSProperties & Record<`--calendar-${string}`, string> = {};
   mapResponsiveSize(size, (scope, value) => {
-    for (const dimension of ['day-size', 'font-size', 'line-height', 'padding', 'gap', 'icon-size'] as const) {
+    for (const dimension of [
+      'day-size',
+      'font-size',
+      'line-height',
+      'padding',
+      'gap',
+      'icon-size',
+    ] as const) {
       style[`--calendar-${scope}-${dimension}`] = `var(--calendar-size-${value}-${dimension})`;
     }
   });
+
   return style;
 }

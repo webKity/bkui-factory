@@ -3,9 +3,7 @@ import { useId } from 'react';
 // Original BitKan logo paths supplied for LogoLoading.
 import { LOGO_PATHS } from '@bkreact/assets/logo';
 
-const renderLogoPaths = () => (
-  LOGO_PATHS.map(d => <path key={d} d={d} />)
-);
+const renderLogoPaths = () => LOGO_PATHS.map(d => <path key={d} d={d} />);
 
 export function LogoLoading() {
   const clipId = `bk-loading-${useId().replace(/:/g, '')}`;
@@ -22,13 +20,7 @@ export function LogoLoading() {
     >
       <defs>
         <clipPath id={clipId} clipPathUnits="userSpaceOnUse">
-          <rect
-            className="bkreact-loading__logo-reveal"
-            x="0"
-            y="360"
-            width="1024"
-            height="300"
-          />
+          <rect className="bkreact-loading__logo-reveal" x="0" y="360" width="1024" height="300" />
         </clipPath>
       </defs>
       <g className="bkreact-loading__logo-muted">{renderLogoPaths()}</g>

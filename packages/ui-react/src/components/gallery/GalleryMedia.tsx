@@ -17,10 +17,15 @@ interface GallerySnapshotProps extends MediaOptions {
 
 export function GalleryMedia({ item, objectFit, labels }: GalleryMediaProps) {
   const [failed, setFailed] = useState(false);
+
   const onError = () => setFailed(true);
 
   if (failed) {
-    return <div className="bkreact-gallery__empty" role="status">{labels.mediaError}</div>;
+    return (
+      <div className="bkreact-gallery__empty" role="status">
+        {labels.mediaError}
+      </div>
+    );
   }
 
   if (item.type === 'video') {

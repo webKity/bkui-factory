@@ -11,11 +11,21 @@
   overflow-y: auto;
   pointer-events: none;
 }
-.bkreact-notification-viewport:empty { display: none; }
-.bkreact-notification-viewport[data-position^='top'] { top: var(--notification-viewport-gap); }
-.bkreact-notification-viewport[data-position^='bottom'] { bottom: var(--notification-viewport-gap); }
-.bkreact-notification-viewport[data-position$='left'] { left: var(--notification-viewport-gap); }
-.bkreact-notification-viewport[data-position$='right'] { right: var(--notification-viewport-gap); }
+.bkreact-notification-viewport:empty {
+  display: none;
+}
+.bkreact-notification-viewport[data-position^='top'] {
+  top: var(--notification-viewport-gap);
+}
+.bkreact-notification-viewport[data-position^='bottom'] {
+  bottom: var(--notification-viewport-gap);
+}
+.bkreact-notification-viewport[data-position$='left'] {
+  left: var(--notification-viewport-gap);
+}
+.bkreact-notification-viewport[data-position$='right'] {
+  right: var(--notification-viewport-gap);
+}
 .bkreact-notification {
   position: relative;
   overflow: hidden;
@@ -30,7 +40,8 @@
   flex-shrink: 0;
   color: var(--notification-color);
   background: var(--notification-bg);
-  border: var(--notification-border-width) var(--notification-border-style) var(--notification-border-color);
+  border: var(--notification-border-width) var(--notification-border-style)
+    var(--notification-border-color);
   border-radius: var(--notification-border-radius);
   font-family: var(--notification-font-family);
   font-size: var(--notification-font-size);
@@ -46,8 +57,12 @@
   min-width: var(--notification-min-width);
   gap: var(--notification-content-gap);
 }
-.bkreact-notification__title { font-weight: var(--notification-title-font-weight); }
-.bkreact-notification__message { color: var(--notification-message-color); }
+.bkreact-notification__title {
+  font-weight: var(--notification-title-font-weight);
+}
+.bkreact-notification__message {
+  color: var(--notification-message-color);
+}
 .bkreact-notification__actions {
   grid-column: 2 / -1;
   display: var(--notification-display);
@@ -62,13 +77,25 @@
   position: relative;
   top: var(--notification-close-offset);
 }
-.bkreact-notification[data-state='closing'] { animation: var(--notification-exit-animation); pointer-events: none; }
+.bkreact-notification[data-state='closing'] {
+  animation: var(--notification-exit-animation);
+  pointer-events: none;
+}
 @keyframes bk-notification-enter {
-  from { opacity: var(--notification-closed-opacity); transform: translateY(var(--notification-motion-offset)); }
-  to { opacity: var(--notification-open-opacity); transform: translateY(0); }
+  from {
+    opacity: var(--notification-closed-opacity);
+    transform: translateY(var(--notification-motion-offset));
+  }
+  to {
+    opacity: var(--notification-open-opacity);
+    transform: translateY(0);
+  }
 }
 @keyframes bk-notification-exit {
-  to { opacity: var(--notification-closed-opacity); transform: translateY(var(--notification-motion-offset)); }
+  to {
+    opacity: var(--notification-closed-opacity);
+    transform: translateY(var(--notification-motion-offset));
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .bkreact-notification {
@@ -102,6 +129,10 @@
   animation-play-state: paused;
 }
 @keyframes bk-notification-countdown {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }

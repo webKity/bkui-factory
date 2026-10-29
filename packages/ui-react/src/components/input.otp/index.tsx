@@ -19,13 +19,16 @@ export type InputOTPProps = Omit<OTPFieldRootProps, 'length' | 'style'> & {
   length?: OTPFieldRootProps['length'];
 };
 
-export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(function InputOTP({
-  type, size = 'base', length = 6, mask, children, className, ...rest
-}, ref) {
+export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(function InputOTP(
+  { type, size = 'base', length = 6, mask, children, className, ...rest },
+  ref,
+) {
   const safeLength = Number.isSafeInteger(length) && length > 0 ? length : 6;
+
   if (process.env.NODE_ENV !== 'production' && safeLength !== length) {
     console.error(`[InputOTP] length 必须为正安全整数，收到 ${String(length)}，已回退为 6`);
   }
+
   const sizeStyle = getInputOTPSizeStyle(size);
 
   return (
@@ -36,15 +39,21 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(function Input
       length={safeLength}
       mask={type === undefined ? mask : type === 'password'}
       data-size={typeof size === 'string' ? size : 'responsive'}
-      className={state => ['bkreact-input-otp', typeof className === 'function' ? className(state) : className].filter(Boolean).join(' ')}
+      className={state =>
+        ['bkreact-input-otp', typeof className === 'function' ? className(state) : className]
+          .filter(Boolean)
+          .join(' ')
+      }
       style={sizeStyle}
     >
-      {children ?? Array.from({ length: safeLength }, (_, index) => (
-        <OTPField.Input key={index} className="bkreact-input-otp__input" />
-      ))}
+      {children ??
+        Array.from({ length: safeLength }, (_, index) => (
+          <OTPField.Input key={index} className="bkreact-input-otp__input" />
+        ))}
     </OTPField.Root>
   );
 });
 
 InputOTP.displayName = 'InputOTP';
+
 export default InputOTP;

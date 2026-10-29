@@ -14,11 +14,15 @@
 }
 
 .bkreact-calendar,
-.bkreact-calendar * { box-sizing: border-box; }
+.bkreact-calendar * {
+  box-sizing: border-box;
+}
 
 .bkreact-calendar__root,
 .bkreact-calendar__months,
-.bkreact-calendar__month { position: relative; }
+.bkreact-calendar__month {
+  position: relative;
+}
 
 .bkreact-calendar__months {
   display: flex;
@@ -80,7 +84,9 @@
   fill: currentColor;
 }
 
-.bkreact-calendar__month_grid { border-collapse: collapse; }
+.bkreact-calendar__month_grid {
+  border-collapse: collapse;
+}
 
 .bkreact-calendar__day,
 .bkreact-calendar__week_number,
@@ -104,8 +110,12 @@
   text-underline-offset: var(--calendar-gap);
 }
 
-.bkreact-calendar__outside:not(.bkreact-calendar__selected) { color: var(--calendar-outside-color); }
-.bkreact-calendar__hidden { visibility: hidden; }
+.bkreact-calendar__outside:not(.bkreact-calendar__selected) {
+  color: var(--calendar-outside-color);
+}
+.bkreact-calendar__hidden {
+  visibility: hidden;
+}
 
 .bkreact-calendar__selected {
   color: var(--calendar-selected-color);
@@ -120,10 +130,18 @@
 
 .bkreact-calendar__range_middle,
 .bkreact-calendar__range_start,
-.bkreact-calendar__range_end { border-radius: 0; }
-.bkreact-calendar__range_start { background: var(--calendar-range-start-bg); }
-.bkreact-calendar__range_end { background: var(--calendar-range-end-bg); }
-.bkreact-calendar__range_start.bkreact-calendar__range_end { background: transparent; }
+.bkreact-calendar__range_end {
+  border-radius: 0;
+}
+.bkreact-calendar__range_start {
+  background: var(--calendar-range-start-bg);
+}
+.bkreact-calendar__range_end {
+  background: var(--calendar-range-end-bg);
+}
+.bkreact-calendar__range_start.bkreact-calendar__range_end {
+  background: transparent;
+}
 .bkreact-calendar__range_middle,
 .bkreact-calendar__range_middle .bkreact-calendar__day_button {
   color: var(--calendar-color);
@@ -138,9 +156,13 @@
 
 .bkreact-calendar button:disabled,
 .bkreact-calendar button[aria-disabled='true'],
-.bkreact-calendar__dropdown:disabled { cursor: not-allowed; }
+.bkreact-calendar__dropdown:disabled {
+  cursor: not-allowed;
+}
 .bkreact-calendar__button_previous[aria-disabled='true'],
-.bkreact-calendar__button_next[aria-disabled='true'] { opacity: var(--calendar-disabled-opacity); }
+.bkreact-calendar__button_next[aria-disabled='true'] {
+  opacity: var(--calendar-disabled-opacity);
+}
 
 @media (hover: hover) {
   .bkreact-calendar__day:not(.bkreact-calendar__disabled) .bkreact-calendar__day_button:hover,
@@ -148,7 +170,8 @@
   .bkreact-calendar__button_next:not(:disabled, [aria-disabled='true']):hover {
     background: var(--calendar-hover-bg);
   }
-  .bkreact-calendar__selected:not(.bkreact-calendar__disabled, .bkreact-calendar__range_middle) .bkreact-calendar__day_button:hover {
+  .bkreact-calendar__selected:not(.bkreact-calendar__disabled, .bkreact-calendar__range_middle)
+    .bkreact-calendar__day_button:hover {
     background: var(--calendar-selected-hover-bg);
   }
 }
@@ -190,26 +213,53 @@
   position: absolute;
   inset-block-start: 0;
 }
-.bkreact-calendar__root[data-nav-layout='around'] .bkreact-calendar__button_previous { inset-inline-start: 0; }
-.bkreact-calendar__root[data-nav-layout='around'] .bkreact-calendar__button_next { inset-inline-end: 0; }
+.bkreact-calendar__root[data-nav-layout='around'] .bkreact-calendar__button_previous {
+  inset-inline-start: 0;
+}
+.bkreact-calendar__root[data-nav-layout='around'] .bkreact-calendar__button_next {
+  inset-inline-end: 0;
+}
 
-.bkreact-calendar__root:not(:has(.bkreact-calendar__nav, .bkreact-calendar__button_previous, .bkreact-calendar__button_next)) .bkreact-calendar__month_caption { padding-inline-end: 0; }
-.bkreact-calendar__footer { margin-block-start: var(--calendar-gap); }
+.bkreact-calendar__root:not(
+    :has(.bkreact-calendar__nav, .bkreact-calendar__button_previous, .bkreact-calendar__button_next)
+  )
+  .bkreact-calendar__month_caption {
+  padding-inline-end: 0;
+}
+.bkreact-calendar__footer {
+  margin-block-start: var(--calendar-gap);
+}
 
 /* around 的箭头由 DayPicker 处理，Nav 内的箭头由样式镜像。 */
-.bkreact-calendar__root[dir='rtl'] .bkreact-calendar__nav .bkreact-calendar__chevron { transform: rotate(180deg); }
-@keyframes bk-calendar-fade { from { opacity: 0; } to { opacity: 1; } }
+.bkreact-calendar__root[dir='rtl'] .bkreact-calendar__nav .bkreact-calendar__chevron {
+  transform: rotate(180deg);
+}
+@keyframes bk-calendar-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .bkreact-calendar__weeks_before_enter,
 .bkreact-calendar__weeks_after_enter,
 .bkreact-calendar__caption_before_enter,
-.bkreact-calendar__caption_after_enter { animation: var(--calendar-animation); }
+.bkreact-calendar__caption_after_enter {
+  animation: var(--calendar-animation);
+}
 .bkreact-calendar__weeks_before_exit,
 .bkreact-calendar__weeks_after_exit,
 .bkreact-calendar__caption_before_exit,
-.bkreact-calendar__caption_after_exit { animation: var(--calendar-animation) reverse; }
+.bkreact-calendar__caption_after_exit {
+  animation: var(--calendar-animation) reverse;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .bkreact-calendar { --calendar-transition: none; --calendar-animation: none; }
+  .bkreact-calendar {
+    --calendar-transition: none;
+    --calendar-animation: none;
+  }
 }
 
 @media (min-width: 40rem) {

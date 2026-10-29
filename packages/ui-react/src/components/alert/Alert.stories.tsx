@@ -18,29 +18,67 @@ const meta = {
     action: { control: false },
     onClose: { control: false, description: '关闭动画结束并移除组件后触发一次。' },
   },
-  parameters: { docs: { description: { component: '支持五种意图、七档响应式尺寸及自定义内容插槽。样式只消费 --alert-* 组件 tokens。closable 默认关闭，onClose 在关闭动画结束时触发；减少动态效果时直接关闭。关闭后保持隐藏，修改内容不会自动重新展示，需更换 key 重建实例。' } } },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          '支持五种意图、七档响应式尺寸及自定义内容插槽。样式只消费 --alert-* 组件 tokens。closable 默认关闭，onClose 在关闭动画结束时触发；减少动态效果时直接关闭。关闭后保持隐藏，修改内容不会自动重新展示，需更换 key 重建实例。',
+      },
+    },
+  },
 } satisfies Meta<typeof Alert>;
+
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = { name: '可调试用例' };
 export const Intents: Story = {
   name: '五种意图',
-  render: () => <div style={{ display: 'grid', gap: 16 }}>{(['normal', 'brand', 'success', 'warning', 'danger'] as const).map(intent =>
-    <Alert key={intent} intent={intent} prefixIcon={info} message={`${intent} 提示`} description="这里是提示的详细说明，支持长文本自动换行。" />,
-  )}</div>,
+  render: () => (
+    <div style={{ display: 'grid', gap: 16 }}>
+      {(['normal', 'brand', 'success', 'warning', 'danger'] as const).map(intent => (
+        <Alert
+          key={intent}
+          intent={intent}
+          prefixIcon={info}
+          message={`${intent} 提示`}
+          description="这里是提示的详细说明，支持长文本自动换行。"
+        />
+      ))}
+    </div>
+  ),
 };
 export const Sizes: Story = {
   name: '七档尺寸',
-  render: () => <div style={{ display: 'grid', gap: 16 }}>{componentSizes.map(size =>
-    <Alert key={size} size={size} message={`${size} 提示信息`} prefixIcon={info} closable />,
-  )}</div>,
+  render: () => (
+    <div style={{ display: 'grid', gap: 16 }}>
+      {componentSizes.map(size => (
+        <Alert key={size} size={size} message={`${size} 提示信息`} prefixIcon={info} closable />
+      ))}
+    </div>
+  ),
 };
 export const Slots: Story = {
   name: '内容与操作插槽',
-  args: { prefixIcon: info, suffixIcon: info, description: '你可以自定义前后图标、内容样式与操作项。', action: <Button size="xs" variant="ghost" intent="brand">查看详情</Button>, closable: true },
+  args: {
+    prefixIcon: info,
+    suffixIcon: info,
+    description: '你可以自定义前后图标、内容样式与操作项。',
+    action: (
+      <Button size="xs" variant="ghost" intent="brand">
+        查看详情
+      </Button>
+    ),
+    closable: true,
+  },
 };
 export const Responsive: Story = {
   name: '响应式尺寸',
-  args: { size: { base: 'xs', md: 'base', xl: 'lg' }, prefixIcon: info, description: '缩放视口以查看尺寸变化。', closable: true },
+  args: {
+    size: { base: 'xs', md: 'base', xl: 'lg' },
+    prefixIcon: info,
+    description: '缩放视口以查看尺寸变化。',
+    closable: true,
+  },
 };

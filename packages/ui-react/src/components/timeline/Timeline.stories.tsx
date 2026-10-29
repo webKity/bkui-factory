@@ -31,27 +31,31 @@ function Events({ custom = false, actions = false, labels = false }: EventsProps
   const [viewed, setViewed] = useState<string[]>([]);
 
   function viewDetails(title: string) {
-    setViewed(previous => previous.includes(title) ? previous : [...previous, title]);
+    setViewed(previous => (previous.includes(title) ? previous : [...previous, title]));
   }
 
   return (
     <>
       {events.map(event => (
         <TimelineItem key={event.title}>
-          <TimelineMarker
-            icon={custom ? <BKIcon name="check" size="100%" /> : undefined}
-          >
+          <TimelineMarker icon={custom ? <BKIcon name="check" size="100%" /> : undefined}>
             {labels ? (
               <>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'currentColor', flexShrink: 0 }} />
+                <span
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    background: 'currentColor',
+                    flexShrink: 0,
+                  }}
+                />
                 <span>{event.status}</span>
               </>
             ) : undefined}
           </TimelineMarker>
           <TimelineContent>
-            <TimelineTime dateTime={`${event.date}T10:00:00+08:00`}>
-              {event.time}
-            </TimelineTime>
+            <TimelineTime dateTime={`${event.date}T10:00:00+08:00`}>{event.time}</TimelineTime>
             <TimelineTitle>{event.title}</TimelineTitle>
             <TimelineDescription>查看这一步的进展和详细说明。</TimelineDescription>
             {actions && (
@@ -105,6 +109,7 @@ const meta = {
 } satisfies Meta<typeof Timeline>;
 
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = { name: '可调试用例' };
@@ -205,7 +210,6 @@ export const LongContent: Story = {
   ),
 };
 
-
 export const Stepper: Story = {
   name: '步进效果',
   render: function StepperExample() {
@@ -246,8 +250,13 @@ export const Stepper: Story = {
           })}
         </Timeline>
         <div className="example-row" style={{ marginTop: 24 }}>
-          <Button disabled={current === 0} onClick={() => setCurrent(value => value - 1)}>上一步</Button>
-          <Button disabled={current === events.length} onClick={() => setCurrent(value => value + 1)}>
+          <Button disabled={current === 0} onClick={() => setCurrent(value => value - 1)}>
+            上一步
+          </Button>
+          <Button
+            disabled={current === events.length}
+            onClick={() => setCurrent(value => value + 1)}
+          >
             {current === events.length - 1 ? '完成' : '下一步'}
           </Button>
         </div>

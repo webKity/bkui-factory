@@ -1,4 +1,3 @@
-
 import type { Key, ReactNode } from 'react';
 
 export type IBKTheme = 'dark' | 'light';
@@ -9,9 +8,14 @@ export type IBKSize = '2xs' | 'xs' | 'sm' | 'base' | 'lg' | 'xl' | '2xl';
 
 export type IBKIntent = 'brand' | 'success' | 'danger' | 'warning' | 'normal';
 
-export type IBKLayout = 'horizontal' | 'vertical'
+export type IBKLayout = 'horizontal' | 'vertical';
 
-export enum IBKDirection { up, down, left, right }
+export enum IBKDirection {
+  up,
+  down,
+  left,
+  right,
+}
 
 /**
  * sm: @media (width >= 40rem)
@@ -60,9 +64,10 @@ export type BaseProps<T> = {
    * 当组件值变化时的回调函数
    */
   onChange?: (value: T) => void;
-}
+};
 
 export type IOptionValue = string | number;
+
 export interface IOptionItem {
   label: ReactNode;
   value: IOptionValue;
@@ -88,9 +93,9 @@ export interface IBaseLabelItem {
   label: string;
 }
 
-export type IBKBaseLayout = 'horizontal' | 'vertical'
+export type IBKBaseLayout = 'horizontal' | 'vertical';
 
-export type IBKFormLayout = IBKBaseLayout | 'inline'
+export type IBKFormLayout = IBKBaseLayout | 'inline';
 
 export interface IModalInstance {
   open: () => void;

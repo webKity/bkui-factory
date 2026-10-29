@@ -12,5 +12,6 @@ export function getBreadcrumbSizeStyle(size: IBKSize | IBKResponsiveSize) {
       style[`--breadcrumb-${scope}-${dimension}`] = `var(--breadcrumb-size-${value}-${dimension})`;
     }
   });
+
   return style;
 }

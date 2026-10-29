@@ -74,85 +74,98 @@ export const TimelineItem = forwardRef<HTMLLIElement, TimelineItemProps>(functio
   );
 });
 
-export const TimelineMarker = forwardRef<HTMLSpanElement, TimelineMarkerProps>(function TimelineMarker(
-  { icon, label, children, className, ...props },
-  ref,
-) {
-  const { layout } = useContext(TimelineContext);
+export const TimelineMarker = forwardRef<HTMLSpanElement, TimelineMarkerProps>(
+  function TimelineMarker({ icon, label, children, className, ...props }, ref) {
+    const { layout } = useContext(TimelineContext);
 
-  if (process.env.NODE_ENV !== 'production' && label != null && layout === 'vertical') {
-    console.warn('[TimelineMarker] label 仅横向布局可见，请使用 children 自定义标记内容。');
-  }
+    if (process.env.NODE_ENV !== 'production' && label != null && layout === 'vertical') {
+      console.warn('[TimelineMarker] label 仅横向布局可见，请使用 children 自定义标记内容。');
+    }
 
-  const content = icon ?? children;
-  const hasCustomContent = icon == null && Children.toArray(children).length > 0;
+    const content = icon ?? children;
+    const hasCustomContent = icon == null && Children.toArray(children).length > 0;
 
-  return (
-    <span className="bkreact-timeline__marker-group">
-      <span className="bkreact-timeline__marker-body">
-        <span
-          {...withoutStyle(props)}
-          ref={ref}
-          className={joinClassNames('bkreact-timeline__marker', className)}
-          data-custom={icon != null || hasCustomContent || undefined}
-          data-custom-content={hasCustomContent || undefined}
-          aria-hidden={hasCustomContent ? props['aria-hidden'] : true}
-        >
-          {content}
+    return (
+      <span className="bkreact-timeline__marker-group">
+        <span className="bkreact-timeline__marker-body">
+          <span
+            {...withoutStyle(props)}
+            ref={ref}
+            className={joinClassNames('bkreact-timeline__marker', className)}
+            data-custom={icon != null || hasCustomContent || undefined}
+            data-custom-content={hasCustomContent || undefined}
+            aria-hidden={hasCustomContent ? props['aria-hidden'] : true}
+          >
+            {content}
+          </span>
+          {label != null && <span className="bkreact-timeline__marker-label">{label}</span>}
         </span>
-        {label != null && (
-          <span className="bkreact-timeline__marker-label">{label}</span>
-        )}
       </span>
-    </span>
-  );
-});
+    );
+  },
+);
 
-export const TimelineContent = forwardRef<HTMLDivElement, TimelineContentProps>(function TimelineContent(
-  { className, ...props },
-  ref,
-) {
-  return (
-    <div {...withoutStyle(props)} ref={ref} className={joinClassNames('bkreact-timeline__content', className)} />
-  );
-});
+export const TimelineContent = forwardRef<HTMLDivElement, TimelineContentProps>(
+  function TimelineContent({ className, ...props }, ref) {
+    return (
+      <div
+        {...withoutStyle(props)}
+        ref={ref}
+        className={joinClassNames('bkreact-timeline__content', className)}
+      />
+    );
+  },
+);
 
 export const TimelineTime = forwardRef<HTMLTimeElement, TimelineTimeProps>(function TimelineTime(
   { className, ...props },
   ref,
 ) {
   return (
-    <time {...withoutStyle(props)} ref={ref} className={joinClassNames('bkreact-timeline__time', className)} />
+    <time
+      {...withoutStyle(props)}
+      ref={ref}
+      className={joinClassNames('bkreact-timeline__time', className)}
+    />
   );
 });
 
-export const TimelineTitle = forwardRef<HTMLHeadingElement, TimelineTitleProps>(function TimelineTitle(
-  { headingLevel = 3, className, ...props },
-  ref,
-) {
-  const Heading = `h${headingLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+export const TimelineTitle = forwardRef<HTMLHeadingElement, TimelineTitleProps>(
+  function TimelineTitle({ headingLevel = 3, className, ...props }, ref) {
+    const Heading = `h${headingLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
-  return (
-    <Heading {...withoutStyle(props)} ref={ref} className={joinClassNames('bkreact-timeline__title', className)} />
-  );
-});
+    return (
+      <Heading
+        {...withoutStyle(props)}
+        ref={ref}
+        className={joinClassNames('bkreact-timeline__title', className)}
+      />
+    );
+  },
+);
 
-export const TimelineDescription = forwardRef<HTMLParagraphElement, TimelineDescriptionProps>(function TimelineDescription(
-  { className, ...props },
-  ref,
-) {
-  return (
-    <p {...withoutStyle(props)} ref={ref} className={joinClassNames('bkreact-timeline__description', className)} />
-  );
-});
+export const TimelineDescription = forwardRef<HTMLParagraphElement, TimelineDescriptionProps>(
+  function TimelineDescription({ className, ...props }, ref) {
+    return (
+      <p
+        {...withoutStyle(props)}
+        ref={ref}
+        className={joinClassNames('bkreact-timeline__description', className)}
+      />
+    );
+  },
+);
 
-export const TimelineAction = forwardRef<HTMLDivElement, TimelineActionProps>(function TimelineAction(
-  { className, ...props },
-  ref,
-) {
-  return (
-    <div {...withoutStyle(props)} ref={ref} className={joinClassNames('bkreact-timeline__action', className)} />
-  );
-});
+export const TimelineAction = forwardRef<HTMLDivElement, TimelineActionProps>(
+  function TimelineAction({ className, ...props }, ref) {
+    return (
+      <div
+        {...withoutStyle(props)}
+        ref={ref}
+        className={joinClassNames('bkreact-timeline__action', className)}
+      />
+    );
+  },
+);
 
 export default Timeline;

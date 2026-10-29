@@ -28,7 +28,8 @@ const meta = {
     size: {
       control: 'select',
       options: sizes,
-      description: '七档尺寸，也支持像素数值或响应式对象；base 高度为 20px，响应式对象必须提供 base。',
+      description:
+        '七档尺寸，也支持像素数值或响应式对象；base 高度为 20px，响应式对象必须提供 base。',
     },
     fillColor: {
       control: 'color',
@@ -36,8 +37,9 @@ const meta = {
     },
     speed: {
       control: { type: 'number', min: 1, step: 100 },
-      description: '一次动画循环的毫秒数。normal 默认 800ms，rect 1000ms，logo 3320ms。'
-        + '可通过 className 在 CSS 中覆盖组件样式变量。',
+      description:
+        '一次动画循环的毫秒数。normal 默认 800ms，rect 1000ms，logo 3320ms。' +
+        '可通过 className 在 CSS 中覆盖组件样式变量。',
     },
     'aria-label': {
       control: 'text',
@@ -48,14 +50,17 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: '加载指示器的样式仅使用 --loading-* 组件样式变量。'
-          + '旋转类型复用加载图标；品牌标志使用原始矢量路径，逐步显现后淡出。'
-          + '系统开启减少动态效果时停止动画，保持加载图形可见。',
+        component:
+          '加载指示器的样式仅使用 --loading-* 组件样式变量。' +
+          '旋转类型复用加载图标；品牌标志使用原始矢量路径，逐步显现后淡出。' +
+          '系统开启减少动态效果时停止动画，保持加载图形可见。',
       },
     },
   },
 } satisfies Meta<typeof Loading>;
+
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = { name: '可调试用例' };
@@ -83,9 +88,22 @@ export const Types: Story = {
 };
 export const Sizes: Story = {
   name: '七档尺寸',
-  render: () => <div className="example-stack">{types.map(type => <div className="example-row" key={type}>{sizes.map(size => <div className="example-item" key={size}>
-    <Loading type={type} size={size} /><code className="example-caption">{typeLabels[type]} / {size}</code>
-  </div>)}</div>)}</div>,
+  render: () => (
+    <div className="example-stack">
+      {types.map(type => (
+        <div className="example-row" key={type}>
+          {sizes.map(size => (
+            <div className="example-item" key={size}>
+              <Loading type={type} size={size} />
+              <code className="example-caption">
+                {typeLabels[type]} / {size}
+              </code>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
 };
 export const Responsive: Story = {
   name: '响应式尺寸',
@@ -93,16 +111,50 @@ export const Responsive: Story = {
 };
 export const ColorsAndSpeed: Story = {
   name: '颜色与速度',
-  render: () => <div className="example-row">{types.map(type => <Loading key={type} type={type} size={32} fillColor="var(--color-action-link)" speed={1600} />)}</div>,
+  render: () => (
+    <div className="example-row">
+      {types.map(type => (
+        <Loading
+          key={type}
+          type={type}
+          size={32}
+          fillColor="var(--color-action-link)"
+          speed={1600}
+        />
+      ))}
+    </div>
+  ),
 };
 export const ComponentTokens: Story = {
   name: '组件样式变量覆盖',
-  render: () => <div className="example-row">{types.map(type => <Loading key={type} type={type} className="example-loading-custom" />)}</div>,
+  render: () => (
+    <div className="example-row">
+      {types.map(type => (
+        <Loading key={type} type={type} className="example-loading-custom" />
+      ))}
+    </div>
+  ),
 };
 export const InButton: Story = {
   name: '按钮内加载',
-  render: () => <div className="example-stack">
-    <div className="example-row">{sizes.map(size => <Button key={size} size={size} loading intent="brand">提交中</Button>)}</div>
-    <div className="example-row"><Button loading variant="outline">加载中</Button><Button loading link="#loading">链接加载中</Button><Button loading aria-label="提交订单" /></div>
-  </div>,
+  render: () => (
+    <div className="example-stack">
+      <div className="example-row">
+        {sizes.map(size => (
+          <Button key={size} size={size} loading intent="brand">
+            提交中
+          </Button>
+        ))}
+      </div>
+      <div className="example-row">
+        <Button loading variant="outline">
+          加载中
+        </Button>
+        <Button loading link="#loading">
+          链接加载中
+        </Button>
+        <Button loading aria-label="提交订单" />
+      </div>
+    </div>
+  ),
 };

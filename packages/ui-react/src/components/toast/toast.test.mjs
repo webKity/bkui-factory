@@ -10,40 +10,61 @@ import { renderToStaticMarkup } from 'react-dom/server';
 
 const project = fileURLToPath(new URL('../../../', import.meta.url));
 let temporary, Toast, showToast, dom, root, container, createRoot;
+
 before(async () => {
   temporary = await mkdtemp(path.join(project, '.toast-test-'));
   const result = await build({
     stdin: { contents: "export * from './src/components/toast';", resolveDir: project },
-    bundle: true, packages: 'external', platform: 'node', format: 'esm', jsx: 'automatic', loader: { '.css': 'empty' }, write: false,
+    bundle: true,
+    packages: 'external',
+    platform: 'node',
+    format: 'esm',
+    jsx: 'automatic',
+    loader: { '.css': 'empty' },
+    write: false,
   });
   const file = path.join(temporary, 'toast.mjs');
   await writeFile(file, result.outputFiles[0].contents);
   ({ Toast, showToast } = await import(file));
   dom = new JSDOM('<!doctype html><html><body></body></html>', { pretendToBeVisual: true });
+
   for (const name of ['window', 'document', 'navigator', 'HTMLElement', 'Element', 'Node']) {
     Object.defineProperty(globalThis, name, { configurable: true, value: dom.window[name] });
   }
+
   globalThis.IS_REACT_ACT_ENVIRONMENT = true;
   ({ createRoot } = await import('react-dom/client'));
 });
+
 afterEach(async () => {
   if (root) await act(() => root.unmount());
-  root = undefined; container?.remove();
+
+  root = undefined;
+  container?.remove();
 });
-after(async () => { dom.window.close(); await rm(temporary, { recursive: true, force: true }); });
+
+after(async () => {
+  dom.window.close();
+  await rm(temporary, { recursive: true, force: true });
+});
+
 async function render(props) {
   if (!root) {
-    container = document.createElement('div'); document.body.append(container);
+    container = document.createElement('div');
+    document.body.append(container);
     root = createRoot(container);
   }
   await act(() => root.render(h(StrictMode, null, h(Toast, { msg: '提示', ...props }))));
 }
+
 const card = () => document.querySelector('.bkreact-toast');
+
 const wait = ms => act(() => new Promise(resolve => setTimeout(resolve, ms)));
 
 test('SSR is safe; portal carries intent semantics, class, icons, message and ref', async () => {
   assert.equal(renderToStaticMarkup(h(Toast, { msg: 'SSR' })), '');
   const ref = { current: null };
+
   for (const intent of ['normal', 'brand', 'success', 'warning', 'danger']) {
     await render({ intent, duration: 0, className: 'custom', ref });
     assert.equal(card().dataset.intent, intent);
@@ -54,6 +75,7 @@ test('SSR is safe; portal carries intent semantics, class, icons, message and re
     assert.equal(ref.current, card());
     assert.equal(container.querySelector('.bkreact-toast'), null);
   }
+
   await render({ duration: 0, icon: h('b', null, 'icon') });
   assert.equal(card().querySelector('.bkreact-toast__icon').textContent, 'icon');
   await render({ duration: 0, icon: null });
@@ -82,7 +104,8 @@ test('hiding and unmounting cancel timers without onClose', async () => {
   assert.equal(card(), null);
   assert.equal(closes, 0);
   await render({ duration: 30, onClose: () => closes++ });
-  await act(() => root.unmount()); root = undefined;
+  await act(() => root.unmount());
+  root = undefined;
   await wait(60);
   assert.equal(closes, 0);
   assert.equal(document.querySelector('.bkreact-toast-viewport'), null);
@@ -94,6 +117,7 @@ test('persistent durations and new messages restart a dismissed toast', async ()
     await wait(10);
     assert(card());
   }
+
   await render({ duration: 20 });
   await wait(40);
   assert.equal(card(), null);
@@ -102,21 +126,41 @@ test('persistent durations and new messages restart a dismissed toast', async ()
 });
 
 test('showToast automatically cleans up its root and calls onClose once', async () => {
-  let closes = 0, close;
-  await act(async () => { close = showToast({ msg: '函数提示', duration: 20, onClose: () => closes++ }); });
+  let closes = 0,
+    close;
+  await act(async () => {
+    close = showToast({ msg: '函数提示', duration: 20, onClose: () => closes++ });
+  });
   assert.equal(card().textContent, '函数提示');
   await wait(50);
   assert.equal(card(), null);
   assert.equal(document.querySelector('.bkreact-toast-root'), null);
   assert.equal(closes, 1);
-  await act(async () => { close(); close(); });
+  await act(async () => {
+    close();
+    close();
+  });
   assert.equal(closes, 1);
 });
 
 test('showToast replaces the previous toast and supports idempotent manual close', async () => {
-  let first = 0, second = 0, closeFirst, closeSecond;
-  await act(async () => { closeFirst = showToast({ msg: '第一条', duration: 0, onClose: () => first++ }); });
-  await act(async () => { closeSecond = showToast({ msg: '第二条', duration: 0, intent: 'warning', icon: null, className: 'function-toast', onClose: () => second++ }); });
+  let first = 0,
+    second = 0,
+    closeFirst,
+    closeSecond;
+  await act(async () => {
+    closeFirst = showToast({ msg: '第一条', duration: 0, onClose: () => first++ });
+  });
+  await act(async () => {
+    closeSecond = showToast({
+      msg: '第二条',
+      duration: 0,
+      intent: 'warning',
+      icon: null,
+      className: 'function-toast',
+      onClose: () => second++,
+    });
+  });
   assert.equal(document.querySelectorAll('.bkreact-toast').length, 1);
   assert.equal(card().textContent, '第二条');
   assert.equal(card().dataset.intent, 'warning');
@@ -125,7 +169,10 @@ test('showToast replaces the previous toast and supports idempotent manual close
   assert.equal(first, 1);
   await act(async () => closeFirst());
   assert(card());
-  await act(async () => { closeSecond(); closeSecond(); });
+  await act(async () => {
+    closeSecond();
+    closeSecond();
+  });
   assert.equal(second, 1);
   assert.equal(card(), null);
   assert.equal(document.querySelector('.bkreact-toast-root'), null);
@@ -141,8 +188,11 @@ test('showToast can close before the initial render and is a no-op on the server
   assert.equal(card(), null);
   assert.equal(document.querySelector('.bkreact-toast-root'), null);
   const descriptor = Object.getOwnPropertyDescriptor(globalThis, 'document');
+
   try {
     delete globalThis.document;
     assert.doesNotThrow(() => showToast({ msg: 'SSR' })());
-  } finally { Object.defineProperty(globalThis, 'document', descriptor); }
+  } finally {
+    Object.defineProperty(globalThis, 'document', descriptor);
+  }
 });

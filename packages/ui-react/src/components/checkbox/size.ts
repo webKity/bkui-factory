@@ -10,5 +10,6 @@ export function getCheckboxSizeStyle(size: IBKSize | IBKResponsiveSize) {
       style[`--checkbox-${scope}-${dimension}`] = `var(--checkbox-size-${value}-${dimension})`;
     }
   });
+
   return style;
 }

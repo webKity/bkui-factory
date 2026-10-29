@@ -1,4 +1,10 @@
-import type { ComponentPropsWithRef, ComponentPropsWithoutRef, ElementType, ReactElement, ReactNode } from 'react';
+import type {
+  ComponentPropsWithRef,
+  ComponentPropsWithoutRef,
+  ElementType,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import type { IBKResponsiveSize, IBKSize } from '../types/base';
 
 interface TypographyOwnProps<T extends ElementType> {
@@ -12,11 +18,13 @@ interface TypographyOwnProps<T extends ElementType> {
 }
 
 /** 原生属性及事件类型随 as 变化，默认渲染 div。 */
-export type TypographyProps<T extends ElementType = 'div'> = TypographyOwnProps<T>
-  & Omit<ComponentPropsWithoutRef<T>, keyof TypographyOwnProps<T> | 'style'>;
+export type TypographyProps<T extends ElementType = 'div'> = TypographyOwnProps<T> &
+  Omit<ComponentPropsWithoutRef<T>, keyof TypographyOwnProps<T> | 'style'>;
 
 export interface TypographyComponent {
-  <T extends ElementType = 'div'>(props: TypographyProps<T> & {
-    ref?: ComponentPropsWithRef<T>['ref'];
-  }): ReactElement | null;
+  <T extends ElementType = 'div'>(
+    props: TypographyProps<T> & {
+      ref?: ComponentPropsWithRef<T>['ref'];
+    },
+  ): ReactElement | null;
 }

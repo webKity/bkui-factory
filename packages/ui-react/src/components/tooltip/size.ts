@@ -10,5 +10,6 @@ export function getTooltipSizeStyle(size: NonNullable<TooltipProps['size']>) {
       style[`--tooltip-${scope}-${dimension}`] = `var(--tooltip-size-${value}-${dimension})`;
     }
   });
+
   return style;
 }

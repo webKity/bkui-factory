@@ -36,22 +36,21 @@ interface ButtonCommonProps {
   loading?: boolean;
 }
 
-export type ButtonNativeProps = ButtonCommonProps & Omit<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  keyof ButtonCommonProps | 'style' | 'onClick'
-> & {
-  link?: undefined;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
-};
+export type ButtonNativeProps = ButtonCommonProps &
+  Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonCommonProps | 'style' | 'onClick'> & {
+    link?: undefined;
+    onClick?: MouseEventHandler<HTMLButtonElement>;
+  };
 
-export type ButtonLinkProps = ButtonCommonProps & Omit<
-  AnchorHTMLAttributes<HTMLAnchorElement>,
-  keyof ButtonCommonProps | 'style' | 'href' | 'type' | 'onClick'
-> & {
-  link: string;
-  type?: never;
-  onClick?: MouseEventHandler<HTMLAnchorElement>;
-};
+export type ButtonLinkProps = ButtonCommonProps &
+  Omit<
+    AnchorHTMLAttributes<HTMLAnchorElement>,
+    keyof ButtonCommonProps | 'style' | 'href' | 'type' | 'onClick'
+  > & {
+    link: string;
+    type?: never;
+    onClick?: MouseEventHandler<HTMLAnchorElement>;
+  };
 
 export type ButtonProps = ButtonNativeProps | ButtonLinkProps;
 

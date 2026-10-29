@@ -24,7 +24,8 @@
   line-height: var(--input-otp-line-height);
   text-align: var(--input-otp-text-align);
   cursor: var(--input-otp-cursor);
-  outline: var(--input-otp-rest-outline-width) var(--input-otp-outline-style) var(--input-otp-focus-ring-color);
+  outline: var(--input-otp-rest-outline-width) var(--input-otp-outline-style)
+    var(--input-otp-focus-ring-color);
   outline-offset: var(--input-otp-focus-ring-offset);
   transition: var(--input-otp-transition);
 }
@@ -52,7 +53,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bkreact-input-otp__input { transition: var(--input-otp-reduced-motion-transition); }
+  .bkreact-input-otp__input {
+    transition: var(--input-otp-reduced-motion-transition);
+  }
 }
 
 @media (min-width: 40rem) {

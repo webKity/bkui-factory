@@ -20,7 +20,9 @@
   --tooltip-open-transform: scale(1);
   --tooltip-closed-transform: scale(0.96);
   --tooltip-motion-easing: ease;
-  --tooltip-transition: opacity calc(var(--tooltip-motion-duration-ms) * 1ms) var(--tooltip-motion-easing), transform calc(var(--tooltip-motion-duration-ms) * 1ms) var(--tooltip-motion-easing);
+  --tooltip-transition: opacity calc(var(--tooltip-motion-duration-ms) * 1ms)
+      var(--tooltip-motion-easing),
+    transform calc(var(--tooltip-motion-duration-ms) * 1ms) var(--tooltip-motion-easing);
   --tooltip-reduced-motion-transition: none;
   --tooltip-arrow-display: block;
   --tooltip-arrow-position: absolute;

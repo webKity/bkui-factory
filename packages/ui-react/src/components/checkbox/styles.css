@@ -63,19 +63,24 @@
   .bkreact-checkbox:where(:not([data-disabled], [data-readonly])):hover {
     --checkbox-box-border-color: var(--checkbox-hover-border-color);
   }
-  .bkreact-checkbox:where([data-checked], [data-indeterminate]):where(:not([data-disabled], [data-readonly])):hover {
+  .bkreact-checkbox:where([data-checked], [data-indeterminate]):where(
+      :not([data-disabled], [data-readonly])
+    ):hover {
     --checkbox-box-bg: var(--checkbox-selected-hover-bg);
     --checkbox-box-border-color: var(--checkbox-selected-hover-bg);
   }
 }
 
-.bkreact-checkbox:where([data-checked], [data-indeterminate]):where(:not([data-disabled], [data-readonly])):active {
+.bkreact-checkbox:where([data-checked], [data-indeterminate]):where(
+    :not([data-disabled], [data-readonly])
+  ):active {
   --checkbox-box-bg: var(--checkbox-selected-active-bg);
   --checkbox-box-border-color: var(--checkbox-selected-active-bg);
 }
 
 .bkreact-checkbox:focus-visible .bkreact-checkbox__box {
-  outline: var(--checkbox-focus-ring-width) var(--checkbox-focus-ring-style) var(--checkbox-focus-ring-color);
+  outline: var(--checkbox-focus-ring-width) var(--checkbox-focus-ring-style)
+    var(--checkbox-focus-ring-color);
   outline-offset: var(--checkbox-focus-ring-offset);
 }
 

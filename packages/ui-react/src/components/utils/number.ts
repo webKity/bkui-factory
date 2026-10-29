@@ -70,11 +70,13 @@ const toInputString = (value: DecimalInput, name: string): string => {
   }
 
   const normalized = value.trim();
+
   if (!normalized || !DECIMAL_PATTERN.test(normalized)) {
     throw new TypeError(`${name} must be a valid decimal`);
   }
 
   const exponent = normalized.match(/[eE]([+-]?\d+)$/)?.[1];
+
   if (exponent && Math.abs(Number(exponent)) > MAX_EXPONENT) {
     throw new RangeError(`${name} exponent must be between -${MAX_EXPONENT} and ${MAX_EXPONENT}`);
   }
@@ -100,11 +102,7 @@ const significantDigits = (value: DecimalInput): number => {
   return Math.max(1, digits.length);
 };
 
-const arithmeticPrecision = (
-  left: DecimalInput,
-  right: DecimalInput,
-  extra = 2,
-): number => {
+const arithmeticPrecision = (left: DecimalInput, right: DecimalInput, extra = 2): number => {
   const leftDecimal = toDecimal(left, 'left');
   const rightDecimal = toDecimal(right, 'right');
   const exponentSpan = Math.abs(leftDecimal.exponent() - rightDecimal.exponent());
@@ -132,18 +130,24 @@ const withPrecision = <T>(precision: number, operation: () => T): T => {
 };
 
 const normalize = (value: Decimal): number => {
-  const result = value.toFixed().replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '');
+  const result = value
+    .toFixed()
+    .replace(/(\.\d*?)0+$/, '$1')
+    .replace(/\.$/, '');
   return result === '-0' ? 0 : Number(result);
 };
 
 const validateScale = (scale: number): void => {
   if (!Number.isInteger(scale) || scale < 0 || scale > MAX_SCALE) {
-    throw new RangeError(`scale must be an integer between 0 and ${MAX_SCALE}, but now is ${scale}`);
+    throw new RangeError(
+      `scale must be an integer between 0 and ${MAX_SCALE}, but now is ${scale}`,
+    );
   }
 };
 
 const resolveRounding = (rounding: DecimalRounding = 'half-up'): number => {
   const mode = decimalRoundingMap[rounding];
+
   if (typeof mode === 'undefined') {
     throw new TypeError(`Unsupported rounding mode: ${rounding}`);
   }
@@ -157,7 +161,9 @@ const resolveRounding = (rounding: DecimalRounding = 'half-up'): number => {
 export const add = (left: DecimalInput, right: DecimalInput): number => {
   const precision = arithmeticPrecision(left, right);
 
-  return withPrecision(precision, () => normalize(toDecimal(left, 'left').plus(toDecimal(right, 'right'))));
+  return withPrecision(precision, () =>
+    normalize(toDecimal(left, 'left').plus(toDecimal(right, 'right'))),
+  );
 };
 
 /**
@@ -166,7 +172,9 @@ export const add = (left: DecimalInput, right: DecimalInput): number => {
 export const sub = (left: DecimalInput, right: DecimalInput): number => {
   const precision = arithmeticPrecision(left, right);
 
-  return withPrecision(precision, () => normalize(toDecimal(left, 'left').minus(toDecimal(right, 'right'))));
+  return withPrecision(precision, () =>
+    normalize(toDecimal(left, 'left').minus(toDecimal(right, 'right'))),
+  );
 };
 
 /**
@@ -189,7 +197,9 @@ export const compareDecimal = (left: DecimalInput, right: DecimalInput): -1 | 0 
 export const mul = (left: DecimalInput, right: DecimalInput): number => {
   const precision = significantDigits(left) + significantDigits(right) + 2;
 
-  return withPrecision(precision, () => normalize(toDecimal(left, 'left').times(toDecimal(right, 'right'))));
+  return withPrecision(precision, () =>
+    normalize(toDecimal(left, 'left').times(toDecimal(right, 'right'))),
+  );
 };
 
 /**
@@ -206,20 +216,20 @@ export const division = (
   validateScale(options.scale);
 
   const divisor = toDecimal(right, 'right');
+
   if (divisor.isZero()) return 0;
 
   const dividend = toDecimal(left, 'left');
-  const integerDigits = Math.max(
-    1,
-    dividend.exponent() - divisor.exponent() + 1,
-  );
+  const integerDigits = Math.max(1, dividend.exponent() - divisor.exponent() + 1);
   const precision = Math.max(
     significantDigits(left) + significantDigits(right) + 2,
     integerDigits + options.scale + 10,
   );
   const rounding = resolveRounding(options.rounding);
 
-  return Number(withPrecision(precision, () => dividend.div(divisor).toFixed(options.scale, rounding)));
+  return Number(
+    withPrecision(precision, () => dividend.div(divisor).toFixed(options.scale, rounding)),
+  );
 };
 
 /**
@@ -235,7 +245,9 @@ export const roundDecimal = (
   const decimal = toDecimal(value, 'value');
   const precision = significantDigits(value) + Math.max(decimal.exponent() + 1, 1) + 2;
 
-  return Number(withPrecision(precision, () => decimal.toFixed(numScale, resolveRounding(rounding))));
+  return Number(
+    withPrecision(precision, () => decimal.toFixed(numScale, resolveRounding(rounding))),
+  );
 };
 
 /**
@@ -262,10 +274,9 @@ export const exponentialToString = (input: DecimalInput): number => scientificTo
  * 数字展示层使用的非科学计数法转换。
  * null、undefined、空字符串仍表示无值；其他非法值直接抛错。
  */
-export const toNonExponential = (
-  value: DecimalInput | null | undefined,
-): string => {
+export const toNonExponential = (value: DecimalInput | null | undefined): string => {
   if (value === null || typeof value === 'undefined') return '';
+
   if (typeof value === 'string' && value.trim() === '') return '';
 
   return `${scientificToPlainString(value)}`;

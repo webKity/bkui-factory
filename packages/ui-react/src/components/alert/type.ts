@@ -13,7 +13,7 @@ export interface IAlertProps {
   suffixIcon?: ReactNode;
   /** 空字符串不渲染说明区域。 */
   description?: string;
-  action?: ReactNode;               // 自定义操作项
-  closable?: boolean;               // 默认不显示关闭按钮
-  onClose?: () => void;             // 关闭动画结束后触发的回调函数
+  action?: ReactNode; // 自定义操作项
+  closable?: boolean; // 默认不显示关闭按钮
+  onClose?: () => void; // 关闭动画结束后触发的回调函数
 }

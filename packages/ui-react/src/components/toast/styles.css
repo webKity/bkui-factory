@@ -46,10 +46,18 @@
 }
 
 @keyframes bk-toast-enter {
-  from { opacity: var(--toast-enter-opacity); transform: var(--toast-enter-transform); }
-  to { opacity: var(--toast-open-opacity); transform: var(--toast-open-transform); }
+  from {
+    opacity: var(--toast-enter-opacity);
+    transform: var(--toast-enter-transform);
+  }
+  to {
+    opacity: var(--toast-open-opacity);
+    transform: var(--toast-open-transform);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bkreact-toast { animation: var(--toast-reduced-motion-animation); }
+  .bkreact-toast {
+    animation: var(--toast-reduced-motion-animation);
+  }
 }

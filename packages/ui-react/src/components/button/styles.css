@@ -43,7 +43,8 @@
 }
 
 .bk-button:focus-visible {
-  outline: var(--button-focus-ring-width) var(--button-focus-ring-style) var(--button-focus-ring-color);
+  outline: var(--button-focus-ring-width) var(--button-focus-ring-style)
+    var(--button-focus-ring-color);
   outline-offset: var(--button-focus-ring-offset);
 }
 
@@ -165,15 +166,20 @@
 
 .bk-button__spinner {
   box-sizing: var(--button-box-sizing);
-  border: var(--button-spinner-border-width) var(--button-border-style) var(--button-spinner-track-color);
+  border: var(--button-spinner-border-width) var(--button-border-style)
+    var(--button-spinner-track-color);
   border-inline-end-color: var(--button-spinner-color);
   border-radius: var(--button-spinner-radius);
   animation: var(--button-spinner-animation);
 }
 
 @keyframes bk-button-spin {
-  from { transform: var(--button-spinner-start); }
-  to { transform: var(--button-spinner-end); }
+  from {
+    transform: var(--button-spinner-start);
+  }
+  to {
+    transform: var(--button-spinner-end);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

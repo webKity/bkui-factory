@@ -27,22 +27,14 @@ export function Gallery({
   labels: labelOverrides,
 }: GalleryProps) {
   const labels = resolveGalleryLabels(labelOverrides);
-  const {
-    activeIndex,
-    item,
-    mediaKey,
-    motion,
-    slideRef,
-    select,
-    onKeyDown,
-    onAnimationEnd,
-  } = useGallery({ items, index, defaultIndex, loop, onIndexChange });
+  const { activeIndex, item, mediaKey, motion, slideRef, select, onKeyDown, onAnimationEnd } =
+    useGallery({ items, index, defaultIndex, loop, onIndexChange });
 
   const multiple = items.length > 1;
   const direction = motion.direction > 0 ? 'next' : 'previous';
   const navigationProps = { items, index: activeIndex, labels, onSelect: select };
   const viewportStyle = aspectRatio
-    ? { '--gallery-aspect-ratio': aspectRatio } as CSSProperties
+    ? ({ '--gallery-aspect-ratio': aspectRatio } as CSSProperties)
     : undefined;
   const caption = item && (item.title || item.description) && (
     <div className="bkreact-gallery__caption" data-position={captionPosition}>
@@ -80,7 +72,9 @@ export function Gallery({
             <GalleryMedia key={mediaKey} item={item} objectFit={objectFit} labels={labels} />
           </div>
         ) : (
-          <div className="bkreact-gallery__empty" role="status">{emptyDescription ?? labels.empty}</div>
+          <div className="bkreact-gallery__empty" role="status">
+            {emptyDescription ?? labels.empty}
+          </div>
         )}
 
         {motion.outgoing && (

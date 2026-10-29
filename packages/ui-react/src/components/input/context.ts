@@ -1,8 +1,13 @@
 import { createContext, useContext } from 'react';
 import type { InputGroupProps } from './type';
 
-type InputAppearance = Pick<InputGroupProps, 'intent' | 'size' | 'variant' | 'disabled' | 'readOnly'>;
+type InputAppearance = Pick<
+  InputGroupProps,
+  'intent' | 'size' | 'variant' | 'disabled' | 'readOnly'
+>;
+
 export const InputGroupContext = createContext<InputAppearance | null>(null);
+
 export function useInputAppearance(props: InputAppearance) {
   const group = useContext(InputGroupContext);
   return {

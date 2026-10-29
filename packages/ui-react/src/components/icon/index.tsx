@@ -14,7 +14,11 @@ export type { IconName, IconVariant, FigmaIconName } from './registry';
 
 export { iconNames, figmaIconNames } from './registry';
 
-export interface IconProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color' | 'style' | 'children' | 'dangerouslySetInnerHTML'> {
+export interface IconProps
+  extends Omit<
+    HTMLAttributes<HTMLSpanElement>,
+    'color' | 'style' | 'children' | 'dangerouslySetInnerHTML'
+  > {
   name: IconName;
   /** Explicitly selects a Figma variant, including names shared with legacy icons. */
   variant?: IconVariant;
@@ -28,10 +32,20 @@ export interface IconProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'
 export const BKIcon = (props: IconProps) => {
   const mounted = useIdleReady();
   const {
-    name, variant, size = 16, className, color, hoverColor, ariaLabel,
-    renderInServer = false, onClick, 'aria-label': nativeLabel, ...rest
+    name,
+    variant,
+    size = 16,
+    className,
+    color,
+    hoverColor,
+    ariaLabel,
+    renderInServer = false,
+    onClick,
+    'aria-label': nativeLabel,
+    ...rest
   } = props;
   const icon = getIconDefinition(name, variant);
+
   if (!icon) return null;
 
   const ready = mounted || renderInServer;
@@ -69,9 +83,13 @@ export const BKIcon = (props: IconProps) => {
             <path
               key={index}
               {...path}
-              fill={fill && !['none', 'currentColor'].includes(fill)
-                ? color || hoverColor ? 'currentColor' : fill
-                : fill}
+              fill={
+                fill && !['none', 'currentColor'].includes(fill)
+                  ? color || hoverColor
+                    ? 'currentColor'
+                    : fill
+                  : fill
+              }
             />
           ))}
         </svg>

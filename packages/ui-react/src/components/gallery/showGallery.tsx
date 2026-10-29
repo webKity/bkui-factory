@@ -24,14 +24,14 @@ function unregisterGallery(entry: GalleryEntry) {
 
   // 提前关闭下层弹层时，将上层弹层的返回焦点接回仍存活的触发元素。
   for (const other of openGalleries) {
-    const returnsToClosingGallery = other !== entry
-      && other.previousFocus
-      && entry.container.contains(other.previousFocus);
+    const returnsToClosingGallery =
+      other !== entry && other.previousFocus && entry.container.contains(other.previousFocus);
 
     if (returnsToClosingGallery) other.previousFocus = entry.previousFocus;
   }
 
   if (position !== -1) openGalleries.splice(position, 1);
+
   return wasTop;
 }
 
@@ -57,6 +57,7 @@ export function showGallery(options: ShowGalleryOptions): () => void {
 
   function close() {
     if (closed) return;
+
     closed = true;
 
     // 避免在 React 的事件或提交阶段同步卸载另一个 root。
@@ -69,9 +70,11 @@ export function showGallery(options: ShowGalleryOptions): () => void {
         container.remove();
 
         const { previousFocus } = entry;
+
         if (wasTop && previousFocus instanceof HTMLElement && previousFocus.isConnected) {
           previousFocus.focus();
         }
+
         onClose?.();
       }
     });

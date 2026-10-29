@@ -1,1 +1,4 @@
-.example-typography-custom { --typography-max-width: 100%; --typography-headings: var(--color-text-brand); }
+.example-typography-custom {
+  --typography-max-width: 100%;
+  --typography-headings: var(--color-text-brand);
+}

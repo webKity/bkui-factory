@@ -26,7 +26,8 @@ interface GalleryMotion {
 
 const ANIMATION_NAME = 'bk-gallery-enter';
 const ANIMATION_TIMEOUT_BUFFER = 50;
-const EDITABLE_SELECTOR = 'video, input, textarea, select, [contenteditable]:not([contenteditable="false"])';
+const EDITABLE_SELECTOR =
+  'video, input, textarea, select, [contenteditable]:not([contenteditable="false"])';
 
 function normalizeIndex(index: number, length: number) {
   const integer = Number.isFinite(index) ? Math.trunc(index) : 0;
@@ -40,15 +41,17 @@ function getTransitionDirection(
   loop: boolean,
   request: NavigationRequest | null,
 ) {
-  const matchesRequest = request?.revision === previous.revision
-    && request.from === previous.index
-    && request.index === nextIndex;
+  const matchesRequest =
+    request?.revision === previous.revision &&
+    request.from === previous.index &&
+    request.index === nextIndex;
 
   if (matchesRequest) return request.direction;
 
   // 外部受控跳转：循环模式走最短方向，等距时按索引大小。
   const delta = nextIndex - previous.index;
   const direction = Math.sign(delta) || 1;
+
   return loop && Math.abs(delta) > total / 2 ? -direction : direction;
 }
 
@@ -115,6 +118,7 @@ export function useGallery({
     if (!motion.outgoing || !slideRef.current) return;
 
     const duration = getAnimationDuration(slideRef.current);
+
     const finish = () => finishTransition(motion.revision);
 
     // 动画被禁用时立即清理；计时器兜底处理未派发 animationend 的情况。
@@ -125,6 +129,7 @@ export function useGallery({
 
     const timer = setTimeout(finish, duration + ANIMATION_TIMEOUT_BUFFER);
     const preference = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+
     const onPreferenceChange = () => {
       if (preference?.matches) finish();
     };
@@ -139,9 +144,10 @@ export function useGallery({
   }, [motion.revision, motion.outgoing, finishTransition]);
 
   function select(next: number) {
-    const normalized = loop && items.length
-      ? (next % items.length + items.length) % items.length
-      : normalizeIndex(next, items.length);
+    const normalized =
+      loop && items.length
+        ? ((next % items.length) + items.length) % items.length
+        : normalizeIndex(next, items.length);
     const nextItem = items[normalized];
 
     if (!nextItem || normalized === activeIndex) return;
@@ -152,15 +158,26 @@ export function useGallery({
       direction: next > activeIndex ? 1 : -1,
       revision: motion.revision,
     });
+
     if (index === undefined) setInternalIndex(normalized);
+
     onIndexChange?.(normalized, nextItem);
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLElement>) {
-    if (event.defaultPrevented || event.shiftKey || event.altKey || event.ctrlKey || event.metaKey) return;
+    if (
+      event.defaultPrevented ||
+      event.shiftKey ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey
+    ) {
+      return;
+    }
 
     // 保留视频和可编辑元素的原生键盘操作。
     const element = event.target;
+
     if (!(element instanceof Element) || element.closest(EDITABLE_SELECTOR)) return;
 
     const rtl = getComputedStyle(event.currentTarget).direction === 'rtl';

@@ -67,7 +67,8 @@
   flex-shrink: var(--timeline-zero);
   width: var(--timeline-marker-size);
   height: var(--timeline-marker-size);
-  border: var(--timeline-marker-border-width) var(--timeline-line-style) var(--timeline-marker-color);
+  border: var(--timeline-marker-border-width) var(--timeline-line-style)
+    var(--timeline-marker-color);
   border-radius: var(--timeline-marker-radius);
   background-color: var(--timeline-marker-bg);
   color: var(--timeline-marker-color);

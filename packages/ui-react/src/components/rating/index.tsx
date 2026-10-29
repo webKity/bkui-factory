@@ -58,16 +58,20 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
 
   function selectValue(nextValue: number, fromHover = false) {
     if (!interactive) return;
+
     if (nextValue === selectedValue) {
       if (fromHover) lastHoverValue.current = null;
       return;
     }
+
     // 受控方尚未回写时，也只通知一次连续相同的悬停选择。
     if (fromHover) {
       if (nextValue === lastHoverValue.current) return;
       lastHoverValue.current = nextValue;
     }
+
     if (value === undefined) setInternalValue(nextValue);
+
     onChange?.(nextValue);
   }
 
@@ -77,7 +81,11 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
       {...getResponsiveSizeAttributes(size)}
       ref={ref}
       role={readOnly ? 'meter' : 'radiogroup'}
-      aria-label={ariaLabel ?? getAriaLabel?.(selectedValue, total) ?? (readOnly ? `评分：${selectedValue} / ${total}` : '评分')}
+      aria-label={
+        ariaLabel ??
+        getAriaLabel?.(selectedValue, total) ??
+        (readOnly ? `评分：${selectedValue} / ${total}` : '评分')
+      }
       aria-valuenow={readOnly ? selectedValue : undefined}
       aria-valuemin={readOnly ? 0 : undefined}
       aria-valuemax={readOnly ? total : undefined}
@@ -96,13 +104,23 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
       {Array.from({ length: total }, (_, index) => {
         const itemValue = index + 1;
         const icon = (
-          <span className="bk-rating__icon" data-filled={itemValue <= displayedValue || undefined} aria-hidden="true">
+          <span
+            className="bk-rating__icon"
+            data-filled={itemValue <= displayedValue || undefined}
+            aria-hidden="true"
+          >
             <BKIcon name="star_fill" size="100%" renderInServer />
           </span>
         );
 
         // 只读展示不创建表单字段，也不暴露可操作控件。
-        if (readOnly) return <span className="bk-rating__item" key={itemValue} aria-hidden="true">{icon}</span>;
+        if (readOnly) {
+          return (
+            <span className="bk-rating__item" key={itemValue} aria-hidden="true">
+              {icon}
+            </span>
+          );
+        }
 
         return (
           <label

@@ -14,8 +14,12 @@ interface GalleryArrowsProps extends NavigationProps {
   loop: boolean;
 }
 
-const previousIcon = <BKIcon name="left" className="bkreact-gallery__arrow-icon" size="100%" renderInServer />;
-const nextIcon = <BKIcon name="right" className="bkreact-gallery__arrow-icon" size="100%" renderInServer />;
+const previousIcon = (
+  <BKIcon name="left" className="bkreact-gallery__arrow-icon" size="100%" renderInServer />
+);
+const nextIcon = (
+  <BKIcon name="right" className="bkreact-gallery__arrow-icon" size="100%" renderInServer />
+);
 
 export function GalleryArrows({ items, index, loop, labels, onSelect }: GalleryArrowsProps) {
   return (
@@ -84,7 +88,11 @@ export function GalleryThumbnails({ items, index, labels, onSelect }: Navigation
             onClick={() => onSelect(itemIndex)}
           >
             {hasImage && <img src={isVideo ? item.poster : item.src} alt="" loading="lazy" />}
-            {isVideo && <span className="bkreact-gallery__play" aria-hidden="true">▶</span>}
+            {isVideo && (
+              <span className="bkreact-gallery__play" aria-hidden="true">
+                ▶
+              </span>
+            )}
           </Button>
         );
       })}

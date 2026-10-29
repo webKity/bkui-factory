@@ -3,10 +3,11 @@ import type { IBKResponsiveSize, IBKSize } from '../types/base';
 
 export type RatingTrigger = 'hover' | 'click';
 
-export interface RatingProps extends Omit<
-  HTMLAttributes<HTMLDivElement>,
-  'style' | 'children' | 'dangerouslySetInnerHTML' | 'onChange' | 'defaultValue'
-> {
+export interface RatingProps
+  extends Omit<
+    HTMLAttributes<HTMLDivElement>,
+    'style' | 'children' | 'dangerouslySetInnerHTML' | 'onChange' | 'defaultValue'
+  > {
   /** 受控评分；整数，0 表示尚未评分。 */
   value?: number;
   /** 非受控初始评分，默认 0；评分会取整并限制在 0 到 count 之间。 */

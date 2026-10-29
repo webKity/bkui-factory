@@ -2,17 +2,20 @@ import type { AnchorHTMLAttributes, HTMLAttributes } from 'react';
 import type { ButtonProps } from '../button/type';
 
 export type PaginationAs = 'button' | 'a';
+
 export type PaginationItemType = 'page' | 'previous' | 'next';
+
 export type PaginationItemProps = Omit<
   HTMLAttributes<HTMLElement>,
   'style' | 'children' | 'dangerouslySetInnerHTML' | 'onChange' | 'aria-current'
-> & Pick<
-  AnchorHTMLAttributes<HTMLAnchorElement>,
-  'href' | 'target' | 'rel' | 'download' | 'hrefLang' | 'referrerPolicy'
-> & {
-  disabled?: boolean;
-  [key: `data-${string}`]: unknown;
-};
+> &
+  Pick<
+    AnchorHTMLAttributes<HTMLAnchorElement>,
+    'href' | 'target' | 'rel' | 'download' | 'hrefLang' | 'referrerPolicy'
+  > & {
+    disabled?: boolean;
+    [key: `data-${string}`]: unknown;
+  };
 
 export interface PaginationProps extends Pick<ButtonProps, 'size' | 'disabled'> {
   /** 受控当前页，从 1 开始。 */
@@ -37,11 +40,9 @@ export interface PaginationProps extends Pick<ButtonProps, 'size' | 'disabled'> 
    */
   itemProps?: Record<number, PaginationItemProps>;
   /** 动态属性覆盖 itemProps；onClick 调用 preventDefault 可取消切页。 */
-  getItemProps?: (
-    page: number,
-    type: PaginationItemType,
-  ) => PaginationItemProps | undefined;
+  getItemProps?: (page: number, type: PaginationItemType) => PaginationItemProps | undefined;
   onChange?: (page: number) => void;
 }
+
 /** @deprecated 使用 PaginationProps。 */
 export type Pagingprops = PaginationProps;

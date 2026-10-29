@@ -10,5 +10,6 @@ export function getRatingSizeStyle(size: NonNullable<RatingProps['size']>) {
       style[`--rating-${scope}-${dimension}`] = `var(--rating-size-${value}-${dimension})`;
     }
   });
+
   return style;
 }

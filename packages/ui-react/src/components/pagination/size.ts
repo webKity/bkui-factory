@@ -19,5 +19,6 @@ export function getPaginationSizeStyle(size: NonNullable<PaginationProps['size']
     style[`--pagination-${scope}-width`] = `${heights[value]}px`;
     style[`--pagination-${scope}-font-size`] = `var(--text-${value}-size)`;
   });
+
   return style;
 }

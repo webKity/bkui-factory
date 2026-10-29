@@ -1,5 +1,3 @@
-
-
 import { mapResponsiveSize } from '../utils/size';
 
 import type { CSSProperties } from 'react';
@@ -12,5 +10,6 @@ export function getTypographySizeStyle(size: IBKSize | IBKResponsiveSize) {
       style[`--typography-${scope}-${dimension}`] = `var(--typography-size-${value}-${dimension})`;
     }
   });
+
   return style;
 }

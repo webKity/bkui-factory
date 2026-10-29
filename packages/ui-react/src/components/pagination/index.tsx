@@ -20,7 +20,9 @@ export type {
 
 function defaultItemAriaLabel(page: number, type: PaginationItemType) {
   if (type === 'previous') return '上一页';
+
   if (type === 'next') return '下一页';
+
   return `第 ${page} 页`;
 }
 
@@ -46,41 +48,54 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
 
   const renderItem = (target: number, type: PaginationItemType) => {
     const attributes = { ...itemProps?.[target], ...getItemProps?.(target, type) };
-    const {
-      onClick,
-      disabled: itemDisabled,
-      className: itemClassName,
-      href,
-      ...rest
-    } = attributes;
+    const { onClick, disabled: itemDisabled, className: itemClassName, href, ...rest } = attributes;
+
     // 运行时也过滤由组件管理的属性，防止 JS 调用方绕过类型约束。
     for (const key of [
-      'children', 'dangerouslySetInnerHTML', 'link', 'type', 'aria-current',
-      'onChange', 'size', 'shape', 'intent', 'variant',
+      'children',
+      'dangerouslySetInnerHTML',
+      'link',
+      'type',
+      'aria-current',
+      'onChange',
+      'size',
+      'shape',
+      'intent',
+      'variant',
     ]) {
       Reflect.deleteProperty(rest, key);
     }
+
     const hasHref = typeof href === 'string' && href.trim().length > 0;
     const active = type === 'page' && target === page;
-    const unavailable = disabled
-      || itemDisabled === true
-      || total === 0
-      || (type === 'previous' && page === 1)
-      || (type === 'next' && page === total);
+    const unavailable =
+      disabled ||
+      itemDisabled === true ||
+      total === 0 ||
+      (type === 'previous' && page === 1) ||
+      (type === 'next' && page === total);
 
     const handleClick: MouseEventHandler<HTMLButtonElement | HTMLAnchorElement> = event => {
       if (unavailable) {
         event.preventDefault();
         return;
       }
+
       onClick?.(event);
+
       if (event.defaultPrevented) return;
+
       if (as === 'a' && !hasHref) event.preventDefault();
+
       // 仅有效链接保留在新标签页打开等浏览器原生行为。
-      if (as === 'a' && hasHref
-        && (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)) {
+      if (
+        as === 'a' &&
+        hasHref &&
+        (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+      ) {
         return;
       }
+
       if (target !== page) onChange?.(target);
     };
 
@@ -89,23 +104,21 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
       className: ['bk-pagination__item', itemClassName].filter(Boolean).join(' '),
       size,
       shape: 'square' as const,
-      intent: active ? 'brand' as const : 'normal' as const,
-      variant: active ? 'fill' as const : 'ghost' as const,
+      intent: active ? ('brand' as const) : ('normal' as const),
+      variant: active ? ('fill' as const) : ('ghost' as const),
       disabled: unavailable,
       'aria-label': rest['aria-label'] ?? getItemAriaLabel(target, type),
-      'aria-current': active ? 'page' as const : undefined,
+      'aria-current': active ? ('page' as const) : undefined,
       'data-pagination-type': type,
       onClick: handleClick,
-      prefixIcon: type === 'page' ? undefined : (
-        <BKIcon
-          name={type === 'previous' ? 'left' : 'right'}
-          size="100%"
-          renderInServer
-        />
-      ),
+      prefixIcon:
+        type === 'page' ? undefined : (
+          <BKIcon name={type === 'previous' ? 'left' : 'right'} size="100%" renderInServer />
+        ),
       children: type === 'page' ? target : undefined,
     };
     const key = type === 'page' ? target : type;
+
     return as === 'a' && hasHref ? (
       <Button key={key} {...common} link={href} />
     ) : (
@@ -125,8 +138,12 @@ export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagi
         <li>{renderItem(Math.max(1, page - 1), 'previous')}</li>
         {getPaginationPages(page, total, pagerCount).map(entry => (
           <li key={entry}>
-            {typeof entry === 'number' ? renderItem(entry, 'page') : (
-              <span className="bk-pagination__ellipsis" aria-hidden="true">…</span>
+            {typeof entry === 'number' ? (
+              renderItem(entry, 'page')
+            ) : (
+              <span className="bk-pagination__ellipsis" aria-hidden="true">
+                …
+              </span>
             )}
           </li>
         ))}

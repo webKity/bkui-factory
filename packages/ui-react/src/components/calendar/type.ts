@@ -1,4 +1,3 @@
-
 import type { DayPickerProps } from 'react-day-picker';
 import type { IBKResponsiveSize, IBKSize } from '../types/base';
 

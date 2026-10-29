@@ -3,7 +3,9 @@
 .bkreact-notification-viewport {
   --notification-display: flex;
   --notification-width: 360px;
-  --notification-close-offset: calc((var(--notification-line-height) - var(--notification-close-size)) / 2);
+  --notification-close-offset: calc(
+    (var(--notification-line-height) - var(--notification-close-size)) / 2
+  );
   --notification-card-display: grid;
   --notification-columns: var(--notification-icon-size) minmax(0, 1fr) auto;
   --notification-actions-align: flex-end;
@@ -14,11 +16,15 @@
   --notification-min-width: 0;
   --notification-progress-track-color: var(--notification-border-color);
   --notification-progress-color: var(--notification-accent-color);
-  --notification-icon-offset: calc((var(--notification-line-height) - var(--notification-icon-size)) / 2);
+  --notification-icon-offset: calc(
+    (var(--notification-line-height) - var(--notification-icon-size)) / 2
+  );
   --notification-overflow-wrap: anywhere;
   --notification-motion-duration: calc(var(--notification-motion-duration-ms) * 1ms);
-  --notification-enter-animation: bk-notification-enter var(--notification-motion-duration) ease-out both;
-  --notification-exit-animation: bk-notification-exit var(--notification-motion-duration) ease-in both;
+  --notification-enter-animation: bk-notification-enter var(--notification-motion-duration) ease-out
+    both;
+  --notification-exit-animation: bk-notification-exit var(--notification-motion-duration) ease-in
+    both;
   --notification-motion-offset: 8px;
   --notification-closed-opacity: 0;
   --notification-open-opacity: 1;
@@ -33,5 +39,6 @@
 
 /* 动画引用的时长和延迟由 fill 的行内变量提供，必须在同一元素解析。 */
 .bkreact-notification__progress-fill {
-  --notification-countdown-animation: bk-notification-countdown var(--notification-countdown-duration) linear var(--notification-countdown-delay) forwards;
+  --notification-countdown-animation: bk-notification-countdown
+    var(--notification-countdown-duration) linear var(--notification-countdown-delay) forwards;
 }

@@ -50,7 +50,8 @@
 }
 
 .bkreact-breadcrumb__link:focus-visible {
-  outline: var(--breadcrumb-focus-ring-width) var(--breadcrumb-focus-ring-style) var(--breadcrumb-focus-ring-color);
+  outline: var(--breadcrumb-focus-ring-width) var(--breadcrumb-focus-ring-style)
+    var(--breadcrumb-focus-ring-color);
   outline-offset: var(--breadcrumb-focus-ring-offset);
 }
 

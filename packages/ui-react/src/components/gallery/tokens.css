@@ -5,7 +5,7 @@
   --gallery-hover-duration: 160ms;
   --gallery-hover-easing: ease-out;
   --gallery-motion-duration: 360ms;
-  --gallery-motion-easing: cubic-bezier(.4, 0, .2, 1);
+  --gallery-motion-easing: cubic-bezier(0.4, 0, 0.2, 1);
   --gallery-motion-distance: 100%;
   --gallery-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
   --gallery-aspect-ratio: 16 / 9;

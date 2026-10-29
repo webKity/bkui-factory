@@ -2,6 +2,7 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react';
 import type { IBKLayout, IBKSize, IBKResponsiveSize } from '../types/base';
 
 export type TimelineAlign = 'start' | 'center';
+
 export type TimelineStatus = 'pending' | 'current' | 'complete';
 
 export type TimelineRootProps = Omit<ComponentPropsWithoutRef<'ol'>, 'style'> & {

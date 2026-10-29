@@ -12,8 +12,16 @@
   --calendar-transition: color 160ms ease, background-color 160ms ease;
   --calendar-animation: bk-calendar-fade 160ms ease;
   --calendar-range-direction: 90deg;
-  --calendar-range-start-bg: linear-gradient(var(--calendar-range-direction), transparent 50%, var(--calendar-range-bg) 50%);
-  --calendar-range-end-bg: linear-gradient(var(--calendar-range-direction), var(--calendar-range-bg) 50%, transparent 50%);
+  --calendar-range-start-bg: linear-gradient(
+    var(--calendar-range-direction),
+    transparent 50%,
+    var(--calendar-range-bg) 50%
+  );
+  --calendar-range-end-bg: linear-gradient(
+    var(--calendar-range-direction),
+    var(--calendar-range-bg) 50%,
+    transparent 50%
+  );
 }
 
 .bkreact-calendar:has([dir='rtl']) {

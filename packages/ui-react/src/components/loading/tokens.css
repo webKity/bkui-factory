@@ -39,7 +39,9 @@
   --loading-logo-fade-animation: bk-loading-logo-fade var(--loading-duration) linear infinite;
 }
 
-.bkreact-loading:where([data-type='rect']) { --loading-duration: calc(var(--loading-rect-duration-ms) * 1ms); }
+.bkreact-loading:where([data-type='rect']) {
+  --loading-duration: calc(var(--loading-rect-duration-ms) * 1ms);
+}
 .bkreact-loading:where([data-type='logo']) {
   --loading-duration: calc(var(--loading-logo-duration-ms) * 1ms);
   --loading-aspect-ratio: var(--loading-logo-aspect-ratio);

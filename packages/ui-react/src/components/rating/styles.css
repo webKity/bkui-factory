@@ -56,7 +56,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bk-rating__icon { transition: none; }
+  .bk-rating__icon {
+    transition: none;
+  }
 }
 
 @media (min-width: 40rem) {

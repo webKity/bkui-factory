@@ -20,11 +20,13 @@ export const defaultGalleryLabels: Required<GalleryLabels> = {
 
 export function resolveGalleryLabels(labels?: GalleryLabels): Required<GalleryLabels> {
   const result = { ...defaultGalleryLabels };
+
   // 显式 undefined 同样使用默认值。
   for (const key of Object.keys(result) as (keyof GalleryLabels)[]) {
     if (labels?.[key] !== undefined) {
       Object.assign(result, { [key]: labels[key] });
     }
   }
+
   return result;
 }

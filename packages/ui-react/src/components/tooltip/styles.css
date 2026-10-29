@@ -63,7 +63,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bkreact-tooltip { transition: var(--tooltip-reduced-motion-transition); }
+  .bkreact-tooltip {
+    transition: var(--tooltip-reduced-motion-transition);
+  }
 }
 
 /* 断点与 types/base.ts 的 IBKBreakpoints 及 Button 一致；媒体查询不能消费 CSS var()。 */

@@ -29,5 +29,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bkreact-icon[data-hover-color] { transition: none; }
+  .bkreact-icon[data-hover-color] {
+    transition: none;
+  }
 }

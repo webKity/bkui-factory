@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export const useIdleReady = (timeout = 500) => {
   const [ready, setReady] = useState(false);
@@ -12,6 +12,7 @@ export const useIdleReady = (timeout = 500) => {
     }
 
     const timer = window.setTimeout(() => setReady(true), timeout);
+
     return () => window.clearTimeout(timer);
   }, [timeout]);
 

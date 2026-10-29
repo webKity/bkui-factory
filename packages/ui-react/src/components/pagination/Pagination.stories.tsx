@@ -6,6 +6,7 @@ import type { PaginationProps } from './type';
 
 function ControlledPagination(args: PaginationProps) {
   const [current, setCurrent] = useState(args.current);
+
   useEffect(() => setCurrent(args.current), [args.current]);
 
   return (
@@ -73,15 +74,17 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component: '受控分页组件，复用 Button 的主题、尺寸、禁用与焦点样式。'
-          + '保留首尾页，大页数使用省略号；支持原生链接导航。'
-          + '有效链接点击时先通知 onChange，再执行浏览器导航；空地址回退为按钮。',
+        component:
+          '受控分页组件，复用 Button 的主题、尺寸、禁用与焦点样式。' +
+          '保留首尾页，大页数使用省略号；支持原生链接导航。' +
+          '有效链接点击时先通知 onChange，再执行浏览器导航；空地址回退为按钮。',
       },
     },
   },
 } satisfies Meta<typeof Pagination>;
 
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {
@@ -96,7 +99,10 @@ export const Controlled: Story = {
     await expect(canvas.getByRole('button', { name: '上一页' })).toBeDisabled();
     await userEvent.click(canvas.getByRole('button', { name: '下一页' }));
     await expect(args.onChange).toHaveBeenCalledWith(2);
-    await expect(canvas.getByRole('button', { name: '第 2 页' })).toHaveAttribute('aria-current', 'page');
+    await expect(canvas.getByRole('button', { name: '第 2 页' })).toHaveAttribute(
+      'aria-current',
+      'page',
+    );
   },
 };
 
@@ -141,9 +147,10 @@ export const ItemAttributes: Story = {
     current: 2,
     totalPage: 5,
     itemProps: { 3: { disabled: true, title: '第 3 页暂不可用' } },
-    getItemProps: (page, type) => type === 'page' && page === 4
-      ? { title: '调用 preventDefault 取消本次切页', onClick: event => event.preventDefault() }
-      : undefined,
+    getItemProps: (page, type) =>
+      type === 'page' && page === 4
+        ? { title: '调用 preventDefault 取消本次切页', onClick: event => event.preventDefault() }
+        : undefined,
   },
 };
 

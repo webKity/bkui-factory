@@ -62,18 +62,24 @@ const meta = {
     objectFit: { control: 'inline-radio', options: ['contain', 'cover'] },
     labels: {
       control: false,
-      description: '按需覆盖文案；默认英文，格式函数接收从 1 开始的位置。emptyDescription 和 closeLabel 优先于 labels 中对应值。',
+      description:
+        '按需覆盖文案；默认英文，格式函数接收从 1 开始的位置。emptyDescription 和 closeLabel 优先于 labels 中对应值。',
     },
     onIndexChange: { control: false },
     emptyDescription: { control: 'text' },
   },
   parameters: { docs: { description: { component: description } } },
   decorators: [
-    Story => <div style={{ maxWidth: 800, width: '100%' }}><Story /></div>,
+    Story => (
+      <div style={{ maxWidth: 800, width: '100%' }}>
+        <Story />
+      </div>
+    ),
   ],
 } satisfies Meta<typeof Gallery>;
 
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = { name: '可调试用例' };
@@ -146,7 +152,9 @@ export const Imperative: Story = {
   render: () => (
     <Button
       intent="brand"
-      onClick={() => showGallery({ items, defaultIndex: 1, loop: true, closeLabel: 'Close preview' })}
+      onClick={() =>
+        showGallery({ items, defaultIndex: 1, loop: true, closeLabel: 'Close preview' })
+      }
     >
       打开画廊
     </Button>
@@ -201,5 +209,9 @@ export const Localized: Story = {
 export const RightToLeft: Story = {
   name: 'RTL 布局与键盘导航',
   args: { defaultIndex: 1, loop: true },
-  render: args => <div dir="rtl"><Gallery {...args} /></div>,
+  render: args => (
+    <div dir="rtl">
+      <Gallery {...args} />
+    </div>
+  ),
 };
