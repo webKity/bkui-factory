@@ -1,0 +1,31 @@
+/* 设计值由 source/components/tooltip.tokens.json 生成；此处维护 Web 布局与状态。 */
+.bkreact-tooltip-positioner {
+  /* 与 Notification 1000、Toast 1100 的现有组件层级约定对齐。 */
+  --tooltip-z-index: 1200;
+}
+
+.bkreact-tooltip {
+  --tooltip-box-sizing: border-box;
+  --tooltip-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --tooltip-overflow-wrap: anywhere;
+  /* size.ts 经 mapResponsiveSize 校验后始终注入 base；不隐藏缺少 base 的错误。 */
+  --tooltip-padding-x: var(--tooltip-base-padding-x);
+  --tooltip-padding-y: var(--tooltip-base-padding-y);
+  --tooltip-font-size: var(--tooltip-base-font-size);
+  --tooltip-line-height: var(--tooltip-base-line-height);
+  --tooltip-available-width: var(--available-width, 100vw);
+  --tooltip-transform-origin: var(--transform-origin, center);
+  --tooltip-open-opacity: 1;
+  --tooltip-closed-opacity: 0;
+  --tooltip-open-transform: scale(1);
+  --tooltip-closed-transform: scale(0.96);
+  --tooltip-motion-easing: ease;
+  --tooltip-transition: opacity calc(var(--tooltip-motion-duration-ms) * 1ms) var(--tooltip-motion-easing), transform calc(var(--tooltip-motion-duration-ms) * 1ms) var(--tooltip-motion-easing);
+  --tooltip-reduced-motion-transition: none;
+  --tooltip-arrow-display: block;
+  --tooltip-arrow-position: absolute;
+  --tooltip-arrow-top-transform: rotate(0deg);
+  --tooltip-arrow-bottom-transform: rotate(180deg);
+  --tooltip-arrow-left-transform: rotate(-90deg);
+  --tooltip-arrow-right-transform: rotate(90deg);
+}

@@ -1,0 +1,113 @@
+/* 样式仅消费 Tooltip 局部 tokens。 */
+.bkreact-tooltip-positioner {
+  z-index: var(--tooltip-z-index);
+}
+
+/* 保留鼠标命中：Base UI 默认允许悬停提示层；disableHoverablePopup 由 Positioner 的 inert 处理。 */
+.bkreact-tooltip {
+  box-sizing: var(--tooltip-box-sizing);
+  max-width: min(var(--tooltip-max-width), var(--tooltip-available-width));
+  padding: var(--tooltip-padding-y) var(--tooltip-padding-x);
+  color: var(--tooltip-color);
+  background-color: var(--tooltip-bg);
+  border-radius: var(--tooltip-border-radius);
+  font-family: var(--tooltip-font-family);
+  font-size: var(--tooltip-font-size);
+  line-height: var(--tooltip-line-height);
+  overflow-wrap: var(--tooltip-overflow-wrap);
+  transform-origin: var(--tooltip-transform-origin);
+  opacity: var(--tooltip-open-opacity);
+  transform: var(--tooltip-open-transform);
+  transition: var(--tooltip-transition);
+}
+
+.bkreact-tooltip[data-starting-style],
+.bkreact-tooltip[data-ending-style] {
+  opacity: var(--tooltip-closed-opacity);
+  transform: var(--tooltip-closed-transform);
+}
+
+.bkreact-tooltip[data-instant] {
+  transition: var(--tooltip-reduced-motion-transition);
+}
+
+.bkreact-tooltip__arrow,
+.bkreact-tooltip__arrow svg {
+  display: var(--tooltip-arrow-display);
+  width: var(--tooltip-arrow-width);
+  height: var(--tooltip-arrow-height);
+  fill: var(--tooltip-bg);
+}
+
+.bkreact-tooltip__arrow {
+  position: var(--tooltip-arrow-position);
+}
+.bkreact-tooltip__arrow[data-side='top'] {
+  bottom: var(--tooltip-arrow-offset);
+  transform: var(--tooltip-arrow-top-transform);
+}
+.bkreact-tooltip__arrow[data-side='bottom'] {
+  top: var(--tooltip-arrow-offset);
+  transform: var(--tooltip-arrow-bottom-transform);
+}
+.bkreact-tooltip__arrow[data-side='left'] {
+  right: var(--tooltip-arrow-side-offset);
+  transform: var(--tooltip-arrow-left-transform);
+}
+.bkreact-tooltip__arrow[data-side='right'] {
+  left: var(--tooltip-arrow-side-offset);
+  transform: var(--tooltip-arrow-right-transform);
+}
+.bkreact-tooltip__arrow[data-uncentered] {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-tooltip { transition: var(--tooltip-reduced-motion-transition); }
+}
+
+/* 断点与 types/base.ts 的 IBKBreakpoints 及 Button 一致；媒体查询不能消费 CSS var()。 */
+@media (min-width: 40rem) {
+  .bkreact-tooltip[data-size-sm] {
+    --tooltip-padding-x: var(--tooltip-sm-padding-x);
+    --tooltip-padding-y: var(--tooltip-sm-padding-y);
+    --tooltip-font-size: var(--tooltip-sm-font-size);
+    --tooltip-line-height: var(--tooltip-sm-line-height);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-tooltip[data-size-md] {
+    --tooltip-padding-x: var(--tooltip-md-padding-x);
+    --tooltip-padding-y: var(--tooltip-md-padding-y);
+    --tooltip-font-size: var(--tooltip-md-font-size);
+    --tooltip-line-height: var(--tooltip-md-line-height);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-tooltip[data-size-lg] {
+    --tooltip-padding-x: var(--tooltip-lg-padding-x);
+    --tooltip-padding-y: var(--tooltip-lg-padding-y);
+    --tooltip-font-size: var(--tooltip-lg-font-size);
+    --tooltip-line-height: var(--tooltip-lg-line-height);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-tooltip[data-size-xl] {
+    --tooltip-padding-x: var(--tooltip-xl-padding-x);
+    --tooltip-padding-y: var(--tooltip-xl-padding-y);
+    --tooltip-font-size: var(--tooltip-xl-font-size);
+    --tooltip-line-height: var(--tooltip-xl-line-height);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-tooltip[data-size-2xl] {
+    --tooltip-padding-x: var(--tooltip-2xl-padding-x);
+    --tooltip-padding-y: var(--tooltip-2xl-padding-y);
+    --tooltip-font-size: var(--tooltip-2xl-font-size);
+    --tooltip-line-height: var(--tooltip-2xl-line-height);
+  }
+}

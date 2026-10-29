@@ -20,3 +20,5 @@ export type * from './components/notification/type';
 export type { ToastConfigType, ToastProps } from './components/toast/type';
 
 export type { RatingProps, RatingTrigger } from './components/rating/type';
+
+export type { TooltipProps, TooltipProviderProps, TooltipSide, TooltipAlign } from './components/tooltip/type';

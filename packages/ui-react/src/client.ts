@@ -35,3 +35,6 @@ export type { ToastConfigType, ToastProps } from './components/toast/type';
 
 export { Rating } from './components/rating';
 export type { RatingProps, RatingTrigger } from './components/rating/type';
+
+export { Tooltip, TooltipProvider } from './components/tooltip';
+export type { TooltipProps, TooltipProviderProps, TooltipSide, TooltipAlign } from './components/tooltip/type';
