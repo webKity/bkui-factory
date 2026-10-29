@@ -1,0 +1,75 @@
+{
+  "base": {
+    "bg": {
+      "$type": "color",
+      "$value": "{semantic.color-surface-elevated}"
+    },
+    "color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-primary}"
+    },
+    "description-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-secondary}"
+    },
+    "overlay-bg": {
+      "$type": "color",
+      "$value": "{semantic.color-overlay-mask}"
+    },
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 384,
+        "unit": "px"
+      }
+    },
+    "padding": {
+      "$type": "dimension",
+      "$value": {
+        "value": 24,
+        "unit": "px"
+      }
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "close-offset": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "motion-distance": {
+      "$type": "dimension",
+      "$value": {
+        "value": 40,
+        "unit": "px"
+      }
+    },
+    "font-size": {
+      "$type": "dimension",
+      "$value": "{semantic.text-base-size}"
+    },
+    "line-height": {
+      "$type": "dimension",
+      "$value": "{semantic.text-base-line-height}"
+    },
+    "description-font-size": {
+      "$type": "dimension",
+      "$value": "{semantic.text-sm-size}"
+    },
+    "description-line-height": {
+      "$type": "dimension",
+      "$value": "{semantic.text-sm-line-height}"
+    },
+    "motion-duration-ms": {
+      "$type": "number",
+      "$value": 320
+    }
+  }
+}

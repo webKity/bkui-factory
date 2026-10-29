@@ -1,0 +1,60 @@
+/* 设计值来自 source/components/sidebar.tokens.json；此层负责 Web 布局和状态映射。
+ * 在 Provider.style 或自定义 className 中覆盖 --sidebar-* 即可定制。
+ */
+.bkreact-sidebar {
+  --sidebar-display: flex;
+  --sidebar-direction: column;
+  --sidebar-full-size: 100%;
+  --sidebar-viewport-height: 100svh;
+  --sidebar-min-size: 0;
+  --sidebar-none: 0;
+  --sidebar-flex: 1;
+  --sidebar-no-shrink: 0;
+  --sidebar-box-sizing: border-box;
+  --sidebar-align: center;
+  --sidebar-text-align: start;
+  --sidebar-transparent: transparent;
+  --sidebar-border-style: solid;
+  --sidebar-cursor: pointer;
+  --sidebar-disabled-pointer-events: none;
+  --sidebar-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --sidebar-transition-duration: calc(var(--sidebar-transition-duration-ms) * 1ms);
+  --sidebar-transition-easing: ease-out;
+  --sidebar-transition: width var(--sidebar-transition-duration) var(--sidebar-transition-easing),
+    height var(--sidebar-transition-duration) var(--sidebar-transition-easing),
+    padding var(--sidebar-transition-duration) var(--sidebar-transition-easing),
+    margin var(--sidebar-transition-duration) var(--sidebar-transition-easing),
+    opacity var(--sidebar-transition-duration) var(--sidebar-transition-easing),
+    border-radius var(--sidebar-transition-duration) var(--sidebar-transition-easing),
+    border-color var(--sidebar-transition-duration) var(--sidebar-transition-easing),
+    background-color var(--sidebar-transition-duration) var(--sidebar-transition-easing),
+    color var(--sidebar-transition-duration) var(--sidebar-transition-easing),
+    left var(--sidebar-transition-duration) var(--sidebar-transition-easing),
+    right var(--sidebar-transition-duration) var(--sidebar-transition-easing);
+  --sidebar-reduced-motion-transition: none;
+  --sidebar-floating-shadow: 0 1px 3px var(--sidebar-border-color);
+  --sidebar-inset-shadow: var(--sidebar-floating-shadow);
+  --sidebar-menu-color: var(--sidebar-color);
+  --sidebar-menu-bg: var(--sidebar-transparent);
+  --sidebar-menu-border-color: var(--sidebar-transparent);
+  --sidebar-menu-hover-color: var(--sidebar-color);
+  --sidebar-menu-hover-bg: var(--sidebar-hover-bg);
+  --sidebar-menu-active-color: var(--sidebar-color);
+  --sidebar-menu-active-bg: var(--sidebar-active-bg);
+  --sidebar-menu-active-font-weight: var(--sidebar-font-weight);
+  --sidebar-input-bg: var(--sidebar-active-bg);
+  --sidebar-input-height: var(--sidebar-group-label-height);
+  --sidebar-input-shadow: none;
+  --sidebar-visible-opacity: 1;
+  --sidebar-hidden-opacity: 0;
+  --sidebar-list-style: none;
+  --sidebar-text-decoration: none;
+  --sidebar-outline: none;
+  --sidebar-sub-translate: 1px;
+  --sidebar-rail-left-cursor: w-resize;
+  --sidebar-rail-right-cursor: e-resize;
+}
+
+@media (min-width: 96rem) {
+  .bkreact-sidebar { --sidebar-width: var(--sidebar-width-wide); }
+}

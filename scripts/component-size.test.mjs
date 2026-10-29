@@ -25,7 +25,17 @@ test('两端拒绝缺少 base、无效档位和未知断点，不生成默认尺
   }
   assert.throws(() => getButtonSizeStyle('missing'), /未知尺寸/);
   assert.throws(() => getLoadingSizeStyle('missing'), /未知尺寸/);
-  for (const size of [-1, NaN, Infinity]) assert.throws(() => getLoadingSizeStyle(size), /非负有限数值/);
+});
+
+test('Web Loading 的非法数字尺寸回退到 base，合法像素尺寸保留原值', () => {
+  for (const size of [-1, NaN, Infinity, -Infinity]) {
+    assert.deepEqual(getLoadingSizeStyle(size), {
+      '--loading-base-size': 'var(--loading-size-base)',
+    });
+  }
+  for (const size of [0, 0.5, 24]) {
+    assert.deepEqual(getLoadingSizeStyle(size), { '--loading-base-size': `${size}px` });
+  }
 });
 
 test('响应式只为声明过的断点生成引用，Web 与 RN 切换行为一致', () => {

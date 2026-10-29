@@ -51,3 +51,8 @@ export type { IBKLayout } from './components/types/base';
 
 export { Checkbox } from './components/checkbox';
 export type { CheckboxProps, ICheckboxProps, CheckboxChangeEventDetails } from './components/checkbox/type';
+
+export * from './components/sidebar';
+
+export { Popup, PopupTrigger, PopupClose, PopupContent, PopupHeader, PopupFooter, PopupTitle, PopupDescription, usePopup, popup } from './components/popup';
+export type * from './components/popup/type';

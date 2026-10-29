@@ -1,0 +1,55 @@
+.bkreact-popup__overlay,
+.bkreact-popup__content {
+  position: fixed;
+  z-index: var(--popup-z-index);
+  opacity: var(--popup-open-opacity);
+  transition: var(--popup-transition);
+}
+.bkreact-popup__overlay { inset: 0; background: var(--popup-overlay-bg); }
+.bkreact-popup__content {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: 100vw;
+  max-height: 100dvh;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--popup-bg);
+  color: var(--popup-color);
+  font-family: var(--popup-font-family);
+  font-size: var(--popup-font-size);
+  line-height: var(--popup-line-height);
+  outline: none;
+  transform: var(--popup-open-transform);
+}
+.bkreact-popup__content[data-side='right'] { inset: 0 0 0 auto; width: var(--popup-width); }
+.bkreact-popup__content[data-side='left'] { inset: 0 auto 0 0; width: var(--popup-width); }
+.bkreact-popup__content[data-side='top'] { inset: 0 0 auto; }
+.bkreact-popup__content[data-side='bottom'] { inset: auto 0 0; }
+.bkreact-popup__content:is([data-starting-style], [data-ending-style]) {
+  opacity: var(--popup-closed-opacity);
+  transform: var(--popup-closed-transform);
+}
+.bkreact-popup__overlay:is([data-starting-style], [data-ending-style]) { opacity: var(--popup-closed-opacity); }
+.bkreact-popup__header,
+.bkreact-popup__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--popup-gap);
+  padding: var(--popup-padding);
+  flex-shrink: 0;
+}
+.bkreact-popup__header { padding-inline-end: calc(var(--popup-padding) * 3); }
+.bkreact-popup__footer { margin-top: auto; padding-bottom: max(var(--popup-padding), env(safe-area-inset-bottom)); }
+.bkreact-popup__title { margin: 0; font: inherit; font-weight: var(--popup-title-weight); }
+.bkreact-popup__description {
+  margin: 0;
+  color: var(--popup-description-color);
+  font-size: var(--popup-description-font-size);
+  line-height: var(--popup-description-line-height);
+}
+.bkreact-popup__close { position: absolute; top: var(--popup-close-offset); inset-inline-end: var(--popup-close-offset); }
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-popup__overlay, .bkreact-popup__content { transition: none; }
+}

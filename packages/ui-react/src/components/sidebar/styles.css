@@ -1,0 +1,186 @@
+.bkreact-sidebar, .bkreact-sidebar * { box-sizing: var(--sidebar-box-sizing); }
+/* 只消费 --sidebar-*；交互由 TSX 的 data-* 状态驱动。 */
+.bkreact-sidebar[data-slot='sidebar-wrapper'] {
+  display: var(--sidebar-display);
+  width: var(--sidebar-full-size);
+  min-height: var(--sidebar-viewport-height);
+  font-family: var(--sidebar-font-family);
+  color: var(--sidebar-color);
+}
+.bkreact-sidebar:has(> [data-variant='inset']) { background: var(--sidebar-bg); }
+.bkreact-sidebar__root { display: none; color: var(--sidebar-color); }
+.bkreact-sidebar__gap { position: relative; width: var(--sidebar-width); transition: var(--sidebar-transition); }
+.bkreact-sidebar__container {
+  position: fixed; inset-block: 0; z-index: var(--sidebar-z-index);
+  display: var(--sidebar-display); height: var(--sidebar-viewport-height);
+  width: var(--sidebar-width); background: var(--sidebar-bg); transition: var(--sidebar-transition);
+}
+.bkreact-sidebar__container[data-side='left'] { left: 0; }
+.bkreact-sidebar__container[data-side='right'] { right: 0; }
+.bkreact-sidebar__root[data-collapsible='offcanvas'] > .bkreact-sidebar__gap { width: var(--sidebar-min-size); }
+.bkreact-sidebar__root[data-collapsible='offcanvas'][data-side='left'] > .bkreact-sidebar__container { left: calc(-1 * var(--sidebar-width)); }
+.bkreact-sidebar__root[data-collapsible='offcanvas'][data-side='right'] > .bkreact-sidebar__container { right: calc(-1 * var(--sidebar-width)); }
+.bkreact-sidebar__root[data-collapsible='icon'] > :is(.bkreact-sidebar__gap, .bkreact-sidebar__container) { width: var(--sidebar-width-icon); }
+.bkreact-sidebar__inner, .bkreact-sidebar__static, .bkreact-sidebar__mobile {
+  display: var(--sidebar-display); flex-direction: var(--sidebar-direction);
+  height: var(--sidebar-full-size); width: var(--sidebar-full-size);
+  background: var(--sidebar-bg); color: var(--sidebar-color);
+}
+.bkreact-sidebar__inner { overflow: hidden; }
+.bkreact-sidebar__static { width: var(--sidebar-width); }
+/* Popup 的定位及动画保留在 Popup；通过局部桥接映射 Sidebar 外观。
+ * 双类选择器使映射不受两个组件 CSS 导入先后影响。
+ */
+.bkreact-popup.bkreact-sidebar__mobile {
+  --sidebar-width: var(--sidebar-width-mobile);
+  --popup-width: var(--sidebar-width-mobile);
+  --popup-bg: var(--sidebar-bg);
+  --popup-color: var(--sidebar-color);
+  --popup-font-family: var(--sidebar-font-family);
+  --popup-font-size: var(--sidebar-font-size);
+  --popup-line-height: var(--sidebar-line-height);
+  --popup-motion-duration-ms: var(--sidebar-transition-duration-ms);
+  padding: var(--sidebar-none);
+}
+.bkreact-sidebar__root[data-variant='floating'] .bkreact-sidebar__inner {
+  border-radius: var(--sidebar-floating-radius); box-shadow: var(--sidebar-floating-shadow);
+  border: var(--sidebar-separator-width) var(--sidebar-border-style) var(--sidebar-border-color);
+}
+.bkreact-sidebar__inset {
+  position: relative; display: var(--sidebar-display); flex-direction: var(--sidebar-direction);
+  flex: var(--sidebar-flex); min-width: var(--sidebar-min-size); width: var(--sidebar-full-size);
+  background: var(--sidebar-bg); transition: var(--sidebar-transition);
+}
+.bkreact-sidebar__header, .bkreact-sidebar__footer, .bkreact-sidebar__content, .bkreact-sidebar__group,
+.bkreact-sidebar__menu, .bkreact-sidebar__menu-sub {
+  display: var(--sidebar-display); flex-direction: var(--sidebar-direction); min-width: var(--sidebar-min-size);
+}
+.bkreact-sidebar__header { gap: var(--sidebar-section-gap); margin-inline: var(--sidebar-header-margin-x); padding-block: var(--sidebar-header-padding-y); }
+.bkreact-sidebar__footer { gap: var(--sidebar-section-gap); margin-inline: var(--sidebar-footer-margin-x); padding-block: var(--sidebar-footer-padding-y); }
+.bkreact-sidebar__content {
+  min-height: var(--sidebar-min-size); flex: var(--sidebar-flex); gap: var(--sidebar-content-gap);
+  overflow-x: hidden; overflow-y: auto; scrollbar-width: none;
+}
+.bkreact-sidebar__content::-webkit-scrollbar { display: none; }
+.bkreact-sidebar__group { position: relative; width: var(--sidebar-full-size); padding: var(--sidebar-group-padding-y) var(--sidebar-group-padding-x); border-top: 0 var(--sidebar-border-style) var(--sidebar-border-color); }
+.bkreact-sidebar__group-content { min-width: var(--sidebar-min-size); width: var(--sidebar-full-size); font-size: var(--sidebar-font-size); }
+.bkreact-sidebar__group-label {
+  display: var(--sidebar-display); align-items: var(--sidebar-align); flex-shrink: var(--sidebar-no-shrink);
+  overflow: hidden; white-space: nowrap; height: var(--sidebar-group-label-height); padding-inline: var(--sidebar-menu-padding-x);
+  border-radius: var(--sidebar-menu-radius); font-size: var(--sidebar-label-font-size); line-height: var(--sidebar-label-line-height);
+  font-weight: var(--sidebar-label-font-weight); color: var(--sidebar-muted-color); transition: var(--sidebar-transition);
+}
+.bkreact-sidebar__separator { height: var(--sidebar-separator-width); margin-inline: var(--sidebar-section-gap); background: var(--sidebar-border-color); transition: var(--sidebar-transition); }
+.bkreact-sidebar__menu, .bkreact-sidebar__menu-sub { width: var(--sidebar-full-size); padding: var(--sidebar-none); margin: var(--sidebar-none); list-style: var(--sidebar-list-style); gap: var(--sidebar-content-gap); }
+.bkreact-sidebar__menu-item, .bkreact-sidebar__menu-sub-item { position: relative; min-width: var(--sidebar-min-size); }
+.bkreact-sidebar__menu-button, .bkreact-sidebar__menu-sub-button {
+  box-sizing: var(--sidebar-box-sizing); display: var(--sidebar-display); align-items: var(--sidebar-align);
+  width: var(--sidebar-full-size); min-width: var(--sidebar-min-size); gap: var(--sidebar-menu-gap);
+  overflow: hidden; padding: var(--sidebar-menu-padding-y) var(--sidebar-menu-padding-x);
+  text-align: var(--sidebar-text-align); font-family: var(--sidebar-font-family);
+  font-size: var(--sidebar-font-size); line-height: var(--sidebar-line-height); font-weight: var(--sidebar-font-weight);
+  color: var(--sidebar-menu-color); background: var(--sidebar-menu-bg);
+  border: var(--sidebar-separator-width) var(--sidebar-border-style) var(--sidebar-menu-border-color);
+  border-radius: var(--sidebar-menu-radius); cursor: var(--sidebar-cursor);
+  text-decoration: var(--sidebar-text-decoration); transition: var(--sidebar-transition);
+}
+.bkreact-sidebar__menu-button > span:last-child:not(.bkreact-icon) {
+  display: block; flex-shrink: var(--sidebar-no-shrink); overflow: hidden;
+  width: calc(var(--sidebar-width) - var(--sidebar-menu-text-offset)); transition: var(--sidebar-transition);
+}
+.bkreact-sidebar__menu-button svg, .bkreact-sidebar__menu-sub-button svg,
+.bkreact-sidebar__group-label > svg, .bkreact-sidebar__group-action > svg, .bkreact-sidebar__menu-action > svg {
+  width: var(--sidebar-menu-icon-size); height: var(--sidebar-menu-icon-size); flex-shrink: var(--sidebar-no-shrink);
+}
+:is(.bkreact-sidebar__menu-button, .bkreact-sidebar__menu-sub-button, .bkreact-sidebar__group-label, .bkreact-sidebar__group-action, .bkreact-sidebar__menu-action):focus-visible {
+  outline: var(--sidebar-focus-ring-width) var(--sidebar-border-style) var(--sidebar-focus-ring-color); outline-offset: var(--sidebar-focus-ring-offset);
+}
+:is(.bkreact-sidebar__menu-button, .bkreact-sidebar__menu-sub-button):is(:active, [data-active]) {
+  background: var(--sidebar-menu-active-bg); color: var(--sidebar-menu-active-color); font-weight: var(--sidebar-menu-active-font-weight);
+}
+:is(.bkreact-sidebar__menu-button, .bkreact-sidebar__menu-sub-button, .bkreact-sidebar__group-action, .bkreact-sidebar__menu-action):is(:disabled, [aria-disabled='true']) {
+  pointer-events: var(--sidebar-disabled-pointer-events); opacity: var(--sidebar-disabled-opacity);
+}
+.bkreact-sidebar__menu-item:has(.bkreact-sidebar__menu-action) > .bkreact-sidebar__menu-button { padding-inline-end: var(--sidebar-group-label-height); }
+.bkreact-sidebar__menu-sub { transform: translateX(var(--sidebar-sub-translate)); }
+.bkreact-sidebar__menu-sub-button { height: var(--sidebar-sub-height); padding-inline: var(--sidebar-sub-padding-x); transform: translateX(calc(-1 * var(--sidebar-sub-translate))); }
+.bkreact-sidebar__menu-sub-button > span:last-child { min-width: var(--sidebar-min-size); }
+.bkreact-sidebar__menu-sub-button > svg { color: var(--sidebar-muted-color); }
+.bkreact-sidebar__group-action, .bkreact-sidebar__menu-action {
+  position: absolute; display: var(--sidebar-display); align-items: var(--sidebar-align); justify-content: var(--sidebar-align);
+  width: var(--sidebar-action-size); height: var(--sidebar-action-size); padding: var(--sidebar-none);
+  top: var(--sidebar-action-inset); right: var(--sidebar-action-inset); border: var(--sidebar-min-size);
+  border-radius: var(--sidebar-menu-radius); background: var(--sidebar-transparent); color: var(--sidebar-color);
+  cursor: var(--sidebar-cursor); transition: var(--sidebar-transition);
+}
+.bkreact-sidebar__group-action { top: var(--sidebar-group-action-top); right: var(--sidebar-group-action-right); }
+.bkreact-sidebar__group-action::after, .bkreact-sidebar__menu-action::after { content: ''; position: absolute; inset: calc(-1 * var(--sidebar-action-hit-inset)); }
+.bkreact-sidebar__root[data-collapsible='icon'] :is(.bkreact-sidebar__group-action, .bkreact-sidebar__menu-action, .bkreact-sidebar__menu-sub) { display: none; }
+.bkreact-sidebar__root[data-collapsible='icon'] :is(.bkreact-sidebar__header, .bkreact-sidebar__footer) {
+  margin-inline: var(--sidebar-none);
+  align-items: var(--sidebar-align);
+}
+.bkreact-sidebar__root[data-collapsible='icon'] .bkreact-sidebar__group {
+  padding-inline: var(--sidebar-none);
+  border-top-width: var(--sidebar-group-collapsed-border-width);
+}
+.bkreact-sidebar__root[data-collapsible='icon'] .bkreact-sidebar__menu {
+  align-items: var(--sidebar-align);
+}
+.bkreact-sidebar__root[data-collapsible='icon'] .bkreact-sidebar__menu-item {
+  width: var(--sidebar-menu-collapsed-size);
+  max-width: var(--sidebar-full-size);
+}
+.bkreact-sidebar__root[data-collapsible='icon'] .bkreact-sidebar__group-label { height: var(--sidebar-min-size); padding-inline: var(--sidebar-none); opacity: var(--sidebar-hidden-opacity); }
+.bkreact-sidebar__root[data-collapsible='icon'] .bkreact-sidebar__menu-button {
+  width: var(--sidebar-full-size);
+  height: var(--sidebar-menu-collapsed-size);
+  padding: var(--sidebar-menu-collapsed-padding);
+  justify-content: var(--sidebar-align);
+  gap: var(--sidebar-none);
+}
+.bkreact-sidebar__root[data-collapsible='icon'] .bkreact-sidebar__menu-button > span:last-child:not(.bkreact-icon) {
+  width: var(--sidebar-min-size); min-width: var(--sidebar-min-size); opacity: var(--sidebar-hidden-opacity);
+}
+.bkreact-sidebar__root[data-collapsible='icon'] .bkreact-sidebar__separator { margin-inline: var(--sidebar-none); width: var(--sidebar-min-size); opacity: var(--sidebar-hidden-opacity); }
+.bkreact-sidebar__input {
+  --input-bg: var(--sidebar-input-bg);
+  width: var(--sidebar-full-size); min-width: var(--sidebar-min-size); min-height: var(--sidebar-input-height); box-shadow: var(--sidebar-input-shadow);
+}
+.bkreact-sidebar__trigger {
+  --button-height: var(--sidebar-trigger-size); --button-width: var(--sidebar-trigger-size);
+  --button-padding-x: var(--sidebar-none); --button-border-radius: var(--sidebar-trigger-radius);
+  --button-hover-bg: var(--sidebar-hover-bg);
+}
+.bkreact-sidebar__rail { display: none; position: absolute; inset-block: 0; width: var(--sidebar-rail-width); z-index: var(--sidebar-z-index); padding: var(--sidebar-none); border: var(--sidebar-min-size); background: var(--sidebar-transparent); transform: translateX(-50%); }
+.bkreact-sidebar__root[data-side='left'] .bkreact-sidebar__rail { right: calc(-1 * var(--sidebar-rail-width)); cursor: var(--sidebar-rail-left-cursor); }
+.bkreact-sidebar__root[data-side='right'] .bkreact-sidebar__rail { left: 0; cursor: var(--sidebar-rail-right-cursor); }
+.bkreact-sidebar__root[data-side='left'][data-state='collapsed'] .bkreact-sidebar__rail { cursor: var(--sidebar-rail-right-cursor); }
+.bkreact-sidebar__root[data-side='right'][data-state='collapsed'] .bkreact-sidebar__rail { cursor: var(--sidebar-rail-left-cursor); }
+.bkreact-sidebar__rail::after { content: ''; position: absolute; inset-block: 0; left: 50%; width: var(--sidebar-rail-line-width); }
+.bkreact-sidebar__rail:dir(rtl) { transform: translateX(50%); }
+.bkreact-sidebar__root[data-collapsible='offcanvas'] .bkreact-sidebar__rail { transform: none; }
+.bkreact-sidebar__sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+@media (hover: hover) {
+  :is(.bkreact-sidebar__menu-button, .bkreact-sidebar__menu-sub-button, .bkreact-sidebar__group-action, .bkreact-sidebar__menu-action):where(:not(:disabled, [aria-disabled='true'])):hover { background: var(--sidebar-menu-hover-bg); color: var(--sidebar-menu-hover-color); }
+  .bkreact-sidebar__rail:hover::after { background: var(--sidebar-border-color); }
+}
+@media (min-width: 40rem) { .bkreact-sidebar__rail { display: var(--sidebar-display); } }
+@media (min-width: 48rem) {
+  .bkreact-sidebar__root { display: block; }
+  .bkreact-sidebar__root[data-variant='inset'] ~ .bkreact-sidebar__inset { margin: var(--sidebar-inset-margin); margin-left: 0; border-radius: var(--sidebar-inset-radius); box-shadow: var(--sidebar-inset-shadow); }
+  .bkreact-sidebar__root[data-variant='inset'][data-state='collapsed'] ~ .bkreact-sidebar__inset { margin-left: var(--sidebar-inset-margin); }
+  .bkreact-sidebar__group-action::after, .bkreact-sidebar__menu-action::after { display: none; }
+  .bkreact-sidebar__menu-action[data-show-on-hover] { opacity: var(--sidebar-hidden-opacity); }
+  .bkreact-sidebar__menu-item:is(:hover, :focus-within) .bkreact-sidebar__menu-action[data-show-on-hover], .bkreact-sidebar__menu-action[data-show-on-hover][aria-expanded='true'] { opacity: var(--sidebar-visible-opacity); }
+}
+.bkreact-sidebar[data-transition='disabled'] *, .bkreact-sidebar[data-transition='disabled'] *::after { transition: var(--sidebar-reduced-motion-transition) !important; }
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-sidebar *, .bkreact-sidebar *::after { transition: var(--sidebar-reduced-motion-transition) !important; }
+}
+
+/* 不支持 :has() 的环境仍保留 inset 背景和 action 的可用空间。 */
+@supports not selector(:has(*)) {
+  .bkreact-sidebar[data-slot='sidebar-wrapper'] { background: var(--sidebar-bg); }
+  .bkreact-sidebar__menu-button { padding-inline-end: var(--sidebar-group-label-height); }
+}

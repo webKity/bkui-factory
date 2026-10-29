@@ -28,3 +28,7 @@ export type { TooltipProps, TooltipProviderProps, TooltipSide, TooltipAlign } fr
 export type * from './components/timeline/type';
 
 export type { CheckboxProps, ICheckboxProps, CheckboxChangeEventDetails } from './components/checkbox/type';
+
+export type * from './components/sidebar/types';
+
+export type * from './components/popup/type';

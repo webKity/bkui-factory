@@ -1,0 +1,15 @@
+.bkreact-popup {
+  --popup-z-index: 900;
+  --popup-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --popup-title-weight: 500;
+  --popup-transition: opacity calc(var(--popup-motion-duration-ms) * 1ms) ease-in-out,
+    transform calc(var(--popup-motion-duration-ms) * 1ms) ease-in-out;
+  --popup-closed-opacity: 0;
+  --popup-open-opacity: 1;
+  --popup-open-transform: translate(0, 0);
+  --popup-closed-transform: translateX(var(--popup-motion-distance));
+}
+/* data-side 由 PopupContent 只设置在内容节点上；遮罩仅使用透明度过渡。 */
+.bkreact-popup[data-side='left'] { --popup-closed-transform: translateX(calc(-1 * var(--popup-motion-distance))); }
+.bkreact-popup[data-side='top'] { --popup-closed-transform: translateY(calc(-1 * var(--popup-motion-distance))); }
+.bkreact-popup[data-side='bottom'] { --popup-closed-transform: translateY(var(--popup-motion-distance)); }

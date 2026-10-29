@@ -1,0 +1,329 @@
+{
+  "base": {
+    "bg": {
+      "$type": "color",
+      "$value": "{semantic.color-surface-container}"
+    },
+    "color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-primary}"
+    },
+    "hover-bg": {
+      "$type": "color",
+      "$value": "{semantic.color-fill-hover}"
+    },
+    "active-bg": {
+      "$type": "color",
+      "$value": "{semantic.color-fill-active}"
+    },
+    "muted-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-disabled}"
+    },
+    "border-color": {
+      "$type": "color",
+      "$value": "{semantic.color-border-default}"
+    },
+    "focus-ring-color": {
+      "$type": "color",
+      "$value": "{semantic.color-border-focus}"
+    },
+    "width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 224,
+        "unit": "px"
+      }
+    },
+    "width-wide": {
+      "$type": "dimension",
+      "$value": {
+        "value": 280,
+        "unit": "px"
+      }
+    },
+    "width-mobile": {
+      "$type": "dimension",
+      "$value": {
+        "value": 288,
+        "unit": "px"
+      }
+    },
+    "width-icon": {
+      "$type": "dimension",
+      "$value": {
+        "value": 53,
+        "unit": "px"
+      }
+    },
+    "menu-text-offset": {
+      "$type": "dimension",
+      "$value": {
+        "value": 64,
+        "unit": "px"
+      }
+    },
+    "menu-gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "menu-padding-x": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "menu-padding-y": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "menu-icon-size": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "menu-collapsed-size": {
+      "$type": "dimension",
+      "$value": {
+        "value": 36,
+        "unit": "px"
+      }
+    },
+    "menu-collapsed-padding": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "group-padding-x": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "group-padding-y": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "group-label-height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 32,
+        "unit": "px"
+      }
+    },
+    "header-margin-x": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "header-padding-y": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "footer-margin-x": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "footer-padding-y": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "section-gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "content-gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "action-size": {
+      "$type": "dimension",
+      "$value": {
+        "value": 20,
+        "unit": "px"
+      }
+    },
+    "action-inset": {
+      "$type": "dimension",
+      "$value": {
+        "value": 10,
+        "unit": "px"
+      }
+    },
+    "group-action-top": {
+      "$type": "dimension",
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      }
+    },
+    "group-action-right": {
+      "$type": "dimension",
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "action-hit-inset": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "sub-height": {
+      "$type": "dimension",
+      "$value": {
+        "value": 40,
+        "unit": "px"
+      }
+    },
+    "sub-padding-x": {
+      "$type": "dimension",
+      "$value": {
+        "value": 36,
+        "unit": "px"
+      }
+    },
+    "trigger-size": {
+      "$type": "dimension",
+      "$value": {
+        "value": 36,
+        "unit": "px"
+      }
+    },
+    "rail-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "rail-line-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    },
+    "separator-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1,
+        "unit": "px"
+      }
+    },
+    "group-collapsed-border-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0.8,
+        "unit": "px"
+      }
+    },
+    "focus-ring-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    },
+    "focus-ring-offset": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    },
+    "inset-margin": {
+      "$type": "dimension",
+      "$value": {
+        "value": 8,
+        "unit": "px"
+      }
+    },
+    "menu-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-sm}"
+    },
+    "floating-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-2xl}"
+    },
+    "inset-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-2xl}"
+    },
+    "trigger-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-md}"
+    },
+    "font-size": {
+      "$type": "dimension",
+      "$value": "{semantic.text-sm-size}"
+    },
+    "line-height": {
+      "$type": "dimension",
+      "$value": "{semantic.text-sm-line-height}"
+    },
+    "label-font-size": {
+      "$type": "dimension",
+      "$value": "{semantic.text-2xs-size}"
+    },
+    "label-line-height": {
+      "$type": "dimension",
+      "$value": "{semantic.text-2xs-line-height}"
+    },
+    "font-weight": {
+      "$type": "number",
+      "$value": 400
+    },
+    "label-font-weight": {
+      "$type": "number",
+      "$value": 500
+    },
+    "disabled-opacity": {
+      "$type": "number",
+      "$value": 0.5
+    },
+    "transition-duration-ms": {
+      "$type": "number",
+      "$value": 200
+    },
+    "z-index": {
+      "$type": "number",
+      "$value": 99
+    }
+  }
+}
