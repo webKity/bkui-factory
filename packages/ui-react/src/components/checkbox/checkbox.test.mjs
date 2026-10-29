@@ -215,19 +215,20 @@ test('只读已选字段继续提交值，半选字段仅在 checked 时提交',
   }
 });
 
-test('className/style 状态回调同步收到 checked 和 disabled', async () => {
+test('className 状态回调保留，外部 style 回调被忽略', async () => {
   let classState, styleState;
   const props = {
     className: state => { classState = state; return state.checked ? 'selected' : 'unselected'; },
     style: state => { styleState = state; return { opacity: state.disabled ? 0.5 : state.checked ? 0.8 : 1 }; },
   };
   const verify = (checkbox, checked, disabled) => {
-    for (const state of [classState, styleState]) {
+    for (const state of [classState]) {
       assert.equal(state.checked, checked);
       assert.equal(state.disabled, disabled);
     }
     assert(checkbox.classList.contains(checked ? 'selected' : 'unselected'));
-    assert.equal(checkbox.style.opacity, String(disabled ? 0.5 : checked ? 0.8 : 1));
+    assert.equal(styleState, undefined);
+    assert.equal(checkbox.style.opacity, '');
     assert.equal(checkbox.style.getPropertyValue('--checkbox-base-box-size'), 'var(--checkbox-size-base-box-size)');
   };
   const checkbox = await render(props);

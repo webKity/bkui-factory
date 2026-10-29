@@ -9,7 +9,7 @@ import type { NotificationContextValue, NotificationInput, NotificationItem, Not
 const NotificationContext = createContext<NotificationContextValue | null>(null);
 const positions: NotificationPosition[] = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
 
-export function NotificationProvider({ children }: NotificationProviderProps) {
+export function NotificationProvider({ children, className }: NotificationProviderProps) {
   const [items, setItems] = useState<NotificationItem[]>([]);
   const [mounted, setMounted] = useState(false);
   const prefix = useId();
@@ -53,7 +53,7 @@ export function NotificationProvider({ children }: NotificationProviderProps) {
   return <NotificationContext.Provider value={value}>
     {children}
     {mounted && createPortal(positions.map(position => (
-      <div key={position} className="bkreact-notification-viewport" data-position={position}>
+      <div key={position} className={['bkreact-notification-viewport', className].filter(Boolean).join(' ')} data-position={position}>
         {/* 顶部新通知在最上方，底部新通知在最下方，始终靠近指定角落。 */}
         {(position.startsWith('top') ? [...grouped[position]].reverse() : grouped[position]).map(item => (
           <Notification key={item.id} item={item} onClose={closeNotification} onRemoved={removeNotification} />

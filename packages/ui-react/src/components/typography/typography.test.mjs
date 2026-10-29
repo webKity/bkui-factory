@@ -25,7 +25,7 @@ before(async () => {
 });
 after(async () => { if (temporary) await rm(temporary, { recursive: true, force: true }); });
 
-test('原生属性、ref、自定义 token、preLine 和稀疏响应式尺寸', async () => {
+test('原生属性、ref、忽略外部 style、preLine 和稀疏响应式尺寸', async () => {
   const dom = new JSDOM('<div id="root"></div>');
   const globals = ['window', 'document', 'navigator'];
   const previous = globals.map(name => Object.getOwnPropertyDescriptor(globalThis, name));
@@ -46,7 +46,7 @@ test('原生属性、ref、自定义 token、preLine 和稀疏响应式尺寸', 
     assert.equal(element.id, 'article');
     assert.equal(element.className, 'bk-typography custom');
     assert.equal(element.getAttribute('aria-label'), '说明');
-    assert.equal(element.style.getPropertyValue('--typography-color'), 'red');
+    assert.equal(element.style.getPropertyValue('--typography-color'), '');
     assert.equal(element.style.getPropertyValue('--typography-base-font-size'), 'var(--typography-size-xs-font-size)');
     assert.equal(element.style.getPropertyValue('--typography-lg-line-height'), 'var(--typography-size-xl-line-height)');
     assert.equal(element.style.getPropertyValue('--typography-base-heading-scale'), 'var(--typography-size-xs-heading-scale)');

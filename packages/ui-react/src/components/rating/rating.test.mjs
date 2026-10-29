@@ -168,14 +168,14 @@ test('整体与选项名称支持国际化，显式 aria-label 优先，只读�
   assert.equal(rating.getAttribute('aria-label'), 'Review score');
 });
 
-test('边界归一化与响应式尺寸、样式覆盖', async () => {
+test('边界归一化与响应式尺寸，忽略外部样式', async () => {
   const rating = await render({ count: 0, value: Infinity, size: { base: 'sm', lg: 'xl' }, style: { '--rating-gap': '10px' } });
   assert.equal(radios().length, 5);
   assert.equal(filled(), 0);
   assert(rating.hasAttribute('data-size-lg'));
   assert(!rating.hasAttribute('data-size-md'));
   assert.equal(rating.style.getPropertyValue('--rating-base-icon-size'), 'var(--rating-size-sm-icon-size)');
-  assert.equal(rating.style.getPropertyValue('--rating-gap'), '10px');
+  assert.equal(rating.style.getPropertyValue('--rating-gap'), '');
   await render({ count: 3, value: 99 });
   assert.equal(selected(), '3');
   await render({ count: 3, value: -1 });

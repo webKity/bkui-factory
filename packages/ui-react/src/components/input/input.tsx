@@ -1,5 +1,7 @@
 'use client';
 
+import { withoutStyle } from '../utils/styles';
+
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { BKIcon } from '../icon';
 import { useInputAppearance, isInputInvalid } from './context';
@@ -9,7 +11,7 @@ import type { InputProps, StepDirection } from './type';
 import './index.css';
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({
-  intent, size, variant, disabled, readOnly, className, style, type = 'text', clearable = false,
+  intent, size, variant, disabled, readOnly, className, type = 'text', clearable = false,
   decimal, showNumberStepper = false, stepValidator, value, defaultValue,
   onChange, onBlur, onKeyDown, onCompositionStart, onCompositionEnd, onPaste, onDrop,
   ...props
@@ -85,7 +87,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({
   return <div
     {...sizeProps}
     className={['bkreact-input', className].filter(Boolean).join(' ')}
-    style={{ ...sizeProps.style, ...style }}
+    style={sizeProps.style}
     data-slot={appearance.grouped ? "input-group-control" : "input-root"}
     data-intent={appearance.intent}
     data-variant={appearance.variant}
@@ -96,7 +98,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input({
   >
     <input
       data-slot="input"
-      {...props}
+      {...withoutStyle(props)}
       ref={inputRef}
       disabled={appearance.disabled}
       readOnly={appearance.readOnly}

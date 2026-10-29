@@ -374,7 +374,7 @@ import './packages/ui-react/src/styles.css';
 - [size.ts](packages/ui-react/src/components/loading/size.ts)：生成尺寸 token 引用。
 - [logo.tsx](packages/ui-react/src/components/loading/logo.tsx)：保留原始 Logo 路径，使用独立裁剪 ID，支持同页多个实例和服务端水合。
 
-通过业务 class 或 `style` 覆盖 `--loading-size`、`--loading-color`、`--loading-duration` 可以定制样式。Web / RN Button 都使用自身的局部 spinner，与 Loading 独立；尺寸、线宽、颜色和动画时长均从 Button tokens 获取。
+通过 `className` 对应的业务 CSS 覆盖 `--loading-size`、`--loading-color`、`--loading-duration` 可以定制样式，Web 组件不开放 `style`。Web / RN Button 都使用自身的局部 spinner，与 Loading 独立；尺寸、线宽、颜色和动画时长均从 Button tokens 获取。
 
 验证命令：`npm run loading:test`、`npm run button:test`、`npm run typecheck`。Storybook 的“组件/Loading”包含三种动画、全部尺寸、响应式、颜色/速度、组件 tokens 及 Button 集成示例。
 

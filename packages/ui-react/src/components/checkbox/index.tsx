@@ -1,5 +1,7 @@
 'use client';
 
+import { withoutStyle } from '../utils/styles';
+
 import { Checkbox as CheckboxPrimitive } from '@base-ui/react/checkbox';
 import { Children, forwardRef } from 'react';
 import type { ComponentRef } from 'react';
@@ -11,7 +13,7 @@ import './index.css';
 export type { CheckboxProps, ICheckboxProps, CheckboxChangeEventDetails } from './type';
 
 export const Checkbox = forwardRef<ComponentRef<typeof CheckboxPrimitive.Root>, CheckboxProps>(function Checkbox(
-  { children, size = 'base', className, style, onChange, ...restProps },
+  { children, size = 'base', className, onChange, ...restProps },
   ref,
 ) {
   // JS 调用方可继续使用 primitive 回调；公开 API 以 onChange 为准。
@@ -25,11 +27,11 @@ export const Checkbox = forwardRef<ComponentRef<typeof CheckboxPrimitive.Root>, 
 
   return (
     <CheckboxPrimitive.Root
-      {...rootProps}
+      {...withoutStyle(rootProps)}
       {...getResponsiveSizeAttributes(size)}
       ref={ref}
       className={state => ['bkreact-checkbox', typeof className === 'function' ? className(state) : className].filter(Boolean).join(' ')}
-      style={state => ({ ...sizeStyle, ...(typeof style === 'function' ? style(state) : style) })}
+      style={sizeStyle}
       data-size={typeof size === 'string' ? size : 'responsive'}
       onCheckedChange={onChange ?? onCheckedChange}
     >

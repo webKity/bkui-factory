@@ -11,6 +11,7 @@ const props: TimelineProps = { layout: 'vertical', size: { base: 'sm', md: 'lg' 
 <Timeline size="medium" />;
 // @ts-expect-error 不支持未知布局。
 <Timeline layout="diagonal" />;
+// @ts-expect-error 样式统一通过 className 设置。
 <Timeline style={{ color: 'red', '--timeline-line-color': 'red' }} />;
 <TimelineTitle headingLevel={2} />;
 // @ts-expect-error 标题层级只支持 1–6。
@@ -22,6 +23,6 @@ const props: TimelineProps = { layout: 'vertical', size: { base: 'sm', md: 'lg' 
 // @ts-expect-error 对齐仅支持 start / center。
 <Timeline align="end" />;
 
-<TimelineItem status="current"><TimelineMarker style={{ gap: 8 }}><span>●</span><span>审核中</span></TimelineMarker></TimelineItem>;
+<TimelineItem status="current"><TimelineMarker className="custom-marker"><span>●</span><span>审核中</span></TimelineMarker></TimelineItem>;
 // @ts-expect-error 不支持未知步骤状态。
 <TimelineItem status="active" />;

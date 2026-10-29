@@ -11,7 +11,7 @@ void sameRef;
   const value: boolean = checked;
   if (!value) details.cancel();
 }} />;
-<Checkbox size={{ base: 'sm', lg: 'xl' }} className={state => state.disabled ? 'disabled' : 'enabled'} style={state => ({ opacity: state.checked ? 1 : 0.8 })} />;
+<Checkbox size={{ base: 'sm', lg: 'xl' }} className={state => state.disabled ? 'disabled' : 'enabled'} />;
 // @ts-expect-error 公开回调 API 使用 onChange；onCheckedChange 仅作 JS 运行时兼容。
 <Checkbox onCheckedChange={() => {}} />;
 // @ts-expect-error 响应式尺寸必须提供 base。

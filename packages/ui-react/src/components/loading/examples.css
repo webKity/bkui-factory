@@ -1,0 +1,1 @@
+.example-loading-custom { --loading-color: var(--color-feedback-success); --loading-size: 36px; --loading-duration: 1800ms; }

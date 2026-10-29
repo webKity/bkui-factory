@@ -42,7 +42,7 @@ async function render(props) {
   return [...container.querySelectorAll('.bkreact-input-otp__input')];
 }
 
-test('默认六位、ref、响应式尺寸及 Base UI className/style 回调', async () => {
+test('默认六位、ref、响应式尺寸及 Base UI className 回调，忽略外部 style', async () => {
   const ref = createRef();
   const inputs = await render({ ref, id: 'code', defaultValue: '12', size: { base: 'sm', md: 'lg' }, className: state => state.complete ? 'complete' : 'incomplete', style: state => ({ marginTop: state.complete ? 0 : 7, '--input-otp-gap': '13px' }) });
   assert.equal(inputs.length, 6);
@@ -57,8 +57,8 @@ test('默认六位、ref、响应式尺寸及 Base UI className/style 回调', a
     assert.equal(ref.current.style.getPropertyValue(`--input-otp-base-${dimension}`), `var(--input-otp-size-sm-${dimension})`);
     assert.equal(ref.current.style.getPropertyValue(`--input-otp-md-${dimension}`), `var(--input-otp-size-lg-${dimension})`);
   }
-  assert.equal(ref.current.style.getPropertyValue('--input-otp-gap'), '13px');
-  assert.equal(ref.current.style.marginTop, '7px');
+  assert.equal(ref.current.style.getPropertyValue('--input-otp-gap'), '');
+  assert.equal(ref.current.style.marginTop, '');
 });
 
 test('非法 length 回退为六位并发出开发期诊断，后续仍能更新为合法位数', async t => {

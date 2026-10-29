@@ -1,5 +1,6 @@
 'use client';
 
+import { withoutStyle } from '../utils/styles';
 import { Tooltip as BaseTooltip } from '@base-ui/react/tooltip';
 import { createContext, forwardRef, useContext } from 'react';
 import { getResponsiveSizeAttributes } from '../utils/size';
@@ -31,7 +32,7 @@ export const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(function Tooltip
     <BaseTooltip.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}
       onOpenChangeComplete={onOpenChangeComplete} disabled={disabled}
       disableHoverablePopup={disableHoverablePopup}>
-      <BaseTooltip.Trigger {...triggerProps} render={children} delay={delay ?? providerDelay} closeDelay={closeDelay} />
+      <BaseTooltip.Trigger {...withoutStyle(triggerProps ?? {})} render={children} delay={delay ?? providerDelay} closeDelay={closeDelay} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner className="bkreact-tooltip-positioner" side={side} align={align}
           sideOffset={sideOffset ?? (arrow ? 8 : 4)} alignOffset={alignOffset} collisionPadding={collisionPadding}>

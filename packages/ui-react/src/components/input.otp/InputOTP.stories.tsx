@@ -1,8 +1,8 @@
+import './examples.css';
 import { InputOTP } from './index';
 import { componentSizes } from '../utils/size';
 import { useId } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { CSSProperties } from 'react';
 
 const meta = {
   title: '组件/InputOTP',
@@ -59,5 +59,5 @@ export const Sizes: Story = {
 };
 export const ComponentTokens: Story = {
   name: '组件样式变量覆盖',
-  args: { style: { '--input-otp-border-radius': '12px', '--input-otp-gap': '12px' } as CSSProperties },
+  args: { className: 'example-input-otp-custom' },
 };

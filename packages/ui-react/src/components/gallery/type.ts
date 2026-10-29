@@ -52,6 +52,8 @@ export interface GalleryProps {
 }
 
 export interface ShowGalleryOptions {
+  /** Applied to the Gallery inside the dialog. */
+  className?: string;
   items: GalleryItem[];
   labels?: GalleryLabels;
   defaultIndex?: number;

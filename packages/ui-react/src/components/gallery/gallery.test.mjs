@@ -191,8 +191,8 @@ test('disabled motion and missing animationend both clean up the outgoing snapsh
 test('imperative close is idempotent, removes root, restores focus and calls onClose once', async () => {
   const trigger = document.createElement('button'); document.body.append(trigger); trigger.focus();
   let calls = 0, close;
-  await act(async () => { close = showGallery({ items, defaultIndex: 1, closeLabel: 'Close preview', onClose: () => calls++ }); closers.push(close); });
-  assert(document.querySelector('[role="dialog"] video'));
+  await act(async () => { close = showGallery({ items, defaultIndex: 1, className: 'custom-dialog-gallery', closeLabel: 'Close preview', onClose: () => calls++ }); closers.push(close); });
+  assert(document.querySelector('[role="dialog"] .custom-dialog-gallery video'));
   assert(document.querySelector('[aria-label="Close preview"].bk-button .bkreact-icon svg'));
   await act(async () => { close(); close(); });
   assert.equal(document.querySelector('.bkreact-gallery-root'), null);

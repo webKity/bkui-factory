@@ -1,5 +1,7 @@
 'use client';
 
+import { withoutStyle } from '../utils/styles';
+
 import { OTPField } from '@base-ui/react/otp-field';
 import { forwardRef } from 'react';
 import { getResponsiveSizeAttributes } from '../utils/size';
@@ -9,7 +11,7 @@ import './index.css';
 import type { OTPFieldRootProps } from '@base-ui/react/otp-field';
 import type { IBKResponsiveSize, IBKSize } from '../types/base';
 
-export type InputOTPProps = Omit<OTPFieldRootProps, 'length'> & {
+export type InputOTPProps = Omit<OTPFieldRootProps, 'length' | 'style'> & {
   /** 输入内容的显示方式；传入后会覆盖 Base UI 的 mask 属性。未传时遵循 mask。 */
   type?: 'text' | 'password';
   size?: IBKSize | IBKResponsiveSize;
@@ -18,7 +20,7 @@ export type InputOTPProps = Omit<OTPFieldRootProps, 'length'> & {
 };
 
 export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(function InputOTP({
-  type, size = 'base', length = 6, mask, children, className, style, ...rest
+  type, size = 'base', length = 6, mask, children, className, ...rest
 }, ref) {
   const safeLength = Number.isSafeInteger(length) && length > 0 ? length : 6;
   if (process.env.NODE_ENV !== 'production' && safeLength !== length) {
@@ -28,14 +30,14 @@ export const InputOTP = forwardRef<HTMLDivElement, InputOTPProps>(function Input
 
   return (
     <OTPField.Root
-      {...rest}
+      {...withoutStyle(rest)}
       {...getResponsiveSizeAttributes(size)}
       ref={ref}
       length={safeLength}
       mask={type === undefined ? mask : type === 'password'}
       data-size={typeof size === 'string' ? size : 'responsive'}
       className={state => ['bkreact-input-otp', typeof className === 'function' ? className(state) : className].filter(Boolean).join(' ')}
-      style={state => ({ ...sizeStyle, ...(typeof style === 'function' ? style(state) : style) })}
+      style={sizeStyle}
     >
       {children ?? Array.from({ length: safeLength }, (_, index) => (
         <OTPField.Input key={index} className="bkreact-input-otp__input" />

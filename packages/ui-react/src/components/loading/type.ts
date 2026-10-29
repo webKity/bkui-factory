@@ -6,7 +6,7 @@ export type LoadingSize = IBKSize | IBKResponsiveSize | number;
 
 export interface LoadingProps extends Omit<
   HTMLAttributes<HTMLSpanElement>,
-  'children' | 'dangerouslySetInnerHTML'
+  'style' | 'children' | 'dangerouslySetInnerHTML'
 > {
   type?: LoadingType;
   /** Numeric sizes must be finite and non-negative; invalid numbers fall back to base. */
@@ -14,7 +14,6 @@ export interface LoadingProps extends Omit<
   fillColor?: string;
   /**
    * One animation cycle in milliseconds; defaults depend on the loading type.
-   * style's --loading-duration takes precedence.
    */
   speed?: number;
 }

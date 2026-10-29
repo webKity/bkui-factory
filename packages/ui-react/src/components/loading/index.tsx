@@ -1,5 +1,7 @@
 'use client';
 
+import { withoutStyle } from '../utils/styles';
+
 import { forwardRef } from 'react';
 import { BKIcon } from '../icon';
 import { joinClassNames } from '../utils';
@@ -19,7 +21,6 @@ export const Loading = forwardRef<HTMLSpanElement, LoadingProps>(function Loadin
     fillColor,
     speed,
     className,
-    style,
     'aria-label': nativeLabel,
     'aria-labelledby': labelledBy,
     'aria-hidden': ariaHidden,
@@ -36,12 +37,11 @@ export const Loading = forwardRef<HTMLSpanElement, LoadingProps>(function Loadin
     ...(speed !== undefined && Number.isFinite(speed) && speed > 0
       ? { '--loading-duration': `${speed}ms` }
       : {}),
-    ...style,
   } as CSSProperties;
 
   return (
     <span
-      {...rest}
+      {...withoutStyle(rest)}
       {...getResponsiveSizeAttributes(size)}
       ref={ref}
       className={joinClassNames('bkreact-loading', className)}

@@ -205,8 +205,8 @@ test('自定义标记支持圆点加文字、样式和尺寸，步进状态随�
   assert.equal(list.querySelectorAll('[aria-current="step"]').length, 1);
   const marker = list.querySelector('.custom-point');
   assert(marker.hasAttribute('data-custom-content'));
-  assert.equal(marker.style.gap, '8px');
-  assert.equal(marker.style.borderRadius, '4px');
+  assert.equal(marker.style.gap, '');
+  assert.equal(marker.style.borderRadius, '');
   assert.equal(marker.children.length, 2);
   assert.equal(marker.closest('[aria-hidden="true"]'), null);
   list = await render(steps(3));
@@ -251,12 +251,12 @@ test('纯 CSS 六项默认尺寸完整，所有主题的 line-height 均为有�
   }
 });
 
-test('Root 合并外部样式并保留其他尺寸变量，标题可指定原生层级', async () => {
+test('Root 忽略外部样式并保留内部尺寸变量，标题可指定原生层级', async () => {
   const list = await render(h(api.Timeline, {
     size: 'xs', style: { '--timeline-line-color': 'red', '--timeline-base-marker-size': '10px' },
   }, h(api.TimelineItem, null, h(api.TimelineContent, null, h(api.TimelineTitle, { headingLevel: 2 }, '进展')))));
-  assert.equal(list.style.getPropertyValue('--timeline-line-color'), 'red');
-  assert.equal(list.style.getPropertyValue('--timeline-base-marker-size'), '10px');
+  assert.equal(list.style.getPropertyValue('--timeline-line-color'), '');
+  assert.equal(list.style.getPropertyValue('--timeline-base-marker-size'), 'var(--timeline-size-xs-marker-size)');
   assert.equal(list.style.getPropertyValue('--timeline-base-font-size'), 'var(--timeline-size-xs-font-size)');
   assert.equal(list.querySelector('.bkreact-timeline__title').tagName, 'H2');
   assert.equal(list.querySelector('h2').hasAttribute('headingLevel'), false);

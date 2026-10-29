@@ -26,7 +26,7 @@ type CountdownStyle = CSSProperties & {
 };
 
 /** 受控通知卡片；列表、位置和自动关闭由 NotificationProvider 管理。 */
-export function Notification({ item, onClose, onRemoved }: NotificationProps) {
+export function Notification({ item, onClose, onRemoved, className }: NotificationProps) {
   const element = useRef<HTMLDivElement>(null);
   const removedRef = useRef(onRemoved);
   useEffect(() => { removedRef.current = onRemoved; }, [onRemoved]);
@@ -56,7 +56,7 @@ export function Notification({ item, onClose, onRemoved }: NotificationProps) {
     };
   }, [item.id, item.duration, item.expiresAt]);
   return (
-    <div ref={element} className="bkreact-notification" role={intent === 'danger' ? 'alert' : 'status'}
+    <div ref={element} className={['bkreact-notification', item.className, className].filter(Boolean).join(' ')} role={intent === 'danger' ? 'alert' : 'status'}
       aria-atomic="true" data-intent={intent} data-state={item.closing ? 'closing' : 'open'}>
       {progressStyle && <div className="bkreact-notification__progress" aria-hidden="true">
         <span className="bkreact-notification__progress-fill" style={progressStyle} />

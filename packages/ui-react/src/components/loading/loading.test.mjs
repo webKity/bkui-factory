@@ -75,8 +75,8 @@ test('七档尺寸、像素尺寸、颜色和速度写入 Loading tokens，非�
   for (const speed of [0, -1, Infinity, NaN]) assert.equal(parse({ speed }).style.getPropertyValue('--loading-duration'), '');
   assert.equal(parse({ size: 0 }).style.getPropertyValue('--loading-base-size'), '0px');
   const overridden = parse({ size: 32, speed: 1200, style: { '--loading-size': 'var(--button-icon-size)', '--loading-duration': '2s' } });
-  assert.equal(overridden.style.getPropertyValue('--loading-size'), 'var(--button-icon-size)');
-  assert.equal(overridden.style.getPropertyValue('--loading-duration'), '2s');
+  assert.equal(overridden.style.getPropertyValue('--loading-size'), '');
+  assert.equal(overridden.style.getPropertyValue('--loading-duration'), '1200ms');
 });
 
 test('Loading 的所有样式仅消费局部 tokens，语义 token 在两套主题均存在，动画支持减少动态效果', async () => {

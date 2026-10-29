@@ -25,5 +25,5 @@ export interface TooltipProps extends Pick<BaseTooltip.Root.Props,
   /** 离开触发器后的关闭延时（毫秒）；未设置时沿用 Provider，默认 0。 */
   closeDelay?: number;
   /** 触发元素的属性与事件；children 的原有属性由 Base UI 合并。 */
-  triggerProps?: Omit<BaseTooltip.Trigger.Props, 'render' | 'children' | 'handle' | 'payload' | 'delay' | 'closeDelay' | 'disabled'>;
+  triggerProps?: Omit<BaseTooltip.Trigger.Props, 'style' | 'render' | 'children' | 'handle' | 'payload' | 'delay' | 'closeDelay' | 'disabled'>;
 }

@@ -1,5 +1,7 @@
 'use client';
 
+import { withoutStyle } from '../utils/styles';
+
 import { Children, createContext, forwardRef, useContext } from 'react';
 import { joinClassNames } from '../utils';
 import { getResponsiveSizeAttributes } from '../utils/size';
@@ -25,13 +27,13 @@ const TimelineContext = createContext<TimelineContextValue>({
 });
 
 export const TimelineRoot = forwardRef<HTMLOListElement, TimelineRootProps>(function TimelineRoot(
-  { layout = 'vertical', align = 'start', size = 'base', style, className, children, ...props },
+  { layout = 'vertical', align = 'start', size = 'base', className, children, ...props },
   ref,
 ) {
   return (
     <TimelineContext.Provider value={{ layout, align }}>
       <ol
-        {...props}
+        {...withoutStyle(props)}
         {...getResponsiveSizeAttributes(size)}
         ref={ref}
         role={props.role ?? 'list'}
@@ -39,7 +41,7 @@ export const TimelineRoot = forwardRef<HTMLOListElement, TimelineRootProps>(func
         data-layout={layout}
         data-align={align}
         data-size={typeof size === 'string' ? size : 'responsive'}
-        style={{ ...getTimelineSizeStyle(size), ...style }}
+        style={getTimelineSizeStyle(size)}
       >
         {children}
       </ol>
@@ -61,7 +63,7 @@ export const TimelineItem = forwardRef<HTMLLIElement, TimelineItemProps>(functio
 
   return (
     <li
-      {...props}
+      {...withoutStyle(props)}
       ref={ref}
       className={joinClassNames('bkreact-timeline__item', className)}
       data-layout={context.layout}
@@ -89,7 +91,7 @@ export const TimelineMarker = forwardRef<HTMLSpanElement, TimelineMarkerProps>(f
     <span className="bkreact-timeline__marker-group">
       <span className="bkreact-timeline__marker-body">
         <span
-          {...props}
+          {...withoutStyle(props)}
           ref={ref}
           className={joinClassNames('bkreact-timeline__marker', className)}
           data-custom={icon != null || hasCustomContent || undefined}
@@ -111,7 +113,7 @@ export const TimelineContent = forwardRef<HTMLDivElement, TimelineContentProps>(
   ref,
 ) {
   return (
-    <div {...props} ref={ref} className={joinClassNames('bkreact-timeline__content', className)} />
+    <div {...withoutStyle(props)} ref={ref} className={joinClassNames('bkreact-timeline__content', className)} />
   );
 });
 
@@ -120,7 +122,7 @@ export const TimelineTime = forwardRef<HTMLTimeElement, TimelineTimeProps>(funct
   ref,
 ) {
   return (
-    <time {...props} ref={ref} className={joinClassNames('bkreact-timeline__time', className)} />
+    <time {...withoutStyle(props)} ref={ref} className={joinClassNames('bkreact-timeline__time', className)} />
   );
 });
 
@@ -131,7 +133,7 @@ export const TimelineTitle = forwardRef<HTMLHeadingElement, TimelineTitleProps>(
   const Heading = `h${headingLevel}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
   return (
-    <Heading {...props} ref={ref} className={joinClassNames('bkreact-timeline__title', className)} />
+    <Heading {...withoutStyle(props)} ref={ref} className={joinClassNames('bkreact-timeline__title', className)} />
   );
 });
 
@@ -140,7 +142,7 @@ export const TimelineDescription = forwardRef<HTMLParagraphElement, TimelineDesc
   ref,
 ) {
   return (
-    <p {...props} ref={ref} className={joinClassNames('bkreact-timeline__description', className)} />
+    <p {...withoutStyle(props)} ref={ref} className={joinClassNames('bkreact-timeline__description', className)} />
   );
 });
 
@@ -149,7 +151,7 @@ export const TimelineAction = forwardRef<HTMLDivElement, TimelineActionProps>(fu
   ref,
 ) {
   return (
-    <div {...props} ref={ref} className={joinClassNames('bkreact-timeline__action', className)} />
+    <div {...withoutStyle(props)} ref={ref} className={joinClassNames('bkreact-timeline__action', className)} />
   );
 });
 

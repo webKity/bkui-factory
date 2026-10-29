@@ -5,7 +5,7 @@ export type RatingTrigger = 'hover' | 'click';
 
 export interface RatingProps extends Omit<
   HTMLAttributes<HTMLDivElement>,
-  'children' | 'dangerouslySetInnerHTML' | 'onChange' | 'defaultValue'
+  'style' | 'children' | 'dangerouslySetInnerHTML' | 'onChange' | 'defaultValue'
 > {
   /** 受控评分；整数，0 表示尚未评分。 */
   value?: number;

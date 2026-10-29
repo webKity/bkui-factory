@@ -4,7 +4,7 @@ import type { IBKSize, IBKResponsiveSize } from '../types/base';
 
 export type CheckboxChangeEventDetails = CheckboxPrimitive.Root.ChangeEventDetails;
 
-export type CheckboxProps = Omit<CheckboxPrimitive.Root.Props, 'size' | 'onCheckedChange' | 'children'> & {
+export type CheckboxProps = Omit<CheckboxPrimitive.Root.Props, 'style' | 'size' | 'onCheckedChange' | 'children'> & {
   /** 可选文案；独立图标须通过 aria-label 或 aria-labelledby 提供名称。 */
   children?: ReactNode;
   /** 半选仅控制展示和可访问状态，表单是否提交仍由 checked 决定。 */

@@ -5,7 +5,7 @@ export type PaginationAs = 'button' | 'a';
 export type PaginationItemType = 'page' | 'previous' | 'next';
 export type PaginationItemProps = Omit<
   HTMLAttributes<HTMLElement>,
-  'children' | 'dangerouslySetInnerHTML' | 'onChange' | 'aria-current'
+  'style' | 'children' | 'dangerouslySetInnerHTML' | 'onChange' | 'aria-current'
 > & Pick<
   AnchorHTMLAttributes<HTMLAnchorElement>,
   'href' | 'target' | 'rel' | 'download' | 'hrefLang' | 'referrerPolicy'

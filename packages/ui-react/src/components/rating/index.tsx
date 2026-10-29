@@ -1,5 +1,7 @@
 'use client';
 
+import { withoutStyle } from '../utils/styles';
+
 import { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { BKIcon } from '../icon';
 import { getResponsiveSizeAttributes } from '../utils/size';
@@ -31,7 +33,6 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
     getAriaLabel,
     getItemAriaLabel = defaultItemAriaLabel,
     className,
-    style,
     onMouseLeave,
     'aria-label': ariaLabel,
     ...restProps
@@ -72,7 +73,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
 
   return (
     <div
-      {...restProps}
+      {...withoutStyle(restProps)}
       {...getResponsiveSizeAttributes(size)}
       ref={ref}
       role={readOnly ? 'meter' : 'radiogroup'}
@@ -83,7 +84,7 @@ export const Rating = forwardRef<HTMLDivElement, RatingProps>(function Rating(
       aria-valuetext={readOnly ? `${selectedValue} / ${total}` : undefined}
       aria-disabled={(!readOnly && disabled) || undefined}
       className={['bk-rating', className].filter(Boolean).join(' ')}
-      style={{ ...getRatingSizeStyle(size), ...style }}
+      style={getRatingSizeStyle(size)}
       data-size={typeof size === 'string' ? size : 'responsive'}
       data-disabled={disabled || undefined}
       data-readonly={readOnly || undefined}

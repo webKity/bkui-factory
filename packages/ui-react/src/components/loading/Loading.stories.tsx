@@ -1,9 +1,9 @@
+import './examples.css';
 
 import { expect } from 'storybook/test';
 import { Loading } from './index';
 import { Button } from '../button';
 
-import type { CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { IBKSize } from '../types/base';
 
@@ -37,7 +37,7 @@ const meta = {
     speed: {
       control: { type: 'number', min: 1, step: 100 },
       description: '一次动画循环的毫秒数。normal 默认 800ms，rect 1000ms，logo 3320ms。'
-        + 'style 中的 --loading-duration 优先于 speed。',
+        + '可通过 className 在 CSS 中覆盖组件样式变量。',
     },
     'aria-label': {
       control: 'text',
@@ -97,9 +97,7 @@ export const ColorsAndSpeed: Story = {
 };
 export const ComponentTokens: Story = {
   name: '组件样式变量覆盖',
-  render: () => <div className="example-row">{types.map(type => <Loading key={type} type={type} style={{
-    '--loading-color': 'var(--color-feedback-success)', '--loading-size': '36px', '--loading-duration': '1800ms',
-  } as CSSProperties} />)}</div>,
+  render: () => <div className="example-row">{types.map(type => <Loading key={type} type={type} className="example-loading-custom" />)}</div>,
 };
 export const InButton: Story = {
   name: '按钮内加载',

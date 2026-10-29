@@ -1,5 +1,5 @@
+import './examples.css';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { CSSProperties } from 'react';
 import { Typography } from './index';
 import { componentSizes } from '../utils/size';
 import { Button } from '../button';
@@ -144,7 +144,7 @@ export const PreLine: Story = {
 };
 export const CustomTokens: Story = {
   name: '覆盖组件 Token',
-  args: { style: { '--typography-max-width': '100%', '--typography-headings': 'var(--color-text-brand)' } as CSSProperties },
+  args: { className: 'example-typography-custom' },
 };
 export const EmbeddedContent: Story = {
   name: '排除嵌入组件',

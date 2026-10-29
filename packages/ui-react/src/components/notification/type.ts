@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { IBKVariants, IBKIntent } from '../types/base';
 
 export type NotificationInput = {
+  className?: string;
   message?: string;
   title?: string;
   children?: ReactNode;
@@ -36,6 +37,7 @@ export type NotificationItem = NotificationInput & {
 };
 
 export type NotificationProps = {
+  className?: string;
   item: NotificationItem;
   /** 用户请求关闭，开始退场。 */
   onClose: (id: string) => void;
@@ -44,5 +46,7 @@ export type NotificationProps = {
 };
 
 export type NotificationProviderProps = {
+  /** Applied to each notification viewport. */
+  className?: string;
   children?: ReactNode;
 };

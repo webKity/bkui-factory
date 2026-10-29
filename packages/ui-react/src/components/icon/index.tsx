@@ -1,5 +1,7 @@
 'use client';
 
+import { withoutStyle } from '../utils/styles';
+
 import { useIdleReady } from '../hooks/useIdleReady';
 import { joinClassNames } from '../utils';
 import { getIconDefinition } from './registry';
@@ -12,7 +14,7 @@ export type { IconName, IconVariant, FigmaIconName } from './registry';
 
 export { iconNames, figmaIconNames } from './registry';
 
-export interface IconProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color' | 'children' | 'dangerouslySetInnerHTML'> {
+export interface IconProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color' | 'style' | 'children' | 'dangerouslySetInnerHTML'> {
   name: IconName;
   /** Explicitly selects a Figma variant, including names shared with legacy icons. */
   variant?: IconVariant;
@@ -27,7 +29,7 @@ export const BKIcon = (props: IconProps) => {
   const mounted = useIdleReady();
   const {
     name, variant, size = 16, className, color, hoverColor, ariaLabel,
-    renderInServer = false, style, onClick, 'aria-label': nativeLabel, ...rest
+    renderInServer = false, onClick, 'aria-label': nativeLabel, ...rest
   } = props;
   const icon = getIconDefinition(name, variant);
   if (!icon) return null;
@@ -40,12 +42,11 @@ export const BKIcon = (props: IconProps) => {
     width: size,
     height: size,
     cursor: onClick ? 'pointer' : undefined,
-    ...style,
   } as CSSProperties;
 
   return (
     <span
-      {...rest}
+      {...withoutStyle(rest)}
       className={joinClassNames('bkreact-icon', className)}
       data-placeholder={!ready ? '' : undefined}
       data-hover-color={hoverColor ? '' : undefined}

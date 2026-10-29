@@ -1,5 +1,7 @@
 'use client';
 
+import { withoutStyle } from '../utils/styles';
+
 import { forwardRef, useMemo } from 'react';
 import { InputGroupContext, isInputInvalid } from './context';
 import { getInputSizeProps } from './size';
@@ -11,15 +13,15 @@ import './index.css';
 const controlSelector = 'input:not(:disabled), textarea:not(:disabled), [role="combobox"]:not([aria-disabled="true"]):not(:disabled)';
 const interactiveSelector = 'input, textarea, button, a, select, label, [role="button"], [role="combobox"], [contenteditable="true"], [tabindex]';
 
-export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(function InputGroup({ intent = 'normal', size = 'base', variant = 'outline', disabled, readOnly, className, style, onClick, ...props }, ref) {
+export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(function InputGroup({ intent = 'normal', size = 'base', variant = 'outline', disabled, readOnly, className, onClick, ...props }, ref) {
   const context = useMemo(() => ({ intent, size, variant, disabled, readOnly }), [intent, size, variant, disabled, readOnly]);
   const sizeProps = getInputSizeProps(size);
   return <InputGroupContext.Provider value={context}>
     <div
       role="group" data-slot="input-group"
-      {...props} {...sizeProps} ref={ref}
+      {...withoutStyle(props)} {...sizeProps} ref={ref}
       className={['bkreact-input', 'bkreact-input-group', className].filter(Boolean).join(' ')}
-      style={{ ...sizeProps.style, ...style }}
+      style={sizeProps.style}
       data-intent={intent} data-variant={variant}
       data-invalid={isInputInvalid(props['aria-invalid']) || undefined}
       data-disabled={disabled || undefined}
@@ -37,18 +39,18 @@ export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>(function I
 });
 
 export const InputGroupAddon = forwardRef<HTMLDivElement, InputGroupAddonProps>(function InputGroupAddon({ align = 'inline-start', className, ...props }, ref) {
-  return <div {...props} ref={ref} data-slot="input-group-addon" data-align={align}
+  return <div {...withoutStyle(props)} ref={ref} data-slot="input-group-addon" data-align={align}
     className={['bkreact-input-group__addon', className].filter(Boolean).join(' ')} />;
 });
 
 export const InputGroupText = forwardRef<HTMLSpanElement, InputGroupTextProps>(function InputGroupText({ className, ...props }, ref) {
-  return <span {...props} ref={ref} data-slot="input-group-text"
+  return <span {...withoutStyle(props)} ref={ref} data-slot="input-group-text"
     className={['bkreact-input-group__text', className].filter(Boolean).join(' ')} />;
 });
 
 export const InputGroupInput = forwardRef<HTMLInputElement, InputGroupInputProps>(function InputGroupInput(props, ref) {
-  return <Input {...props} ref={ref} />;
+  return <Input {...withoutStyle(props)} ref={ref} />;
 });
 export const InputGroupTextarea = forwardRef<HTMLTextAreaElement, InputGroupTextareaProps>(function InputGroupTextarea(props, ref) {
-  return <Textarea {...props} ref={ref} />;
+  return <Textarea {...withoutStyle(props)} ref={ref} />;
 });

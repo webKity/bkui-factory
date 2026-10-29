@@ -36,18 +36,18 @@ afterEach(async () => {
 });
 after(async () => { dom.window.close(); await rm(temporary, { recursive: true, force: true }); });
 function Consumer() { api = useNotification(); return h('span', null, 'app'); }
-async function mount() {
+async function mount(props) {
   container = document.createElement('div'); document.body.append(container);
   root = createRoot(container);
-  await act(() => root.render(h(NotificationProvider, null, h(Consumer))));
+  await act(() => root.render(h(NotificationProvider, props, h(Consumer))));
 }
 const cards = () => [...document.querySelectorAll('.bkreact-notification')];
 const advance = ms => act(() => mock.timers.tick(ms));
 
 test('SSR renders all slots, intent semantics and provider children without a portal', () => {
-  const markup = renderToStaticMarkup(h(Notification, { item: { id: 'one', title: '失败', message: '请重试', intent: 'danger', children: h('b', null, '详情'), actions: [{ label: '重试', intent: 'brand', variant: 'outline' }] }, onClose() {} }));
+  const markup = renderToStaticMarkup(h(Notification, { className: 'direct-card', item: { id: 'one', className: 'item-card', title: '失败', message: '请重试', intent: 'danger', children: h('b', null, '详情'), actions: [{ label: '重试', intent: 'brand', variant: 'outline' }] }, onClose() {} }));
   const doc = new JSDOM(markup).window.document;
-  assert(doc.querySelector('[role="alert"][data-intent="danger"]'));
+  assert(doc.querySelector('[role="alert"][data-intent="danger"].direct-card.item-card'));
   assert.equal(doc.querySelector('.bkreact-notification__title').textContent, '失败');
   assert.equal(doc.querySelector('.bkreact-notification__message').textContent, '请重试');
   assert.equal(doc.querySelector('.bkreact-notification__body b').textContent, '详情');
@@ -57,12 +57,12 @@ test('SSR renders all slots, intent semantics and provider children without a po
 });
 
 test('provider stacks unique IDs in each corner, preserves context and closes by ID', async () => {
-  await mount();
+  await mount({ className: 'custom-viewport' });
   const context = api;
   const ids = [];
   await act(() => {
     for (const position of ['top-left', 'top-right', 'bottom-left', 'bottom-right']) {
-      ids.push(api.showNotification({ position, message: position, duration: 0 }));
+      ids.push(api.showNotification({ position, message: position, duration: 0, className: 'custom-notification' }));
     }
     ids.push(api.showNotification({ message: 'default', duration: 0 }));
   });
@@ -71,6 +71,8 @@ test('provider stacks unique IDs in each corner, preserves context and closes by
   assert.equal(container.querySelector('.bkreact-notification'), null);
   assert.equal(document.querySelector('[data-position="top-right"]').children.length, 2);
   assert.equal(cards().length, 5);
+  assert.equal(document.querySelectorAll('.custom-viewport').length, 4);
+  assert.equal(document.querySelectorAll('.custom-notification').length, 4);
   await act(() => { api.closeNotification(ids[0]); api.closeNotification(ids[0]); api.closeNotification('missing'); });
   await advance(0);
   assert.equal(cards().length, 4);
