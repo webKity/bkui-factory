@@ -1,0 +1,256 @@
+/* 基础列表和纵向布局。所有设计值均消费 Timeline 局部 tokens。 */
+.bkreact-timeline {
+  display: var(--timeline-display);
+  flex-direction: var(--timeline-direction);
+  margin: var(--timeline-margin);
+  padding: var(--timeline-padding);
+  list-style: var(--timeline-list-style);
+  font-family: var(--timeline-font-family);
+  font-size: var(--timeline-font-size);
+  line-height: var(--timeline-line-height);
+  color: var(--timeline-color);
+}
+
+.bkreact-timeline__item {
+  display: var(--timeline-item-display);
+  position: var(--timeline-position);
+  box-sizing: var(--timeline-box-sizing);
+  min-width: var(--timeline-min-width);
+  align-content: var(--timeline-align);
+  grid-template-columns: var(--timeline-line-height) minmax(var(--timeline-zero), 1fr);
+  column-gap: var(--timeline-gap);
+  padding-block-end: var(--timeline-item-gap);
+}
+
+/* 纵向连接线从当前圆点下缘延伸到下一圆点上缘。 */
+.bkreact-timeline__item::before {
+  content: var(--timeline-line-content);
+  position: var(--timeline-line-position);
+  inset-inline-start: calc((var(--timeline-line-height) - var(--timeline-line-width)) / 2);
+  inset-block-start: calc((var(--timeline-line-height) + var(--timeline-marker-size)) / 2);
+  inset-block-end: calc((var(--timeline-marker-size) - var(--timeline-line-height)) / 2);
+  width: var(--timeline-line-width);
+  background-color: var(--timeline-line-color);
+}
+
+.bkreact-timeline__item:last-child {
+  padding-block-end: var(--timeline-zero);
+}
+
+.bkreact-timeline__item:last-child::before {
+  display: var(--timeline-no-display);
+}
+
+/* 标记组将装饰圆点和可读标签分开，标签不会被 aria-hidden 隐藏。 */
+.bkreact-timeline__marker-group,
+.bkreact-timeline__marker-body {
+  display: var(--timeline-display);
+  align-items: var(--timeline-center);
+  min-width: var(--timeline-min-width);
+  min-height: var(--timeline-line-height);
+}
+
+.bkreact-timeline__marker-group {
+  align-self: var(--timeline-align);
+  justify-content: var(--timeline-center);
+}
+
+.bkreact-timeline__marker-body {
+  gap: var(--timeline-gap);
+}
+
+.bkreact-timeline__marker {
+  display: var(--timeline-display);
+  box-sizing: var(--timeline-box-sizing);
+  align-items: var(--timeline-center);
+  justify-content: var(--timeline-center);
+  flex-shrink: var(--timeline-zero);
+  width: var(--timeline-marker-size);
+  height: var(--timeline-marker-size);
+  border: var(--timeline-marker-border-width) var(--timeline-line-style) var(--timeline-marker-color);
+  border-radius: var(--timeline-marker-radius);
+  background-color: var(--timeline-marker-bg);
+  color: var(--timeline-marker-color);
+}
+
+.bkreact-timeline__marker[data-custom] {
+  width: var(--timeline-line-height);
+  height: var(--timeline-line-height);
+  border-width: var(--timeline-zero);
+  background-color: var(--timeline-custom-marker-bg);
+}
+
+/* children 是完整的自定义标记，不套固定圆形尺寸。 */
+.bkreact-timeline__marker[data-custom-content] {
+  width: auto;
+  height: auto;
+  min-height: var(--timeline-line-height);
+  border-radius: var(--timeline-zero);
+  gap: var(--timeline-gap);
+}
+
+/* 步进状态只映射局部 tokens，自定义标记也能读取同一套状态颜色。 */
+.bkreact-timeline__item[data-status='current'],
+.bkreact-timeline__item[data-status='complete'] {
+  --timeline-marker-bg: var(--timeline-step-active-color);
+  --timeline-marker-color: var(--timeline-step-active-color);
+}
+
+/* pending 保留独立的可覆盖别名。Item 的状态映射优先于 Root 继承的
+ * step-text-color；统一所有状态时，需同时覆盖 step-pending-text-color。 */
+.bkreact-timeline__item[data-status='pending'] {
+  --timeline-step-text-color: var(--timeline-step-pending-text-color);
+  --timeline-marker-bg: var(--timeline-step-pending-color);
+  --timeline-marker-color: var(--timeline-step-pending-color);
+}
+
+.bkreact-timeline__item[data-status='complete'] {
+  --timeline-line-color: var(--timeline-step-active-color);
+}
+
+.bkreact-timeline__marker > svg {
+  width: var(--timeline-full);
+  height: var(--timeline-full);
+}
+
+.bkreact-timeline__marker-label {
+  display: var(--timeline-no-display);
+  overflow-wrap: var(--timeline-overflow-wrap);
+}
+
+/* 内容层级：标题 > 描述 > 时间。 */
+.bkreact-timeline__content {
+  display: var(--timeline-item-display);
+  gap: var(--timeline-content-gap);
+  min-width: var(--timeline-min-width);
+  overflow-wrap: var(--timeline-overflow-wrap);
+}
+
+.bkreact-timeline__title,
+.bkreact-timeline__description {
+  margin: var(--timeline-margin);
+  font-size: var(--timeline-font-size);
+  line-height: var(--timeline-line-height);
+}
+
+.bkreact-timeline__title {
+  font-weight: var(--timeline-title-font-weight);
+}
+
+.bkreact-timeline__description {
+  color: var(--timeline-muted-color);
+}
+
+.bkreact-timeline__time {
+  color: var(--timeline-time-color);
+  font-size: var(--timeline-time-font-size);
+}
+
+/* 横向标记行用弹性线段连接，文字参与布局，连接线不会穿过文字。 */
+.bkreact-timeline__item[data-layout='horizontal'] {
+  flex: var(--timeline-flex);
+  grid-template-columns: minmax(var(--timeline-zero), 1fr);
+  row-gap: var(--timeline-gap);
+  padding-block-end: var(--timeline-zero);
+}
+
+.bkreact-timeline__item[data-layout='horizontal']::before {
+  display: var(--timeline-no-display);
+}
+
+.bkreact-timeline__item[data-layout='horizontal'] > .bkreact-timeline__marker-group::after,
+.bkreact-timeline__item[data-layout='horizontal'][data-align='center'] > .bkreact-timeline__marker-group::before {
+  content: var(--timeline-line-content);
+  flex: var(--timeline-flex);
+  min-width: var(--timeline-zero);
+  height: var(--timeline-line-width);
+  background-color: var(--timeline-line-color);
+}
+
+.bkreact-timeline__item[data-layout='horizontal'] > .bkreact-timeline__marker-group::after {
+  margin-inline-start: var(--timeline-gap);
+}
+
+.bkreact-timeline__item[data-layout='horizontal'] > .bkreact-timeline__marker-group .bkreact-timeline__marker-label {
+  display: block;
+}
+
+.bkreact-timeline__item[data-layout='horizontal'] > .bkreact-timeline__content {
+  padding-inline-end: var(--timeline-item-gap);
+}
+
+/* 起始对齐的末项不需要为后续项目保留间距。 */
+.bkreact-timeline__item[data-layout='horizontal'][data-align='start']:last-child > .bkreact-timeline__content {
+  padding-inline-end: var(--timeline-zero);
+}
+
+/* 居中时保留两端线段的空间，首尾仅隐藏线段，圆点位置仍然对称。 */
+.bkreact-timeline__item[data-layout='horizontal'][data-align='center'] > .bkreact-timeline__marker-group::before {
+  margin-inline-end: var(--timeline-gap);
+}
+
+.bkreact-timeline__item[data-layout='horizontal']:last-child > .bkreact-timeline__marker-group::after,
+.bkreact-timeline__item[data-layout='horizontal']:first-child > .bkreact-timeline__marker-group::before {
+  visibility: var(--timeline-hidden-visibility);
+}
+
+.bkreact-timeline__item[data-layout='horizontal'][data-align='center'] > .bkreact-timeline__content {
+  text-align: var(--timeline-center);
+  padding-inline: calc(var(--timeline-item-gap) / 2);
+}
+
+/* 响应式尺寸：只切换调用方显式声明的断点。 */
+@media (min-width: 40rem) {
+  .bkreact-timeline[data-size-sm] {
+    --timeline-font-size: var(--timeline-sm-font-size);
+    --timeline-time-font-size: var(--timeline-sm-time-font-size);
+    --timeline-line-height: var(--timeline-sm-line-height);
+    --timeline-marker-size: var(--timeline-sm-marker-size);
+    --timeline-gap: var(--timeline-sm-gap);
+    --timeline-item-gap: var(--timeline-sm-item-gap);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-timeline[data-size-md] {
+    --timeline-font-size: var(--timeline-md-font-size);
+    --timeline-time-font-size: var(--timeline-md-time-font-size);
+    --timeline-line-height: var(--timeline-md-line-height);
+    --timeline-marker-size: var(--timeline-md-marker-size);
+    --timeline-gap: var(--timeline-md-gap);
+    --timeline-item-gap: var(--timeline-md-item-gap);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-timeline[data-size-lg] {
+    --timeline-font-size: var(--timeline-lg-font-size);
+    --timeline-time-font-size: var(--timeline-lg-time-font-size);
+    --timeline-line-height: var(--timeline-lg-line-height);
+    --timeline-marker-size: var(--timeline-lg-marker-size);
+    --timeline-gap: var(--timeline-lg-gap);
+    --timeline-item-gap: var(--timeline-lg-item-gap);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-timeline[data-size-xl] {
+    --timeline-font-size: var(--timeline-xl-font-size);
+    --timeline-time-font-size: var(--timeline-xl-time-font-size);
+    --timeline-line-height: var(--timeline-xl-line-height);
+    --timeline-marker-size: var(--timeline-xl-marker-size);
+    --timeline-gap: var(--timeline-xl-gap);
+    --timeline-item-gap: var(--timeline-xl-item-gap);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-timeline[data-size-2xl] {
+    --timeline-font-size: var(--timeline-2xl-font-size);
+    --timeline-time-font-size: var(--timeline-2xl-time-font-size);
+    --timeline-line-height: var(--timeline-2xl-line-height);
+    --timeline-marker-size: var(--timeline-2xl-marker-size);
+    --timeline-gap: var(--timeline-2xl-gap);
+    --timeline-item-gap: var(--timeline-2xl-item-gap);
+  }
+}

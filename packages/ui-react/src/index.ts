@@ -1,5 +1,5 @@
 export type { ButtonProps, ButtonNativeProps, ButtonLinkProps, ButtonComponent, ButtonShape, ButtonWidthMode } from './components/button/type';
-export type { IBKIntent, IBKVariants, IBKSize, IBKResponsiveSize } from './components/types/base';
+export type { IBKIntent, IBKVariants, IBKSize, IBKResponsiveSize, IBKLayout } from './components/types/base';
 
 export type { IconProps, IconName, FigmaIconName, IconVariant } from './components/icon';
 
@@ -22,3 +22,5 @@ export type { ToastConfigType, ToastProps } from './components/toast/type';
 export type { RatingProps, RatingTrigger } from './components/rating/type';
 
 export type { TooltipProps, TooltipProviderProps, TooltipSide, TooltipAlign } from './components/tooltip/type';
+
+export type * from './components/timeline/type';

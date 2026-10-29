@@ -38,3 +38,7 @@ export type { RatingProps, RatingTrigger } from './components/rating/type';
 
 export { Tooltip, TooltipProvider } from './components/tooltip';
 export type { TooltipProps, TooltipProviderProps, TooltipSide, TooltipAlign } from './components/tooltip/type';
+
+export type * from './components/timeline/type';
+export { Timeline, TimelineRoot, TimelineItem, TimelineMarker, TimelineContent, TimelineTime, TimelineTitle, TimelineDescription, TimelineAction } from './components/timeline';
+export type { IBKLayout } from './components/types/base';

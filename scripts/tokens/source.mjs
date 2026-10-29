@@ -251,6 +251,7 @@ export async function buildTokenModel({ sourceDir, components: includeComponents
       const sizeProperties = {
         button: ['height', 'padding-x', 'padding-y', 'font-size', 'line-height', 'gap', 'icon-size', 'fixed-width'],
         loading: [],
+        ...(Object.hasOwn(components, 'timeline') ? { timeline: ['font-size', 'time-font-size', 'line-height', 'marker-size', 'gap', 'item-gap'] } : {}),
         'input-otp': ['slot-size', 'font-size', 'line-height', 'gap'],
       };
       for (const [component, properties] of Object.entries(sizeProperties)) {

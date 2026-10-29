@@ -1,0 +1,47 @@
+/* 共享设计值来自 design.tokens.css；本层维护 Web 布局和尺寸映射。
+ * step-text-color 暂借 surface-container 作为 text-primary 背景上的反向前景色：
+ * 现有 text-inverse / action-primary-content 在两种主题中都为白色，暗色主题下不适用。
+ * 保留组件局部别名，调用方无需依赖这一语义映射。
+ */
+.bkreact-timeline {
+  /* 无内联尺寸时，纯 CSS 标记也能使用 base 尺寸。 */
+  --timeline-base-font-size: var(--timeline-size-base-font-size);
+  --timeline-base-time-font-size: var(--timeline-size-base-time-font-size);
+  --timeline-base-line-height: var(--timeline-size-base-line-height);
+  --timeline-base-marker-size: var(--timeline-size-base-marker-size);
+  --timeline-base-gap: var(--timeline-size-base-gap);
+  --timeline-base-item-gap: var(--timeline-size-base-item-gap);
+
+  --timeline-display: flex;
+  --timeline-direction: column;
+  --timeline-margin: 0;
+  --timeline-padding: 0;
+  --timeline-list-style: none;
+  --timeline-box-sizing: border-box;
+  --timeline-min-width: 0;
+  --timeline-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --timeline-time-font-size: var(--timeline-base-time-font-size);
+  --timeline-font-size: var(--timeline-base-font-size);
+  --timeline-line-height: var(--timeline-base-line-height);
+  --timeline-marker-size: var(--timeline-base-marker-size);
+  --timeline-gap: var(--timeline-base-gap);
+  --timeline-item-gap: var(--timeline-base-item-gap);
+  --timeline-item-display: grid;
+  --timeline-position: relative;
+  --timeline-line-position: absolute;
+  --timeline-line-content: '';
+  --timeline-line-style: solid;
+  --timeline-custom-marker-bg: transparent;
+  --timeline-hidden-visibility: hidden;
+  --timeline-marker-radius: 50%;
+  --timeline-align: start;
+  --timeline-center: center;
+  --timeline-flex: 1;
+  --timeline-zero: 0px;
+  --timeline-full: 100%;
+  --timeline-no-display: none;
+  --timeline-overflow-wrap: anywhere;
+}
+.bkreact-timeline:where([data-layout='horizontal']) {
+  --timeline-direction: row;
+}

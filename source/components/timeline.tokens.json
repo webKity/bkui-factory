@@ -1,0 +1,318 @@
+{
+  "base": {
+    "color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-primary}"
+    },
+    "muted-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-secondary}"
+    },
+    "line-color": {
+      "$type": "color",
+      "$value": "{semantic.color-border-default}"
+    },
+    "marker-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-tertiary}"
+    },
+    "marker-bg": {
+      "$type": "color",
+      "$value": "{semantic.color-text-tertiary}"
+    },
+    "line-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 1,
+        "unit": "px"
+      }
+    },
+    "marker-border-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      }
+    },
+    "content-gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "title-font-weight": {
+      "$type": "number",
+      "$value": 500
+    },
+    "time-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-tertiary}"
+    },
+    "step-active-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-primary}"
+    },
+    "step-pending-color": {
+      "$type": "color",
+      "$value": "{semantic.color-fill-subtle}"
+    },
+    "step-text-color": {
+      "$type": "color",
+      "$value": "{semantic.color-surface-container}",
+      "$description": "活动/完成步骤背景使用 text-primary（浅色主题为深色、深色主题为浅色），需要与之相反的前景。现有 text-inverse 和 action-primary-content 在两种主题中均为白色，不适用于此背景，因此暂借 surface-container 提供随主题反转的前景色；通过 --timeline-step-text-color 可独立覆盖。"
+    },
+    "step-pending-text-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-primary}",
+      "$description": "pending 状态专用的可覆盖文字色别名。pending Item 会用它覆盖继承的 --timeline-step-text-color；若需统一所有状态，调用方应同时覆盖这两个 tokens。"
+    }
+  },
+  "sizes": {
+    "2xs": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-2xs-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-2xs-line-height}"
+      },
+      "marker-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 6,
+          "unit": "px"
+        }
+      },
+      "item-gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "time-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-2xs-size}"
+      }
+    },
+    "xs": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xs-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xs-line-height}"
+      },
+      "marker-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 4,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 6,
+          "unit": "px"
+        }
+      },
+      "item-gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "time-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-2xs-size}"
+      }
+    },
+    "sm": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-sm-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-sm-line-height}"
+      },
+      "marker-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 6,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      },
+      "item-gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      },
+      "time-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xs-size}"
+      }
+    },
+    "base": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-base-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-base-line-height}"
+      },
+      "marker-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 6,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 10,
+          "unit": "px"
+        }
+      },
+      "item-gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 28,
+          "unit": "px"
+        }
+      },
+      "time-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-sm-size}"
+      }
+    },
+    "lg": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-lg-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-lg-line-height}"
+      },
+      "marker-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
+      },
+      "item-gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        }
+      },
+      "time-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-base-size}"
+      }
+    },
+    "xl": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xl-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xl-line-height}"
+      },
+      "marker-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 14,
+          "unit": "px"
+        }
+      },
+      "item-gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 36,
+          "unit": "px"
+        }
+      },
+      "time-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-lg-size}"
+      }
+    },
+    "2xl": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-2xl-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-2xl-line-height}"
+      },
+      "marker-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 10,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "item-gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        }
+      },
+      "time-font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xl-size}"
+      }
+    }
+  }
+}
