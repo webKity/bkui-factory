@@ -1,0 +1,28 @@
+/* 设计值来自生成的 design.tokens.css；本层维护 Web 布局与尺寸映射。 */
+.bkreact-empty {
+  --empty-display: flex;
+  --empty-direction: column;
+  --empty-align: center;
+  --empty-text-align: center;
+  --empty-box-sizing: border-box;
+  --empty-zero: 0px;
+  --empty-full: 100%;
+  --empty-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --empty-overflow-wrap: anywhere;
+  --empty-image-display: block;
+  --empty-image-fit: contain;
+  --empty-image-shrink: 0;
+  --empty-actions-wrap: wrap;
+  --empty-base-font-size: var(--empty-size-base-font-size);
+  --empty-base-line-height: var(--empty-size-base-line-height);
+  --empty-base-image-width: var(--empty-size-base-image-width);
+  --empty-base-image-height: var(--empty-size-base-image-height);
+  --empty-base-gap: var(--empty-size-base-gap);
+  --empty-base-padding-y: var(--empty-size-base-padding-y);
+  --empty-font-size: var(--empty-base-font-size);
+  --empty-line-height: var(--empty-base-line-height);
+  --empty-image-width: var(--empty-base-image-width);
+  --empty-image-height: var(--empty-base-image-height);
+  --empty-gap: var(--empty-base-gap);
+  --empty-padding-y: var(--empty-base-padding-y);
+}

@@ -1,0 +1,109 @@
+/* 样式只消费 Empty 局部 tokens。
+ * data-size="lg" 等值仅标记当前尺寸；固定尺寸由 size.ts 写入 --empty-base-*。
+ * data-size="responsive" 同样仅作标记；data-size-* 激活下方对应断点的变量映射。
+ * 2xs / xs 使用局部 10px / 11px 字号：全局最小文字 token 为 12px。
+ * 这些局部设计值不会跟随主题的文字尺寸 token；颜色仍随主题切换。
+ */
+.bkreact-empty {
+  display: var(--empty-display);
+  flex-direction: var(--empty-direction);
+  align-items: var(--empty-align);
+  justify-content: var(--empty-align);
+  box-sizing: var(--empty-box-sizing);
+  min-width: var(--empty-zero);
+  padding: var(--empty-padding-y) var(--empty-zero);
+  gap: var(--empty-gap);
+  color: var(--empty-color);
+  font-family: var(--empty-font-family);
+  font-size: var(--empty-font-size);
+  line-height: var(--empty-line-height);
+  text-align: var(--empty-text-align);
+}
+
+.bkreact-empty__image {
+  display: var(--empty-display);
+  align-items: var(--empty-align);
+  justify-content: var(--empty-align);
+  flex-shrink: var(--empty-image-shrink);
+  width: var(--empty-image-width);
+  height: var(--empty-image-height);
+  max-width: var(--empty-full);
+  color: var(--empty-image-color);
+}
+
+.bkreact-empty__image > svg,
+.bkreact-empty__image > img {
+  display: var(--empty-image-display);
+  width: var(--empty-full);
+  height: var(--empty-full);
+  object-fit: var(--empty-image-fit);
+}
+
+.bkreact-empty__description {
+  max-width: var(--empty-full);
+  overflow-wrap: var(--empty-overflow-wrap);
+}
+
+.bkreact-empty__actions {
+  display: var(--empty-display);
+  flex-wrap: var(--empty-actions-wrap);
+  align-items: var(--empty-align);
+  justify-content: var(--empty-align);
+  gap: var(--empty-gap);
+  max-width: var(--empty-full);
+}
+
+@media (min-width: 40rem) {
+  .bkreact-empty[data-size-sm] {
+    --empty-font-size: var(--empty-sm-font-size);
+    --empty-line-height: var(--empty-sm-line-height);
+    --empty-image-width: var(--empty-sm-image-width);
+    --empty-image-height: var(--empty-sm-image-height);
+    --empty-gap: var(--empty-sm-gap);
+    --empty-padding-y: var(--empty-sm-padding-y);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-empty[data-size-md] {
+    --empty-font-size: var(--empty-md-font-size);
+    --empty-line-height: var(--empty-md-line-height);
+    --empty-image-width: var(--empty-md-image-width);
+    --empty-image-height: var(--empty-md-image-height);
+    --empty-gap: var(--empty-md-gap);
+    --empty-padding-y: var(--empty-md-padding-y);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-empty[data-size-lg] {
+    --empty-font-size: var(--empty-lg-font-size);
+    --empty-line-height: var(--empty-lg-line-height);
+    --empty-image-width: var(--empty-lg-image-width);
+    --empty-image-height: var(--empty-lg-image-height);
+    --empty-gap: var(--empty-lg-gap);
+    --empty-padding-y: var(--empty-lg-padding-y);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-empty[data-size-xl] {
+    --empty-font-size: var(--empty-xl-font-size);
+    --empty-line-height: var(--empty-xl-line-height);
+    --empty-image-width: var(--empty-xl-image-width);
+    --empty-image-height: var(--empty-xl-image-height);
+    --empty-gap: var(--empty-xl-gap);
+    --empty-padding-y: var(--empty-xl-padding-y);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-empty[data-size-2xl] {
+    --empty-font-size: var(--empty-2xl-font-size);
+    --empty-line-height: var(--empty-2xl-line-height);
+    --empty-image-width: var(--empty-2xl-image-width);
+    --empty-image-height: var(--empty-2xl-image-height);
+    --empty-gap: var(--empty-2xl-gap);
+    --empty-padding-y: var(--empty-2xl-padding-y);
+  }
+}

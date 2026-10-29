@@ -1,0 +1,296 @@
+{
+  "base": {
+    "color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-disabled}"
+    },
+    "image-color": {
+      "$type": "color",
+      "$value": "{semantic.color-border-default}"
+    }
+  },
+  "sizes": {
+    "2xs": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 10,
+          "unit": "px"
+        },
+        "$description": "Empty 的紧凑字号设计值；全局最小文字 token 为 12px，因此此档使用局部 px 值，不随主题文字尺寸 token 变化。"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        },
+        "$description": "Empty 的紧凑字号设计值；全局最小文字 token 为 12px，因此此档使用局部 px 值，不随主题文字尺寸 token 变化。"
+      },
+      "image-width": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        }
+      },
+      "image-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 27,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 6,
+          "unit": "px"
+        }
+      },
+      "padding-y": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
+      }
+    },
+    "xs": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 11,
+          "unit": "px"
+        },
+        "$description": "Empty 的紧凑字号设计值；全局最小文字 token 为 12px，因此此档使用局部 px 值，不随主题文字尺寸 token 变化。"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 18,
+          "unit": "px"
+        },
+        "$description": "Empty 的紧凑字号设计值；全局最小文字 token 为 12px，因此此档使用局部 px 值，不随主题文字尺寸 token 变化。"
+      },
+      "image-width": {
+        "$type": "dimension",
+        "$value": {
+          "value": 43,
+          "unit": "px"
+        }
+      },
+      "image-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 35,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 8,
+          "unit": "px"
+        }
+      },
+      "padding-y": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      }
+    },
+    "sm": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xs-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xs-line-height}"
+      },
+      "image-width": {
+        "$type": "dimension",
+        "$value": {
+          "value": 53,
+          "unit": "px"
+        }
+      },
+      "image-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 43,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 10,
+          "unit": "px"
+        }
+      },
+      "padding-y": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      }
+    },
+    "base": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-sm-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-sm-line-height}"
+      },
+      "image-width": {
+        "$type": "dimension",
+        "$value": {
+          "value": 80,
+          "unit": "px"
+        }
+      },
+      "image-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 64,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        }
+      },
+      "padding-y": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      }
+    },
+    "lg": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-base-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-base-line-height}"
+      },
+      "image-width": {
+        "$type": "dimension",
+        "$value": {
+          "value": 96,
+          "unit": "px"
+        }
+      },
+      "image-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 77,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 16,
+          "unit": "px"
+        }
+      },
+      "padding-y": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        }
+      }
+    },
+    "xl": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-lg-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-lg-line-height}"
+      },
+      "image-width": {
+        "$type": "dimension",
+        "$value": {
+          "value": 112,
+          "unit": "px"
+        }
+      },
+      "image-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 91,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 20,
+          "unit": "px"
+        }
+      },
+      "padding-y": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        }
+      }
+    },
+    "2xl": {
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xl-size}"
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xl-line-height}"
+      },
+      "image-width": {
+        "$type": "dimension",
+        "$value": {
+          "value": 128,
+          "unit": "px"
+        }
+      },
+      "image-height": {
+        "$type": "dimension",
+        "$value": {
+          "value": 104,
+          "unit": "px"
+        }
+      },
+      "gap": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      },
+      "padding-y": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        }
+      }
+    }
+  }
+}

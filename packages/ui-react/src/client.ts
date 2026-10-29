@@ -59,3 +59,6 @@ export type * from './components/popup/type';
 
 export { Collapse, CollapseItem } from './components/collapse';
 export type * from './components/collapse/type';
+
+export { Empty } from './components/empty';
+export type { EmptyProps } from './components/empty/type';

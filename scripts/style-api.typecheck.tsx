@@ -19,3 +19,15 @@ type AssertTrue<T extends true> = T;
 type SidebarStyleAPICheck = AssertTrue<SidebarStyleChecks[keyof SidebarStyleChecks]>;
 const sidebarChecked: SidebarStyleAPICheck = true;
 void sidebarChecked;
+
+import type { EmptyProps } from '../packages/ui-react/src';
+type EmptyStyleAPICheck = AssertTrue<ValidStyleAPI<EmptyProps>>;
+const emptyChecked: EmptyStyleAPICheck = true;
+void emptyChecked;
+
+// @ts-expect-error Empty owns its generated size attributes.
+const emptyManualSize: EmptyProps = { 'data-size-md': 'lg' };
+// @ts-expect-error Responsive sizes must explicitly include base.
+const emptyMissingBase: EmptyProps = { size: { md: 'lg' } };
+void emptyManualSize;
+void emptyMissingBase;
