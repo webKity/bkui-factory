@@ -16,6 +16,7 @@
     "packages/ui-react/src/**/*.ts",
     "packages/ui-react/src/**/*.tsx",
     "scripts/button.typecheck.tsx",
+    "scripts/calendar.typecheck.tsx",
     "scripts/style-api.typecheck.tsx",
     "scripts/checkbox.typecheck.tsx",
     "scripts/tooltip.typecheck.tsx",

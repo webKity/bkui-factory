@@ -1,0 +1,21 @@
+/* 设计值由 source/components/calendar.tokens.json 生成；此处维护 Web 布局与状态组合。 */
+.bkreact-calendar {
+  --calendar-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --calendar-day-size: var(--calendar-base-day-size);
+  --calendar-font-size: var(--calendar-base-font-size);
+  --calendar-line-height: var(--calendar-base-line-height);
+  --calendar-padding: var(--calendar-base-padding);
+  --calendar-gap: var(--calendar-base-gap);
+  --calendar-icon-size: var(--calendar-base-icon-size);
+  --calendar-months-gap: calc(var(--calendar-gap) * 4);
+  --calendar-nav-height: var(--calendar-day-size);
+  --calendar-transition: color 160ms ease, background-color 160ms ease;
+  --calendar-animation: bk-calendar-fade 160ms ease;
+  --calendar-range-direction: 90deg;
+  --calendar-range-start-bg: linear-gradient(var(--calendar-range-direction), transparent 50%, var(--calendar-range-bg) 50%);
+  --calendar-range-end-bg: linear-gradient(var(--calendar-range-direction), var(--calendar-range-bg) 50%, transparent 50%);
+}
+
+.bkreact-calendar:has([dir='rtl']) {
+  --calendar-range-direction: -90deg;
+}

@@ -1,5 +1,8 @@
 'use client';
 
+export { Calendar } from './components/calendar';
+export type { CalendarProps, DateRange, Matcher } from './components/calendar/type';
+
 export { Typography } from './components/typography';
 export type { TypographyProps, TypographyComponent } from './components/typography/type';
 

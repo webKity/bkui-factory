@@ -1,0 +1,268 @@
+/* 仅消费 Calendar 局部 tokens，不引入 DayPicker 默认主题。 */
+.bkreact-calendar {
+  display: inline-block;
+  max-width: 100%;
+  padding: var(--calendar-padding);
+  font-family: var(--calendar-font-family);
+  font-size: var(--calendar-font-size);
+  line-height: var(--calendar-line-height);
+  font-weight: var(--calendar-font-weight);
+  color: var(--calendar-color);
+  background: var(--calendar-bg);
+  border: var(--calendar-border-width) solid var(--calendar-border-color);
+  border-radius: var(--calendar-border-radius);
+}
+
+.bkreact-calendar,
+.bkreact-calendar * { box-sizing: border-box; }
+
+.bkreact-calendar__root,
+.bkreact-calendar__months,
+.bkreact-calendar__month { position: relative; }
+
+.bkreact-calendar__months {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--calendar-months-gap);
+  max-width: fit-content;
+}
+
+.bkreact-calendar__month_caption {
+  display: flex;
+  align-items: center;
+  min-height: var(--calendar-nav-height);
+  padding-inline-end: calc(var(--calendar-day-size) * 2);
+  font-weight: var(--calendar-caption-font-weight);
+}
+
+.bkreact-calendar__caption_label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--calendar-gap);
+  white-space: nowrap;
+}
+
+.bkreact-calendar__nav {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  display: flex;
+  align-items: center;
+  height: var(--calendar-nav-height);
+}
+
+.bkreact-calendar__day_button,
+.bkreact-calendar__button_previous,
+.bkreact-calendar__button_next {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--calendar-day-size);
+  height: var(--calendar-day-size);
+  margin: 0;
+  padding: 0;
+  border: var(--calendar-border-width) solid transparent;
+  border-radius: var(--calendar-day-radius);
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  appearance: none;
+  cursor: pointer;
+  transition: var(--calendar-transition);
+}
+
+.bkreact-calendar__chevron {
+  display: block;
+  flex-shrink: 0;
+  width: var(--calendar-icon-size);
+  height: var(--calendar-icon-size);
+  color: var(--calendar-icon-color);
+  fill: currentColor;
+}
+
+.bkreact-calendar__month_grid { border-collapse: collapse; }
+
+.bkreact-calendar__day,
+.bkreact-calendar__week_number,
+.bkreact-calendar__week_number_header,
+.bkreact-calendar__weekday {
+  width: var(--calendar-day-size);
+  height: var(--calendar-day-size);
+  padding: 0;
+  text-align: center;
+}
+
+.bkreact-calendar__weekday,
+.bkreact-calendar__week_number {
+  color: var(--calendar-muted-color);
+  font-weight: var(--calendar-font-weight);
+}
+
+.bkreact-calendar__today:not(.bkreact-calendar__selected) {
+  color: var(--calendar-today-color);
+  text-decoration: underline;
+  text-underline-offset: var(--calendar-gap);
+}
+
+.bkreact-calendar__outside:not(.bkreact-calendar__selected) { color: var(--calendar-outside-color); }
+.bkreact-calendar__hidden { visibility: hidden; }
+
+.bkreact-calendar__selected {
+  color: var(--calendar-selected-color);
+  background: var(--calendar-selected-bg);
+  border-radius: var(--calendar-day-radius);
+}
+
+.bkreact-calendar__selected .bkreact-calendar__day_button {
+  color: var(--calendar-selected-color);
+  background: var(--calendar-selected-bg);
+}
+
+.bkreact-calendar__range_middle,
+.bkreact-calendar__range_start,
+.bkreact-calendar__range_end { border-radius: 0; }
+.bkreact-calendar__range_start { background: var(--calendar-range-start-bg); }
+.bkreact-calendar__range_end { background: var(--calendar-range-end-bg); }
+.bkreact-calendar__range_start.bkreact-calendar__range_end { background: transparent; }
+.bkreact-calendar__range_middle,
+.bkreact-calendar__range_middle .bkreact-calendar__day_button {
+  color: var(--calendar-color);
+  background: var(--calendar-range-bg);
+  border-radius: 0;
+}
+
+.bkreact-calendar__disabled {
+  opacity: var(--calendar-disabled-opacity);
+  color: var(--calendar-disabled-color);
+}
+
+.bkreact-calendar button:disabled,
+.bkreact-calendar button[aria-disabled='true'],
+.bkreact-calendar__dropdown:disabled { cursor: not-allowed; }
+.bkreact-calendar__button_previous[aria-disabled='true'],
+.bkreact-calendar__button_next[aria-disabled='true'] { opacity: var(--calendar-disabled-opacity); }
+
+@media (hover: hover) {
+  .bkreact-calendar__day:not(.bkreact-calendar__disabled) .bkreact-calendar__day_button:hover,
+  .bkreact-calendar__button_previous:not(:disabled, [aria-disabled='true']):hover,
+  .bkreact-calendar__button_next:not(:disabled, [aria-disabled='true']):hover {
+    background: var(--calendar-hover-bg);
+  }
+  .bkreact-calendar__selected:not(.bkreact-calendar__disabled, .bkreact-calendar__range_middle) .bkreact-calendar__day_button:hover {
+    background: var(--calendar-selected-hover-bg);
+  }
+}
+
+.bkreact-calendar button:focus-visible,
+.bkreact-calendar__dropdown:focus-visible ~ .bkreact-calendar__caption_label {
+  position: relative;
+  z-index: 1;
+  outline: var(--calendar-focus-ring-width) solid var(--calendar-focus-ring-color);
+  outline-offset: var(--calendar-focus-ring-offset);
+}
+
+.bkreact-calendar__dropdowns,
+.bkreact-calendar__dropdown_root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--calendar-gap);
+}
+
+.bkreact-calendar__dropdown {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.bkreact-calendar__root[data-nav-layout='around'] .bkreact-calendar__month_caption {
+  justify-content: center;
+  margin-inline: var(--calendar-day-size);
+  padding-inline-end: 0;
+}
+.bkreact-calendar__root[data-nav-layout='around'] .bkreact-calendar__button_previous,
+.bkreact-calendar__root[data-nav-layout='around'] .bkreact-calendar__button_next {
+  position: absolute;
+  inset-block-start: 0;
+}
+.bkreact-calendar__root[data-nav-layout='around'] .bkreact-calendar__button_previous { inset-inline-start: 0; }
+.bkreact-calendar__root[data-nav-layout='around'] .bkreact-calendar__button_next { inset-inline-end: 0; }
+
+.bkreact-calendar__root:not(:has(.bkreact-calendar__nav, .bkreact-calendar__button_previous, .bkreact-calendar__button_next)) .bkreact-calendar__month_caption { padding-inline-end: 0; }
+.bkreact-calendar__footer { margin-block-start: var(--calendar-gap); }
+
+/* around 的箭头由 DayPicker 处理，Nav 内的箭头由样式镜像。 */
+.bkreact-calendar__root[dir='rtl'] .bkreact-calendar__nav .bkreact-calendar__chevron { transform: rotate(180deg); }
+@keyframes bk-calendar-fade { from { opacity: 0; } to { opacity: 1; } }
+.bkreact-calendar__weeks_before_enter,
+.bkreact-calendar__weeks_after_enter,
+.bkreact-calendar__caption_before_enter,
+.bkreact-calendar__caption_after_enter { animation: var(--calendar-animation); }
+.bkreact-calendar__weeks_before_exit,
+.bkreact-calendar__weeks_after_exit,
+.bkreact-calendar__caption_before_exit,
+.bkreact-calendar__caption_after_exit { animation: var(--calendar-animation) reverse; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-calendar { --calendar-transition: none; --calendar-animation: none; }
+}
+
+@media (min-width: 40rem) {
+  .bkreact-calendar[data-size-sm] {
+    --calendar-day-size: var(--calendar-sm-day-size);
+    --calendar-font-size: var(--calendar-sm-font-size);
+    --calendar-line-height: var(--calendar-sm-line-height);
+    --calendar-padding: var(--calendar-sm-padding);
+    --calendar-gap: var(--calendar-sm-gap);
+    --calendar-icon-size: var(--calendar-sm-icon-size);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-calendar[data-size-md] {
+    --calendar-day-size: var(--calendar-md-day-size);
+    --calendar-font-size: var(--calendar-md-font-size);
+    --calendar-line-height: var(--calendar-md-line-height);
+    --calendar-padding: var(--calendar-md-padding);
+    --calendar-gap: var(--calendar-md-gap);
+    --calendar-icon-size: var(--calendar-md-icon-size);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-calendar[data-size-lg] {
+    --calendar-day-size: var(--calendar-lg-day-size);
+    --calendar-font-size: var(--calendar-lg-font-size);
+    --calendar-line-height: var(--calendar-lg-line-height);
+    --calendar-padding: var(--calendar-lg-padding);
+    --calendar-gap: var(--calendar-lg-gap);
+    --calendar-icon-size: var(--calendar-lg-icon-size);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-calendar[data-size-xl] {
+    --calendar-day-size: var(--calendar-xl-day-size);
+    --calendar-font-size: var(--calendar-xl-font-size);
+    --calendar-line-height: var(--calendar-xl-line-height);
+    --calendar-padding: var(--calendar-xl-padding);
+    --calendar-gap: var(--calendar-xl-gap);
+    --calendar-icon-size: var(--calendar-xl-icon-size);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-calendar[data-size-2xl] {
+    --calendar-day-size: var(--calendar-2xl-day-size);
+    --calendar-font-size: var(--calendar-2xl-font-size);
+    --calendar-line-height: var(--calendar-2xl-line-height);
+    --calendar-padding: var(--calendar-2xl-padding);
+    --calendar-gap: var(--calendar-2xl-gap);
+    --calendar-icon-size: var(--calendar-2xl-icon-size);
+  }
+}

@@ -1,3 +1,4 @@
+export type { CalendarProps, DateRange, Matcher } from './components/calendar/type';
 export type { ButtonProps, ButtonNativeProps, ButtonLinkProps, ButtonComponent, ButtonShape, ButtonWidthMode } from './components/button/type';
 export type { IBKIntent, IBKVariants, IBKSize, IBKResponsiveSize, IBKLayout } from './components/types/base';
 
