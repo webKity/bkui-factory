@@ -1,0 +1,25 @@
+/* 设计值由 source/components 编译；本层只维护 Web 布局及尺寸映射。 */
+.bkreact-breadcrumb {
+  --breadcrumb-base-font-size: var(--breadcrumb-size-base-font-size);
+  --breadcrumb-base-line-height: var(--breadcrumb-size-base-line-height);
+  --breadcrumb-base-gap: var(--breadcrumb-size-base-gap);
+  --breadcrumb-base-icon-size: var(--breadcrumb-size-base-icon-size);
+  --breadcrumb-font-size: var(--breadcrumb-base-font-size);
+  --breadcrumb-line-height: var(--breadcrumb-base-line-height);
+  --breadcrumb-gap: var(--breadcrumb-base-gap);
+  --breadcrumb-icon-size: var(--breadcrumb-base-icon-size);
+  --breadcrumb-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --breadcrumb-display: flex;
+  --breadcrumb-inline-display: inline-flex;
+  --breadcrumb-align: center;
+  --breadcrumb-wrap: wrap;
+  --breadcrumb-zero: 0;
+  --breadcrumb-list-style: none;
+  --breadcrumb-text-decoration: none;
+  --breadcrumb-hover-text-decoration: underline;
+  --breadcrumb-overflow-wrap: anywhere;
+  --breadcrumb-icon-display: block;
+  --breadcrumb-full-size: 100%;
+  --breadcrumb-focus-ring-style: solid;
+  --breadcrumb-disabled-cursor: not-allowed;
+}

@@ -1,0 +1,139 @@
+/* 样式只消费 Breadcrumb 局部 tokens。 */
+/* data-size="sm" 表示固定尺寸；data-size-sm 是显式响应式断点标记。
+ * 断点值与 utils/size.ts 的 sizeBreakpointMinWidths 通过契约测试校验。
+ * size 写入的 --breadcrumb-{scope}-* 引用受组件控制；外部 CSS 请覆盖
+ * --breadcrumb-font-size / line-height / gap / icon-size 等最终消费变量。
+ */
+.bkreact-breadcrumb {
+  font-family: var(--breadcrumb-font-family);
+  font-size: var(--breadcrumb-font-size);
+  line-height: var(--breadcrumb-line-height);
+  font-weight: var(--breadcrumb-font-weight);
+  color: var(--breadcrumb-color);
+}
+
+.bkreact-breadcrumb__list {
+  display: var(--breadcrumb-display);
+  align-items: var(--breadcrumb-align);
+  flex-wrap: var(--breadcrumb-wrap);
+  gap: var(--breadcrumb-gap);
+  margin: var(--breadcrumb-zero);
+  padding: var(--breadcrumb-zero);
+  list-style: var(--breadcrumb-list-style);
+}
+
+.bkreact-breadcrumb__item,
+.bkreact-breadcrumb__link,
+.bkreact-breadcrumb__text,
+.bkreact-breadcrumb__separator {
+  display: var(--breadcrumb-inline-display);
+  align-items: var(--breadcrumb-align);
+  gap: var(--breadcrumb-gap);
+  min-width: var(--breadcrumb-zero);
+}
+
+.bkreact-breadcrumb__link {
+  color: var(--breadcrumb-color);
+  text-decoration: var(--breadcrumb-text-decoration);
+  border-radius: var(--breadcrumb-focus-radius);
+}
+
+@media (hover: hover) {
+  .bkreact-breadcrumb__link:hover {
+    color: var(--breadcrumb-hover-color);
+    text-decoration: var(--breadcrumb-hover-text-decoration);
+  }
+}
+
+.bkreact-breadcrumb__link:active {
+  color: var(--breadcrumb-active-color);
+}
+
+.bkreact-breadcrumb__link:focus-visible {
+  outline: var(--breadcrumb-focus-ring-width) var(--breadcrumb-focus-ring-style) var(--breadcrumb-focus-ring-color);
+  outline-offset: var(--breadcrumb-focus-ring-offset);
+}
+
+.bkreact-breadcrumb__text[aria-current='page'] {
+  color: var(--breadcrumb-current-color);
+  font-weight: var(--breadcrumb-current-font-weight);
+}
+
+.bkreact-breadcrumb__text[data-disabled] {
+  color: var(--breadcrumb-disabled-color);
+  cursor: var(--breadcrumb-disabled-cursor);
+}
+
+.bkreact-breadcrumb__separator {
+  color: var(--breadcrumb-separator-color);
+  flex-shrink: var(--breadcrumb-zero);
+}
+
+.bkreact-breadcrumb__label {
+  min-width: var(--breadcrumb-zero);
+  overflow-wrap: var(--breadcrumb-overflow-wrap);
+}
+
+.bkreact-breadcrumb__icon {
+  display: var(--breadcrumb-inline-display);
+  width: var(--breadcrumb-icon-size);
+  height: var(--breadcrumb-icon-size);
+  flex-shrink: var(--breadcrumb-zero);
+}
+
+.bkreact-breadcrumb__icon > svg {
+  display: var(--breadcrumb-icon-display);
+  width: var(--breadcrumb-full-size);
+  height: var(--breadcrumb-full-size);
+}
+
+.bkreact-breadcrumb__separator > svg {
+  display: var(--breadcrumb-icon-display);
+  width: var(--breadcrumb-icon-size);
+  height: var(--breadcrumb-icon-size);
+}
+
+@media (min-width: 40rem) {
+  .bkreact-breadcrumb[data-size-sm] {
+    --breadcrumb-font-size: var(--breadcrumb-sm-font-size);
+    --breadcrumb-line-height: var(--breadcrumb-sm-line-height);
+    --breadcrumb-gap: var(--breadcrumb-sm-gap);
+    --breadcrumb-icon-size: var(--breadcrumb-sm-icon-size);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-breadcrumb[data-size-md] {
+    --breadcrumb-font-size: var(--breadcrumb-md-font-size);
+    --breadcrumb-line-height: var(--breadcrumb-md-line-height);
+    --breadcrumb-gap: var(--breadcrumb-md-gap);
+    --breadcrumb-icon-size: var(--breadcrumb-md-icon-size);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-breadcrumb[data-size-lg] {
+    --breadcrumb-font-size: var(--breadcrumb-lg-font-size);
+    --breadcrumb-line-height: var(--breadcrumb-lg-line-height);
+    --breadcrumb-gap: var(--breadcrumb-lg-gap);
+    --breadcrumb-icon-size: var(--breadcrumb-lg-icon-size);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-breadcrumb[data-size-xl] {
+    --breadcrumb-font-size: var(--breadcrumb-xl-font-size);
+    --breadcrumb-line-height: var(--breadcrumb-xl-line-height);
+    --breadcrumb-gap: var(--breadcrumb-xl-gap);
+    --breadcrumb-icon-size: var(--breadcrumb-xl-icon-size);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-breadcrumb[data-size-2xl] {
+    --breadcrumb-font-size: var(--breadcrumb-2xl-font-size);
+    --breadcrumb-line-height: var(--breadcrumb-2xl-line-height);
+    --breadcrumb-gap: var(--breadcrumb-2xl-gap);
+    --breadcrumb-icon-size: var(--breadcrumb-2xl-icon-size);
+  }
+}

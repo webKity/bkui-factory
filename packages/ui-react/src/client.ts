@@ -1,5 +1,8 @@
 'use client';
 
+export { Breadcrumb } from './components/breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem } from './components/breadcrumb/type';
+
 export { Calendar } from './components/calendar';
 export type { CalendarProps, DateRange, Matcher } from './components/calendar/type';
 
