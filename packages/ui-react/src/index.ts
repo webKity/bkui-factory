@@ -24,3 +24,5 @@ export type { RatingProps, RatingTrigger } from './components/rating/type';
 export type { TooltipProps, TooltipProviderProps, TooltipSide, TooltipAlign } from './components/tooltip/type';
 
 export type * from './components/timeline/type';
+
+export type { CheckboxProps, ICheckboxProps, CheckboxChangeEventDetails } from './components/checkbox/type';

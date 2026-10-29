@@ -1,0 +1,48 @@
+/* 设计值来自 design.tokens.css；本层维护 Web 结构和状态组合。 */
+.bkreact-checkbox {
+  --checkbox-display: inline-flex;
+  --checkbox-align: center;
+  --checkbox-box-display: inline-flex;
+  --checkbox-box-align: center;
+  --checkbox-box-justify: center;
+  --checkbox-indicator-display: inline-flex;
+  --checkbox-indicator-align: center;
+  --checkbox-indicator-justify: center;
+  --checkbox-box-sizing: border-box;
+  --checkbox-padding: 0;
+  --checkbox-margin: 0;
+  --checkbox-flex-shrink: 0;
+  --checkbox-vertical-align: middle;
+  --checkbox-cursor: pointer;
+  --checkbox-disabled-cursor: not-allowed;
+  --checkbox-readonly-cursor: default;
+  --checkbox-user-select: none;
+  --checkbox-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --checkbox-border-style: solid;
+  --checkbox-focus-ring-style: solid;
+  --checkbox-outline: none;
+  --checkbox-transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  --checkbox-reduced-motion-transition: none;
+  --checkbox-icon-display: block;
+  --checkbox-hidden-display: none;
+  --checkbox-icon-fill: none;
+  --checkbox-icon-stroke: currentColor;
+  --checkbox-icon-linecap: round;
+  --checkbox-icon-linejoin: round;
+  --checkbox-label-min-width: 0;
+  --checkbox-label-overflow-wrap: anywhere;
+  --checkbox-box-color: currentColor;
+  --checkbox-box-bg: var(--checkbox-bg);
+  --checkbox-box-border-color: var(--checkbox-border-color);
+  --checkbox-box-size: var(--checkbox-base-box-size);
+  --checkbox-icon-size: var(--checkbox-base-icon-size);
+  --checkbox-font-size: var(--checkbox-base-font-size);
+  --checkbox-line-height: var(--checkbox-base-line-height);
+  --checkbox-gap: var(--checkbox-base-gap);
+}
+
+.bkreact-checkbox:where([data-checked], [data-indeterminate]) {
+  --checkbox-box-color: var(--checkbox-selected-color);
+  --checkbox-box-bg: var(--checkbox-selected-bg);
+  --checkbox-box-border-color: var(--checkbox-selected-bg);
+}

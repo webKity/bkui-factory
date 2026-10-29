@@ -42,3 +42,6 @@ export type { TooltipProps, TooltipProviderProps, TooltipSide, TooltipAlign } fr
 export type * from './components/timeline/type';
 export { Timeline, TimelineRoot, TimelineItem, TimelineMarker, TimelineContent, TimelineTime, TimelineTitle, TimelineDescription, TimelineAction } from './components/timeline';
 export type { IBKLayout } from './components/types/base';
+
+export { Checkbox } from './components/checkbox';
+export type { CheckboxProps, ICheckboxProps, CheckboxChangeEventDetails } from './components/checkbox/type';
