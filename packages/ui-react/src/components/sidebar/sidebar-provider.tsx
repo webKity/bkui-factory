@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { joinClassNames } from "../utils"
+import { joinClassNames, withoutStyle } from "../utils"
 import { registerSidebarShortcut } from "./keyboard-shortcut"
 import { SidebarContext } from "./sidebar-context"
 import { useIsMobile } from "./use-is-mobile"
@@ -34,7 +34,6 @@ export function SidebarProvider({
   onUserOpenChange,
   keyboardShortcut = true,
   className,
-  style,
   ref,
   children,
   ...props
@@ -154,9 +153,8 @@ export function SidebarProvider({
         ref={handleWrapperRef}
         data-slot="sidebar-wrapper"
         data-transition={enableTransition ? "enabled" : "disabled"}
-        style={style}
         className={joinClassNames("bkreact-sidebar", className)}
-        {...props}
+        {...withoutStyle(props)}
       >
         {children}
       </div>

@@ -39,4 +39,3 @@ export type {
   SidebarSide,
   SidebarVariant,
 } from "./types"
-export type { SidebarTokens } from "./types"

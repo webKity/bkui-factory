@@ -1,6 +1,6 @@
 'use client';
 
-import { joinClassNames } from '../utils';
+import { joinClassNames, withoutStyle } from '../utils';
 import { Popup, PopupContent, PopupDescription, PopupHeader, PopupTitle } from '../popup';
 import { useSidebar } from './sidebar-context';
 import type { SidebarProps } from './types';
@@ -8,21 +8,21 @@ import './index.css';
 
 export function Sidebar({
   collapsible = 'offcanvas', variant = 'sidebar', side = 'left',
-  className, children, dir, style, ...props
+  className, children, dir, ...props
 }: SidebarProps) {
   const { isMobile, state, openMobile, setOpenMobile, portalContainer } = useSidebar();
 
   if (collapsible === 'none') {
-    return <div {...props} style={style} dir={dir} data-slot="sidebar" data-variant={variant} data-side={side}
+    return <div {...withoutStyle(props)} dir={dir} data-slot="sidebar" data-variant={variant} data-side={side}
       data-collapsible="none" className={joinClassNames('bkreact-sidebar__static', className)}>{children}</div>;
   }
 
   if (isMobile) {
     return (
       <Popup open={openMobile} onOpenChange={setOpenMobile}>
-        <PopupContent {...props} dir={dir} data-sidebar="sidebar" data-slot="sidebar"
+        <PopupContent {...withoutStyle(props)} dir={dir} data-sidebar="sidebar" data-slot="sidebar"
           data-variant={variant} data-side={side} data-mobile="true" side={side}
-          showCloseButton={false} portalContainer={portalContainer} style={style}
+          showCloseButton={false} portalContainer={portalContainer}
           className={joinClassNames('bkreact-sidebar__mobile', className)}>
           <PopupHeader className="bkreact-sidebar__sr-only">
             <PopupTitle>Sidebar</PopupTitle>
@@ -39,7 +39,7 @@ export function Sidebar({
       data-collapsible={state === 'collapsed' ? collapsible : ''}
       data-variant={variant} data-side={side} data-slot="sidebar">
       <div data-slot="sidebar-gap" className="bkreact-sidebar__gap" />
-      <div {...props} style={style} data-slot="sidebar-container" data-side={side}
+      <div {...withoutStyle(props)} data-slot="sidebar-container" data-side={side}
         className={joinClassNames('bkreact-sidebar__container', className)}>
         <div data-sidebar="sidebar" data-slot="sidebar-inner" className="bkreact-sidebar__inner">{children}</div>
       </div>

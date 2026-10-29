@@ -5,17 +5,17 @@ import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 
 import { Input } from "../input"
-import { joinClassNames } from "../utils"
+import { joinClassNames, withoutStyle } from "../utils"
 
 export function SidebarInset({
   className,
   ...props
-}: React.ComponentProps<"main">) {
+}: Omit<React.ComponentProps<"main">, "style">) {
   return (
     <main
       data-slot="sidebar-inset"
       className={joinClassNames("bkreact-sidebar__inset", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -29,7 +29,7 @@ export function SidebarInput({
       data-slot="sidebar-input"
       data-sidebar="input"
       className={joinClassNames("bkreact-sidebar__input", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -37,13 +37,13 @@ export function SidebarInput({
 export function SidebarHeader({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: Omit<React.ComponentProps<"div">, "style">) {
   return (
     <div
       data-slot="sidebar-header"
       data-sidebar="header"
       className={joinClassNames("bkreact-sidebar__header", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -51,13 +51,13 @@ export function SidebarHeader({
 export function SidebarFooter({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: Omit<React.ComponentProps<"div">, "style">) {
   return (
     <div
       data-slot="sidebar-footer"
       data-sidebar="footer"
       className={joinClassNames("bkreact-sidebar__footer", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -65,7 +65,7 @@ export function SidebarFooter({
 export function SidebarSeparator({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: Omit<React.ComponentProps<"div">, "style">) {
   return (
     <div
       role="separator"
@@ -73,7 +73,7 @@ export function SidebarSeparator({
       data-slot="sidebar-separator"
       data-sidebar="separator"
       className={joinClassNames("bkreact-sidebar__separator", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -81,13 +81,13 @@ export function SidebarSeparator({
 export function SidebarContent({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: Omit<React.ComponentProps<"div">, "style">) {
   return (
     <div
       data-slot="sidebar-content"
       data-sidebar="content"
       className={joinClassNames("bkreact-sidebar__content", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -95,13 +95,13 @@ export function SidebarContent({
 export function SidebarGroup({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: Omit<React.ComponentProps<"div">, "style">) {
   return (
     <div
       data-slot="sidebar-group"
       data-sidebar="group"
       className={joinClassNames("bkreact-sidebar__group", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -110,14 +110,14 @@ export function SidebarGroupLabel({
   className,
   render,
   ...props
-}: useRender.ComponentProps<"div">) {
+}: Omit<useRender.ComponentProps<"div">, "style">) {
   return useRender({
     defaultTagName: "div",
     props: mergeProps<"div">(
       {
         className: joinClassNames("bkreact-sidebar__group-label", className),
       },
-      props
+      withoutStyle(props)
     ),
     render,
     state: { slot: "sidebar-group-label", sidebar: "group-label" },
@@ -128,7 +128,7 @@ export function SidebarGroupAction({
   className,
   render,
   ...props
-}: useRender.ComponentProps<"button">) {
+}: Omit<useRender.ComponentProps<"button">, "style">) {
   return useRender({
     defaultTagName: "button",
     props: mergeProps<"button">(
@@ -136,7 +136,7 @@ export function SidebarGroupAction({
         type: "button",
         className: joinClassNames("bkreact-sidebar__group-action", className),
       },
-      props
+      withoutStyle(props)
     ),
     render,
     state: { slot: "sidebar-group-action", sidebar: "group-action" },
@@ -146,13 +146,13 @@ export function SidebarGroupAction({
 export function SidebarGroupContent({
   className,
   ...props
-}: React.ComponentProps<"div">) {
+}: Omit<React.ComponentProps<"div">, "style">) {
   return (
     <div
       data-slot="sidebar-group-content"
       data-sidebar="group-content"
       className={joinClassNames("bkreact-sidebar__group-content", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }

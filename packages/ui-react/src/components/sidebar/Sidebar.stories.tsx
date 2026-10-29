@@ -6,22 +6,23 @@ import {
   SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem,
   SidebarMenuButton, SidebarTrigger, SidebarInset, SidebarRail,
 } from './index';
-import type { SidebarProps, SidebarProviderProps, SidebarTokens } from './types';
+import type { SidebarProps, SidebarProviderProps } from './types';
+import './examples.css';
 
 type SidebarExampleProps = SidebarProps & Pick<SidebarProviderProps,
   'defaultOpen' | 'defaultUserHasSet' | 'open' | 'onOpenChange' | 'onUserOpenChange' | 'keyboardShortcut'
 >;
 
 function Example({
-  tokens, defaultOpen = true, defaultUserHasSet = false,
+  providerClassName, defaultOpen = true, defaultUserHasSet = false,
   open, onOpenChange, onUserOpenChange, keyboardShortcut = true, ...props
-}: SidebarExampleProps & { tokens?: SidebarTokens }) {
+}: SidebarExampleProps & { providerClassName?: string }) {
   return (
     <SidebarProvider
       key={`${defaultOpen}-${defaultUserHasSet}`}
       defaultOpen={defaultOpen} defaultUserHasSet={defaultUserHasSet}
       open={open} onOpenChange={onOpenChange} onUserOpenChange={onUserOpenChange}
-      keyboardShortcut={keyboardShortcut} style={tokens}
+      keyboardShortcut={keyboardShortcut} className={providerClassName}
     >
       <Sidebar {...props}>
         <SidebarHeader><SidebarTrigger /></SidebarHeader>
@@ -75,7 +76,6 @@ const meta = {
     side: { control: 'inline-radio', options: ['left', 'right'], description: '显示方向；移动端传递给 Popup，默认 left。' },
     children: { control: false, description: '组合 Header、Content、Footer 和菜单内容。' },
     className: { control: 'text', description: '侧栏容器的自定义类名。' },
-    style: { control: false, description: '侧栏局部样式；统一配置尺寸及主题 tokens 时使用 SidebarProvider.style。' },
     defaultOpen: {
       control: 'boolean', description: 'Provider 的初始展开状态；未指定时读取 cookie，缺省展开。示例切换此项会重新挂载 Provider。',
       table: { category: 'SidebarProvider' },
@@ -152,40 +152,33 @@ export const FloatingCollapsed: Story = {
   render: args => <Example {...args} defaultOpen={false} />,
 };
 export const Inset: Story = { name: '内嵌布局', args: { variant: 'inset' }, parameters: { docs: { description: { story: 'variant="inset" 搭配 SidebarInset，为主体内容添加间距、圆角和阴影。' } } } };
-const customTokens: SidebarTokens = {
-  '--sidebar-width': '19rem',
-  '--sidebar-width-icon': '4.5rem',
-  '--sidebar-width-mobile': '21rem',
-  '--sidebar-menu-radius': '16px',
-  '--sidebar-menu-padding-y': '12px',
-  '--sidebar-menu-gap': '12px',
-  '--sidebar-bg': 'var(--color-fill-subtle)',
-  '--sidebar-menu-active-bg': 'var(--color-fill-active)',
-  '--sidebar-transition-duration-ms': 280,
-};
 export const CustomTokens: Story = {
   name: '自定义 Tokens',
   parameters: { docs: {
-    description: { story: '在 SidebarProvider.style 中覆盖 --sidebar-*，即可定制展开/收起宽度、菜单圆角、间距和颜色。移动端 Portal 挂在 Provider 内，继承相同 tokens。' },
-    source: { code: `<SidebarProvider style={{
-  '--sidebar-width': '19rem',
-  '--sidebar-width-icon': '4.5rem',
-  '--sidebar-width-mobile': '21rem',
-  '--sidebar-menu-radius': '16px',
-  '--sidebar-menu-padding-y': '12px',
-  '--sidebar-menu-gap': '12px',
-  '--sidebar-bg': 'var(--color-fill-subtle)',
-  '--sidebar-menu-active-bg': 'var(--color-fill-active)',
-  '--sidebar-transition-duration-ms': 280,
-}}>
+    description: { story: '通过 SidebarProvider 的自定义 className 覆盖 --sidebar-*，即可定制展开/收起宽度、菜单圆角、间距和颜色。移动端 Portal 挂在 Provider 内，继承相同 tokens。' },
+    source: { code: `/* CSS */
+.sidebar-custom {
+  --sidebar-width: 19rem;
+  --sidebar-width-icon: 4.5rem;
+  --sidebar-width-mobile: 21rem;
+  --sidebar-menu-radius: 16px;
+  --sidebar-menu-padding-y: 12px;
+  --sidebar-menu-gap: 12px;
+  --sidebar-bg: var(--color-fill-subtle);
+  --sidebar-menu-active-bg: var(--color-fill-active);
+  --sidebar-transition-duration-ms: 280;
+}
+
+/* JSX */
+<SidebarProvider className="sidebar-custom">
   {/* 组合 Sidebar 和 SidebarInset */}
 </SidebarProvider>` },
   } },
-  render: args => <Example {...args} tokens={customTokens} />,
+  render: args => <Example {...args} providerClassName="sidebar-custom" />,
 };
 export const CustomTokensCollapsed: Story = {
   name: '自定义宽度收起态',
-  render: args => <Example {...args} defaultOpen={false} tokens={customTokens} />,
+  render: args => <Example {...args} defaultOpen={false} providerClassName="sidebar-custom" />,
 };
 
 export const Controlled: Story = {

@@ -7,3 +7,15 @@ type AssertAllTrue<T extends true[]> = T;
 type StyleAPICheck = AssertAllTrue<CheckEach<APIs>>;
 const checked: StyleAPICheck[number] = true;
 void checked;
+
+// Every Sidebar component exposes className and excludes the direct style prop.
+import type { ComponentProps } from 'react';
+import type * as SidebarComponents from '../packages/ui-react/src/components/sidebar';
+type SidebarAPIs = {
+  [K in Exclude<keyof typeof SidebarComponents, 'useSidebar'>]: ComponentProps<(typeof SidebarComponents)[K]>;
+};
+type SidebarStyleChecks = { [K in keyof SidebarAPIs]: ValidStyleAPI<SidebarAPIs[K]> };
+type AssertTrue<T extends true> = T;
+type SidebarStyleAPICheck = AssertTrue<SidebarStyleChecks[keyof SidebarStyleChecks]>;
+const sidebarChecked: SidebarStyleAPICheck = true;
+void sidebarChecked;

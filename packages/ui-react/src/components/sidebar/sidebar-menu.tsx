@@ -5,7 +5,7 @@ import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 
 import { Tooltip } from "../tooltip"
-import { joinClassNames } from "../utils"
+import { joinClassNames, withoutStyle } from "../utils"
 import { useSidebar } from "./sidebar-context"
 import type {
   SidebarMenuActionProps,
@@ -16,13 +16,13 @@ import type {
 export function SidebarMenu({
   className,
   ...props
-}: React.ComponentProps<"ul">) {
+}: Omit<React.ComponentProps<"ul">, "style">) {
   return (
     <ul
       data-slot="sidebar-menu"
       data-sidebar="menu"
       className={joinClassNames("bkreact-sidebar__menu", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -30,13 +30,13 @@ export function SidebarMenu({
 export function SidebarMenuItem({
   className,
   ...props
-}: React.ComponentProps<"li">) {
+}: Omit<React.ComponentProps<"li">, "style">) {
   return (
     <li
       data-slot="sidebar-menu-item"
       data-sidebar="menu-item"
       className={joinClassNames("bkreact-sidebar__menu-item", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -58,7 +58,7 @@ export function SidebarMenuButton({
         "aria-current": isActive ? "page" : undefined,
         className: joinClassNames("bkreact-sidebar__menu-button", className),
       },
-      props
+      withoutStyle(props)
     ),
     render,
     state: {
@@ -101,7 +101,7 @@ export function SidebarMenuAction({
         type: "button",
         className: joinClassNames("bkreact-sidebar__menu-action", className),
       },
-      props
+      withoutStyle(props)
     ),
     render,
     state: { slot: "sidebar-menu-action", sidebar: "menu-action", "show-on-hover": showOnHover },
@@ -111,13 +111,13 @@ export function SidebarMenuAction({
 export function SidebarMenuSub({
   className,
   ...props
-}: React.ComponentProps<"ul">) {
+}: Omit<React.ComponentProps<"ul">, "style">) {
   return (
     <ul
       data-slot="sidebar-menu-sub"
       data-sidebar="menu-sub"
       className={joinClassNames("bkreact-sidebar__menu-sub", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -125,13 +125,13 @@ export function SidebarMenuSub({
 export function SidebarMenuSubItem({
   className,
   ...props
-}: React.ComponentProps<"li">) {
+}: Omit<React.ComponentProps<"li">, "style">) {
   return (
     <li
       data-slot="sidebar-menu-sub-item"
       data-sidebar="menu-sub-item"
       className={joinClassNames("bkreact-sidebar__menu-sub-item", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }
@@ -149,7 +149,7 @@ export function SidebarMenuSubButton({
         "aria-current": isActive ? "page" : undefined,
         className: joinClassNames("bkreact-sidebar__menu-sub-button", className),
       },
-      props
+      withoutStyle(props)
     ),
     render,
     state: {

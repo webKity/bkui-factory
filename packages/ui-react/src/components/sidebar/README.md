@@ -8,7 +8,7 @@ import {
   SidebarMenu, SidebarMenuItem, SidebarMenuButton,
 } from '@bkreact/ui/client';
 
-<SidebarProvider style={{ '--sidebar-width': '19rem', '--sidebar-width-mobile': '21rem' }}>
+<SidebarProvider className="sidebar-custom">
   <Sidebar collapsible="icon">
     <SidebarTrigger />
     <SidebarContent>
@@ -23,6 +23,15 @@ import {
   </Sidebar>
 </SidebarProvider>
 ```
+
+```css
+.sidebar-custom {
+  --sidebar-width: 19rem;
+  --sidebar-width-mobile: 21rem;
+}
+```
+
+组件只接受 `className` 作为样式入口，不提供 `style` 参数。通过 CSS 类覆盖 `--sidebar-*` 即可定制外观。
 
 移动端通过 Popup 显示侧栏；Portal 挂在 Provider 内，因此 Provider 上的主题、自定义 className 和 CSS tokens 会传递到弹层。菜单文字建议放在最后一个直接子级 `span` 内，供 icon 折叠状态收起文字。
 

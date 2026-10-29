@@ -56,3 +56,6 @@ export * from './components/sidebar';
 
 export { Popup, PopupTrigger, PopupClose, PopupContent, PopupHeader, PopupFooter, PopupTitle, PopupDescription, usePopup, popup } from './components/popup';
 export type * from './components/popup/type';
+
+export { Collapse, CollapseItem } from './components/collapse';
+export type * from './components/collapse/type';

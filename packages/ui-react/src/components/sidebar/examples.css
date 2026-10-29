@@ -1,0 +1,12 @@
+/* Storybook 自定义主题示例；不属于组件默认样式。 */
+.sidebar-custom {
+  --sidebar-width: 19rem;
+  --sidebar-width-icon: 4.5rem;
+  --sidebar-width-mobile: 21rem;
+  --sidebar-menu-radius: 16px;
+  --sidebar-menu-padding-y: 12px;
+  --sidebar-menu-gap: 12px;
+  --sidebar-bg: var(--color-fill-subtle);
+  --sidebar-menu-active-bg: var(--color-fill-active);
+  --sidebar-transition-duration-ms: 280;
+}

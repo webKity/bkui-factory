@@ -1,0 +1,22 @@
+/* 设计值由 source/components 编译；本层维护 Web 尺寸映射。
+ * 字符串 size 仅覆盖 base 变量，不生成 data-size-* 断点属性。
+ * 响应式对象仅为显式配置的断点生成变量与属性，媒体查询消费这些变量。
+ */
+.bkreact-collapse {
+  --collapse-base-font-size: var(--collapse-size-base-font-size);
+  --collapse-font-size: var(--collapse-base-font-size);
+  --collapse-base-line-height: var(--collapse-size-base-line-height);
+  --collapse-line-height: var(--collapse-base-line-height);
+  --collapse-base-padding-x: var(--collapse-size-base-padding-x);
+  --collapse-padding-x: var(--collapse-base-padding-x);
+  --collapse-base-padding-y: var(--collapse-size-base-padding-y);
+  --collapse-padding-y: var(--collapse-base-padding-y);
+  --collapse-base-gap: var(--collapse-size-base-gap);
+  --collapse-gap: var(--collapse-base-gap);
+  --collapse-base-icon-size: var(--collapse-size-base-icon-size);
+  --collapse-icon-size: var(--collapse-base-icon-size);
+  --collapse-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --collapse-transition: height 200ms ease;
+  /* 交互标题默认透明，让根节点的 variant 背景透出。 */
+  --collapse-transparent: transparent;
+}

@@ -22,11 +22,7 @@ export type SidebarContextProps = {
   toggleSidebar: () => void
 }
 
-export type SidebarTokens = React.CSSProperties & { [key: `--sidebar-${string}`]: string | number | undefined }
-
 export type SidebarProviderProps = Omit<React.ComponentProps<"div">, "style"> & {
-  /** 局部 CSS tokens；可在 Provider 或组件 className 中覆盖。 */
-  style?: SidebarTokens
   /** SSR 可传入 cookie 值避免 hydrate 后状态调整；缺省服务端快照为 true。 */
   defaultOpen?: boolean
   /** SSR 传入：用户是否手动设置过偏好 */
@@ -41,22 +37,21 @@ export type SidebarProviderProps = Omit<React.ComponentProps<"div">, "style"> & 
 }
 
 export type SidebarProps = Omit<React.ComponentProps<"div">, "style"> & {
-  style?: SidebarTokens
   collapsible?: SidebarCollapsible
   variant?: SidebarVariant
   side?: SidebarSide
 }
 
-export type SidebarMenuButtonProps = useRender.ComponentProps<"button"> & {
+export type SidebarMenuButtonProps = Omit<useRender.ComponentProps<"button">, "style"> & {
     isActive?: boolean
     tooltip?: string | Omit<TooltipProps, "children" | "content"> & { children?: React.ReactNode }
   }
 
-export type SidebarMenuActionProps = useRender.ComponentProps<"button"> & {
+export type SidebarMenuActionProps = Omit<useRender.ComponentProps<"button">, "style"> & {
     showOnHover?: boolean
   }
 
 /** 默认链接需要 href；执行操作时请用 render={<button type="button" />}。 */
-export type SidebarMenuSubButtonProps = useRender.ComponentProps<"a"> & {
+export type SidebarMenuSubButtonProps = Omit<useRender.ComponentProps<"a">, "style"> & {
     isActive?: boolean
   }

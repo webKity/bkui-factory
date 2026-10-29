@@ -32,3 +32,5 @@ export type { CheckboxProps, ICheckboxProps, CheckboxChangeEventDetails } from '
 export type * from './components/sidebar/types';
 
 export type * from './components/popup/type';
+
+export type * from './components/collapse/type';

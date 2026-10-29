@@ -5,7 +5,7 @@ import * as React from "react"
 import { Button } from "../button"
 import type { ButtonNativeProps } from "../button"
 import { BKIcon } from "../icon"
-import { joinClassNames } from "../utils"
+import { joinClassNames, withoutStyle } from "../utils"
 import { useSidebar } from "./sidebar-context"
 
 export function SidebarTrigger({
@@ -30,7 +30,7 @@ export function SidebarTrigger({
         onClick?.(event)
         if (!event.defaultPrevented) toggleSidebar()
       }}
-      {...props}
+      {...withoutStyle(props)}
     >
       {children}
     </Button>
@@ -41,7 +41,7 @@ export function SidebarRail({
   className,
   onClick,
   ...props
-}: React.ComponentProps<"button">) {
+}: Omit<React.ComponentProps<"button">, "style">) {
   const { toggleSidebar } = useSidebar()
 
   return (
@@ -54,7 +54,7 @@ export function SidebarRail({
       onClick={(event) => { onClick?.(event); if (!event.defaultPrevented) toggleSidebar() }}
       title="Toggle Sidebar"
       className={joinClassNames("bkreact-sidebar__rail", className)}
-      {...props}
+      {...withoutStyle(props)}
     />
   )
 }

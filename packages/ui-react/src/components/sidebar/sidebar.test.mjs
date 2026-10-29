@@ -22,6 +22,9 @@ before(async () => {
   globalThis.cancelAnimationFrame = dom.window.cancelAnimationFrame.bind(dom.window);
   globalThis.getComputedStyle = dom.window.getComputedStyle.bind(dom.window);
   dom.window.PointerEvent ??= dom.window.MouseEvent;
+  const customStyle = document.createElement('style');
+  customStyle.textContent = '.custom-provider { --sidebar-width: 20rem; --sidebar-width-mobile: 21rem; --sidebar-menu-radius: 16px; }';
+  document.head.append(customStyle);
   globalThis.IS_REACT_ACT_ENVIRONMENT = true;
   dom.window.matchMedia = query => {
     if (query === '(min-width: 48rem)') mediaCreations++;
@@ -106,8 +109,8 @@ test('keyboard shortcut toggles desktop state; mobile state does not persist a d
 test('automatic changes preserve preference semantics and token overrides', async () => {
   let context;
   function Consumer() { context = api.useSidebar(); return null; }
-  await render(h(Consumer), { style: { '--sidebar-width': '20rem', '--sidebar-menu-radius': '12px', margin: 2 } });
-  assert.equal(container.firstChild.style.getPropertyValue('--sidebar-width'), '20rem');
+  await render(h(Consumer), { className: 'custom-provider' });
+  assert.equal(getComputedStyle(container.firstChild).getPropertyValue('--sidebar-width'), '20rem');
   assert.equal(context.portalContainer, container.firstChild);
   await act(() => context.setOpen(false));
   assert.equal(context.state, 'collapsed');
@@ -179,7 +182,7 @@ test('mobile uses real Popup, inherits the Provider scope, closes with Escape an
       h(api.Sidebar, { side, className: 'custom-sidebar' },
         h(api.SidebarTrigger, { 'data-testid': 'inside-trigger' }), h(api.SidebarMenu, null,
           h(api.SidebarMenuItem, null, h(api.SidebarMenuButton, null, 'Account'))))),
-      { className: 'custom-provider', style: { '--sidebar-width-mobile': '21rem', '--sidebar-menu-radius': '16px' } });
+      { className: 'custom-provider' });
     const trigger = container.querySelector('[data-testid="outside-trigger"]');
     await act(async () => { await user.click(trigger); });
     const dialog = document.querySelector('[role="dialog"]');
@@ -188,7 +191,7 @@ test('mobile uses real Popup, inherits the Provider scope, closes with Escape an
     assert.equal(dialog.dataset.mobile, 'true');
     assert(dialog.classList.contains('custom-sidebar'));
     assert(dialog.closest('.custom-provider'), 'Portal stays in the custom Provider token scope');
-    assert.equal(dialog.closest('.custom-provider').style.getPropertyValue('--sidebar-width-mobile'), '21rem');
+    assert.equal(getComputedStyle(dialog.closest('.custom-provider')).getPropertyValue('--sidebar-width-mobile'), '21rem');
     assert.equal(dialog.querySelector('[data-slot="popup-close"]'), null);
     assert.equal(document.getElementById(dialog.getAttribute('aria-labelledby')).textContent, 'Sidebar');
     assert.equal(document.getElementById(dialog.getAttribute('aria-describedby')).textContent, 'Displays the mobile sidebar.');
@@ -417,4 +420,34 @@ test('collapsed layout removes expanded gutters and centers header, footer and m
     assert.equal(declarations(iconOnly).opacity, undefined, 'icon wrapper must not be treated as a label');
     assert.equal(declarations(iconOnly).width, undefined);
   }
+});
+
+test('Sidebar APIs retain className and ignore unsupported inline style from JavaScript callers', async () => {
+  const props = { className: 'class-only-test', style: { color: 'red', '--sidebar-width': '999px' } };
+  const content = h(api.SidebarHeader, props,
+    h(api.SidebarTrigger, props), h(api.SidebarInput, props), h(api.SidebarGroupLabel, props, 'Label'),
+    h(api.SidebarGroupAction, props, 'Action'));
+  const menu = h(api.SidebarMenu, props, h(api.SidebarMenuItem, props,
+    h(api.SidebarMenuButton, props, 'Home'), h(api.SidebarMenuAction, props, 'More'),
+    h(api.SidebarMenuSub, props, h(api.SidebarMenuSubItem, props,
+      h(api.SidebarMenuSubButton, { ...props, href: '/child' }, 'Child')))));
+  await render(h('div', null,
+    h(api.Sidebar, { ...props, collapsible: 'none' }, content,
+      h(api.SidebarContent, props, h(api.SidebarGroup, props,
+        h(api.SidebarGroupContent, props, menu))), h(api.SidebarSeparator, props), h(api.SidebarFooter, props), h(api.SidebarRail, props)),
+    h(api.SidebarInset, props)), props);
+  for (const element of container.querySelectorAll('.class-only-test')) {
+    assert.equal(element.style.color, '', `${element.dataset.slot}: style must be ignored`);
+    assert.equal(element.style.getPropertyValue('--sidebar-width'), '');
+  }
+  assert(container.querySelectorAll('.class-only-test').length >= 20);
+  // Desktop and mobile branches both filter Sidebar props before forwarding to their container.
+  await render(h('div', null, h(api.SidebarTrigger), h(api.Sidebar, props, h(api.SidebarTrigger))), props);
+  assert.equal(container.querySelector('[data-slot="sidebar-container"]').hasAttribute('style'), false);
+  await act(() => { mobile = true; for (const callback of mediaListeners) callback(); });
+  await act(() => container.querySelector('button').click());
+  const popup = document.querySelector('[role="dialog"]');
+  assert(popup.classList.contains('class-only-test'));
+  assert.equal(popup.style.color, '');
+  assert.equal(popup.style.getPropertyValue('--sidebar-width'), '');
 });

@@ -1,5 +1,5 @@
 /* 设计值来自 source/components/sidebar.tokens.json；此层负责 Web 布局和状态映射。
- * 在 Provider.style 或自定义 className 中覆盖 --sidebar-* 即可定制。
+ * 通过自定义 className 覆盖 --sidebar-* 即可定制。
  */
 .bkreact-sidebar {
   --sidebar-display: flex;
