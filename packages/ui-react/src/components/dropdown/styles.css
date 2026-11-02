@@ -1,0 +1,183 @@
+/* 样式层只消费 Dropdown 局部 tokens。 */
+.bkreact-dropdown-positioner {
+  z-index: var(--dropdown-z-index);
+  isolation: var(--dropdown-isolation);
+}
+.bkreact-dropdown {
+  box-sizing: var(--dropdown-box-sizing);
+  width: var(--dropdown-anchor-width);
+  min-width: min(var(--dropdown-min-width), var(--dropdown-available-width));
+  max-width: var(--dropdown-available-width);
+  max-height: var(--dropdown-available-height);
+  overflow-x: var(--dropdown-overflow-x);
+  overflow-y: var(--dropdown-overflow);
+  padding: var(--dropdown-padding);
+  color: var(--dropdown-color);
+  background: var(--dropdown-bg);
+  border: var(--dropdown-border-width) var(--dropdown-border-style) var(--dropdown-border-color);
+  border-radius: var(--dropdown-border-radius);
+  box-shadow: var(--dropdown-shadow);
+  font-family: var(--dropdown-font-family);
+  font-size: var(--dropdown-font-size);
+  line-height: var(--dropdown-line-height);
+  outline: var(--dropdown-outline);
+  transform-origin: var(--dropdown-transform-origin);
+  opacity: var(--dropdown-open-opacity);
+  transform: var(--dropdown-open-transform);
+  transition: var(--dropdown-transition);
+}
+.bkreact-dropdown[data-starting-style], .bkreact-dropdown[data-ending-style] {
+  opacity: var(--dropdown-closed-opacity);
+  transform: var(--dropdown-closed-transform);
+}
+.bkreact-dropdown__item {
+  position: var(--dropdown-position);
+  box-sizing: var(--dropdown-box-sizing);
+  display: var(--dropdown-display);
+  align-items: var(--dropdown-align);
+  gap: var(--dropdown-gap);
+  min-height: var(--dropdown-height);
+  padding: var(--dropdown-padding-y) var(--dropdown-padding-x);
+  border-radius: var(--dropdown-item-radius);
+  color: var(--dropdown-color);
+  background: var(--dropdown-transparent);
+  outline: var(--dropdown-outline);
+  cursor: var(--dropdown-cursor);
+  user-select: var(--dropdown-user-select);
+}
+.bkreact-dropdown__item[data-variant='destructive'] { color: var(--dropdown-danger-color); }
+.bkreact-dropdown__item[data-highlighted], .bkreact-dropdown__item[data-popup-open],
+.bkreact-dropdown__item:focus-visible {
+  background: var(--dropdown-hover-bg);
+}
+.bkreact-dropdown__item[data-disabled] {
+  opacity: var(--dropdown-disabled-opacity);
+  pointer-events: var(--dropdown-pointer-events);
+  cursor: var(--dropdown-disabled-cursor);
+}
+.bkreact-dropdown__label { flex: var(--dropdown-item-flex); min-width: var(--dropdown-zero); overflow-wrap: var(--dropdown-wrap); }
+.bkreact-dropdown__suffix {
+  margin-inline-start: var(--dropdown-self-end);
+  color: var(--dropdown-muted-color);
+  font-size: var(--dropdown-label-font-size);
+  line-height: var(--dropdown-label-line-height);
+  letter-spacing: var(--dropdown-shortcut-spacing);
+}
+.bkreact-dropdown__icon, .bkreact-dropdown__arrow {
+  display: var(--dropdown-display);
+  width: var(--dropdown-icon-size);
+  height: var(--dropdown-icon-size);
+  flex-shrink: var(--dropdown-shrink);
+}
+.bkreact-dropdown__icon > svg { width: var(--dropdown-full); height: var(--dropdown-full); }
+.bkreact-dropdown__arrow {
+  margin-inline-start: var(--dropdown-self-end);
+  color: var(--dropdown-arrow-color);
+  fill: var(--dropdown-arrow-fill);
+  stroke: var(--dropdown-arrow-stroke);
+  stroke-width: var(--dropdown-arrow-stroke-width);
+}
+.bkreact-dropdown__arrow:dir(rtl) { transform: var(--dropdown-arrow-rtl-transform); }
+.bkreact-dropdown__group-label {
+  padding: var(--dropdown-label-padding-y) var(--dropdown-label-padding-x);
+  color: var(--dropdown-label-color);
+  font-size: var(--dropdown-label-font-size);
+  line-height: var(--dropdown-label-line-height);
+}
+.bkreact-dropdown__separator {
+  height: var(--dropdown-border-width);
+  margin: var(--dropdown-separator-spacing) var(--dropdown-zero);
+  background: var(--dropdown-border-color);
+}
+.bkreact-dropdown__item[data-inset], .bkreact-dropdown__group-label[data-inset] {
+  padding-inline-start: var(--dropdown-inset-padding);
+}
+/* 危险操作覆盖上方通用高亮背景，保留相同的键盘焦点行为。 */
+.bkreact-dropdown__item[data-variant='destructive'][data-highlighted],
+.bkreact-dropdown__item[data-variant='destructive']:focus-visible {
+  background: var(--dropdown-danger-hover-bg);
+}
+.bkreact-dropdown__choice { padding-inline-end: var(--dropdown-choice-padding-end); }
+.bkreact-dropdown__indicator {
+  position: var(--dropdown-indicator-position);
+  inset-inline-end: var(--dropdown-indicator-offset);
+  display: var(--dropdown-display);
+  align-items: var(--dropdown-align);
+  justify-content: var(--dropdown-align);
+  pointer-events: var(--dropdown-pointer-events);
+}
+.bkreact-dropdown__check {
+  width: var(--dropdown-icon-size);
+  height: var(--dropdown-icon-size);
+  fill: var(--dropdown-arrow-fill);
+  stroke: var(--dropdown-arrow-stroke);
+  stroke-width: var(--dropdown-arrow-stroke-width);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-dropdown { transition: var(--dropdown-reduced-motion-transition); }
+}
+
+@media (min-width: 40rem) {
+  .bkreact-dropdown[data-size-sm] {
+    --dropdown-height: var(--dropdown-sm-height);
+    --dropdown-padding-x: var(--dropdown-sm-padding-x);
+    --dropdown-padding-y: var(--dropdown-sm-padding-y);
+    --dropdown-font-size: var(--dropdown-sm-font-size);
+    --dropdown-line-height: var(--dropdown-sm-line-height);
+    --dropdown-gap: var(--dropdown-sm-gap);
+    --dropdown-icon-size: var(--dropdown-sm-icon-size);
+    --dropdown-item-radius: var(--dropdown-sm-item-radius);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-dropdown[data-size-md] {
+    --dropdown-height: var(--dropdown-md-height);
+    --dropdown-padding-x: var(--dropdown-md-padding-x);
+    --dropdown-padding-y: var(--dropdown-md-padding-y);
+    --dropdown-font-size: var(--dropdown-md-font-size);
+    --dropdown-line-height: var(--dropdown-md-line-height);
+    --dropdown-gap: var(--dropdown-md-gap);
+    --dropdown-icon-size: var(--dropdown-md-icon-size);
+    --dropdown-item-radius: var(--dropdown-md-item-radius);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-dropdown[data-size-lg] {
+    --dropdown-height: var(--dropdown-lg-height);
+    --dropdown-padding-x: var(--dropdown-lg-padding-x);
+    --dropdown-padding-y: var(--dropdown-lg-padding-y);
+    --dropdown-font-size: var(--dropdown-lg-font-size);
+    --dropdown-line-height: var(--dropdown-lg-line-height);
+    --dropdown-gap: var(--dropdown-lg-gap);
+    --dropdown-icon-size: var(--dropdown-lg-icon-size);
+    --dropdown-item-radius: var(--dropdown-lg-item-radius);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-dropdown[data-size-xl] {
+    --dropdown-height: var(--dropdown-xl-height);
+    --dropdown-padding-x: var(--dropdown-xl-padding-x);
+    --dropdown-padding-y: var(--dropdown-xl-padding-y);
+    --dropdown-font-size: var(--dropdown-xl-font-size);
+    --dropdown-line-height: var(--dropdown-xl-line-height);
+    --dropdown-gap: var(--dropdown-xl-gap);
+    --dropdown-icon-size: var(--dropdown-xl-icon-size);
+    --dropdown-item-radius: var(--dropdown-xl-item-radius);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-dropdown[data-size-2xl] {
+    --dropdown-height: var(--dropdown-2xl-height);
+    --dropdown-padding-x: var(--dropdown-2xl-padding-x);
+    --dropdown-padding-y: var(--dropdown-2xl-padding-y);
+    --dropdown-font-size: var(--dropdown-2xl-font-size);
+    --dropdown-line-height: var(--dropdown-2xl-line-height);
+    --dropdown-gap: var(--dropdown-2xl-gap);
+    --dropdown-icon-size: var(--dropdown-2xl-icon-size);
+    --dropdown-item-radius: var(--dropdown-2xl-item-radius);
+  }
+}

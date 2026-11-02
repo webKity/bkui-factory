@@ -31,3 +31,14 @@ const emptyManualSize: EmptyProps = { 'data-size-md': 'lg' };
 const emptyMissingBase: EmptyProps = { size: { md: 'lg' } };
 void emptyManualSize;
 void emptyMissingBase;
+
+import type { DropdownMenuContentProps, DropdownProps, DropdownMenuSubTriggerProps } from '../packages/ui-react/src';
+// @ts-expect-error Dropdown responsive sizes require base.
+const dropdownMissingBase: DropdownMenuContentProps = { size: { sm: 'base' } };
+// @ts-expect-error md is a breakpoint, not a component size.
+const dropdownInvalidSize: DropdownMenuContentProps = { size: { base: 'sm', md: 'md' } };
+// @ts-expect-error Width overrides use className, not inline style.
+const dropdownInlineStyle: DropdownMenuContentProps = { style: { width: 200 } };
+const dropdownPortal: DropdownProps = { trigger: '菜单', groups: [], portalProps: { container: null } };
+const dropdownSubLabel: DropdownMenuSubTriggerProps = { label: '文字导航' };
+void [dropdownMissingBase, dropdownInvalidSize, dropdownInlineStyle, dropdownPortal, dropdownSubLabel];

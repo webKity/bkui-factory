@@ -15,6 +15,7 @@ async function load(relativePath) {
 const web = await load('../packages/ui-react/src/components/utils/size.ts');
 const native = await load('../packages/ui-native/src/components/utils/size.ts');
 const { getButtonSizeStyle } = await load('../packages/ui-react/src/components/button/size.ts');
+const { getDropdownSizeStyle } = await load('../packages/ui-react/src/components/dropdown/size.ts');
 const { getLoadingSizeStyle } = await load('../packages/ui-react/src/components/loading/size.ts');
 
 test('两端拒绝缺少 base、无效档位和未知断点，不生成默认尺寸补丁', () => {
@@ -57,6 +58,33 @@ test('组件 CSS 不使用 var() 默认值隐藏缺失的样式变量', async ()
       postcss.parse(await readFile(new URL(file, dir), 'utf8')).walkDecls(declaration => {
         assert.doesNotMatch(declaration.value, /var\(\s*--[\w-]+\s*,/, `${component}/${file}：${declaration.prop}`);
       });
+    }
+  }
+});
+
+test('Dropdown 明确拒绝缺失 base 和非法尺寸，断点与尺寸使用独立命名空间', async () => {
+  for (const size of [{ sm: 'base' }, { sm: 'base', lg: 'lg' }]) assert.throws(() => getDropdownSizeStyle(size), /base/);
+  for (const size of ['md', { base: 'sm', md: 'md' }]) assert.throws(() => getDropdownSizeStyle(size), /未知尺寸/);
+  assert.deepEqual(web.getResponsiveSizeAttributes({ base: 'sm' }), {});
+  assert.deepEqual(web.getResponsiveSizeAttributes({ base: 'sm', md: 'lg' }), { 'data-size-md': true });
+  const dimensions = ['height', 'padding-x', 'padding-y', 'font-size', 'line-height', 'gap', 'icon-size', 'item-radius'];
+  const style = getDropdownSizeStyle({ base: 'sm', md: 'lg' });
+  for (const dimension of dimensions) {
+    assert.equal(style[`--dropdown-base-${dimension}`], `var(--dropdown-size-sm-${dimension})`);
+    assert.equal(style[`--dropdown-md-${dimension}`], `var(--dropdown-size-lg-${dimension})`);
+    assert(!Object.hasOwn(style, `--dropdown-sm-${dimension}`));
+  }
+  const css = postcss.parse(await readFile(new URL('../packages/ui-react/src/components/dropdown/styles.css', import.meta.url), 'utf8'));
+  const media = css.nodes.filter(node => node.type === 'atrule' && node.name === 'media' && node.params.includes('min-width'));
+  assert.equal(media.length, web.sizeBreakpoints.length);
+  for (const [scope, width] of Object.entries(web.sizeBreakpointMinWidths)) {
+    const rule = media.find(node => node.params === `(min-width: ${width}rem)`);
+    assert(rule, scope);
+    for (const dimension of dimensions) {
+      let declaration;
+      rule.walkDecls(`--dropdown-${dimension}`, node => declaration = node);
+      assert.equal(declaration?.parent.selector, `.bkreact-dropdown[data-size-${scope}]`);
+      assert.equal(declaration?.value, `var(--dropdown-${scope}-${dimension})`);
     }
   }
 });

@@ -1,0 +1,80 @@
+/* Web 布局与状态映射；设计值来自 source/components/dropdown.tokens.json。 */
+.bkreact-dropdown-positioner {
+  --dropdown-z-index: 9999;
+  --dropdown-isolation: isolate;
+}
+.bkreact-dropdown {
+  --dropdown-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --dropdown-height: var(--dropdown-base-height);
+  --dropdown-padding-x: var(--dropdown-base-padding-x);
+  --dropdown-padding-y: var(--dropdown-base-padding-y);
+  --dropdown-font-size: var(--dropdown-base-font-size);
+  --dropdown-line-height: var(--dropdown-base-line-height);
+  --dropdown-gap: var(--dropdown-base-gap);
+  --dropdown-icon-size: var(--dropdown-base-icon-size);
+  --dropdown-item-radius: var(--dropdown-base-item-radius);
+  --dropdown-sub-radius: var(--dropdown-item-radius);
+  --dropdown-available-width: var(--available-width, 100vw);
+  --dropdown-available-height: var(--available-height, 100vh);
+  --dropdown-transform-origin: var(--transform-origin, center);
+  --dropdown-box-sizing: border-box;
+  --dropdown-border-style: solid;
+  --dropdown-outline: none;
+  --dropdown-display: flex;
+  --dropdown-align: center;
+  --dropdown-item-flex: 1;
+  --dropdown-shrink: 0;
+  --dropdown-zero: 0;
+  --dropdown-full: 100%;
+  --dropdown-overflow: auto;
+  --dropdown-wrap: anywhere;
+  --dropdown-cursor: pointer;
+  --dropdown-disabled-opacity: 0.5;
+  --dropdown-pointer-events: none;
+  --dropdown-position: relative;
+  --dropdown-indicator-position: absolute;
+  --dropdown-self-end: auto;
+  --dropdown-anchor-width: var(--anchor-width, auto);
+  --dropdown-overflow-x: hidden;
+  --dropdown-shortcut-spacing: 0.1em;
+  --dropdown-shadow: 0 0 10px rgb(20 27 38 / 6%), 0 0 20px rgb(20 27 38 / 5%);
+  --dropdown-disabled-cursor: not-allowed;
+  --dropdown-user-select: none;
+  --dropdown-transparent: transparent;
+  --dropdown-open-opacity: 1;
+  --dropdown-closed-opacity: 0;
+  --dropdown-open-transform: scale(1);
+  --dropdown-closed-transform: translate(var(--dropdown-motion-x), var(--dropdown-motion-y)) scale(0.95);
+  --dropdown-motion-x: 0px;
+  --dropdown-motion-y: calc(-1 * var(--dropdown-motion-distance));
+  --dropdown-transition: opacity calc(var(--dropdown-motion-duration-ms) * 1ms) ease,
+    transform calc(var(--dropdown-motion-duration-ms) * 1ms) ease;
+  --dropdown-reduced-motion-transition: none;
+  --dropdown-arrow-fill: none;
+  --dropdown-arrow-stroke-width: 1.5;
+  --dropdown-arrow-stroke: currentColor;
+  --dropdown-arrow-rtl-transform: rotate(180deg);
+}
+
+.bkreact-dropdown[data-side='top'] { --dropdown-motion-y: var(--dropdown-motion-distance); }
+.bkreact-dropdown[data-side='left'],
+.bkreact-dropdown[data-side='inline-start']:dir(ltr),
+.bkreact-dropdown[data-side='inline-end']:dir(rtl) {
+  --dropdown-motion-x: var(--dropdown-motion-distance);
+  --dropdown-motion-y: 0px;
+}
+.bkreact-dropdown[data-side='right'],
+.bkreact-dropdown[data-side='inline-end']:dir(ltr),
+.bkreact-dropdown[data-side='inline-start']:dir(rtl) {
+  --dropdown-motion-x: calc(-1 * var(--dropdown-motion-distance));
+  --dropdown-motion-y: 0px;
+}
+.bkreact-dropdown--sub {
+  --dropdown-min-width: var(--dropdown-sub-min-width);
+  --dropdown-padding: var(--dropdown-sub-padding);
+  --dropdown-border-radius: var(--dropdown-sub-radius);
+  --dropdown-anchor-width: auto;
+}
+html[theme='dark'] .bkreact-dropdown {
+  --dropdown-shadow: 0 8px 20px rgb(0 0 0 / 42%), inset 0 1px 0 rgb(255 255 255 / 4%);
+}
