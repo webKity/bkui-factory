@@ -14,6 +14,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 export const Playground: Story = {
+  name: '可调试用例',
   render: args => <Popup>
     <PopupTrigger render={<Button intent="brand" />}>打开弹层</PopupTrigger>
     <PopupContent {...args}>
@@ -23,6 +24,7 @@ export const Playground: Story = {
   </Popup>,
 };
 export const Controlled: Story = {
+  name: '受控弹层',
   render: function Example(args) {
     const [open, setOpen] = useState(false);
     return <Popup open={open} onOpenChange={setOpen}>
@@ -32,11 +34,13 @@ export const Controlled: Story = {
   },
 };
 export const Hook: Story = {
+  name: 'Hook 弹层',
   render: function Example(args) {
     const [create, holder] = usePopup();
     return <>{holder}<Button onClick={() => create({ ...args, title: 'Hook 弹层', children: <PopupFooter><PopupClose render={<Button />}>关闭</PopupClose></PopupFooter> })}>通过 usePopup 打开</Button></>;
   },
 };
 export const Imperative: Story = {
+  name: '命令式弹层',
   render: args => <Button onClick={() => popup({ ...args, title: '命令式弹层' })}>通过 popup 打开</Button>,
 };

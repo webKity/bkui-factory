@@ -49,7 +49,12 @@
   font-size: var(--popup-description-font-size);
   line-height: var(--popup-description-line-height);
 }
-.bkreact-popup__close { position: absolute; top: var(--popup-close-offset); inset-inline-end: var(--popup-close-offset); }
+/* 高于 Button 默认定位的优先级，避免 CSS 加载顺序改变关闭按钮的位置。 */
+.bkreact-popup__content .bkreact-popup__close {
+  position: absolute;
+  top: var(--popup-close-offset);
+  inset-inline-end: var(--popup-close-offset);
+}
 @media (prefers-reduced-motion: reduce) {
   .bkreact-popup__overlay, .bkreact-popup__content { transition: none; }
 }

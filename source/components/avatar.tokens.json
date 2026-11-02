@@ -1,0 +1,117 @@
+{
+  "base": {
+    "color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-body}"
+    },
+    "bg": {
+      "$type": "color",
+      "$value": "{semantic.color-fill-default}"
+    },
+    "border-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-md}"
+    },
+    "round-border-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-full}"
+    },
+    "font-weight": {
+      "$type": "number",
+      "$value": 500
+    }
+  },
+  "sizes": {
+    "2xs": {
+      "size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-2xs-size}"
+      }
+    },
+    "xs": {
+      "size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 28,
+          "unit": "px"
+        }
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xs-size}"
+      }
+    },
+    "sm": {
+      "size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 32,
+          "unit": "px"
+        }
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-sm-size}"
+      }
+    },
+    "base": {
+      "size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 40,
+          "unit": "px"
+        }
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-base-size}"
+      }
+    },
+    "lg": {
+      "size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        }
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-lg-size}"
+      }
+    },
+    "xl": {
+      "size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 56,
+          "unit": "px"
+        }
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-xl-size}"
+      }
+    },
+    "2xl": {
+      "size": {
+        "$type": "dimension",
+        "$value": {
+          "value": 64,
+          "unit": "px"
+        }
+      },
+      "font-size": {
+        "$type": "dimension",
+        "$value": "{semantic.text-2xl-size}"
+      }
+    }
+  }
+}

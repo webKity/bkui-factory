@@ -1,0 +1,76 @@
+/* 样式仅消费 Avatar 局部 tokens。 */
+.bkreact-avatar {
+  display: var(--avatar-display);
+  position: var(--avatar-position);
+  box-sizing: var(--avatar-box-sizing);
+  align-items: var(--avatar-align);
+  justify-content: var(--avatar-align);
+  flex-shrink: var(--avatar-flex-shrink);
+  vertical-align: var(--avatar-vertical-align);
+  overflow: var(--avatar-overflow);
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: var(--avatar-border-radius);
+  color: var(--avatar-color);
+  background-color: var(--avatar-bg);
+  font-family: var(--avatar-font-family);
+  font-size: var(--avatar-font-size);
+  font-weight: var(--avatar-font-weight);
+  line-height: var(--avatar-line-height);
+}
+
+.bkreact-avatar__image,
+.bkreact-avatar__fallback {
+  position: var(--avatar-part-position);
+  inset: var(--avatar-part-inset);
+  width: var(--avatar-fill-size);
+  height: var(--avatar-fill-size);
+}
+
+.bkreact-avatar__image {
+  display: var(--avatar-image-display);
+  object-fit: var(--avatar-object-fit);
+}
+
+.bkreact-avatar__fallback {
+  display: var(--avatar-display);
+  align-items: var(--avatar-align);
+  justify-content: var(--avatar-align);
+}
+
+/* visibility 保留布局盒，使 keepMounted + loading="lazy" 可以触发加载。 */
+.bkreact-avatar__image[data-loading],
+.bkreact-avatar__image[data-error] {
+  visibility: var(--avatar-image-hidden-visibility);
+}
+
+@media (min-width: 40rem) {
+  .bkreact-avatar[data-size-sm] {
+    --avatar-size: var(--avatar-sm-size);
+    --avatar-font-size: var(--avatar-sm-font-size);
+  }
+}
+@media (min-width: 48rem) {
+  .bkreact-avatar[data-size-md] {
+    --avatar-size: var(--avatar-md-size);
+    --avatar-font-size: var(--avatar-md-font-size);
+  }
+}
+@media (min-width: 64rem) {
+  .bkreact-avatar[data-size-lg] {
+    --avatar-size: var(--avatar-lg-size);
+    --avatar-font-size: var(--avatar-lg-font-size);
+  }
+}
+@media (min-width: 80rem) {
+  .bkreact-avatar[data-size-xl] {
+    --avatar-size: var(--avatar-xl-size);
+    --avatar-font-size: var(--avatar-xl-font-size);
+  }
+}
+@media (min-width: 96rem) {
+  .bkreact-avatar[data-size-2xl] {
+    --avatar-size: var(--avatar-2xl-size);
+    --avatar-font-size: var(--avatar-2xl-font-size);
+  }
+}

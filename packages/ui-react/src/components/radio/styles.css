@@ -1,0 +1,225 @@
+/* 所有主题和尺寸只消费 Radio 局部 tokens。 */
+.bkreact-radio {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  gap: var(--radio-gap);
+  max-width: 100%;
+  font-family: var(--radio-font-family);
+  font-size: var(--radio-font-size);
+  line-height: var(--radio-line-height);
+  color: var(--radio-color);
+}
+
+.bkreact-radio__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  min-width: 0;
+  gap: var(--radio-gap);
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  border: var(--radio-border-width) solid var(--radio-transparent);
+  transition: var(--radio-transition);
+}
+
+.bkreact-radio__content { display: flex; flex-direction: column; min-width: 0; }
+.bkreact-radio__label { overflow-wrap: anywhere; }
+.bkreact-radio__description { color: var(--radio-description-color); font-weight: normal; overflow-wrap: anywhere; }
+
+.bkreact-radio__item:focus-visible {
+  outline: var(--radio-focus-ring-width) solid var(--radio-focus-ring-color);
+  outline-offset: var(--radio-focus-ring-offset);
+}
+
+.bkreact-radio[data-variant='outline'] {
+  gap: calc(var(--radio-gap) + var(--radio-outline-spacing));
+}
+
+.bkreact-radio[data-variant='outline'] .bkreact-radio__content {
+  gap: var(--radio-outline-spacing);
+}
+
+.bkreact-radio[data-variant='outline'] .bkreact-radio__description {
+  color: var(--radio-outline-description-color);
+  font-size: var(--radio-outline-description-font-size);
+}
+
+.bkreact-radio[data-variant='outline'] .bkreact-radio__item {
+  min-height: var(--radio-height);
+  padding: calc(var(--radio-padding-y) + var(--radio-outline-spacing))
+    calc(var(--radio-padding-x) + var(--radio-outline-spacing));
+  border-color: var(--radio-border-color);
+  border-radius: var(--radio-border-radius);
+}
+
+.bkreact-radio[data-variant='outline'] .bkreact-radio__item[data-checked] {
+  border-color: var(--radio-outline-active-border-color);
+  background: var(--radio-selected-bg);
+}
+.bkreact-radio[data-variant='outline'] .bkreact-radio__item[data-checked] .bkreact-radio__label {
+  color: var(--radio-tone);
+}
+
+.bkreact-radio[data-variant='fill'] {
+  flex-wrap: nowrap;
+  gap: 0;
+  font-size: var(--radio-fill-font-size);
+  line-height: var(--radio-fill-line-height);
+  height: var(--radio-height);
+  padding: var(--radio-track-padding);
+  background: var(--radio-track-bg);
+  border-radius: var(--radio-fill-radius);
+}
+.bkreact-radio[data-variant='fill'] .bkreact-radio__item {
+  z-index: 1;
+  flex: 1 1 auto;
+  justify-content: center;
+  min-height: 0;
+  padding: 0 var(--radio-padding-x);
+  border-radius: var(--radio-fill-item-radius);
+  text-align: center;
+}
+.bkreact-radio[data-variant='fill'] .bkreact-radio__item[data-checked] {
+  color: var(--radio-slider-color);
+  font-weight: var(--radio-font-weight);
+}
+.bkreact-radio[data-variant='fill'] .bkreact-radio__item:focus-visible {
+  z-index: 2;
+}
+/* 固定高度的分段选项保持单行，标题和描述均可截断，焦点环不裁剪。 */
+.bkreact-radio[data-variant='fill'] .bkreact-radio__content {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--radio-gap);
+  max-width: 100%;
+}
+.bkreact-radio[data-variant='fill'] :where(.bkreact-radio__label, .bkreact-radio__description) {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.bkreact-radio__slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  border-radius: var(--radio-fill-item-radius);
+  background: var(--radio-slider-bg);
+  box-shadow: var(--radio-slider-shadow);
+  transition: var(--radio-slider-transition);
+}
+/* 白色滑块使用深色文字，在两种主题中均保持对比度。 */
+.bkreact-radio[data-variant='fill'] .bkreact-radio__item[data-checked] .bkreact-radio__description {
+  color: inherit;
+}
+
+.bkreact-radio[data-variant='ghost'] .bkreact-radio__item { padding: 0; }
+.bkreact-radio__circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--radio-circle-size);
+  height: var(--radio-circle-size);
+  border: var(--radio-border-width) solid var(--radio-border-color);
+  border-radius: var(--radio-round-radius);
+  color: var(--radio-check-color);
+  transition: var(--radio-transition);
+}
+.bkreact-radio__item[data-checked] .bkreact-radio__circle {
+  background: var(--radio-tone);
+  border-color: var(--radio-tone);
+}
+.bkreact-radio__indicator { display: inline-flex; width: var(--radio-icon-size); height: var(--radio-icon-size); }
+.bkreact-radio__indicator[data-unchecked] { visibility: hidden; }
+.bkreact-radio__indicator svg { display: block; width: 100%; height: 100%; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+@media (hover: hover) {
+  .bkreact-radio[data-variant='outline'] .bkreact-radio__item:where(:not([data-disabled], [data-readonly])):hover {
+    border-color: var(--radio-outline-active-border-color);
+  }
+  .bkreact-radio[data-variant='ghost'] .bkreact-radio__item:where(:not([data-disabled], [data-readonly])):hover .bkreact-radio__circle {
+    border-color: var(--radio-tone);
+  }
+}
+.bkreact-radio__item[data-disabled] { opacity: var(--radio-disabled-opacity); cursor: not-allowed; }
+.bkreact-radio__item[data-readonly]:not([data-disabled]) { cursor: default; }
+.bkreact-radio[data-disabled] .bkreact-radio__slider { opacity: var(--radio-disabled-opacity); }
+
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-radio__item, .bkreact-radio__circle, .bkreact-radio__slider { transition: none; }
+}
+
+/* 断点对应 utils/size.ts 的 sizeBreakpointMinWidths，由 radio.test.mjs 校验。 */
+@media (min-width: 40rem) {
+  .bkreact-radio[data-size-sm] {
+    --radio-height: var(--radio-sm-height);
+    --radio-padding-x: var(--radio-sm-padding-x);
+    --radio-padding-y: var(--radio-sm-padding-y);
+    --radio-font-size: var(--radio-sm-font-size);
+    --radio-line-height: var(--radio-sm-line-height);
+    --radio-gap: var(--radio-sm-gap);
+    --radio-circle-size: var(--radio-sm-circle-size);
+    --radio-icon-size: var(--radio-sm-icon-size);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-radio[data-size-md] {
+    --radio-height: var(--radio-md-height);
+    --radio-padding-x: var(--radio-md-padding-x);
+    --radio-padding-y: var(--radio-md-padding-y);
+    --radio-font-size: var(--radio-md-font-size);
+    --radio-line-height: var(--radio-md-line-height);
+    --radio-gap: var(--radio-md-gap);
+    --radio-circle-size: var(--radio-md-circle-size);
+    --radio-icon-size: var(--radio-md-icon-size);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-radio[data-size-lg] {
+    --radio-height: var(--radio-lg-height);
+    --radio-padding-x: var(--radio-lg-padding-x);
+    --radio-padding-y: var(--radio-lg-padding-y);
+    --radio-font-size: var(--radio-lg-font-size);
+    --radio-line-height: var(--radio-lg-line-height);
+    --radio-gap: var(--radio-lg-gap);
+    --radio-circle-size: var(--radio-lg-circle-size);
+    --radio-icon-size: var(--radio-lg-icon-size);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-radio[data-size-xl] {
+    --radio-height: var(--radio-xl-height);
+    --radio-padding-x: var(--radio-xl-padding-x);
+    --radio-padding-y: var(--radio-xl-padding-y);
+    --radio-font-size: var(--radio-xl-font-size);
+    --radio-line-height: var(--radio-xl-line-height);
+    --radio-gap: var(--radio-xl-gap);
+    --radio-circle-size: var(--radio-xl-circle-size);
+    --radio-icon-size: var(--radio-xl-icon-size);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-radio[data-size-2xl] {
+    --radio-height: var(--radio-2xl-height);
+    --radio-padding-x: var(--radio-2xl-padding-x);
+    --radio-padding-y: var(--radio-2xl-padding-y);
+    --radio-font-size: var(--radio-2xl-font-size);
+    --radio-line-height: var(--radio-2xl-line-height);
+    --radio-gap: var(--radio-2xl-gap);
+    --radio-circle-size: var(--radio-2xl-circle-size);
+    --radio-icon-size: var(--radio-2xl-icon-size);
+  }
+}

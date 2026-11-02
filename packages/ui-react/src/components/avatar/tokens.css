@@ -1,0 +1,24 @@
+/* 设计值由 source/components/avatar.tokens.json 编译；此处维护 Web 结构映射。 */
+.bkreact-avatar {
+  --avatar-display: inline-flex;
+  --avatar-position: relative;
+  --avatar-align: center;
+  --avatar-box-sizing: border-box;
+  --avatar-flex-shrink: 0;
+  --avatar-overflow: hidden;
+  --avatar-vertical-align: middle;
+  --avatar-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --avatar-line-height: 1;
+  --avatar-size: var(--avatar-base-size);
+  --avatar-font-size: var(--avatar-base-font-size);
+  --avatar-part-position: absolute;
+  --avatar-part-inset: 0;
+  --avatar-fill-size: 100%;
+  --avatar-object-fit: cover;
+  --avatar-image-display: block;
+  --avatar-image-hidden-visibility: hidden;
+}
+
+.bkreact-avatar[data-round] {
+  --avatar-border-radius: var(--avatar-round-border-radius);
+}

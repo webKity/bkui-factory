@@ -34,6 +34,9 @@ function createEntry(props: CreatePopupProps, remove: () => void) {
     },
   };
   function Instance() {
+    // Dialog 首次挂载就 open 时会跳过入场动画；先提交关闭状态再打开。
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => { setMounted(true); }, []);
     const visible = useSyncExternalStore(
       useCallback(listener => { listeners.add(listener); return () => { listeners.delete(listener); }; }, []),
       () => open,
@@ -41,7 +44,7 @@ function createEntry(props: CreatePopupProps, remove: () => void) {
     );
     const { onOpenChange, onOpenChangeComplete, modal, disablePointerDismissal, actionsRef: _actionsRef,
       handle: dialogHandle, triggerId, defaultTriggerId, ...contentProps } = props;
-    return <Popup open={visible} modal={modal} disablePointerDismissal={disablePointerDismissal}
+    return <Popup open={mounted && visible} modal={modal} disablePointerDismissal={disablePointerDismissal}
       handle={dialogHandle} triggerId={triggerId} defaultTriggerId={defaultTriggerId}
       actionsRef={rootActionsRef}
       onOpenChange={(next, details) => {

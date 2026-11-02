@@ -97,6 +97,10 @@ export class InstallerService implements IRendererRegistry {
     return !!tagName && !!this.active.get(tagName)?.length;
   }
 
+  getTagNames(): string[] {
+    return [...this.active.keys()];
+  }
+
   get packs() {
     return this._packs$.getValue();
   }

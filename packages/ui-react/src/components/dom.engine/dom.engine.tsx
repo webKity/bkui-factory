@@ -121,3 +121,28 @@ export const DomEngine = ({
     </DomEngineContext.Provider>
   );
 };
+
+/**
+ * 订阅当前 DomEngine 注册表，返回单调递增的版本号。
+ * 新增 pack 或清空非空注册表时触发更新；重复安装和清空空表不改变版本。
+ * 版本可用作依赖项，使基于注册表的派生数据重新计算。须在 DomEngine 内调用。
+ */
+export function useInstallerVersion(): number {
+  const installer = useInstallerService();
+  return useSyncExternalStore(
+    installer.subscribe,
+    installer.getSnapshot,
+    installer.getSnapshot,
+  );
+}
+
+/**
+ * 返回当前 DomEngine 已注册的 tagName 列表，去重并按首次注册顺序排列。
+ * 列表不按 targetType / match 过滤，不代表每个标签都能命中当前业务参数。
+ * 注册表版本变化时重新计算，否则复用数组引用；须在 DomEngine 内调用。
+ */
+export function useSupportedTagNames(): string[] {
+  const installer = useInstallerService();
+  const version = useInstallerVersion();
+  return useMemo(() => installer.getTagNames(), [installer, version]);
+}

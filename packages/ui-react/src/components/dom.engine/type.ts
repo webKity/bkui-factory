@@ -90,5 +90,6 @@ export interface IRendererRegistry {
   has: (tagName?: string | null) => boolean;
   list: () => IRendererDefinition[];
   listPacks: () => IRendererPackMeta[];
+  getTagNames: () => string[];
 }
 

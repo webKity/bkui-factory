@@ -2,6 +2,8 @@
 @import './components/themes/index.css';
 @import './components/typography/index.css';
 @import './components/button/index.css';
+@import './components/avatar/index.css';
+@import './components/radio/index.css';
 @import './components/breadcrumb/index.css';
 @import './components/calendar/index.css';
 @import './components/icon/index.css';

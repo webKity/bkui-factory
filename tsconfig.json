@@ -20,6 +20,7 @@
     "scripts/calendar.typecheck.tsx",
     "scripts/style-api.typecheck.tsx",
     "scripts/checkbox.typecheck.tsx",
+    "scripts/radio.typecheck.tsx",
     "scripts/tooltip.typecheck.tsx",
     "scripts/timeline.typecheck.tsx",
     "scripts/typography.typecheck.tsx",

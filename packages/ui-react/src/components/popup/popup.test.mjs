@@ -60,6 +60,35 @@ async function mount(element) {
 }
 const dialog = () => document.querySelector('[role="dialog"]');
 
+test('popup 首次打开会进入入场动画状态', async () => {
+  const states = [];
+  const complete = [];
+  await act(async () => {
+    handles.push(api.popup({
+      title: '入场动画',
+      className: state => { states.push(state.transitionStatus); return ''; },
+      onOpenChangeComplete: open => complete.push(open),
+    }));
+  });
+  assert(dialog());
+  assert.equal(states[0], 'starting');
+  assert(!complete.includes(false));
+});
+
+test('usePopup 首次打开及替换实例都会进入入场动画状态', async () => {
+  let create;
+  function App() { const [open, holder] = api.usePopup(); create = open; return holder; }
+  await mount(h(App));
+  for (const title of ['首次打开', '替换实例']) {
+    const states = [];
+    await act(() => {
+      create({ title, className: state => { states.push(state.transitionStatus); return ''; } });
+    });
+    assert(dialog().textContent.includes(title));
+    assert.equal(states[0], 'starting');
+  }
+});
+
 test('组合 API：触发、可访问名称与描述、ref、关闭及焦点恢复', async () => {
   const ref = createRef();
   await mount(h(api.Popup, {}, h(api.PopupTrigger, {}, '打开'), h(api.PopupContent, { ref, side: 'bottom' },

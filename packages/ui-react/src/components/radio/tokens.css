@@ -1,0 +1,33 @@
+/* Web 结构与状态组合；设计值来自 design.tokens.css。 */
+.bkreact-radio {
+  --radio-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --radio-selected-bg: color-mix(in srgb, var(--radio-tone) 2%, transparent);
+  --radio-outline-active-border-color: var(--radio-tone);
+  --radio-fill-radius: var(--radio-border-radius);
+  --radio-fill-item-radius: max(0px, calc(var(--radio-border-radius) - var(--radio-track-padding)));
+  --radio-transparent: transparent;
+  --radio-transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+  --radio-slider-transition: transform 220ms ease, width 220ms ease, height 220ms ease;
+  --radio-slider-shadow: 0 1px 4px #00000014;
+  --radio-disabled-opacity: 0.45;
+  --radio-outline-description-font-size: calc(var(--radio-font-size) * 0.875);
+  --radio-fill-font-size: calc(var(--radio-font-size) * 0.875);
+  --radio-fill-line-height: 1.2;
+  --radio-height: var(--radio-base-height);
+  --radio-padding-x: var(--radio-base-padding-x);
+  --radio-padding-y: var(--radio-base-padding-y);
+  --radio-font-size: var(--radio-base-font-size);
+  --radio-line-height: var(--radio-base-line-height);
+  --radio-gap: var(--radio-base-gap);
+  --radio-circle-size: var(--radio-base-circle-size);
+  --radio-icon-size: var(--radio-base-icon-size);
+}
+
+.bkreact-radio[data-variant='outline'][data-intent='normal'] {
+  --radio-outline-active-border-color: color-mix(in srgb, var(--radio-tone) 30%, var(--radio-border-color));
+}
+
+.bkreact-radio[data-variant='fill'][data-round] {
+  --radio-fill-radius: var(--radio-round-radius);
+  --radio-fill-item-radius: var(--radio-round-radius);
+}

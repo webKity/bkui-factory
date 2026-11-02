@@ -1,4 +1,6 @@
+export type * from './components/avatar/type';
 export type { CalendarProps, DateRange, Matcher } from './components/calendar/type';
+export type * from './components/radio/type';
 export type { BreadcrumbProps, BreadcrumbItem } from './components/breadcrumb/type';
 export type { ButtonProps, ButtonNativeProps, ButtonLinkProps, ButtonComponent, ButtonShape, ButtonWidthMode } from './components/button/type';
 export type { IBKIntent, IBKVariants, IBKSize, IBKResponsiveSize, IBKLayout } from './components/types/base';

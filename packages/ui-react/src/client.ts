@@ -1,5 +1,11 @@
 'use client';
 
+export { Avatar, AvatarImage, AvatarFallback } from './components/avatar';
+export type * from './components/avatar/type';
+
+export { Radios } from './components/radio';
+export type * from './components/radio/type';
+
 export { Breadcrumb } from './components/breadcrumb';
 export type { BreadcrumbProps, BreadcrumbItem } from './components/breadcrumb/type';
 
