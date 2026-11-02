@@ -1,0 +1,76 @@
+{
+  "base": {
+    "color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-primary}"
+    },
+    "label-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-body}"
+    },
+    "separator-color": {
+      "$type": "color",
+      "$value": "{semantic.color-text-body}"
+    },
+    "digit-bg": {
+      "$type": "color",
+      "$value": "{semantic.color-fill-default}"
+    },
+    "digit-radius": {
+      "$type": "dimension",
+      "$value": "{semantic.radius-scale-sm}"
+    },
+    "font-size": {
+      "$type": "dimension",
+      "$value": "{semantic.text-xl-size}"
+    },
+    "line-height": {
+      "$type": "dimension",
+      "$value": "{semantic.text-xl-line-height}"
+    },
+    "label-font-size": {
+      "$type": "dimension",
+      "$value": "{semantic.text-sm-size}"
+    },
+    "font-weight": {
+      "$type": "number",
+      "$value": 500
+    },
+    "label-font-weight": {
+      "$type": "number",
+      "$value": 400
+    },
+    "animation-duration-ms": {
+      "$type": "number",
+      "$value": 420
+    },
+    "gap": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "digit-min-width": {
+      "$type": "dimension",
+      "$value": {
+        "value": 28,
+        "unit": "px"
+      }
+    },
+    "digit-padding-x": {
+      "$type": "dimension",
+      "$value": {
+        "value": 4,
+        "unit": "px"
+      }
+    },
+    "digit-padding-y": {
+      "$type": "dimension",
+      "$value": {
+        "value": 2,
+        "unit": "px"
+      }
+    }
+  }
+}

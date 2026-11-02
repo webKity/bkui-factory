@@ -1,0 +1,156 @@
+/* 样式层只消费 --countdown-* 局部 tokens。 */
+.bkreact-countdown {
+  display: var(--countdown-display);
+  align-items: var(--countdown-align);
+  gap: var(--countdown-gap);
+  box-sizing: var(--countdown-box-sizing);
+  font-family: var(--countdown-font-family);
+  font-size: var(--countdown-font-size);
+  font-weight: var(--countdown-font-weight);
+  font-variant-numeric: var(--countdown-font-variant);
+  line-height: var(--countdown-line-height);
+  white-space: var(--countdown-white-space);
+  color: var(--countdown-color);
+}
+.bkreact-countdown__item {
+  display: var(--countdown-display);
+  align-items: var(--countdown-align);
+  gap: var(--countdown-item-gap);
+}
+.bkreact-countdown__digit {
+  position: var(--countdown-position);
+  /* inline-flex 从内部文字取得基线；inline-block + overflow:hidden 会以底边对齐，导致数字上浮。 */
+  display: var(--countdown-digit-display);
+  align-items: var(--countdown-align);
+  justify-content: var(--countdown-align);
+  vertical-align: var(--countdown-digit-vertical-align);
+  min-width: var(--countdown-digit-min-width);
+  padding: var(--countdown-digit-padding-y) var(--countdown-digit-padding-x);
+  border-radius: var(--countdown-digit-radius);
+  background: var(--countdown-digit-bg);
+  text-align: var(--countdown-text-align);
+  overflow: var(--countdown-overflow);
+}
+.bkreact-countdown__value {
+  display: var(--countdown-value-display);
+}
+.bkreact-countdown__label {
+  font-size: var(--countdown-label-font-size);
+  font-weight: var(--countdown-label-font-weight);
+  color: var(--countdown-label-color);
+}
+.bkreact-countdown__separator {
+  color: var(--countdown-separator-color);
+}
+.bkreact-countdown__sr {
+  position: var(--countdown-sr-position);
+  width: var(--countdown-sr-size);
+  height: var(--countdown-sr-size);
+  padding: var(--countdown-sr-padding);
+  margin: var(--countdown-sr-margin);
+  overflow: var(--countdown-sr-overflow);
+  clip-path: var(--countdown-sr-clip-path);
+  white-space: var(--countdown-white-space);
+  border: var(--countdown-sr-border);
+}
+.bkreact-countdown__value[data-measure] {
+  opacity: var(--countdown-measure-opacity);
+}
+.bkreact-countdown__reels {
+  position: var(--countdown-layer-position);
+  inset: var(--countdown-inset);
+  display: var(--countdown-display);
+  align-items: var(--countdown-align);
+  justify-content: var(--countdown-align);
+  padding: var(--countdown-digit-padding-y) var(--countdown-digit-padding-x);
+}
+.bkreact-countdown__cell {
+  position: var(--countdown-position);
+  display: var(--countdown-cell-display);
+  width: var(--countdown-cell-width);
+  height: var(--countdown-line-height);
+  perspective: var(--countdown-cell-perspective);
+}
+.bkreact-countdown__transition,
+.bkreact-countdown__wheel-old,
+.bkreact-countdown__wheel-new {
+  position: var(--countdown-layer-position);
+  inset: var(--countdown-inset);
+}
+.bkreact-countdown__transition {
+  overflow: var(--countdown-overflow);
+  perspective: var(--countdown-cell-perspective);
+}
+.bkreact-countdown:where([data-animation='flip']) .bkreact-countdown__transition {
+  overflow: var(--countdown-layer-overflow);
+}
+.bkreact-countdown__wheel-old {
+  background: var(--countdown-digit-bg);
+  animation: var(--countdown-wheel-old-animation);
+}
+.bkreact-countdown__wheel-new {
+  background: var(--countdown-digit-bg);
+  animation: var(--countdown-wheel-new-animation);
+}
+.bkreact-countdown__half,
+.bkreact-countdown__flap,
+.bkreact-countdown__flap-face {
+  position: var(--countdown-layer-position);
+  left: var(--countdown-inset);
+  width: var(--countdown-full);
+}
+.bkreact-countdown__half,
+.bkreact-countdown__flap {
+  height: var(--countdown-half);
+}
+.bkreact-countdown__half,
+.bkreact-countdown__flap-face {
+  overflow: var(--countdown-overflow);
+  background: var(--countdown-digit-bg);
+  backface-visibility: var(--countdown-backface-visibility);
+}
+.bkreact-countdown__half--top,
+.bkreact-countdown__flap {
+  top: var(--countdown-inset);
+}
+.bkreact-countdown__half--bottom {
+  bottom: var(--countdown-inset);
+}
+.bkreact-countdown__half-text {
+  display: var(--countdown-value-display);
+  height: var(--countdown-line-height);
+}
+.bkreact-countdown__half--bottom .bkreact-countdown__half-text,
+.bkreact-countdown__flap-face--back .bkreact-countdown__half-text {
+  transform: var(--countdown-bottom-text-offset);
+}
+.bkreact-countdown__flap {
+  transform-origin: var(--countdown-flip-origin);
+  transform-style: var(--countdown-flap-transform-style);
+  animation: var(--countdown-flip-animation);
+}
+.bkreact-countdown__flap-face {
+  top: var(--countdown-inset);
+  height: var(--countdown-full);
+}
+.bkreact-countdown__flap-face--back {
+  transform: var(--countdown-flip-back);
+}
+@keyframes bk-countdown-wheel-out {
+  from { transform: var(--countdown-animation-rest); }
+  to { transform: var(--countdown-wheel-end); }
+}
+@keyframes bk-countdown-wheel-in {
+  from { transform: var(--countdown-wheel-start); }
+  to { transform: var(--countdown-animation-rest); }
+}
+@keyframes bk-countdown-flip {
+  from { transform: var(--countdown-flip-rest); }
+  to { transform: var(--countdown-flip-end); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bkreact-countdown__transition { display: var(--countdown-reduced-motion-display); }
+  .bkreact-countdown__wheel-old,
+  .bkreact-countdown__wheel-new,
+  .bkreact-countdown__flap { animation: var(--countdown-reduced-motion-animation); }
+}

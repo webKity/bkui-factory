@@ -1,0 +1,10 @@
+.countdown-examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 24px;
+}
+
+.countdown-example-otp {
+  --countdown-digit-bg: transparent;
+}
