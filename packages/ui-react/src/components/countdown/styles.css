@@ -55,6 +55,8 @@
 }
 .bkreact-countdown__value[data-measure] {
   opacity: var(--countdown-measure-opacity);
+  user-select: var(--countdown-measure-user-select);
+  pointer-events: var(--countdown-measure-pointer-events);
 }
 .bkreact-countdown__reels {
   position: var(--countdown-layer-position);

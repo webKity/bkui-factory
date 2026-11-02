@@ -22,6 +22,8 @@
   --countdown-cell-width: 1ch;
   --countdown-cell-perspective: 400px;
   --countdown-measure-opacity: 0;
+  --countdown-measure-user-select: none;
+  --countdown-measure-pointer-events: none;
   --countdown-backface-visibility: hidden;
   --countdown-flap-transform-style: preserve-3d;
   --countdown-animation-duration: calc(var(--countdown-animation-duration-ms) * 1ms);

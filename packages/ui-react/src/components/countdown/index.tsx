@@ -1,6 +1,6 @@
 'use client';
 
-import { Fragment, forwardRef } from 'react';
+import { Fragment, forwardRef, useEffect, useRef, useState } from 'react';
 import { joinClassNames, withoutStyle } from '../utils/styles';
 import { countdownUnits, getCountdownItems } from './time';
 import { useCountdown } from './use-countdown';
@@ -11,6 +11,24 @@ import './index.css';
 export type * from './type';
 export { useCountdown } from './use-countdown';
 
+function CompletionAnnouncement({ running, finished, completionCount }: {
+  running: boolean;
+  finished: boolean;
+  completionCount: number;
+}) {
+  const lastCompletion = useRef(completionCount);
+  const [message, setMessage] = useState('');
+  useEffect(() => {
+    if (completionCount !== lastCompletion.current) {
+      lastCompletion.current = completionCount;
+      setMessage('倒计时已结束');
+    } else if (running || !finished) setMessage('');
+  }, [running, finished, completionCount]);
+  return <span className="bkreact-countdown__sr" role="status" aria-live="polite" aria-atomic="true">
+    <span key={completionCount}>{message}</span>
+  </span>;
+}
+
 export const Countdown = forwardRef<HTMLDivElement, CountdownProps>(function Countdown({
   targetTime, duration, value, autoStart, interval, onChange, onFinish,
   scene = 'alarm', animation = 'none', units = 'auto', labels,
@@ -18,11 +36,11 @@ export const Countdown = forwardRef<HTMLDivElement, CountdownProps>(function Cou
   separator, className, itemClassName, digitClassName, labelClassName, separatorClassName,
   expiredText, render, children, ...rest
 }, ref) {
-  const { parts, finished } = useCountdown({ targetTime, duration, value, autoStart, interval, onChange, onFinish });
+  const { parts, finished, ready, running, completionCount } = useCountdown({ targetTime, duration, value, autoStart, interval, onChange, onFinish });
   const selected = units === 'auto'
     ? scene === 'otp' ? ['seconds'] as const
       : scene === 'alarm' ? countdownUnits.slice(1)
-      : parts.days > 0 ? countdownUnits : countdownUnits.slice(1)
+      : countdownUnits
     : units;
   const items = getCountdownItems(parts, [...selected], labels, showZeroUnits, padDays);
   const renderDigit = (item: CountdownItem, extraClassName?: string) => (
@@ -33,6 +51,14 @@ export const Countdown = forwardRef<HTMLDivElement, CountdownProps>(function Cou
     />
   );
   const customRender = render ?? children;
+  const renderSeparator = (index: number) => {
+    if (index === 0) return null;
+    const content = typeof separator === 'function'
+      ? separator(items[index - 1].unit, index - 1, items)
+      : separator !== undefined ? separator : showLabels ? null : ':';
+    if (content == null || typeof content === 'boolean' || content === '') return null;
+    return <span className={joinClassNames('bkreact-countdown__separator', separatorClassName)} aria-hidden="true">{content}</span>;
+  };
 
   return (
     <div
@@ -41,20 +67,17 @@ export const Countdown = forwardRef<HTMLDivElement, CountdownProps>(function Cou
       className={joinClassNames('bkreact-countdown', className)}
       role={rest.role ?? 'timer'}
       aria-live={rest['aria-live'] ?? 'off'}
+      aria-busy={!ready || rest['aria-busy'] || undefined}
+      data-pending={!ready || undefined}
       data-scene={scene}
       data-animation={animation}
       data-finished={finished || undefined}
     >
-      {finished && expiredText !== undefined ? expiredText : customRender
+      {!ready ? null : finished && expiredText != null ? expiredText : customRender
         ? customRender(parts, items, { animation, finished, renderDigit })
         : items.map((item, index) => (
           <Fragment key={item.unit}>
-            {index > 0 && (
-              <span className={joinClassNames('bkreact-countdown__separator', separatorClassName)} aria-hidden="true">
-                {typeof separator === 'function' ? separator(items[index - 1].unit, index - 1, items)
-                  : separator !== undefined ? separator : showLabels ? null : ':'}
-              </span>
-            )}
+            {renderSeparator(index)}
             <span className={joinClassNames('bkreact-countdown__item', itemClassName)} data-unit={item.unit}>
               {renderDigit(item)}
               <span className={joinClassNames(showLabels ? 'bkreact-countdown__label' : 'bkreact-countdown__sr', labelClassName)}>
@@ -63,6 +86,9 @@ export const Countdown = forwardRef<HTMLDivElement, CountdownProps>(function Cou
             </span>
           </Fragment>
         ))}
+      {rest['aria-live'] === undefined && (
+        <CompletionAnnouncement running={running} finished={finished} completionCount={completionCount} />
+      )}
     </div>
   );
 });

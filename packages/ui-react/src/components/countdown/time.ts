@@ -13,7 +13,7 @@ export function normalizeRemaining(value: number): number {
 export function parseTargetTime(value: CountdownTimeInput): number {
   const timestamp = value instanceof Date ? value.getTime()
     : typeof value === 'number' ? (Math.abs(value) < 1e12 ? value * 1000 : value)
-    : Date.parse(value);
+    : /^\s*[+-]?\d+(?:\.\d+)?\s*$/.test(value) ? NaN : Date.parse(value);
   return Number.isFinite(timestamp) ? timestamp : 0;
 }
 
