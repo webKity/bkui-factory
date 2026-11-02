@@ -4,6 +4,7 @@ import { defineConfig } from 'tsup';
 export default defineConfig({
   entry: {
     index: 'src/index.ts',
+    http: 'src/components/http/index.ts',
     'tailwind-preset': 'src/tailwind-preset.ts',       // Server-safe 组件
     client: 'src/client.ts',     // Client Components
   },

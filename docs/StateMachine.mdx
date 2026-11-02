@@ -1,0 +1,158 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as StateMachineStories from '../packages/ui-react/src/components/state.mechine/StateMachine.stories';
+
+<Meta of={StateMachineStories} />
+
+# StateMachine 有限状态机
+
+`packages/ui-react/src/components/state.mechine/index.ts` 提供通用 `StateMachine`，通过状态、动作和转换表管理流程，支持异步生命周期、RxJS 状态订阅、动态目标和历史记录。
+
+## 可调试用例
+
+<Canvas of={StateMachineStories.Lifecycle} />
+
+<Controls of={StateMachineStories.Lifecycle} />
+
+## 快速开始
+
+当前模块未从 `@bkreact/ui`、`@bkreact/ui/client` 或独立 npm 子路径导出。下例导入相对于 `packages/ui-react/src/components/state.mechine/`，业务接入时需调整源码路径。目录名沿用仓库现有拼写 `state.mechine`。
+
+```ts
+import { StateMachine } from './index';
+
+type State = 'idle' | 'working' | 'success' | 'failure';
+type Action = 'start' | 'finish';
+type Data = { accepted: boolean };
+
+const machine = new StateMachine<State, Action, Data>({
+  initial: 'idle',
+  states: {
+    idle: {},
+    working: { onEnter: async context => console.log(context.action) },
+    success: {},
+    failure: {},
+  },
+  transitions: {
+    idle: { start: 'working' },
+    working: { finish: ({ data }) => data?.accepted ? 'success' : 'failure' },
+  },
+  maxHistory: 20,
+});
+
+await machine.ready();
+const subscription = machine.state$.subscribe(state => console.log(state));
+await machine.transition('start');
+await machine.transition('finish', { accepted: true });
+console.log(machine.is('success')); // true
+
+// 业务结束或组件卸载时清理：
+subscription.unsubscribe();
+machine.dispose();
+```
+
+## 配置
+
+| 配置 | 默认值 | 说明 |
+| --- | --- | --- |
+| `initial` | 必填 | 初始状态，必须在 states 中定义 |
+| `states` | 必填 | 状态名到配置的映射；每个状态可设置 onEnter、onExit 和 name |
+| `transitions` | `{}` | 源状态 → 动作 → 目标状态或同步 resolver |
+| `strict` | `false` | 对未配置的转换、并发或重入操作，默认返回 false；开启后抛错 |
+| `maxHistory` | 不限量 | 非负整数；超过容量保留最近记录，0 关闭记录 |
+
+状态配置的 `name` 可省略；设置非空 name 时必须与映射 key 一致。构造时同步校验初始状态、转换源、静态目标和历史容量，失败会抛出 Error。动态 resolver 的目标在转换时校验，未定义目标无论 strict 与否都会拒绝转换。
+
+配置中的 states 和 transitions 会被实例引用，接入后应避免从外部修改它们。
+
+## 初始化与生命周期
+
+构造时立即启动初始状态的 `onEnter`，上下文为 `{ to: initial, action: 'INIT' }`。回调成功后写入 INIT 历史；回调可以同步执行或返回 Promise。
+
+调用方应先 `await machine.ready()` 再发送动作。当前 `_insideInitialCallback` 标记覆盖整个初始化等待期，因此初始化未完成时，即使从外部调用 transition/reset，也会返回 false；strict 模式会拒绝。不要依赖它们自动等待初始化。`can(action)` 也不是初始化成功的保证。
+
+初始化回调失败不会从构造函数异步抛出；`ready()` 会拒绝，`isReady()` 返回 false，后续 transition/reset 也会拒绝原初始化错误。
+
+一次正常转换按以下顺序执行：同步解析目标 → 等待源状态 onExit → 更新 state 并通知 state$ → 写入历史 → 等待目标状态 onEnter → resolve true。
+
+| 生命周期上下文字段 | 说明 |
+| --- | --- |
+| `from` | 来源状态；INIT 时省略 |
+| `to` | 目标状态 |
+| `action` | 本次动作，或内置 INIT、RESET |
+| `data` | 调用方传入的数据，INIT 时省略 |
+
+同状态转换也会执行 onExit/onEnter、发送通知并写入历史。状态通知发生在写历史和 onEnter 之前，订阅者不能把一次 state$ 通知当作整个转换完成的信号；需要等待 transition 返回。
+
+<Canvas of={StateMachineStories.InitializationError} />
+
+## 动态目标与数据
+
+转换目标可为同步函数 `({ from, action, data }) => stateName`。resolver 上下文没有 to，因为目标尚未确定；不支持返回 Promise，也不提供独立的 guard 接口。
+
+`can(action)` 只判断当前状态是否配置该动作，并检查转换锁与已知的初始化错误。它不会执行 resolver、校验业务数据或预测目标是否合法。
+
+<Canvas of={StateMachineStories.DynamicTarget} />
+
+## 异步回调、并发与失败
+
+onExit/onEnter 支持 Promise。转换期间 `isTransitioning()` 为 true，`can()` 为 false；再次 transition/reset 默认 resolve false，strict 模式拒绝。动作不会排队，回调内部再次发起转换也受同样限制。
+
+<Canvas of={StateMachineStories.ConcurrentTransition} />
+
+| 失败位置 | 状态与历史 |
+| --- | --- |
+| resolver 抛错或返回未定义状态 | 保持原状态，不写历史，不执行 onExit/onEnter |
+| 源状态 onExit 抛错 | 保持原状态，不写本次历史，不执行目标 onEnter |
+| 目标 onEnter 抛错 | 状态已切换，历史已写入，不会自动回滚 |
+
+这些异常无论 strict 配置如何都会拒绝 Promise；转换锁会在 finally 中释放。业务需捕获异常，并结合当前 state 判断后续处理。
+
+<Canvas of={StateMachineStories.CallbackError} />
+
+## 重置、直接更新与历史
+
+`await reset(data?)` 不需要配置 RESET 转换。它先等待当前状态 onExit，再切回 initial、清空旧历史、写入 RESET，最后等待 initial.onEnter。即使已经在初始状态，也会执行上述步骤。
+
+reset 的 onExit 失败时旧状态和历史保留；initial.onEnter 失败时状态已重置且历史已替换，不会回滚。maxHistory 为 0 时 reset 后历史仍为空。
+
+`updateCurrentState(state)` 同步更新到一个已定义状态，不检查转换表、不执行生命周期、不写历史，但会通知 state$。它只适合与外部状态对齐；初始化未成功或正在转换时拒绝执行。未知状态始终警告并返回 false；其余拒绝条件在 strict 模式抛错，默认警告并返回 false。
+
+<Canvas of={StateMachineStories.DirectUpdate} />
+
+历史包含 `timestamp: Date`、`state`、`action`，以及可选的 `from`、`data`。history getter 仅复制数组，不深拷贝记录或 data；修改内部对象会影响实例数据。transitions getter 同样只做顶层复制。
+
+## API 索引
+
+| API | 返回值与说明 |
+| --- | --- |
+| `ready()` | `Promise<void>`；等待初始化，失败时拒绝 |
+| `isReady()` | 初始化成功完成才返回 true |
+| `transition(action, data?)` | `Promise<boolean>`；执行动作与生命周期 |
+| `reset(data?)` | `Promise<boolean>`；回到初始状态并替换历史 |
+| `can(action)` | 当前是否存在可尝试的动作，不执行 resolver |
+| `is(state)` | 当前状态是否等于指定状态 |
+| `isTransitioning()` | 是否持有转换锁 |
+| `updateCurrentState(state)` | `boolean`；直接更新状态 |
+| `state` | 当前状态名 |
+| `state$` | Observable，新订阅者立即收到当前状态 |
+| `history` | 历史数组的浅拷贝 |
+| `states` | 所有配置状态名的数组 |
+| `transitions` | 转换表的顶层浅拷贝 |
+| `dispose()` | 完成内部 BehaviorSubject，使 state$ 订阅完成 |
+
+`dispose()` 不会取消已经执行的异步回调，也没有销毁标志来阻止后续方法执行。结束使用时应先完成业务操作，取消自己的订阅，再 dispose；不要把它当成取消任务的接口。
+
+## 类型索引
+
+| 导出类型 | 用途 |
+| --- | --- |
+| `IStateName` / `IActionName` | 字符串状态名与动作名 |
+| `IMaybePromise<T>` | 同步值或 Promise |
+| `IStatusCallbackName` | onEnter 或 onExit |
+| `IStateCallbackContext` / `IStateCallback` / `IState` | 生命周期上下文、回调与状态配置 |
+| `ITransitionResolverContext` / `ITransitionResolver` | 动态目标上下文与解析函数 |
+| `ITransitionTarget` / `IStateTransitions` | 静态或动态目标、转换表 |
+| `IStateMachineConfig` | initial、states、transitions 等构造配置 |
+| `IStateActionHistory` | 历史记录结构 |
+
+StateMachine 与相关配置类型可通过状态名、动作名和 Data 泛型约束业务输入。实现依据：`packages/ui-react/src/components/state.mechine/index.ts`；上述 Canvas 直接调用该模块并展示回调、状态通知和历史。

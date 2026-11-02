@@ -27,9 +27,9 @@ const meta = {
 } satisfies Meta<typeof Button>;
 export default meta;
 type Story = StoryObj<typeof meta>;
-export const Playground: Story = {};
-export const Loading: Story = { args: { loading: true } };
-export const Disabled: Story = { args: { disabled: true } };
+export const Playground: Story = { name: '可调试用例' };
+export const Loading: Story = { name: '加载状态', args: { loading: true } };
+export const Disabled: Story = { name: '禁用状态', args: { disabled: true } };
 export const Variants: Story = {
   name: '变体与意图',
   render: () => <View style={{ gap: 12 }}>{variants.map(variant => <View key={variant} style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>

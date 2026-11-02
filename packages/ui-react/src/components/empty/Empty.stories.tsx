@@ -30,6 +30,7 @@ type Story = StoryObj<typeof meta>;
 export const Playground: Story = { name: '可调试用例' };
 
 export const WithActions: Story = {
+  name: '带操作按钮',
   args: {
     description: '还没有创建项目',
     children: <Button intent="brand">创建项目</Button>,
@@ -37,6 +38,7 @@ export const WithActions: Story = {
 };
 
 export const CustomImage: Story = {
+  name: '自定义图片',
   args: {
     image: <BKIcon name="search" size="100%" renderInServer />,
     description: <>没有找到相关结果，请尝试其他关键词。</>,
@@ -44,6 +46,7 @@ export const CustomImage: Story = {
 };
 
 export const ImageURL: Story = {
+  name: '图片链接',
   args: {
     image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 96"%3E%3Crect x="20" y="16" width="80" height="64" rx="8" fill="%2394a3b8"/%3E%3Cpath d="M40 40h40M40 56h24" stroke="white" stroke-width="4"/%3E%3C/svg%3E',
     description: '使用自定义图片 URL',
@@ -51,14 +54,17 @@ export const ImageURL: Story = {
 };
 
 export const DescriptionOnly: Story = {
+  name: '仅描述',
   args: { image: null, description: '暂无消息' },
 };
 
 export const ImageOnly: Story = {
+  name: '仅图片',
   args: { description: null, role: 'img', 'aria-label': '暂无数据' },
 };
 
 export const Sizes: Story = {
+  name: '七档尺寸',
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 24 }}>
       {componentSizes.map(size => <Empty key={size} size={size} description={size} />)}
@@ -67,6 +73,7 @@ export const Sizes: Story = {
 };
 
 export const Responsive: Story = {
+  name: '响应式尺寸',
   args: {
     size: { base: 'xs', md: 'base', xl: 'lg' },
     description: '调整窗口宽度，查看插图、间距和文字尺寸的变化',
@@ -74,6 +81,7 @@ export const Responsive: Story = {
 };
 
 export const LongDescription: Story = {
+  name: '长描述',
   render: args => (
     <div style={{ width: 240, maxWidth: '100%' }}>
       <Empty {...args} />

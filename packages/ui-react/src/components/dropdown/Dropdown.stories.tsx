@@ -33,10 +33,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-export const Hover: Story = { args: { hover: true, triggerProps: { delay: 150, closeDelay: 100 } } };
-export const Disabled: Story = { args: { triggerProps: { disabled: true } } };
-export const Placement: Story = { args: { contentProps: { side: 'right', align: 'start', sideOffset: 8 } } };
+export const Default: Story = { name: '默认用例' };
+export const Hover: Story = { name: '悬停触发', args: { hover: true, triggerProps: { delay: 150, closeDelay: 100 } } };
+export const Disabled: Story = { name: '禁用状态', args: { triggerProps: { disabled: true } } };
+export const Placement: Story = { name: '弹出位置', args: { contentProps: { side: 'right', align: 'start', sideOffset: 8 } } };
 // 在真实浏览器中检查当前视口下的实际字号及 item 高度；切换视口后可重跑交互。
 const verifyResponsiveSize: NonNullable<Story['play']> = async ({ canvasElement, args }) => {
   const document = canvasElement.ownerDocument;
@@ -62,16 +62,18 @@ const verifyResponsiveSize: NonNullable<Story['play']> = async ({ canvasElement,
   await userEvent.keyboard('{Escape}');
 };
 export const Responsive: Story = {
+  name: '响应式尺寸',
   args: { size: { base: 'xs', md: 'base', xl: 'lg' } }, play: verifyResponsiveSize,
 };
 export const ResponsiveBaseOnly: Story = {
+  name: '仅基础断点',
   args: { size: { base: 'sm' } }, play: verifyResponsiveSize,
 };
-export const Sizes: Story = { render: args => <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+export const Sizes: Story = { name: '七档尺寸', render: args => <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
   {(['2xs', 'xs', 'sm', 'base', 'lg', 'xl', '2xl'] as const).map(size =>
     <Dropdown {...args} key={size} size={size} trigger={<Button size={size}>{size} ▾</Button>} />)}
 </div> };
-export const Controlled: Story = { render: function Example(args) {
+export const Controlled: Story = { name: '受控状态', render: function Example(args) {
   const [open, setOpen] = useState(false);
   const [action, setAction] = useState('尚未选择');
   return <div>
@@ -83,6 +85,7 @@ export const Controlled: Story = { render: function Example(args) {
   </div>;
 } };
 export const Keyboard: Story = {
+  name: '键盘操作',
   args: { trigger: <Button>键盘操作</Button>, groups: [{ items: [
     { children: '编辑' }, { children: '禁用', disabled: true }, { children: '复制' },
   ] }] },
@@ -100,7 +103,7 @@ export const Keyboard: Story = {
 };
 
 /** 组合式 API：复用数据式 Dropdown 的样式、键盘交互和定位。 */
-export const Composed: Story = { render: function Example(args) {
+export const Composed: Story = { name: '组合用法', render: function Example(args) {
   const [checked, setChecked] = useState(true);
   const [sort, setSort] = useState('time');
   return <DropdownMenu>

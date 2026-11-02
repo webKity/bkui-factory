@@ -1,0 +1,202 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="工具与服务/Event" />
+
+`event` 提供三类事件通信：当前实例内的同步事件、基于 `BroadcastChannel` 的同源广播，以及基于隐藏或可见 iframe 的同站通信。按通信范围选择实现。
+
+## 入口与选择
+
+目前这些模块未从 `@bkreact/ui`、`@bkreact/ui/client` 或独立 npm 子路径导出。下文使用相对于 `packages/ui-react/src/components/event/` 的源码导入，业务接入时需调整路径。`index.ts` 也不会转导出两个 channel 模块。
+
+| 实现 | 通信范围 | 创建方式 |
+| --- | --- | --- |
+| `BKEvent` | 当前实例内 | `new BKEvent()` |
+| `BKEventService` | DI 容器共享的页内事件实例 | `bkEventServiceFactory()` |
+| `BKBroadcastChannel` | 当前页面与同源页面 | `new BKBroadcastChannel()` 或 `bkBroadcastChannel()` |
+| `BKSameSiteChannel` | 当前页面与显式注册的同站 iframe | `new BKSameSiteChannel()` 或 `bkSameSiteChannel()` |
+
+三个工厂均通过 DI 容器解析 `@singleton()` 服务；直接 `new` 可创建独立实例。源码中的 `event/index.ts` 依赖 `frame/di` 别名，当前仓库未配置该别名，因此该入口示例接入前需先处理此依赖。两个 channel 模块使用仓库内的 `../di`。
+
+## 页内事件
+
+```ts
+import { BKEvent } from './index';
+import type { BKEventType } from './type';
+
+const events = new BKEvent();
+const listener = (event: BKEventType) => console.log(event.message);
+
+events.addEventListener('user.updated', listener);
+events.dispatch({ type: 'user.updated', message: { id: 1 } });
+console.log(events.has('user.updated', listener)); // true
+events.remove('user.updated', listener);
+```
+
+此示例因上述 `frame/di` 依赖尚未运行验证。
+
+### API 与执行规则
+
+| 方法 | 说明 |
+| --- | --- |
+| `addEventListener(type, listener)` | 注册监听；相同事件类型下，同一个函数引用只注册一次 |
+| `once(type, listener)` | 当前实现与 `addEventListener` 相同，**不会在首次触发后自动移除** |
+| `has(type, listener)` | 判断是否已注册该函数引用 |
+| `remove(type, listener)` | 移除指定监听，需传入注册时的函数引用 |
+| `dispatch(event)` | 同步按注册顺序调用当前类型的监听 |
+
+`dispatch` 使用监听列表快照，监听回调内增删监听不会改变本轮列表。存在监听时会把传入对象的 `target` 改为底层 `BKEvent` 实例；回调的 `this` 也指向该实例。回调抛错会直接向调用方冒泡，并中断本轮后续回调。
+
+需要真正的一次性监听时，可在回调中显式移除自己：
+
+```ts
+const onReady = (event: BKEventType) => {
+  events.remove('ready', onReady);
+  console.log(event.message);
+};
+events.addEventListener('ready', onReady);
+```
+
+`BKEventService` 转发相同方法，`name` 为 `'BKEvent'`。页内事件没有批量清空或销毁接口，组件卸载时应逐个移除自己注册的监听。事件名建议使用业务前缀；当前监听表是普通对象，应避开 `constructor`、`__proto__` 等原型属性名。
+
+## 同源广播
+
+`BKBroadcastChannel` 使用固定的原生通道名 `bk_window_channel`。同源意味着协议、hostname 和端口均相同；`example.com` 与 `app.example.com` 不能通过此通道互通。运行环境需提供 `BroadcastChannel`，实现没有兼容回退。
+
+```ts
+import { BKBroadcastChannel } from './broadcast.channel';
+
+const channel = new BKBroadcastChannel();
+const subscription = channel.observe('user.updated').subscribe(event => {
+  // 首次订阅默认收到 null。
+  if (event) console.log(event.message);
+});
+
+channel.dispatch({ type: 'user.updated', message: { id: 1 } });
+
+subscription.unsubscribe();
+channel.destroy(); // 仅销毁由当前调用方独占的实例
+```
+
+| 方法 | 说明 |
+| --- | --- |
+| `observe(type, initData?)` | 返回 `Observable<BKEventType \| null>`，按事件类型订阅 |
+| `dispatch(event, format?)` | 向原生通道发送消息，然后同步通知当前实例的订阅者 |
+| `destroy()` | 关闭原生通道、完成全部订阅并清理内部记录；可重复调用 |
+
+底层使用 `BehaviorSubject`，新订阅者立即收到该类型的最近值，默认是 `null`。`observe` 的 `initData` 仅在真值时生效：`0`、`false`、`''` 不会作为初始消息；设置有效初始值也会立即通知该类型已有的订阅者。
+
+最后一个订阅取消后，该类型的 subject 与最近值会被删除；需要重新订阅时重新调用 `observe`，不要复用已完成的 Observable。`destroy()` 后 `dispatch` 不再发送，新的 `observe` 会立即完成。DI 工厂不会因销毁而自动创建新实例，因此使用共享服务的组件通常只取消自己的订阅。
+
+`format(event)` 的返回值替换 `message`，发送结构只有 `{ type, message }`。跨窗口消息需能被结构化克隆，不要包含函数、DOM 节点等；格式化或原生 `postMessage` 抛错会直接向调用方冒泡，此时本地通知也不会执行。
+
+## 同站 iframe 通信
+
+`BKSameSiteChannel` 通过 `addTarget` 创建并注册 iframe，不会自动发现其他标签页。正式域名必须显式传入 `trustedSiteDomains`；当前页与目标页的协议必须相同，并匹配列表中的同一个域名后缀。例如当前页面为 `https://app.example.com`，可注册 `https://bridge.example.com`。
+
+### 父页面
+
+```ts
+import { BKSameSiteChannel } from './same.site.channel';
+
+const channel = new BKSameSiteChannel();
+const channelName = 'account_bridge';
+const subscription = channel.observe('account.result', undefined, {
+  channelName,
+}).subscribe(event => console.log(event.message));
+
+const target = channel.addTarget('https://bridge.example.com/bridge', {
+  trustedSiteDomains: ['example.com'],
+  channelName,
+  readyTimeout: 15_000,
+});
+
+if (target && await target.ready === 'ready') {
+  const accepted = target.dispatch({
+    type: 'account.request',
+    message: { action: 'refresh' },
+  });
+  console.log(accepted); // 成功 postMessage 或进入待发送队列，不代表业务执行成功
+}
+
+// 在业务结束或组件卸载时执行：
+subscription.unsubscribe();
+target?.destroy();
+channel.destroy();
+```
+
+示例域名和 `/bridge` 路径为占位地址，需替换为业务控制、允许被 iframe 加载且已接入消息协议的页面；该跨页面示例未连接真实业务环境验证。`ready` 只表示 iframe 触发 `load`，不保证业务监听器就绪或请求成功，404 页面也可能触发 `load`。业务就绪与成功结果需自行定义事件确认。
+
+### iframe 目标页
+
+父页面自动向 iframe URL 的 hash 注入 `__bk_ss_token`。目标页需读取 token，并在消息中原样携带；以下代码假定父页面为 `https://app.example.com`：
+
+```ts
+import { postChannelMessage, readSameSiteChannelToken } from './same.site.channel';
+
+const parentOrigin = 'https://app.example.com';
+const channelName = 'account_bridge';
+const token = readSameSiteChannelToken();
+
+window.addEventListener('message', event => {
+  if (event.source !== window.parent || event.origin !== parentOrigin) return;
+  const data = event.data;
+  if (!token || data?.channel !== channelName || data?.token !== token) return;
+  if (data?.event?.type !== 'account.request') return;
+
+  postChannelMessage(window.parent, parentOrigin, channelName, 'account.result', {
+    ok: true,
+  });
+});
+```
+
+`postChannelMessage(targetWindow, targetOrigin, channel, type, message?)` 从当前 URL 读取 token；缺少目标窗口或 token 时返回 `false`，调用原生 `postMessage` 后返回 `true`，原生发送异常会抛出。它不负责接收消息或校验发送目的地，调用方应提供确定的可信 origin。
+
+### 注册选项
+
+| 选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `trustedSiteDomains` | `[]` | 当前页和目标页需匹配同一个后缀；只填 hostname，不含协议、路径、端口或通配符 |
+| `channelName` | `'bk_same_site_channel'` | 通信逻辑分组，注册、观察与发送需保持一致 |
+| `readyTimeout` | `15000` | 等待 iframe load 的毫秒数；`0` 关闭，超时自动移除 iframe |
+| `token` | 自动生成 | 每个目标独立生成随机 token；也可显式传入非空 token |
+| `mount` | `document.body` | iframe 挂载容器；应在容器可用后注册 |
+| `hidden` | `true` | 默认隐藏；`false` 创建可见 iframe |
+| `id` / `title` | 未设置 / `'Same site channel target'` | iframe 标识与标题 |
+| `className` / `style` | 未设置 | iframe 类名与内联样式；`style` 在默认隐藏样式之后应用 |
+| `allow` / `sandbox` | 未设置 | iframe 原生属性；不含 `allow-same-origin` 的 sandbox 会产生无法通过 origin 校验的不透明源 |
+
+localhost、IPv4 与 IPv6 地址无需可信后缀配置，但只允许相同协议和 hostname，端口可不同。非浏览器环境、实例已销毁、URL 不合法、不满足站点规则或无法挂载时，`addTarget` 返回 `null`。
+
+### 句柄、发送与生命周期
+
+| API | 说明 |
+| --- | --- |
+| `target.ready` | Promise，resolve 为 `'ready'`、`'destroyed'` 或 `'timeout'`，不会因这几种状态 reject |
+| `target.status` | 初始 `'pending'`；ready 首次结算后保留该状态，已 ready 后销毁仍可能显示 `'ready'` |
+| `target.closed` | 是否已移除注册或 iframe 已脱离 DOM，判断可用性时应同时参考此字段 |
+| `target.iframe` / `origin` / `url` / `token` | DOM 元素、锁定的 origin、注入 token 前解析后的 URL、通信 token；实际 `iframe.src` 含 token |
+| `target.dispatch(event)` | 仅向这个 iframe 发送，不通知本地订阅；load 前排队，目标不可用时返回 `false` |
+| `target.destroy()` | 移除该目标 iframe 并清空待发消息 |
+| `channel.removeTarget(window)` | 按 iframe 的 `contentWindow` 移除目标 |
+| `channel.dispatch(event, format?, { channelName }?)` | 向分组内所有目标发送并通知本地订阅；无返回状态 |
+| `channel.observe(type, initData?, { channelName }?)` | 返回 `Observable<BKEventType>`；按分组和事件类型观察 |
+| `channel.destroy()` | 移除全局 message 监听、所有 iframe 与定时器，完成订阅；销毁后不可复用 |
+
+`observe` 不重放历史事件；指定 `initData !== undefined` 时，每个新订阅者单独收到一次初始事件，包括 `0`、`false`、`''` 和 `null`。最后一个订阅取消后内部 subject 被清理，后续应重新调用 `observe`。收到 iframe 消息只会通知父页对应的本地订阅，不会自动转发给其他 iframe。
+
+`channel.dispatch` 的 `format` 只执行一次；格式化抛错时记录警告并跳过整个发送。本服务捕获向已注册 iframe 发送时的克隆异常并记录警告，但 load 前入队返回 `true` 时尚未实际发送，仍需用业务响应确认结果。
+
+父页接收消息时同时校验已注册的 `source`、锁定的 `origin`、channel 和 token。`isSameSiteMessage(data, channel, token)` 只做消息结构与字段匹配，不代替 source/origin 校验，也不校验业务 `message`。token 不是消息去重或防重放机制；需要去重时应增加业务请求 ID。可信后缀仅应配置业务控制的域名，这不是通用公共后缀判定工具。
+
+## 事件与类型索引
+
+| 类型 | 来源与用途 |
+| --- | --- |
+| `BKEventType` | `type.ts`；`{ type: string; message?: any; target?: any }`，业务消息需自行校验 |
+| `IBKEvent` | `type.ts`；页内事件接口 |
+| `Event<T>` | `type.ts`；监听注册函数类型，当前类未使用此接口 |
+| `SameSiteTargetOptions` | `same.site.channel.ts`；iframe 注册配置 |
+| `SameSiteTargetHandle` | `same.site.channel.ts`；目标句柄 |
+| `SameSiteTargetState` / `SameSiteTargetReadyState` | `same.site.channel.ts`；目标状态与 ready 结果 |
+
+实现依据：`packages/ui-react/src/components/event/` 下的 `index.ts`、`type.ts`、`broadcast.channel.ts` 与 `same.site.channel.ts`。站点信任边界已有验证见该目录的 `same.site.channel.test.mjs`；页内与跨页面示例的运行限制见各节说明。

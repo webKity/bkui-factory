@@ -81,7 +81,7 @@ export const Numeric: Story = {
     );
   },
 };
-export const Password: Story = { args: { type: 'password', defaultValue: 'password' } };
+export const Password: Story = { name: '密码输入', args: { type: 'password', defaultValue: 'password' } };
 export const Multiline: Story = {
   name: '组合：多行与块级附加区域',
   render: () => (

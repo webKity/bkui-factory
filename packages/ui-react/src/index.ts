@@ -44,3 +44,5 @@ export type * from './components/attachment/type';
 export type * from './components/countdown/type';
 
 export type * from './components/dropdown/type';
+
+export * from './components/http';

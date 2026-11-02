@@ -36,7 +36,7 @@ const preview: Preview = {
     layout: 'padded',
     controls: { expanded: true },
     docs: { codePanel: true },
-    options: { storySort: { order: ['开始使用', '组件', '设计变量'] } },
+    options: { storySort: { order: ['开始使用', '组件', '工具与服务', '设计变量'] } },
     backgrounds: { disable: true },
   },
 };

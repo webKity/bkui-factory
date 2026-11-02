@@ -1,0 +1,182 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as ServiceStories from '../packages/ui-react/src/components/service/Service.stories';
+
+<Meta of={ServiceStories} />
+
+`service` 提供不依赖 React 的通用工具：`LRUTTLCacheService<T>` 管理带容量与有效期的内存缓存，`TaskQueue<T>` 按注册顺序执行任务链。
+
+目前这些模块没有目录聚合入口，也未从 `@bkreact/ui` 或 npm 子路径导出。以下导入相对于 `packages/ui-react/src/components/service/`，业务接入时需调整源码路径。
+
+## 缓存快速开始
+
+<Canvas of={ServiceStories.Cache} />
+
+<Controls of={ServiceStories.Cache} />
+
+```ts
+import { LRUTTLCacheService } from './lru.ttl.cache';
+
+interface User {
+  id: number;
+  name: string;
+}
+
+const cache = new LRUTTLCacheService<User>({
+  maxSize: 100,
+  ttl: 5 * 60 * 1000,
+});
+
+cache.set('user:1', { id: 1, name: '小明' });
+console.log(cache.get('user:1')?.name); // 小明
+cache.delete('user:1');
+```
+
+### 配置与过期规则
+
+<Canvas of={ServiceStories.Expiration} />
+
+| 选项 | 默认值 | 说明 |
+| --- | --- | --- |
+| `maxSize` | `100` | 最大条目数；通过 `Math.max(1, value)` 限制下界，`0` 不会关闭缓存 |
+| `ttl` | `300000` | 写入后有效期，单位毫秒；`0` 表示不过期，负数按 `0` 处理 |
+
+配置类型为 `ILRUTTLCacheOptions`。调用方应传入有效数值，容量使用正整数；实现不额外拒绝 `NaN`、无穷值或小数。
+
+TTL 从每次 `set` 时计算，覆盖同一个 key 会刷新有效期。`get` 命中只更新 LRU 顺序，不延长 TTL。没有后台定时清理：过期项会在读取该 key、主动清理或超出容量时删除。
+
+容量超出时先清理全部过期项，再淘汰最久未使用的条目。写入与 `get` 命中都将该 key 标记为最近使用，`peek` 和 `has` 不改变使用顺序。
+
+```ts
+const cache = new LRUTTLCacheService<number>({ maxSize: 2, ttl: 0 });
+cache.set('a', 1);
+cache.set('b', 2);
+cache.get('a');
+cache.set('c', 3);
+console.log(cache.has('b')); // false，b 被淘汰
+console.log(cache.peek('a')); // 1，不改变 LRU 顺序
+```
+
+### 缓存 API
+
+| API | 返回值与行为 |
+| --- | --- |
+| `set(key, value)` | `void`；写入或覆盖字符串 key，必要时淘汰条目 |
+| `get(key)` | `T \| undefined`；读取有效条目并更新 LRU 顺序 |
+| `peek(key)` | `T \| undefined`；读取有效条目，不更新顺序 |
+| `has(key)` | `boolean`；判断存在且未过期，不更新顺序 |
+| `delete(key)` | `boolean`；按底层 Map 删除，返回是否删除了条目 |
+| `clear()` | `void`；删除全部条目 |
+| `prune()` | `void`；扫描并删除全部过期条目 |
+| `count()` | `number`；清理过期项后返回精确有效数量，O(n) |
+| `size` | `number`；O(1) 返回底层条目数，可能包含尚未清理的过期项 |
+| `configure(options?)` | `void`；更新指定配置，并在超容量时清理和淘汰 |
+| `forEach((value, key) => ...)` | `void`；清理过期项后按当前 LRU 顺序对快照遍历，从最久未使用到最近使用 |
+
+`configure({ ttl })` 只影响之后的写入，不修改已有条目的过期时间；缩小 `maxSize` 会立即执行容量淘汰。未超容量时，`configure` 不会主动全量清理过期项，需要时调用 `prune`。
+
+```ts
+cache.configure({ maxSize: 1, ttl: 10_000 });
+cache.prune();
+console.log(cache.count());
+cache.forEach((value, key) => console.log(key, value));
+cache.clear();
+```
+
+缓存按引用保存和返回对象，不会克隆；修改取出的对象会影响后续读取。缓存值可以是 `undefined`，此时应通过 `has` 区分有效条目与未命中。`forEach` 使用条目快照，回调中删除后续条目也不会阻止该条目的本轮回调。
+
+此处 `ttl: 0` 表示永久有效，与 HTTP 工具中 `cache: { ttl: 0 }` 关闭缓存的语义不同。两者为独立实现。
+
+## 任务队列快速开始
+
+```ts
+import { TaskQueue } from './task.queue';
+
+const queue = new TaskQueue<number>();
+queue
+  .use((value, next) => next(value + 1))
+  .use((value, next) => next(value * 2));
+
+console.log(await queue.runAsync(2)); // 6
+console.log(queue.size); // 2，执行不会消费队列
+queue.clear();
+```
+
+任务类型为 `ITaskQueueItem<T>`：`(data: T, next: NextTask<T>) => void | Promise<void>`。注册顺序就是执行顺序；数据由 `next(result?)` 传递，任务函数的普通返回值不会作为结果。
+
+| API | 说明 |
+| --- | --- |
+| `use(task)` | 注册任务并返回当前实例，支持链式调用；非函数参数抛出 `TypeError` |
+| `run(data?)` | 返回 `void`，依靠任务调用 `next` 推进 |
+| `runAsync(data?)` | 返回 `Promise<T \| undefined>`，等待任务逐个结算 |
+| `clear()` | 清空已注册任务，不影响已开始执行的快照 |
+| `size` | 已注册任务数量；此属性属于 `TaskQueue` 类，未列入 `ITaskQueue<T>` 接口 |
+
+每次执行都复制当前任务列表，可重复执行；执行过程中注册或清空任务只影响后续执行。队列不提供取消、超时或并发隔离，相互并发的执行共享任务闭包中的外部状态。
+
+### `run`：显式推进
+
+<Canvas of={ServiceStories.SyncQueue} />
+
+```ts
+const queue = new TaskQueue<number>();
+queue.use((value, next) => next(value + 1));
+queue.use(value => console.log(value));
+queue.run(2); // 输出 3
+```
+
+同步任务会在 `run` 返回前执行。任务没有调用 `next` 时链停在该处，之后异步调用 `next` 仍可继续；每个任务仅第一次 `next` 有效。任务返回的 Promise 不会被等待，也不会被捕获，异步任务的错误需要自行处理。同步抛错直接冒泡；大量同步 `next` 通过循环推进，不会按任务数量累积调用栈。
+
+### `runAsync`：以首次结算为准
+
+<Canvas of={ServiceStories.AsyncQueue} />
+
+```ts
+const queue = new TaskQueue<number>();
+queue.use(async (value, next) => {
+  await Promise.resolve();
+  next(value + 1); // 应在异步工作完成后调用
+});
+queue.use(async value => {
+  console.log(value);
+  // 返回的 Promise 完成且未调用 next，保留当前值。
+});
+console.log(await queue.runAsync(2)); // 3
+```
+
+每个任务以 `next`、返回的 Promise 完成/拒绝或同步抛错中最先触发的结算为准：
+
+| 情况 | 结果 |
+| --- | --- |
+| `next(value)` | 当前任务完成，向后传递该值 |
+| `next()` | 向后传递 `undefined`，不会保留上一步数据 |
+| 返回的 Promise 完成，尚未调用 `next` | 当前任务完成，保留传入数据 |
+| 在结算前抛错或 Promise 拒绝 | 整条执行链拒绝，后续任务不再执行 |
+| 返回 `void` 且始终不调用 `next` | Promise 一直等待，后续任务不执行 |
+| 多次调用 `next`，或 `next` 后再次抛错/Promise 拒绝 | 已结算结果保持不变，后续结果被忽略 |
+
+`next` 会立即结算当前任务，不会等该任务剩余的异步工作完成。不要在调用 `next` 后继续执行必须先于下一个任务完成的操作；应把 `next` 放在这些操作之后。返回 Promise 的任务若在 Promise 完成后才调用 `next`，该次 `next` 也会被忽略。
+
+```ts
+const queue = new TaskQueue<number>();
+queue.use(() => { throw new Error('处理失败'); });
+
+try {
+  await queue.runAsync(1);
+} catch (error) {
+  console.error(error);
+}
+```
+
+<Canvas of={ServiceStories.QueueError} />
+
+虽然任务签名中的 `data` 是 `T`，`run()` / `runAsync()` 允许省略入参，`next()` 也允许省略结果，因此运行时可能收到 `undefined`。业务应显式提供初始值并传递后续结果，或在任务中处理空值。空队列的 `runAsync(data)` 返回原始入参。
+
+## API 与类型索引
+
+| 导出 | 源文件与用途 |
+| --- | --- |
+| `LRUTTLCacheService<T>` / `ILRUTTLCacheOptions` | `lru.ttl.cache.ts`；缓存类及配置 |
+| `TaskQueue<T>` / `ITaskQueue<T>` | `task.queue.ts`；任务队列类及接口 |
+| `ITaskQueueItem<T>` / `NextTask<T>` | `task.queue.ts`；任务函数及数据推进回调 |
+
+实现依据：`packages/ui-react/src/components/service/` 下的 `lru.ttl.cache.ts` 与 `task.queue.ts`。缓存与任务队列示例不依赖网络或浏览器。

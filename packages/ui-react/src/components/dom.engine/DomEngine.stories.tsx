@@ -110,7 +110,7 @@ function BasicExample(args: IDomEngineProps) {
 }
 
 const meta = {
-  title: '组件/DomEngine',
+  title: '工具与服务/DomEngine',
   component: DomEngine,
   tags: ['autodocs'],
   args: { service: createDemoService([]), i18nModules: [], I18n: {}, packs: corePacks },

@@ -14,7 +14,7 @@ function NativewindExample() {
 }
 const meta = { title: '设计变量/NativeWind', component: NativewindExample } satisfies Meta<typeof NativewindExample>;
 export default meta;
-export const Theme: StoryObj<typeof meta> = {};
+export const Theme: StoryObj<typeof meta> = { name: '主题预览' };
 
 
 function RuntimeThemeExample() {
