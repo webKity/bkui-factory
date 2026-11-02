@@ -16,6 +16,8 @@
   --avatar-fill-size: 100%;
   --avatar-object-fit: cover;
   --avatar-image-display: block;
+  --avatar-image-z-index: 1;
+  --avatar-fallback-z-index: 0;
   --avatar-image-hidden-visibility: hidden;
 }
 

@@ -68,3 +68,6 @@ export type * from './components/collapse/type';
 
 export { Empty } from './components/empty';
 export type { EmptyProps } from './components/empty/type';
+
+export { Attachment } from './components/attachment';
+export type * from './components/attachment/type';

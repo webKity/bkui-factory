@@ -38,3 +38,5 @@ export type * from './components/popup/type';
 export type * from './components/collapse/type';
 
 export type { EmptyProps } from './components/empty/type';
+
+export type * from './components/attachment/type';

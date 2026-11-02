@@ -12,7 +12,7 @@ const meta = {
   tags: ['autodocs'],
   args: { size: 'base', round: false },
   argTypes: {
-    size: { control: 'select', options: componentSizes, description: '七档尺寸；响应式对象必须提供 base。' },
+    size: { control: 'select', options: componentSizes, description: '七档尺寸；响应式对象必须提供 base。缺少 base、无效档位或未知断点会在渲染期抛错（包括生产环境及 SSR），请在数据边界校验或兜底。根元素的 data-size 与 data-size-{breakpoint} 由组件接管，用户传入会被忽略。' },
     round: { control: 'boolean', description: '圆形头像；默认 false，使用圆角方形。' },
     children: { control: false, description: '组合 AvatarImage、AvatarFallback，也可直接显示文字。' },
     className: { control: false, description: '样式类或状态函数；通过 CSS 类覆盖局部 --avatar-* tokens，不提供 style 参数。' },
@@ -63,6 +63,9 @@ export const Round: Story = {
   ...Default,
   name: '圆形头像',
   args: { round: true },
+  parameters: {
+    docs: { description: { story: 'round 使用圆形外观，默认关闭时使用主题圆角；形状与尺寸独立。' } },
+  },
 };
 
 export const FailedImage: Story = {
@@ -82,7 +85,7 @@ export const Responsive: Story = {
   ...Default,
   name: '响应式尺寸',
   parameters: {
-    docs: { description: { story: 'size 对象必须提供 base。断点为 sm: 40rem、md: 48rem、lg: 64rem、xl: 80rem、2xl: 96rem；未配置的断点沿用当前尺寸，由 CSS 媒体查询切换。' } },
+    docs: { description: { story: 'size 对象必须提供 base。断点为 sm: 40rem、md: 48rem、lg: 64rem、xl: 80rem、2xl: 96rem；未配置的断点沿用当前尺寸，由 CSS 媒体查询切换。data-size="sm" 仅标记固定档位；响应式时 data-size="responsive"，data-size-md 等属性用于启用对应断点，不代表尺寸档位。尺寸标记由组件管理。' } },
   },
   args: { size: { base: 'xs', md: 'lg', xl: '2xl' }, round: true },
 };
@@ -90,7 +93,7 @@ export const Responsive: Story = {
 export const LazyImage: Story = {
   name: '懒加载',
   parameters: {
-    docs: { description: { story: 'loading="lazy" 需配合 keepMounted。将 AvatarFallback 放在 AvatarImage 前，图片加载后覆盖替代内容。加载中或失败的图片通过 visibility 隐藏，保留触发懒加载所需的布局盒。' } },
+    docs: { description: { story: 'loading="lazy" 需配合 keepMounted。图片层级高于替代内容，两个部件的 DOM 顺序不影响覆盖关系。加载中或失败的图片通过 visibility 隐藏，保留原生懒加载所需的布局盒；实际加载时机由浏览器决定，JSDOM 测试不验证浏览器的视口加载行为。' } },
   },
   render: args => (
     <Avatar {...args}>

@@ -1,0 +1,25 @@
+/* 设计值来自 design.tokens.css；本层维护 Web 布局与尺寸映射。 */
+.bkreact-attachment {
+  --attachment-display: flex;
+  --attachment-direction: column;
+  --attachment-align: center;
+  --attachment-box-sizing: border-box;
+  --attachment-zero: 0px;
+  --attachment-full: 100%;
+  --attachment-main-flex: 1;
+  --attachment-action-shrink: 0;
+  --attachment-font-family: var(--font-family-zh), var(--font-family-en), sans-serif;
+  --attachment-text-decoration: none;
+  --attachment-overflow: hidden;
+  --attachment-text-overflow: ellipsis;
+  --attachment-white-space: nowrap;
+  --attachment-image-fit: cover;
+  --attachment-image-display: block;
+  --attachment-focus-ring-style: solid;
+  --attachment-gap: var(--attachment-base-gap);
+  --attachment-content-gap: var(--attachment-base-content-gap);
+  --attachment-font-size: var(--attachment-base-font-size);
+  --attachment-line-height: var(--attachment-base-line-height);
+  --attachment-desc-font-size: var(--attachment-base-desc-font-size);
+  --attachment-desc-line-height: var(--attachment-base-desc-line-height);
+}

@@ -3,12 +3,14 @@
 import { Avatar as AvatarPrimitive } from '@base-ui/react/avatar';
 import { forwardRef } from 'react';
 import { joinClassNames, withoutStyle } from '../utils/styles';
-import { getResponsiveSizeAttributes } from '../utils/size';
+import { getResponsiveSizeAttributes, sizeBreakpoints } from '../utils/size';
 import { getAvatarSizeStyle } from './size';
 import type { AvatarProps, AvatarImageProps, AvatarFallbackProps } from './type';
 import './index.css';
 
 export type { AvatarProps, AvatarImageProps, AvatarFallbackProps } from './type';
+
+const ownedSizeAttributes = new Set(['data-size', ...sizeBreakpoints.map(key => `data-size-${key}`)]);
 
 export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
   { className, size = 'base', round = false, ...props },
@@ -17,7 +19,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
   const sizeStyle = getAvatarSizeStyle(size);
   const rootProps = withoutStyle(props);
   for (const key of Object.keys(rootProps)) {
-    if (key === 'data-size' || key.startsWith('data-size-')) {
+    if (ownedSizeAttributes.has(key)) {
       delete (rootProps as Record<string, unknown>)[key];
     }
   }
@@ -38,6 +40,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
   );
 });
 
+/** 原生懒加载需同时设置 loading="lazy" 和 keepMounted；图片层级不依赖 DOM 顺序。 */
 export const AvatarImage = forwardRef<HTMLImageElement, AvatarImageProps>(function AvatarImage(
   { className, ...props },
   ref,

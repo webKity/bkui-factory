@@ -28,17 +28,21 @@
 }
 
 .bkreact-avatar__image {
+  z-index: var(--avatar-image-z-index);
   display: var(--avatar-image-display);
   object-fit: var(--avatar-object-fit);
 }
 
 .bkreact-avatar__fallback {
+  z-index: var(--avatar-fallback-z-index);
   display: var(--avatar-display);
   align-items: var(--avatar-align);
   justify-content: var(--avatar-align);
 }
 
-/* visibility 保留布局盒，使 keepMounted + loading="lazy" 可以触发加载。 */
+/* 与 Base UI 的 keepMounted 示例一致：visibility 保留布局盒及懒加载交集检测，
+ * visibility: hidden 本身会隐藏失败图标并禁用指针交互；display: none 会使原生 lazy 图片无法触发加载。
+ * JSDOM 只验证状态和 CSS 契约，实际加载时机由浏览器决定。 */
 .bkreact-avatar__image[data-loading],
 .bkreact-avatar__image[data-error] {
   visibility: var(--avatar-image-hidden-visibility);

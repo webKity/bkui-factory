@@ -1,0 +1,118 @@
+/* 样式只消费 Attachment 局部 tokens；头像尺寸与形状交由 Avatar 管理。 */
+.bkreact-attachment,
+.bkreact-attachment__main {
+  display: var(--attachment-display);
+  align-items: var(--attachment-align);
+  gap: var(--attachment-gap);
+  min-width: var(--attachment-zero);
+  box-sizing: var(--attachment-box-sizing);
+}
+
+.bkreact-attachment {
+  font-family: var(--attachment-font-family);
+  font-size: var(--attachment-font-size);
+  line-height: var(--attachment-line-height);
+  color: var(--attachment-color);
+}
+
+.bkreact-attachment__main {
+  flex: var(--attachment-main-flex);
+  color: var(--attachment-color);
+  text-decoration: var(--attachment-text-decoration);
+}
+
+.bkreact-attachment__main:focus-visible {
+  outline: var(--attachment-focus-ring-width) var(--attachment-focus-ring-style) var(--attachment-focus-ring-color);
+  outline-offset: var(--attachment-focus-ring-offset);
+}
+
+.bkreact-attachment__content {
+  display: var(--attachment-display);
+  flex-direction: var(--attachment-direction);
+  gap: var(--attachment-content-gap);
+  min-width: var(--attachment-zero);
+}
+
+.bkreact-attachment__title,
+.bkreact-attachment__desc {
+  overflow: var(--attachment-overflow);
+  text-overflow: var(--attachment-text-overflow);
+  white-space: var(--attachment-white-space);
+}
+
+.bkreact-attachment__title {
+  font-weight: var(--attachment-font-weight);
+}
+
+.bkreact-attachment__desc {
+  color: var(--attachment-desc-color);
+  font-size: var(--attachment-desc-font-size);
+  line-height: var(--attachment-desc-line-height);
+  font-weight: var(--attachment-desc-font-weight);
+}
+
+.bkreact-attachment__action {
+  flex-shrink: var(--attachment-action-shrink);
+}
+
+.bkreact-attachment__image {
+  display: var(--attachment-image-display);
+  width: var(--attachment-full);
+  height: var(--attachment-full);
+  object-fit: var(--attachment-image-fit);
+}
+
+@media (min-width: 40rem) {
+  .bkreact-attachment[data-size-sm] {
+    --attachment-gap: var(--attachment-sm-gap);
+    --attachment-content-gap: var(--attachment-sm-content-gap);
+    --attachment-font-size: var(--attachment-sm-font-size);
+    --attachment-line-height: var(--attachment-sm-line-height);
+    --attachment-desc-font-size: var(--attachment-sm-desc-font-size);
+    --attachment-desc-line-height: var(--attachment-sm-desc-line-height);
+  }
+}
+
+@media (min-width: 48rem) {
+  .bkreact-attachment[data-size-md] {
+    --attachment-gap: var(--attachment-md-gap);
+    --attachment-content-gap: var(--attachment-md-content-gap);
+    --attachment-font-size: var(--attachment-md-font-size);
+    --attachment-line-height: var(--attachment-md-line-height);
+    --attachment-desc-font-size: var(--attachment-md-desc-font-size);
+    --attachment-desc-line-height: var(--attachment-md-desc-line-height);
+  }
+}
+
+@media (min-width: 64rem) {
+  .bkreact-attachment[data-size-lg] {
+    --attachment-gap: var(--attachment-lg-gap);
+    --attachment-content-gap: var(--attachment-lg-content-gap);
+    --attachment-font-size: var(--attachment-lg-font-size);
+    --attachment-line-height: var(--attachment-lg-line-height);
+    --attachment-desc-font-size: var(--attachment-lg-desc-font-size);
+    --attachment-desc-line-height: var(--attachment-lg-desc-line-height);
+  }
+}
+
+@media (min-width: 80rem) {
+  .bkreact-attachment[data-size-xl] {
+    --attachment-gap: var(--attachment-xl-gap);
+    --attachment-content-gap: var(--attachment-xl-content-gap);
+    --attachment-font-size: var(--attachment-xl-font-size);
+    --attachment-line-height: var(--attachment-xl-line-height);
+    --attachment-desc-font-size: var(--attachment-xl-desc-font-size);
+    --attachment-desc-line-height: var(--attachment-xl-desc-line-height);
+  }
+}
+
+@media (min-width: 96rem) {
+  .bkreact-attachment[data-size-2xl] {
+    --attachment-gap: var(--attachment-2xl-gap);
+    --attachment-content-gap: var(--attachment-2xl-content-gap);
+    --attachment-font-size: var(--attachment-2xl-font-size);
+    --attachment-line-height: var(--attachment-2xl-line-height);
+    --attachment-desc-font-size: var(--attachment-2xl-desc-font-size);
+    --attachment-desc-line-height: var(--attachment-2xl-desc-line-height);
+  }
+}
