@@ -3,7 +3,7 @@ import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { after, afterEach, before, test } from 'node:test';
 import { build } from 'esbuild';
 import { JSDOM } from 'jsdom';
-import { act, createElement as h, memo, useContext, StrictMode } from 'react';
+import { act, createElement as h, memo, useContext, useEffect, useState, StrictMode } from 'react';
 import { BehaviorSubject, of } from 'rxjs';
 
 let components, InstallerService, createRoot, temporary, windowDom, root, container;
@@ -352,4 +352,61 @@ test('useInstallerService 在 Provider 外报告明确错误', async () => {
     return null;
   }
   assert.throws(() => renderToString(h(Consumer)), /useInstallerService must be used within <DomEngine \/>/);
+});
+
+test('renderer 自身订阅 update$ 重渲染不重建 renderNode 或重渲染稳定子节点', async () => {
+  const updates = new BehaviorSubject(0);
+  let branchRenders = 0, leafRenders = 0;
+  const callbacks = [];
+  function Branch({ dom, renderNode }) {
+    const [value, setValue] = useState(0);
+    useEffect(() => {
+      const subscription = dom.update$.subscribe(setValue);
+      return () => subscription.unsubscribe();
+    }, [dom]);
+    branchRenders += 1;
+    callbacks.push(renderNode);
+    return h('div', {}, h('strong', {}, String(value)), renderNode(dom.nodes));
+  }
+  const Leaf = memo(({ extra }) => {
+    leafRenders += 1;
+    return h('span', {}, extra.label);
+  });
+  const packs = [pack('updates', 'core', [
+    { tagName: 'branch', render: Branch }, { tagName: 'text', render: Leaf },
+  ])];
+  const model = service(of([node('parent', 'branch', { update$: updates, nodes: [node('child')] })]));
+  const props = { service: model, packs, extra: { label: 'initial' } };
+  await render(props);
+  const initialBranches = branchRenders, initialLeaves = leafRenders;
+  await act(() => updates.next(1));
+  assert.equal(branchRenders, initialBranches + 1);
+  assert.equal(leafRenders, initialLeaves);
+  assert.equal(callbacks.at(-1), callbacks[0]);
+  assert.equal(container.textContent, '1initial');
+
+  // 真实继承参数变化必须更新闭包并使子节点接收最新值。
+  await render({ ...props, extra: { label: 'changed' } });
+  assert.notEqual(callbacks.at(-1), callbacks[0]);
+  assert.equal(leafRenders, initialLeaves + 1);
+  assert.equal(container.textContent, '1changed');
+});
+
+test('顶层与递归 matcher 收到相同默认 onChange，空覆盖仍继承并写回 service', async () => {
+  const handlers = [], changes = [];
+  const match = props => { handlers.push(props.onChange); return true; };
+  const packs = [pack('callbacks', 'core', [
+    { tagName: 'branch', match, render: ({ dom, renderNode }) => renderNode(dom.nodes, { onChange: undefined }) },
+    { tagName: 'text', match, render: ({ dom, onChange }) => h('button', {
+      onClick: () => onChange(dom.uid, 'updated'),
+    }, '更新子节点') },
+  ])];
+  const model = service(of([node('parent', 'branch', { nodes: [node('child')] })]), {
+    set: (...args) => changes.push(args),
+  });
+  await render({ service: model, packs });
+  assert(handlers.length >= 2);
+  assert(handlers.every(handler => typeof handler === 'function' && handler === handlers[0]));
+  await act(() => container.querySelector('button').click());
+  assert.deepEqual(changes, [['child', 'updated', 'value']]);
 });

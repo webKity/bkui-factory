@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useReducer, useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react-vite';
 import { BehaviorSubject } from 'rxjs';
+
 import { DomEngine } from './dom.engine';
-import { BKDomService } from '../service/dom.service';
-import type { IBKDomService } from '../service/dom.service';
-import type { IDomEngineProps, IDomEngineService, IRendererPack, IRendererProps } from './type';
+import { BKDomService } from './dom.service';
 import { Button } from '../button';
 import { Input } from '../input';
+
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { IBKDomService } from './dom.service';
+import type { IDomEngineProps, IDomEngineService, IRendererPack, IRendererProps } from './type';
 
 // 引擎管理列表与 renderer 选择；节点数据的订阅由 renderer 负责。
 function useNodeUpdates(dom: IBKDomService) {

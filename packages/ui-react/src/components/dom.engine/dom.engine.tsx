@@ -2,15 +2,19 @@ import React, { createContext, memo, useCallback, useContext, useEffect, useMemo
 
 import { installerServiceFactory } from './installer';
 import type { InstallerService } from './installer';
-import type { IBKDomService } from '../service/dom.service';
+import type { IBKDomService } from './dom.service';
 import type { IDomEngineProps, IDomRenderProps, IRenderNodeInput, IRenderNodeOverrides, IRenderer, IRendererPack } from './type';
 
 export type { IDomEngineProps, IDomRenderProps } from './type';
 
 export const DomEngineContext = createContext<{ installerService: InstallerService; installerVersion: number } | null>(null);
 
-const NOOP = () => {};
 const EMPTY_PACKS: IRendererPack[] = [];
+
+// 顶层和递归入口均已处理默认回调，matcher 与 renderer 接收同一 onChange。
+type DomRenderProps = IDomRenderProps & {
+  onChange: NonNullable<IDomRenderProps['onChange']>;
+};
 
 // 唯一 uid 保持节点身份；重复 uid 增加出现次数，避免同层 key 冲突。
 const createNodeKeys = (doms: IRenderNodeInput[]) => {
@@ -30,17 +34,18 @@ export function useInstallerService() {
   return context.installerService;
 }
 
-const DomRender = memo(function DomRender(props: IDomRenderProps): React.JSX.Element | null {
+const DomRender = memo(function DomRender(props: DomRenderProps): React.JSX.Element | null {
   const installerService = useInstallerService();
-  const definition = installerService.get(props.dom?.tagName, { ...props, onChange: props.onChange ?? NOOP });
+  const definition = installerService.get(props.dom?.tagName, props);
   if (!definition) return null;
   return <RendererHost {...props} Renderer={definition.render} />;
 });
 
 // 注册表更新让 DomRender 重新匹配；组件与参数未变时无需重新调用 renderer。
-// 此边界也保留 renderNode 引用，而真实的扩展参数变化仍会使其更新。
-const RendererHost = memo(function RendererHost({ Renderer, ...props }: IDomRenderProps & { Renderer: IRenderer }) {
-  const { dom, I18n, service, onChange = NOOP, ...rest } = props;
+// renderer 自身的 state / update$ 更新不会重渲染此父组件，renderNode 因此保持不变。
+// 真实的继承参数变化需更新闭包，使依赖 renderNode 的 memo 子组件也能接收新值。
+const RendererHost = memo(function RendererHost({ Renderer, ...props }: DomRenderProps & { Renderer: IRenderer }) {
+  const { dom, I18n, service, onChange, ...rest } = props;
 
   const renderNode = useCallback(function renderNode(
     nextDom: IRenderNodeInput,

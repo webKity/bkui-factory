@@ -1,7 +1,7 @@
 
 
 import type { Observable } from 'rxjs';
-import type { IBKDomService } from '../service/dom.service';
+import type { IBKDomService } from './dom.service';
 import type { ComponentType, ReactNode } from 'react';
 
 // 基础dom相关类型
